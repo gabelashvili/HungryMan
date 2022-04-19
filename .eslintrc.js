@@ -1,0 +1,83 @@
+module.exports = {
+  env: {
+    browser: true,
+    es2021: true,
+  },
+  extends: [
+    'plugin:react/recommended',
+    'airbnb',
+  ],
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+  },
+  plugins: [
+    'react',
+    '@typescript-eslint',
+    'sort-imports-es6-autofix',
+  ],
+  rules: {
+    'no-plusplus': 0,
+    'react/react-in-jsx-scope': 'off',
+    'no-console': 0,
+    'no-use-before-define': 0,
+    'jsx-a11y/media-has-caption': 0,
+    'react/require-default-props': 0,
+    'default-param-last': 0,
+    'arrow-body-style': 0,
+    'import/prefer-default-export': 0,
+    'linebreak-style': 0,
+    'jsx-a11y/href-no-hash': ['off'],
+    'react/function-component-definition': 0,
+    'no-param-reassign': 0,
+    'no-unused-expressions': 0,
+    'react/jsx-props-no-spreading': ['off'],
+    'react/jsx-filename-extension': [
+      'warn',
+      { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
+    ],
+    'multiline-ternary': 0,
+    'no-unused-vars': 'off',
+    'no-shadow': 0,
+    '@typescript-eslint/no-unused-vars': 'error',
+    'no-useless-constructor': 'off',
+    '@typescript-eslint/no-useless-constructor': 'error',
+    'react/prop-types': 0,
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
+    'max-len': [
+      'warn',
+      {
+        code: 120,
+        tabWidth: 2,
+        comments: 120,
+        ignoreComments: false,
+        ignoreTrailingComments: true,
+        ignoreUrls: true,
+        ignoreStrings: true,
+        ignoreTemplateLiterals: true,
+        ignoreRegExpLiterals: true,
+      },
+    ],
+    'jsx-a11y/label-has-associated-control': 0,
+    'react/button-has-type': 0,
+    'jsx-a11y/anchor-is-valid': 0,
+  },
+  settings: {
+    'import/resolver': {
+      typescript: {},
+    },
+  },
+};

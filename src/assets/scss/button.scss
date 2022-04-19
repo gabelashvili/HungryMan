@@ -1,0 +1,70 @@
+.button {
+  background-color: #162a3d;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  outline: none;
+  border: none;
+  color: #fff;
+  font-size: 14px;
+  transition: background-color 0.2s ease-in-out;
+  cursor: pointer;
+  position: relative;
+  border-radius: 8px;
+
+  &:hover {
+    background-color: #142638;
+  }
+
+  svg {
+    width: 20px;
+    flex-shrink: 0;
+  }
+
+  &--icon {
+    &-rounded {
+      width: 48px;
+      border-radius: 50%;
+    }
+
+    &-left {
+      svg {
+        margin-right: 10px;
+      }
+    }
+  }
+
+  &--primary {
+    background-color: #ed2024;
+    &:hover {
+      background-color: #bc1b1e;
+    }
+  }
+
+  &--secondary {
+    background-color: #233c52;
+    &:hover {
+      background-color: #1f364a;
+    }
+  }
+
+  &--text {
+    background-color: transparent;
+    color: #768b9d;
+    font-size: 13px;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  &--medium {
+    width: 40px;
+    height: 40px;
+  }
+
+  &-pull-right {
+    margin-right: -12px;
+  }
+}

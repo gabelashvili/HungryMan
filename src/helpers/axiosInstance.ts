@@ -1,0 +1,37 @@
+import axios, { AxiosRequestConfig } from 'axios';
+import { toast } from 'react-toastify';
+import { clearAuthedUser } from '../store/ducks/authDuck';
+import storeRegistry from '../store/storeRegistry';
+
+const instance = axios.create({
+  timeout: 20000, // request timeout
+  baseURL: 'http://213.139.239.58:8082',
+});
+
+// request interceptor
+
+instance.interceptors.request.use(
+  (config : AxiosRequestConfig) => {
+    const token = localStorage.getItem('token');
+    if (config.headers && token) {
+      config.headers.authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    Promise.reject(error);
+  },
+);
+
+instance.interceptors.response.use((response: AxiosRequestConfig) => {
+  return response;
+}, (error) => {
+  if (error.response.status === 401) {
+    localStorage.removeItem('token');
+    toast.error('You have logged out...');
+    storeRegistry?.getStore().dispatch(clearAuthedUser());
+  }
+  return Promise.reject(error);
+});
+
+export default instance;
