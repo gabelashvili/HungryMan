@@ -7,7 +7,7 @@ const SignUp = () => {
         <h2>რეგისტრაცია</h2>
         <p>
           უკვე ხარ რეგისტრირებული? გაიარე
-          <a href="" className="link">ავტორიზაცია</a>
+          <a href="" className="link sign-up--auth">ავტორიზაცია</a>
         </p>
       </div>
       <div className="register-tab">
