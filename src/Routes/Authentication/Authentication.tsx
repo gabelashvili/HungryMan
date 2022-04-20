@@ -5,10 +5,10 @@ import './authentication.scss';
 
 const Authentication = () => {
   return (
-    <div className="authentication">
-      <div className="authentication--content">
-        <div className="authentication--wrapper">
-          <a href="/" className="authentication--logo">
+    <div className="popup">
+      <div className="popup--content">
+        <div className="popup--wrapper">
+          <a href="/" className="popup--logo">
             <picture>
               <img src={Logo} alt="HungryMan" />
             </picture>
@@ -16,11 +16,11 @@ const Authentication = () => {
           <Outlet />
         </div>
       </div>
-      <div className="authentication--banner">
+      <div className="popup--banner">
         <img
           src={Banner}
           alt="Banner"
-          className="authentication--image"
+          className="popup--image"
         />
       </div>
     </div>

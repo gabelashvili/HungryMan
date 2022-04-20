@@ -5,7 +5,6 @@ import Button from '../../../components/shared/Button';
 import TextField from '../../../components/shared/TextField';
 import { signIn } from '../../../store/ducks/authDuck';
 import { UserAuthParams } from '../../../types/auth';
-import './sign-in.scss';
 
 const SignIn = () => {
   const [loading, setLoading] = useState(false);
@@ -21,15 +20,15 @@ const SignIn = () => {
   };
 
   return (
-    <div className="sign-in">
-      <div className="sign-in--heading">
+    <>
+      <div className="popup--heading">
         <h2>ავტორიზაცია</h2>
         <p>
           არ ხარ ჩვენი გუნდის წევრი? გაიარე
-          <Link to="sign-up" className="link sign-in--register">რეგისტრაცია</Link>
+          <Link to="sign-up" className="link popup--link">რეგისტრაცია</Link>
         </p>
       </div>
-      <form className="sign-in--form">
+      <form className="popup--form">
         <div className="form__group">
           <TextField label="ელ.ფოსტა ან მობილური" value={values.phoneOrEmail} inputName="email" handleChange={(phoneOrEmail) => setValues({ ...values, phoneOrEmail })} />
         </div>
@@ -43,11 +42,11 @@ const SignIn = () => {
           />
         </div>
       </form>
-      <div className="sign-in--form-controls">
+      <div className="popup--form-controls">
         <Button loading={loading} handleClick={handleClick} type="primary">ავტორიზაცია</Button>
         <Button handleClick={() => console.log('clicked')} type="text">დაგავიწყდა პაროლი?</Button>
       </div>
-    </div>
+    </>
   );
 };
 

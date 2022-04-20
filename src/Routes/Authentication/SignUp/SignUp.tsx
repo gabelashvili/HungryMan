@@ -6,7 +6,6 @@ import Button from '../../../components/shared/Button';
 import TextField from '../../../components/shared/TextField';
 import { signUp } from '../../../store/ducks/authDuck';
 import { CompanySignUpParams, UserSignUpParams } from '../../../types/auth';
-import './sign-up.scss';
 
 const SignUp = () => {
   const dispatch = useDispatch();
@@ -31,12 +30,12 @@ const SignUp = () => {
   };
 
   return (
-    <div className="sign-up">
-      <div className="sign-up--heading">
+    <>
+      <div className="popup--heading">
         <h2>რეგისტრაცია</h2>
         <p>
           უკვე ხარ რეგისტრირებული? გაიარე
-          <Link to="/" className="link sign-up--auth">ავტორიზაცია</Link>
+          <Link to="/" className="link popup--link">ავტორიზაცია</Link>
         </p>
       </div>
       <div className="register-tab">
@@ -57,7 +56,7 @@ const SignUp = () => {
           <span>იურიდიული პირი</span>
         </div>
       </div>
-      <form className="sign-up--form">
+      <form className="popup--form">
         { step === 1 ? (
           <>
             <TextField label="სახელი" inputName="firstName" value={values.firstName} handleChange={(firstName) => setValues({ ...values, firstName })} />
@@ -120,7 +119,7 @@ const SignUp = () => {
           </label>
         </div>
       </form>
-      <div className="sign-up--form-controls">
+      <div className="popup--form-controls">
         <Button
           handleClick={() => (selectedType === 2 && step === 1 ? setStep(2) : handleRegister())}
           type="primary"
@@ -128,8 +127,7 @@ const SignUp = () => {
           {selectedType === 2 && step === 1 ? 'შემდეგი' : 'რეგისტრაცია'}
         </Button>
       </div>
-    </div>
-
+    </>
   );
 };
 

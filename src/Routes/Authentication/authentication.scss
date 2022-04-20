@@ -1,52 +1,112 @@
-.authentication {
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+.popup {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  background-color: #0c1925;
+  z-index: 1;
+
+  &--content {
+    height: 100%;
     display: flex;
-    background-color: #0c1925;
-    z-index: 1;
-  
-    &--content {
-      height: 100%;
+    flex-direction: column;
+    max-width: 600px;
+    width: 100%;
+    flex-shrink: 0;
+    padding: 0 40px;
+  }
+  &--banner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &--image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &--link {
+    margin-left: 5px;
+  }
+
+  &--logo {
+    display: inline-flex;
+    align-self: flex-start;
+    align-items: center;
+    justify-content: center;
+    img {
+      width: 82px;
+      height: auto;
+    }
+  }
+
+  &--heading {
+    display: flex;
+    flex-direction: column;
+    font-family: "Helvetica";
+    font-style: normal;
+    font-weight: 400;
+    margin-bottom: 30px;
+    margin-top: 70px;
+
+    h2 {
+      font-size: 26px;
+      line-height: 31px;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    p {
+      font-size: 12px;
+      line-height: 17px;
+      color: #768b9d;
+    }
+  }
+
+  &--wrapper {
+    max-width: 380px;
+    width: 100%;
+    margin: 0 auto;
+    height: 100%;
+  }
+
+  &--form {
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100% - 350px);
+    overflow: auto;
+    padding-bottom: 30px;
+    display: grid;
+    gap: 10px;
+
+    /* width */
+    &::-webkit-scrollbar {
+      width: 2px;
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+      background-color: #55687a;
+      border-radius: 4px;
+      right: 3px;
+    }
+    
+    &-controls {
+      position: sticky;
+      bottom: 0;
+      margin-top: 16px;
       display: flex;
       flex-direction: column;
-      max-width: 600px;
-      width: 100%;
-      flex-shrink: 0;
-      padding: 0 40px;
-    }
-    &--banner {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    &--image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  
-    &--logo {
-      display: inline-flex;
-      align-self: flex-start;
-      align-items: center;
-      justify-content: center;
-      img {
-        width: 82px;
-        height: auto;
+      & > * + * {
+        margin-top: 10px;
       }
     }
-    &--wrapper {
-      max-width: 380px;
-      width: 100%;
-      margin: 0 auto;
-      height: 100%;
-    }
-  
   }
+}
