@@ -4,7 +4,7 @@ import {
 import createSagaMiddleware from 'redux-saga';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import {
-  authReducer, 
+  authReducer,
 } from './ducks';
 
 export const sagaMiddleware = createSagaMiddleware();
