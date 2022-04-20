@@ -1,5 +1,7 @@
 import { AnyAction } from 'redux';
-import { UserSignUpParams } from '../../types/auth';
+import {
+  AuthedUser, AuthInitialState, UserAuthParams, UserSignUpParams,
+} from '../../types/auth';
 import { CallBacks } from '../../types/main';
 
 export const REQ_USER_LOGIN = 'auth/reqUserLogin';
@@ -10,21 +12,29 @@ export const REQ_USER_SIGN_UP = 'auth/reqUserSignUp';
 
 export const CHECK_TOKEN = 'auth/checkToken';
 
-const initialState: any = null;
+const initialState: AuthInitialState = {
+  user: null,
+};
 
-export const authReducer = (state = initialState, action: AnyAction): any => {
+export const authReducer = (state = initialState, action: AnyAction): AuthInitialState => {
   const { payload } = action;
   switch (action.type) {
     case SET_AUTHED_USER:
-      return payload as any;
+      return {
+        ...state,
+        user: payload as AuthedUser,
+      };
     case CLEAR_AUTHED_USER:
-      return null;
+      return {
+        ...state,
+        user: null,
+      };
     default:
       return state;
   }
 };
 
-export const reqUserLogin = (params: any, callbacks?: CallBacks) => ({
+export const signIn = (params: UserAuthParams, callbacks?: CallBacks) => ({
   type: REQ_USER_LOGIN,
   params,
   callbacks,
@@ -38,6 +48,11 @@ export const setAuthedUser = (payload: any, callbacks?: CallBacks) => ({
 
 export const clearAuthedUser = () => ({
   type: CLEAR_AUTHED_USER,
+});
+
+export const checkToken = (callbacks?: CallBacks) => ({
+  type: CHECK_TOKEN,
+  callbacks,
 });
 
 export const signUp = (params: UserSignUpParams, callbacks?: CallBacks) => ({

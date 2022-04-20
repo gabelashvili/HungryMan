@@ -1,15 +1,22 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Button from '../../../components/shared/Button';
 import TextField from '../../../components/shared/TextField';
+import { signIn } from '../../../store/ducks/authDuck';
 import { UserAuthParams } from '../../../types/auth';
 import './sign-in.scss';
 
 const SignIn = () => {
+  const dispatch = useDispatch();
   const [values, setValues] = useState<UserAuthParams>({
-    email: '',
+    phoneOrEmail: '',
     password: '',
   });
+
+  const handleClick = () => {
+    dispatch(signIn(values));
+  };
 
   return (
     <div className="sign-in">
@@ -22,20 +29,20 @@ const SignIn = () => {
       </div>
       <form className="sign-in--form">
         <div className="form__group">
-          <TextField label="ელ.ფოსტა" value={values.email} inputName="email" handleChange={(email) => setValues({ ...values, email })} />
+          <TextField label="ელ.ფოსტა ან მობილური" value={values.phoneOrEmail} inputName="email" handleChange={(phoneOrEmail) => setValues({ ...values, phoneOrEmail })} />
         </div>
         <div className="form__group">
           <TextField
             type="password"
             label="პაროლი"
-            value={values.email}
+            value={values.password}
             inputName="password"
             handleChange={(password) => setValues({ ...values, password })}
           />
         </div>
       </form>
       <div className="sign-in--form-controls">
-        <Button handleClick={() => console.log('clicked')} type="primary">ავტორიზაცია</Button>
+        <Button handleClick={handleClick} type="primary">ავტორიზაცია</Button>
         <Button handleClick={() => console.log('clicked')} type="text">დაგავიწყდა პაროლი?</Button>
       </div>
     </div>

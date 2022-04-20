@@ -32,7 +32,9 @@
     max-height: calc(100% - 350px);
     overflow: auto;
     padding-bottom: 30px;
-
+    display: grid;
+    row-gap: 16px;
+    
     &-controls {
       position: sticky;
       bottom: 0;
