@@ -1,9 +1,17 @@
+import clsx from 'clsx';
+
 const TextField = ({
   value, handleChange, label, inputName, type,
 }: PropsTypes) => {
   return (
     <div className="form__group">
-      <input className="input" type={type || 'text'} id={inputName} value={value || ''} onChange={({ target }) => handleChange(target.value)} />
+      <input
+        className={clsx('input', value && value?.toString()?.length > 0 && 'filled')}
+        type={type || 'text'}
+        id={inputName}
+        value={value || ''}
+        onChange={({ target }) => handleChange(target.value)}
+      />
       <label className="input--label" htmlFor={inputName}>
         {label}
       </label>
