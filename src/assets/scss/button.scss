@@ -67,4 +67,15 @@
   &-pull-right {
     margin-right: -12px;
   }
+  
+  &--loader {
+    svg {
+      width: 45px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 0;
+      height: min-content
+    }
+  }
 }
