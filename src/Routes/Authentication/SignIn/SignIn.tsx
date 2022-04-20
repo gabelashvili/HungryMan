@@ -8,6 +8,7 @@ import { UserAuthParams } from '../../../types/auth';
 import './sign-in.scss';
 
 const SignIn = () => {
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [values, setValues] = useState<UserAuthParams>({
     phoneOrEmail: '',
@@ -15,7 +16,8 @@ const SignIn = () => {
   });
 
   const handleClick = () => {
-    dispatch(signIn(values));
+    setLoading(true);
+    dispatch(signIn(values, { success: () => setLoading(false), error: () => setLoading(false) }));
   };
 
   return (
@@ -42,7 +44,7 @@ const SignIn = () => {
         </div>
       </form>
       <div className="sign-in--form-controls">
-        <Button handleClick={handleClick} type="primary">ავტორიზაცია</Button>
+        <Button loading={loading} handleClick={handleClick} type="primary">ავტორიზაცია</Button>
         <Button handleClick={() => console.log('clicked')} type="text">დაგავიწყდა პაროლი?</Button>
       </div>
     </div>
