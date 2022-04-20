@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { CallBacks } from '../../types/main.d';
 import axiosInstance from '../../helpers/axiosInstance';
 import { setAuthedUser } from '../ducks/authDuck';
+import { UserSignUpParams } from '../../types/auth';
 
 export function* reqUserLogin({ params, callbacks }:{ params: any, callbacks: CallBacks, type:string }) {
   try {
@@ -17,6 +18,17 @@ export function* reqUserLogin({ params, callbacks }:{ params: any, callbacks: Ca
   } catch (error: any) {
     console.log(error.response);
     toast.error('Credentials are incorrect...');
+    callbacks?.error && callbacks.error();
+  }
+}
+
+export function* signUp({ params, callbacks }:{ params: UserSignUpParams, callbacks: CallBacks, type:string }) {
+  try {
+    yield axiosInstance.post('/Core/User/Register', params);
+    toast.success('რეგისტრაცია წარმატებით დასრულდა...');
+  } catch (error: any) {
+    console.log(error.response.data);
+    toast.error(error.response.status === 409 ? error.response.data.Message : 'შეავსეთ ყველა სავალდებულო ველი.');
     callbacks?.error && callbacks.error();
   }
 }

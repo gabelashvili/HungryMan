@@ -10,7 +10,7 @@ export interface CompanySignUpParams {
     address: string
 }
 
-export interface IndividualUserSignUpParams extends Partial<CompanySignUpParams> {
+export interface UserSignUpParams extends Partial<CompanySignUpParams> {
     firstName: string,
     lastName: string,
     email: string,

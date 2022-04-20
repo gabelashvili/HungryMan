@@ -1,16 +1,19 @@
 import clsx from 'clsx';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Button from '../../../components/shared/Button';
 import TextField from '../../../components/shared/TextField';
-import { CompanySignUpParams, IndividualUserSignUpParams } from '../../../types/auth';
+import { signUp } from '../../../store/ducks/authDuck';
+import { CompanySignUpParams, UserSignUpParams } from '../../../types/auth';
 import './sign-up.scss';
 
 const SignUp = () => {
+  const dispatch = useDispatch();
   const [selectedType, setSelectedType] = useState<1 | 2>(1);
   const [step, setStep] = useState<1 | 2>(1);
   const [repeatPassword, setRepeatPassword] = useState<string>('');
-  const [values, setValues] = useState<IndividualUserSignUpParams>({
+  const [values, setValues] = useState<UserSignUpParams>({
     firstName: '',
     lastName: '',
     email: '',
@@ -20,7 +23,11 @@ const SignUp = () => {
   const [companyInfo, setCompanyInfo] = useState<CompanySignUpParams>(companyInfoInitialState);
 
   const handleRegister = () => {
-    console.log('register');
+    console.log('aqa');
+    dispatch(signUp({
+      ...values,
+      ...(selectedType === 2 && { ...companyInfo }),
+    }));
   };
 
   return (
@@ -51,7 +58,7 @@ const SignUp = () => {
         </div>
       </div>
       <form className="sign-up--form">
-        {selectedType === 2 && step === 1 ? (
+        { step === 1 ? (
           <>
             <TextField label="სახელი" inputName="firstName" value={values.firstName} handleChange={(firstName) => setValues({ ...values, firstName })} />
             <TextField label="გვარი" inputName="lastName" value={values.lastName} handleChange={(lastName) => setValues({ ...values, lastName })} />
@@ -115,7 +122,7 @@ const SignUp = () => {
       </form>
       <div className="sign-up--form-controls">
         <Button
-          handleClick={() => (selectedType === 2 && step === 1 ? setStep(2) : handleRegister)}
+          handleClick={() => (selectedType === 2 && step === 1 ? setStep(2) : handleRegister())}
           type="primary"
         >
           {selectedType === 2 && step === 1 ? 'შემდეგი' : 'რეგისტრაცია'}

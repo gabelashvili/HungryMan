@@ -1,10 +1,12 @@
 import { AnyAction } from 'redux';
+import { UserSignUpParams } from '../../types/auth';
 import { CallBacks } from '../../types/main';
-
 
 export const REQ_USER_LOGIN = 'auth/reqUserLogin';
 export const SET_AUTHED_USER = 'auth/setAuthedUser';
 export const CLEAR_AUTHED_USER = 'auth/clearAuthedUser';
+
+export const REQ_USER_SIGN_UP = 'auth/reqUserSignUp';
 
 export const CHECK_TOKEN = 'auth/checkToken';
 
@@ -38,7 +40,8 @@ export const clearAuthedUser = () => ({
   type: CLEAR_AUTHED_USER,
 });
 
-export const checkToken = (callbacks?: CallBacks) => ({
-  type: CHECK_TOKEN,
+export const signUp = (params: UserSignUpParams, callbacks?: CallBacks) => ({
+  type: REQ_USER_SIGN_UP,
+  params,
   callbacks,
 });
