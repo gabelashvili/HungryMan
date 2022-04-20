@@ -51,7 +51,7 @@ const SignUp = () => {
         </div>
       </div>
       <form className="sign-up--form">
-        {step === 1 ? (
+        {selectedType === 2 && step === 1 ? (
           <>
             <TextField label="სახელი" inputName="firstName" value={values.firstName} handleChange={(firstName) => setValues({ ...values, firstName })} />
             <TextField label="გვარი" inputName="lastName" value={values.lastName} handleChange={(lastName) => setValues({ ...values, lastName })} />
