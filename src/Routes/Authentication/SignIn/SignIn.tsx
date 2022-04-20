@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../../../components/shared/Button';
 import TextField from '../../../components/shared/TextField';
+import { UserAuthParams } from '../../../types/auth';
 import './sign-in.scss';
 
 const SignIn = () => {
-  const [values, setValues] = useState({
+  const [values, setValues] = useState<UserAuthParams>({
     email: '',
     password: '',
   });
