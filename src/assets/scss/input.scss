@@ -18,6 +18,7 @@
   &:-webkit-autofill:focus,
   &:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0 30px #55687a inset !important;
+    box-shadow: 0 0 0 30px #55687a inset !important;
     -webkit-text-fill-color: #fff !important;
 
     & + .input--label {
@@ -25,6 +26,7 @@
     }
   }
 
+  &:-webkit-autofill,
   &.filled,
   &:focus {
     & + .input--label {
