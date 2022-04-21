@@ -112,6 +112,9 @@
     .checkbox-title {
       font-size: 12px;
       color: #768b9d;
+      & .link {
+        margin-left: 5px;
+      }
     }
   }
 }

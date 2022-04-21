@@ -6,4 +6,10 @@
   & + & {
     // margin-top: 16px;
   }
+  &--error {
+    color: #ed2024;
+    margin-bottom: 0;
+    margin-top: 0.2rem;
+    margin-left: 0.3rem;
+  }
 }

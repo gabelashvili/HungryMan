@@ -1,17 +1,24 @@
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Button from '../../../components/shared/Button';
+import Checkbox from '../../../components/shared/Checkbox';
 import TextField from '../../../components/shared/TextField';
+import validateInput from '../../../helpers/inputsValidations';
 import { signUp } from '../../../store/ducks/authDuck';
 import { CompanySignUpParams, UserSignUpParams } from '../../../types/auth';
 
 const SignUp = () => {
   const dispatch = useDispatch();
+  const [errors, setErrors] = useState<null | {[key:string]: string}>(null);
   const [selectedType, setSelectedType] = useState<1 | 2>(1);
   const [step, setStep] = useState<1 | 2>(1);
-  const [repeatPassword, setRepeatPassword] = useState<string>('');
+  const [repeatPassword, setRepeatPassword] = useState<{value: string, error: boolean}>({
+    value: '',
+    error: false,
+  });
+  const [acceptTerm, setAcceptTerm] = useState<boolean>(false);
   const [values, setValues] = useState<UserSignUpParams>({
     firstName: '',
     lastName: '',
@@ -22,12 +29,23 @@ const SignUp = () => {
   const [companyInfo, setCompanyInfo] = useState<CompanySignUpParams>(companyInfoInitialState);
 
   const handleRegister = () => {
-    console.log('aqa');
-    dispatch(signUp({
-      ...values,
-      ...(selectedType === 2 && { ...companyInfo }),
-    }));
+    const res = validateInput(values, inputsValidation);
+    if (Object.keys(res).length > 0 || repeatPassword.value !== values.password) {
+      setRepeatPassword({ ...repeatPassword, error: true });
+      setErrors(res);
+    } else {
+      dispatch(signUp({
+        ...values,
+        ...(selectedType === 2 && { ...companyInfo }),
+      }));
+    }
   };
+
+  useEffect(() => {
+    if (errors) {
+      setErrors(validateInput(values, inputsValidation));
+    }
+  }, [errors]);
 
   return (
     <>
@@ -59,23 +77,61 @@ const SignUp = () => {
       <form className="popup--form">
         { step === 1 ? (
           <>
-            <TextField label="სახელი" inputName="firstName" value={values.firstName} handleChange={(firstName) => setValues({ ...values, firstName })} />
-            <TextField label="გვარი" inputName="lastName" value={values.lastName} handleChange={(lastName) => setValues({ ...values, lastName })} />
-            <TextField label="ელ.ფოსტა" inputName="email" value={values.email} handleChange={(email) => setValues({ ...values, email })} />
-            <TextField label="მობილურის ნომერი" inputName="phone" value={values.phone} handleChange={(phone) => setValues({ ...values, phone })} />
             <TextField
+              error={errors?.firstName}
+              label="სახელი"
+              inputName="firstName"
+              value={values.firstName}
+              handleChange={(firstName) => {
+                setValues({ ...values, firstName });
+              }}
+            />
+            <TextField
+              error={errors?.lastName}
+              label="გვარი"
+              inputName="lastName"
+              value={values.lastName}
+              handleChange={(lastName) => {
+                setValues({ ...values, lastName });
+              }}
+            />
+            <TextField
+              error={errors?.email}
+              label="ელ.ფოსტა"
+              inputName="email"
+              value={values.email}
+              handleChange={(email) => {
+                setValues({ ...values, email });
+              }}
+            />
+            <TextField
+              error={errors?.phone}
+              label="მობილურის ნომერი"
+              inputName="phone"
+              value={values.phone}
+              handleChange={(phone) => {
+                setValues({ ...values, phone });
+              }}
+            />
+            <TextField
+              error={errors?.password}
               type="password"
               label="პაროლი"
               inputName="password"
               value={values.password}
-              handleChange={(password) => setValues({ ...values, password })}
+              handleChange={(password) => {
+                setValues({ ...values, password });
+                password.length === 0 && repeatPassword.error && setRepeatPassword({ ...repeatPassword, error: false });
+              }}
             />
             <TextField
               type="password"
               label="გაიმეორე პაროლი"
               inputName="repeatPassword"
-              value={repeatPassword}
-              handleChange={(repeatPassword) => setRepeatPassword(repeatPassword)}
+              value={repeatPassword.value}
+              handleChange={(pass) => setRepeatPassword({ value: pass, error: pass !== values.password })}
+              error={((values.password && repeatPassword.value && values.password !== repeatPassword.value)
+                || repeatPassword.error) && 'პაროლი არასწორია'}
             />
           </>
         ) : (
@@ -106,18 +162,7 @@ const SignUp = () => {
             />
           </>
         )}
-        <div className="form__group">
-          <label className="input--checkbox" htmlFor="terms">
-            <input type="checkbox" id="terms" />
-            <span className="checkbox-box">
-              <span className="checkbox-marker" />
-            </span>
-            <span className="checkbox-title">
-              ვეთანხმები მოცემულ
-              <a href="" className="link">წესებს და პირობებს</a>
-            </span>
-          </label>
-        </div>
+        <Checkbox checked={acceptTerm} handleChange={(val) => setAcceptTerm(val)} />
       </form>
       <div className="popup--form-controls">
         <Button
@@ -138,4 +183,14 @@ const companyInfoInitialState: CompanySignUpParams = {
   identificationCode: '',
   city: '',
   address: '',
+};
+
+const inputsValidation = {
+  firstName: { name: 'სახელი', min: 3, required: true },
+  lastName: { name: 'გვარი', min: 3, required: true },
+  email: { name: 'ელ.ფოსტა', pattern: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, required: true },
+  password: { name: 'პაროლი', min: 6, required: true },
+  phone: {
+    name: 'მობილურის ნომერი', min: 9, required: true, errorMessage: 'მობილურის ნომერი არასწორია ',
+  },
 };
