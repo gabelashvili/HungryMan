@@ -72,7 +72,6 @@ const SignUp = () => {
 
   const handleStepChange = () => {
     const res = validateInput(inputs(), validations());
-    console.log(res);
     if (Object.keys(res).length > 0) {
       setErrors(res);
     } else {
