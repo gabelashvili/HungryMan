@@ -24,6 +24,14 @@
     & + .input--label {
       color: #fff;
     }
+
+    &.has-error {
+      border-color: #ed2024;
+      & + .input--label {
+        color: #ed2024;
+      }
+    }
+    
   }
 
   &:-webkit-autofill,
@@ -35,7 +43,6 @@
     }
   }
 
-  &:-webkit-autofill:hover,
   &.has-error {
     border-color: #ed2024;
     & + .input--label {

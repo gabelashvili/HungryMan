@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import React from 'react';
 
 const Checkbox = ({ checked, handleChange, error }:
      {checked: boolean, handleChange: (val: boolean) => void, error?: boolean}) => {
