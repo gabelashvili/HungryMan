@@ -18,7 +18,7 @@ const SignUp = () => {
     value: '',
     error: false,
   });
-  const [acceptTerm, setAcceptTerm] = useState<boolean>(false);
+  const [acceptTerm, setAcceptTerm] = useState<{value: boolean, error: boolean}>({ value: false, error: false });
   const [values, setValues] = useState<UserSignUpParams>({
     firstName: '',
     lastName: '',
@@ -29,9 +29,13 @@ const SignUp = () => {
   const [companyInfo, setCompanyInfo] = useState<CompanySignUpParams>(companyInfoInitialState);
 
   const handleRegister = () => {
-    const res = validateInput(values, inputsValidation);
-    if (Object.keys(res).length > 0 || repeatPassword.value !== values.password) {
-      setRepeatPassword({ ...repeatPassword, error: true });
+    const res = validateInput(
+      { ...values, ...(selectedType === 2 && { ...companyInfo }) },
+      { ...inputsValidation, ...(selectedType === 2 && { ...companyInfoValidation }) },
+    );
+    if (Object.keys(res).length > 0 || repeatPassword.value !== values.password || !acceptTerm.value) {
+      values.password !== repeatPassword.value && setRepeatPassword({ ...repeatPassword, error: true });
+      !acceptTerm.value && setAcceptTerm({ ...acceptTerm, error: true });
       setErrors(res);
     } else {
       dispatch(signUp({
@@ -43,9 +47,12 @@ const SignUp = () => {
 
   useEffect(() => {
     if (errors) {
-      setErrors(validateInput(values, inputsValidation));
+      setErrors(validateInput(
+        { ...values, ...(selectedType === 2 && { ...companyInfo }) },
+        { ...inputsValidation, ...(selectedType === 2 && { ...companyInfoValidation }) },
+      ));
     }
-  }, [errors]);
+  }, [values, companyInfo, selectedType]);
 
   return (
     <>
@@ -140,29 +147,37 @@ const SignUp = () => {
               label="კომპანიის სახელი"
               inputName="companyName"
               value={companyInfo.companyName}
+              error={errors?.companyName}
               handleChange={(companyName) => setCompanyInfo({ ...companyInfo, companyName })}
             />
             <TextField
               label="საიდენტიფიკაციო კოდი"
               inputName="identificationCode"
               value={companyInfo.identificationCode}
+              error={errors?.identificationCode}
               handleChange={(identificationCode) => setCompanyInfo({ ...companyInfo, identificationCode })}
             />
             <TextField
               label="ქალაქი"
               inputName="city"
               value={companyInfo.city}
+              error={errors?.city}
               handleChange={(city) => setCompanyInfo({ ...companyInfo, city })}
             />
             <TextField
               label="მისამართი"
               inputName="address"
+              error={errors?.address}
               value={companyInfo.address}
               handleChange={(address) => setCompanyInfo({ ...companyInfo, address })}
             />
           </>
         )}
-        <Checkbox checked={acceptTerm} handleChange={(val) => setAcceptTerm(val)} />
+        <Checkbox
+          error={acceptTerm.error}
+          checked={acceptTerm.value}
+          handleChange={(val) => setAcceptTerm({ ...acceptTerm, value: val, ...acceptTerm.error && { error: !val } })}
+        />
       </form>
       <div className="popup--form-controls">
         <Button
@@ -187,10 +202,17 @@ const companyInfoInitialState: CompanySignUpParams = {
 
 const inputsValidation = {
   firstName: { name: 'სახელი', min: 3, required: true },
-  lastName: { name: 'გვარი', min: 3, required: true },
+  identificationCode: { name: 'გვარი', min: 3, required: true },
   email: { name: 'ელ.ფოსტა', pattern: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, required: true },
   password: { name: 'პაროლი', min: 6, required: true },
   phone: {
     name: 'მობილურის ნომერი', min: 9, required: true, errorMessage: 'მობილურის ნომერი არასწორია ',
   },
+};
+
+const companyInfoValidation = {
+  companyName: { name: 'კომპანიის სახელი', min: 3, required: true },
+  identificationCode: { name: 'საიდენტიფიკაციო კოდი', min: 3, required: true },
+  city: { name: 'ქალაქი', min: 3, required: true },
+  address: { name: 'მისამართი', min: 3, required: true },
 };

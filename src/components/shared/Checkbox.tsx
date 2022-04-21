@@ -1,8 +1,10 @@
+import clsx from 'clsx';
 import React from 'react';
 
-const Checkbox = ({ checked, handleChange }: {checked: boolean, handleChange: (val: boolean) => void}) => {
+const Checkbox = ({ checked, handleChange, error }:
+     {checked: boolean, handleChange: (val: boolean) => void, error?: boolean}) => {
   return (
-    <label className="input--checkbox" htmlFor="terms">
+    <label className={clsx('input--checkbox', error && 'has-error')} htmlFor="terms">
       <input type="checkbox" id="terms" onChange={({ target }) => handleChange(target.checked)} checked={checked} />
       <span className="checkbox-box">
         <span className="checkbox-marker" />
