@@ -10,6 +10,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSelector } from '../hooks/useSelector';
 import Authentication from '../Routes/Authentication/Authentication';
+import RecoverPassword from '../Routes/Authentication/RecoverPassword';
+import SetPassword from '../Routes/Authentication/SetPassword';
 import SignIn from '../Routes/Authentication/SignIn';
 import SignUp from '../Routes/Authentication/SignUp';
 import { checkToken } from '../store/ducks/authDuck';
@@ -42,6 +44,8 @@ function App() {
                 <>
                   <Route index element={<SignIn />} />
                   <Route path="sign-up" element={<SignUp />} />
+                  <Route path="recover-password" element={<RecoverPassword />} />
+                  <Route path="set-password" element={<SetPassword />} />
                 </>
               )}
             </Route>

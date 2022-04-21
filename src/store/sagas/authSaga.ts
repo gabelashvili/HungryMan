@@ -1,5 +1,6 @@
 import { put } from 'redux-saga/effects';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 import { CallBacks } from '../../types/main.d';
 import axiosInstance from '../../helpers/axiosInstance';
 import { setAuthedUser } from '../ducks/authDuck';
@@ -50,6 +51,31 @@ export function* checkToken({ callbacks }:{ callbacks: CallBacks, type:string })
     console.log(22);
     callbacks?.success && callbacks.success();
   } catch (error: any) {
+    callbacks?.error && callbacks.error();
+  }
+}
+
+export function* reqPasswordRecover({ phoneOrEmail, callbacks }:
+  { phoneOrEmail: string, callbacks: CallBacks, type:string }) {
+  try {
+    yield axiosInstance.post('/Core/User/PasswordRecover', { phoneOrEmail });
+    toast.success('პაროლის აღსადგენად შეამოწმეთ თქვენი ელ.ფოსტა');
+    callbacks?.success && callbacks.success();
+  } catch (error: any) {
+    toast.error('მოხდა შეცდომა');
+    callbacks?.error && callbacks.error();
+  }
+}
+
+export function* setPassword({ password, token, callbacks }:
+  { password: string, token: string, callbacks: CallBacks, type:string }) {
+  try {
+    console.log(password, token);
+    yield axios.put('/Core/User/SetPassword', { password }, { headers: { authorization: `Bearer ${token}` } });
+    toast.success('პაროლი წარმატებით შეიცვალა.');
+    callbacks?.success && callbacks.success();
+  } catch (error: any) {
+    toast.error('მოხდა შეცდომა');
     callbacks?.error && callbacks.error();
   }
 }

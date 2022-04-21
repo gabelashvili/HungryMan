@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../components/shared/Button';
 import TextField from '../../components/shared/TextField';
 import { signIn } from '../../store/ducks/authDuck';
 import { UserAuthParams } from '../../types/auth';
 
 const SignIn = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [error, setError] = useState<boolean>(false);
@@ -59,7 +60,7 @@ const SignIn = () => {
       </form>
       <div className="popup--form-controls">
         <Button disabled={!isInputsValid(values)} loading={loading} handleClick={handleClick} type="primary">ავტორიზაცია</Button>
-        <Button handleClick={() => console.log('clicked')} type="text">დაგავიწყდა პაროლი?</Button>
+        <Button handleClick={() => navigate('/recover-password')} type="text">დაგავიწყდა პაროლი?</Button>
       </div>
     </>
   );

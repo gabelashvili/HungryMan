@@ -12,6 +12,9 @@ export const REQ_USER_SIGN_UP = 'auth/reqUserSignUp';
 
 export const CHECK_TOKEN = 'auth/checkToken';
 
+export const REQ_PASSWORD_RECOVER = 'auth/reqPasswordRecover';
+export const SET_PASSWORD = 'auth/setPassword';
+
 const initialState: AuthInitialState = {
   user: null,
 };
@@ -58,5 +61,18 @@ export const checkToken = (callbacks?: CallBacks) => ({
 export const signUp = (params: UserSignUpParams, callbacks?: CallBacks) => ({
   type: REQ_USER_SIGN_UP,
   params,
+  callbacks,
+});
+
+export const reqPasswordRecover = (phoneOrEmail: string, callbacks?: CallBacks) => ({
+  type: REQ_PASSWORD_RECOVER,
+  phoneOrEmail,
+  callbacks,
+});
+
+export const setPassword = (password: string, token: string, callbacks?: CallBacks) => ({
+  type: SET_PASSWORD,
+  password,
+  token,
   callbacks,
 });
