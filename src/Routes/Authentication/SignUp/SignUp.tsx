@@ -16,11 +16,8 @@ const SignUp = () => {
   const [errors, setErrors] = useState<null | {[key:string]: string}>(null);
   const [selectedType, setSelectedType] = useState<1 | 2>(1);
   const [step, setStep] = useState<1 | 2>(1);
-  const [repeatPassword, setRepeatPassword] = useState<{value: string, error: boolean}>({
-    value: '',
-    error: false,
-  });
-  const [acceptTerm, setAcceptTerm] = useState<{value: boolean, error: boolean}>({ value: false, error: false });
+  const [repeatPassword, setRepeatPassword] = useState<string>('');
+  const [acceptTerm, setAcceptTerm] = useState<boolean>(false);
   const [values, setValues] = useState<UserSignUpParams>({
     firstName: '',
     lastName: '',
@@ -30,14 +27,33 @@ const SignUp = () => {
   });
   const [companyInfo, setCompanyInfo] = useState<CompanySignUpParams>(companyInfoInitialState);
 
+  const inputs = () => {
+    if (selectedType === 1) {
+      return { ...values, term: acceptTerm, repeatPassword };
+    }
+    if (selectedType === 2 && step === 1) {
+      return {
+        ...values, repeatPassword, ...companyInfo,
+      };
+    }
+    return {
+      ...values, term: acceptTerm, repeatPassword, ...companyInfo,
+    };
+  };
+
+  const validations = () => {
+    if (selectedType === 1) {
+      return { ...inputsValidation, ...termValidation };
+    }
+    if (selectedType === 2 && step === 1) {
+      return { ...inputsValidation };
+    }
+    return { ...inputsValidation, ...companyInfoValidation, ...termValidation };
+  };
+
   const handleRegister = () => {
-    const res = validateInput(
-      { ...values, ...(selectedType === 2 && { ...companyInfo }) },
-      { ...inputsValidation, ...(selectedType === 2 && { ...companyInfoValidation }) },
-    );
-    if (Object.keys(res).length > 0 || repeatPassword.value !== values.password || !acceptTerm.value) {
-      values.password !== repeatPassword.value && setRepeatPassword({ ...repeatPassword, error: true });
-      !acceptTerm.value && setAcceptTerm({ ...acceptTerm, error: true });
+    const res = validateInput(inputs(), validations());
+    if (Object.keys(res).length > 0) {
       setErrors(res);
     } else {
       setLoading(true);
@@ -54,14 +70,21 @@ const SignUp = () => {
     }
   };
 
+  const handleStepChange = () => {
+    const res = validateInput(inputs(), validations());
+    console.log(res);
+    if (Object.keys(res).length > 0) {
+      setErrors(res);
+    } else {
+      setStep(2);
+    }
+  };
+
   useEffect(() => {
     if (errors) {
-      setErrors(validateInput(
-        { ...values, ...(selectedType === 2 && { ...companyInfo }) },
-        { ...inputsValidation, ...(selectedType === 2 && { ...companyInfoValidation }) },
-      ));
+      setErrors(validateInput(inputs(), validations()));
     }
-  }, [values, companyInfo, selectedType]);
+  }, [values, companyInfo, selectedType, acceptTerm, repeatPassword]);
 
   return (
     <>
@@ -79,13 +102,17 @@ const SignUp = () => {
             setSelectedType(1);
             setCompanyInfo(companyInfoInitialState);
             setStep(1);
+            setErrors(null);
           }}
         >
           <span> ფიზიკური პირი </span>
         </div>
         <div
           className={clsx('register-tab--item', selectedType === 2 && 'is-active')}
-          onClick={() => setSelectedType(2)}
+          onClick={() => {
+            setSelectedType(2);
+            setErrors(null);
+          }}
         >
           <span>იურიდიული პირი</span>
         </div>
@@ -137,17 +164,15 @@ const SignUp = () => {
               value={values.password}
               handleChange={(password) => {
                 setValues({ ...values, password });
-                password.length === 0 && repeatPassword.error && setRepeatPassword({ ...repeatPassword, error: false });
               }}
             />
             <TextField
               type="password"
               label="გაიმეორე პაროლი"
               inputName="repeatPassword"
-              value={repeatPassword.value}
-              handleChange={(pass) => setRepeatPassword({ value: pass, error: pass !== values.password })}
-              error={((values.password && repeatPassword.value && values.password !== repeatPassword.value)
-                || repeatPassword.error) && 'პაროლი არასწორია'}
+              value={repeatPassword}
+              handleChange={(pass) => setRepeatPassword(pass)}
+              error={errors?.repeatPassword}
             />
           </>
         ) : (
@@ -182,15 +207,19 @@ const SignUp = () => {
             />
           </>
         )}
+        {(selectedType === 1 || (selectedType === 2 && step === 2)) && (
         <Checkbox
-          error={acceptTerm.error}
-          checked={acceptTerm.value}
-          handleChange={(val) => setAcceptTerm({ ...acceptTerm, value: val, ...acceptTerm.error && { error: !val } })}
+          error={!!errors?.term}
+          checked={acceptTerm}
+          handleChange={(val) => {
+            setAcceptTerm(val);
+          }}
         />
+        )}
       </form>
       <div className="popup--form-controls">
         <Button
-          handleClick={() => (selectedType === 2 && step === 1 ? setStep(2) : handleRegister())}
+          handleClick={() => (selectedType === 2 && step === 1 ? handleStepChange() : handleRegister())}
           type="primary"
           loading={loading}
         >
@@ -218,6 +247,11 @@ const inputsValidation = {
   phone: {
     name: 'მობილურის ნომერი', min: 9, required: true, errorMessage: 'მობილურის ნომერი არასწორია ',
   },
+  repeatPassword: { name: 'გაიმეორე პაროლი' },
+};
+
+const termValidation = {
+  term: { name: 'წესები და პირობები', required: true },
 };
 
 const companyInfoValidation = {

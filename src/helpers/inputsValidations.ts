@@ -2,7 +2,12 @@ const validateInput = (data: any, validations: any): {[key:string]: string} => {
   const errors: {[key:string]: string} = {};
   Object.keys(data).forEach((el) => {
     if (validations[el]) {
-      if (validations[el]?.required && !data[el].toString()) {
+      if (el === 'repeatPassword') {
+        console.log(data.repeatPassword.length, 22);
+        if (data.repeatPassword.length === 0 || data.password !== data.repeatPassword) {
+          errors[el] = 'პაროლი არასწორია';
+        }
+      } else if (validations[el]?.required && !data[el]) {
         errors[el] = validations[el]?.errorMessage || 'აუცილებელი ველი';
       } else if (validations[el]?.pattern && !data[el].toString().match(validations[el]?.pattern || '')) {
         errors[el] = validations[el]?.errorMessage || 'არასწორი ფორმატი';
