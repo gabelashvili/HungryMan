@@ -212,7 +212,7 @@ const companyInfoInitialState: CompanySignUpParams = {
 
 const inputsValidation = {
   firstName: { name: 'სახელი', min: 3, required: true },
-  identificationCode: { name: 'გვარი', min: 3, required: true },
+  lastName: { name: 'გვარი', min: 3, required: true },
   email: { name: 'ელ.ფოსტა', pattern: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, required: true },
   password: { name: 'პაროლი', min: 6, required: true },
   phone: {
