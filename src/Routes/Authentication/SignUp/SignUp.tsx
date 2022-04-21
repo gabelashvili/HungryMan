@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../../components/shared/Button';
 import Checkbox from '../../../components/shared/Checkbox';
 import TextField from '../../../components/shared/TextField';
@@ -10,7 +10,9 @@ import { signUp } from '../../../store/ducks/authDuck';
 import { CompanySignUpParams, UserSignUpParams } from '../../../types/auth';
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<null | {[key:string]: string}>(null);
   const [selectedType, setSelectedType] = useState<1 | 2>(1);
   const [step, setStep] = useState<1 | 2>(1);
@@ -38,9 +40,16 @@ const SignUp = () => {
       !acceptTerm.value && setAcceptTerm({ ...acceptTerm, error: true });
       setErrors(res);
     } else {
+      setLoading(true);
       dispatch(signUp({
         ...values,
         ...(selectedType === 2 && { ...companyInfo }),
+      }, {
+        success: () => {
+          setLoading(false);
+          navigate('/');
+        },
+        error: () => setLoading(false),
       }));
     }
   };
@@ -183,6 +192,7 @@ const SignUp = () => {
         <Button
           handleClick={() => (selectedType === 2 && step === 1 ? setStep(2) : handleRegister())}
           type="primary"
+          loading={loading}
         >
           {selectedType === 2 && step === 1 ? 'შემდეგი' : 'რეგისტრაცია'}
         </Button>

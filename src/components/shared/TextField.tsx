@@ -4,7 +4,7 @@ const TextField = ({
   value, handleChange, label, inputName, type, error,
 }: PropsTypes) => {
   return (
-    <div>
+    <div style={{ width: '100%' }}>
       <div className="form__group">
         <input
           className={clsx('input', value && value?.toString()?.length > 0 && 'filled', error && 'has-error')}

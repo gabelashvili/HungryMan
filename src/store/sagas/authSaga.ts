@@ -28,8 +28,8 @@ export function* signUp({ params, callbacks }:{ params: UserSignUpParams, callba
   try {
     yield axiosInstance.post('/Core/User/Register', params);
     toast.success('რეგისტრაცია წარმატებით დასრულდა...');
+    callbacks?.success && callbacks.success();
   } catch (error: any) {
-    console.log(error.response.data);
     toast.error(error.response.status === 409 ? error.response.data.Message : 'შეავსეთ ყველა სავალდებულო ველი.');
     callbacks?.error && callbacks.error();
   }
