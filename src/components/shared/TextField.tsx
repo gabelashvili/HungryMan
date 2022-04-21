@@ -1,12 +1,12 @@
 import clsx from 'clsx';
 
 const TextField = ({
-  value, handleChange, label, inputName, type,
+  value, handleChange, label, inputName, type, error,
 }: PropsTypes) => {
   return (
     <div className="form__group">
       <input
-        className={clsx('input', value && value?.toString()?.length > 0 && 'filled')}
+        className={clsx('input', value && value?.toString()?.length > 0 && 'filled', error && 'has-error')}
         type={type || 'text'}
         id={inputName}
         value={value || ''}
@@ -26,5 +26,6 @@ interface PropsTypes {
     handleChange: (val: string) => void,
     label: string,
     inputName: string,
-    type?: 'text' | 'password' | 'number'
+    type?: 'text' | 'password' | 'number',
+    error?: boolean
 }

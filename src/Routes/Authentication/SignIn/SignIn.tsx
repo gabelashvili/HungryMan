@@ -9,6 +9,7 @@ import { UserAuthParams } from '../../../types/auth';
 const SignIn = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const [error, setError] = useState<boolean>(false);
   const [values, setValues] = useState<UserAuthParams>({
     phoneOrEmail: '',
     password: '',
@@ -16,7 +17,13 @@ const SignIn = () => {
 
   const handleClick = () => {
     setLoading(true);
-    dispatch(signIn(values, { success: () => setLoading(false), error: () => setLoading(false) }));
+    dispatch(signIn(values, {
+      success: () => setLoading(false),
+      error: () => {
+        setLoading(false);
+        setError(true);
+      },
+    }));
   };
 
   return (
@@ -30,20 +37,28 @@ const SignIn = () => {
       </div>
       <form className="popup--form">
         <div className="form__group">
-          <TextField label="ელ.ფოსტა ან მობილური" value={values.phoneOrEmail} inputName="email" handleChange={(phoneOrEmail) => setValues({ ...values, phoneOrEmail })} />
+          <TextField
+            error={error}
+            label="ელ.ფოსტა ან მობილური"
+            value={values.phoneOrEmail}
+            inputName="email"
+            handleChange={(phoneOrEmail) => setValues({ ...values, phoneOrEmail })}
+          />
         </div>
         <div className="form__group">
           <TextField
             type="password"
+            error={error}
             label="პაროლი"
             value={values.password}
             inputName="password"
             handleChange={(password) => setValues({ ...values, password })}
           />
         </div>
+        {error && <p className="popup--form-error">*ელ.ფოსტა ან პაროლი არასწორია</p>}
       </form>
       <div className="popup--form-controls">
-        <Button loading={loading} handleClick={handleClick} type="primary">ავტორიზაცია</Button>
+        <Button disabled={!isInputsValid(values)} loading={loading} handleClick={handleClick} type="primary">ავტორიზაცია</Button>
         <Button handleClick={() => console.log('clicked')} type="text">დაგავიწყდა პაროლი?</Button>
       </div>
     </>
@@ -51,3 +66,5 @@ const SignIn = () => {
 };
 
 export default SignIn;
+
+const isInputsValid = (params: UserAuthParams) => params.password.length > 5 && params.phoneOrEmail.length > 3;
