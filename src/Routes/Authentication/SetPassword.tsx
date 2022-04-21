@@ -41,6 +41,7 @@ const SetPassword = () => {
       <form className="popup--form">
         <div className="form__group">
           <TextField
+            error={password && password.length < 6}
             label="ახალი პაროლი"
             value={password}
             inputName="password"
@@ -49,7 +50,7 @@ const SetPassword = () => {
         </div>
       </form>
       <div className="popup--form-controls">
-        <Button handleClick={handleClick} loading={loading} type="primary">შეცვლა</Button>
+        <Button disabled={password.length < 6} handleClick={handleClick} loading={loading} type="primary">შეცვლა</Button>
       </div>
     </>
   );

@@ -70,8 +70,8 @@ export function* reqPasswordRecover({ phoneOrEmail, callbacks }:
 export function* setPassword({ password, token, callbacks }:
   { password: string, token: string, callbacks: CallBacks, type:string }) {
   try {
-    console.log(password, token);
-    yield axios.put('/Core/User/SetPassword', { password }, { headers: { authorization: `Bearer ${token}` } });
+    console.log(password, token, process.env.REACT_APP_NOT_SECRET_CODE);
+    yield axios.put(`${process.env.REACT_APP_BASE_URL}/Core/User/SetPassword`, { password }, { headers: { authorization: `Bearer ${token}` } });
     toast.success('პაროლი წარმატებით შეიცვალა.');
     callbacks?.success && callbacks.success();
   } catch (error: any) {

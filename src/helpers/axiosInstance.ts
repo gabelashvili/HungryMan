@@ -5,7 +5,7 @@ import storeRegistry from '../store/storeRegistry';
 
 const instance = axios.create({
   timeout: 20000, // request timeout
-  baseURL: 'http://213.139.239.58:8083',
+  baseURL: process.env.REACT_APP_BASE_URL,
 });
 
 // request interceptor
