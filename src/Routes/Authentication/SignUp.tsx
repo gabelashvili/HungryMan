@@ -2,12 +2,12 @@ import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import Button from '../../../components/shared/Button';
-import Checkbox from '../../../components/shared/Checkbox';
-import TextField from '../../../components/shared/TextField';
-import validateInput from '../../../helpers/inputsValidations';
-import { signUp } from '../../../store/ducks/authDuck';
-import { CompanySignUpParams, UserSignUpParams } from '../../../types/auth';
+import Button from '../../components/shared/Button';
+import Checkbox from '../../components/shared/Checkbox';
+import TextField from '../../components/shared/TextField';
+import validateInput from '../../helpers/inputsValidations';
+import { signUp } from '../../store/ducks/authDuck';
+import { CompanySignUpParams, UserSignUpParams } from '../../types/auth';
 
 const SignUp = () => {
   const navigate = useNavigate();

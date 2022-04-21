@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Button from '../../../components/shared/Button';
-import TextField from '../../../components/shared/TextField';
-import { signIn } from '../../../store/ducks/authDuck';
-import { UserAuthParams } from '../../../types/auth';
+import Button from '../../components/shared/Button';
+import TextField from '../../components/shared/TextField';
+import { signIn } from '../../store/ducks/authDuck';
+import { UserAuthParams } from '../../types/auth';
 
 const SignIn = () => {
   const [loading, setLoading] = useState(false);
