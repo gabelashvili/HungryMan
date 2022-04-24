@@ -15,7 +15,7 @@ import SetPassword from '../Routes/Authentication/SetPassword';
 import SignIn from '../Routes/Authentication/SignIn';
 import SignUp from '../Routes/Authentication/SignUp';
 import { checkToken } from '../store/ducks/authDuck';
-import Layout from './shared/Layout';
+import Layout from './Layout';
 import './styles.scss';
 
 function App() {

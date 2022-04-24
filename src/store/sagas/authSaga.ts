@@ -48,7 +48,6 @@ export function* checkToken({ callbacks }:{ callbacks: CallBacks, type:string })
       phone: data.user.phone,
     }));
     localStorage.setItem('token', data.token);
-    console.log(22);
     callbacks?.success && callbacks.success();
   } catch (error: any) {
     callbacks?.error && callbacks.error();
