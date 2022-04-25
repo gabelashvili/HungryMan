@@ -14,22 +14,35 @@ const PersonalInfo = () => {
     companyName: '',
     identificationCode: '',
   });
+  const disableSaveBtn = () => {
+    let disable = false;
+    if (user?.identificationCode) {
+      Object.keys(values).forEach((el) => {
+        if (!values[el as keyof ValuesTypes]) {
+          disable = true;
+        }
+      });
+    }
+    disable = !(values.firstName && values.lastName && values.email && values.phone);
+    return disable;
+  };
 
-  // const handleSave = () => {
-  //   let data = null;
-  //   if (user?.identificationCode) {
-  //     data = values;
-  //   } else {
-  //     data = {
-  //       firstName: values.firstName,
-  //       lastName: values.lastName,
-  //       email: values.email,
-  //       phone: values.phone,
-  //     };
-  //   }
-
-  //   console.log(data);
-  // };
+  const handleSave = () => {
+    if (!disableSaveBtn()) {
+      let data = null;
+      if (user?.identificationCode) {
+        data = values;
+      } else {
+        data = {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email: values.email,
+          phone: values.phone,
+        };
+      }
+      console.log(data);
+    }
+  };
 
   useEffect(() => {
     if (user) {
@@ -106,7 +119,11 @@ const PersonalInfo = () => {
 
             </>
           )}
+
         </form>
+      </div>
+      <div className="panel--footer">
+        <button className="button button--secondary ml-auto" onClick={handleSave} disabled={disableSaveBtn()}>დამახსოვრება</button>
       </div>
     </>
   );
