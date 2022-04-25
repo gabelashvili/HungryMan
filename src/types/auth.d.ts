@@ -28,9 +28,8 @@ export interface UserSignInResponse {
       phone: string,
       address: string,
       city: string,
-      companyName: null
-      identificationCode: null
-      phoneOrEmail: null
+      companyName: null | string,
+      identificationCode: null | string
     },
     admin: {
       id: number,
@@ -47,8 +46,8 @@ export interface AuthedUser {
   phone: string,
   address: string,
   city: string,
-  companyName: null
-  identificationCode: null
+  companyName: null | string
+  identificationCode: null | string
 }
 
 export interface AuthInitialState {
