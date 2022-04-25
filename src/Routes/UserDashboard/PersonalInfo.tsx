@@ -1,8 +1,13 @@
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import Button from '../../components/shared/Button';
 import TextField from '../../components/shared/TextField';
 import { useSelector } from '../../hooks/useSelector';
+import { updateUserInfo } from '../../store/ducks/userDuck';
 
 const PersonalInfo = () => {
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState<boolean>(false);
   const user = useSelector((state) => state.userReducer.user);
   const [values, setValues] = useState<ValuesTypes >({
     firstName: '',
@@ -40,7 +45,8 @@ const PersonalInfo = () => {
           phone: values.phone,
         };
       }
-      console.log(data);
+      setLoading(true);
+      dispatch(updateUserInfo(data, { success: () => setLoading(false), error: () => setLoading(false) }));
     }
   };
 
@@ -123,7 +129,15 @@ const PersonalInfo = () => {
         </form>
       </div>
       <div className="panel--footer">
-        <button className="button button--secondary ml-auto" onClick={handleSave} disabled={disableSaveBtn()}>დამახსოვრება</button>
+        <Button
+          type="secondary"
+          loading={loading}
+          classes="ml-auto"
+          handleClick={handleSave}
+          disabled={disableSaveBtn()}
+        >
+          დამახსოვრება
+        </Button>
       </div>
     </>
   );

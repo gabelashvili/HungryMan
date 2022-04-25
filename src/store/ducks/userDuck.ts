@@ -4,18 +4,20 @@ import {
 } from '../../types/user';
 import { CallBacks } from '../../types/main';
 
-export const REQ_USER_LOGIN = 'auth/reqUserLogin';
-export const SET_AUTHED_USER = 'auth/setAuthedUser';
-export const CLEAR_AUTHED_USER = 'auth/clearAuthedUser';
+export const REQ_USER_LOGIN = 'user/reqUserLogin';
+export const SET_AUTHED_USER = 'user/setAuthedUser';
+export const CLEAR_AUTHED_USER = 'user/clearAuthedUser';
 
-export const REQ_USER_SIGN_UP = 'auth/reqUserSignUp';
+export const REQ_USER_SIGN_UP = 'user/reqUserSignUp';
 
-export const CHECK_TOKEN = 'auth/checkToken';
+export const CHECK_TOKEN = 'user/checkToken';
 
-export const REQ_PASSWORD_RECOVER = 'auth/reqPasswordRecover';
-export const SET_PASSWORD = 'auth/setPassword';
+export const REQ_PASSWORD_RECOVER = 'user/reqPasswordRecover';
+export const SET_PASSWORD = 'user/setPassword';
 
-export const LOG_OUT = 'auth/logOut';
+export const LOG_OUT = 'user/logOut';
+
+export const UPDATE_USER_INFO = 'user/updateUserInfo';
 
 const initialState: AuthInitialState = {
   user: null,
@@ -81,4 +83,10 @@ export const setPassword = (password: string, token: string, callbacks?: CallBac
 
 export const logOut = () => ({
   type: LOG_OUT,
+});
+
+export const updateUserInfo = (params: any, callbacks?: CallBacks) => ({
+  type: UPDATE_USER_INFO,
+  params,
+  callbacks,
 });

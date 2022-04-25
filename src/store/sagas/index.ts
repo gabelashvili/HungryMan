@@ -1,9 +1,9 @@
 import { all, takeLatest } from 'redux-saga/effects';
 import {
-  checkToken, logOut, reqPasswordRecover, reqUserLogin, setPassword, signUp,
+  checkToken, logOut, reqPasswordRecover, reqUserLogin, setPassword, signUp, updateUserInfo,
 } from './authSaga';
 import {
-  CHECK_TOKEN, LOG_OUT, REQ_PASSWORD_RECOVER, REQ_USER_LOGIN, REQ_USER_SIGN_UP, SET_PASSWORD,
+  CHECK_TOKEN, LOG_OUT, REQ_PASSWORD_RECOVER, REQ_USER_LOGIN, REQ_USER_SIGN_UP, SET_PASSWORD, UPDATE_USER_INFO,
 } from '../ducks/userDuck';
 
 function* actionWatcher() {
@@ -14,6 +14,7 @@ function* actionWatcher() {
   yield takeLatest(REQ_PASSWORD_RECOVER, reqPasswordRecover);
   yield takeLatest(SET_PASSWORD, setPassword);
   yield takeLatest(LOG_OUT, logOut);
+  yield takeLatest(UPDATE_USER_INFO, updateUserInfo);
 }
 
 export default function* rootSaga() {

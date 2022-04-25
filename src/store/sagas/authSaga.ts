@@ -4,7 +4,9 @@ import axios from 'axios';
 import { CallBacks } from '../../types/main.d';
 import axiosInstance from '../../helpers/axiosInstance';
 import { clearAuthedUser, setAuthedUser } from '../ducks/userDuck';
-import { UserAuthParams, UserSignInResponse, UserSignUpParams } from '../../types/user';
+import {
+  UserAuthParams, UserSignInResponse, UserSignUpParams,
+} from '../../types/user';
 
 export function* reqUserLogin({ params, callbacks }:{ params: UserAuthParams, callbacks: CallBacks, type:string }) {
   try {
@@ -18,7 +20,7 @@ export function* reqUserLogin({ params, callbacks }:{ params: UserAuthParams, ca
       phone: data.user.phone,
       address: data.user.address,
       city: data.user.city,
-      companyName: null,
+      companyName: data.user.companyName,
       identificationCode: data.user.identificationCode,
     }));
     toast.success('Successfully logged in...');
@@ -52,7 +54,7 @@ export function* checkToken({ callbacks }:{ callbacks: CallBacks, type:string })
       phone: data.user.phone,
       address: data.user.address,
       city: data.user.city,
-      companyName: null,
+      companyName: data.user.companyName,
       identificationCode: data.user.identificationCode,
     }));
     localStorage.setItem('token', data.token);
@@ -92,5 +94,27 @@ export function* logOut() {
     yield put(clearAuthedUser());
   } catch (error: any) {
     console.log(error);
+  }
+}
+
+export function* updateUserInfo({ params, callbacks }:{ params: any, callbacks: CallBacks, type:string }) {
+  try {
+    const { data } = yield axiosInstance.put('/Core/User/ChangePersonalInfo', params);
+    yield put(setAuthedUser({
+      firstName: data.firstName,
+      lastName: data.lastName,
+      id: data.id,
+      email: data.email,
+      phone: data.phone,
+      address: data.address,
+      city: data.city,
+      companyName: data.companyName,
+      identificationCode: data.identificationCode,
+    }));
+    toast.success('ინფორმაცია წარმატებით განახლდა...');
+    callbacks?.success && callbacks.success();
+  } catch (error: any) {
+    toast.error(error.response.status === 409 ? error.response.data.Message : 'შეავსეთ ყველა სავალდებულო ველი.');
+    callbacks?.error && callbacks.error();
   }
 }
