@@ -16,6 +16,10 @@ export function* reqUserLogin({ params, callbacks }:{ params: UserAuthParams, ca
       id: data.user.id,
       email: data.user.email,
       phone: data.user.phone,
+      address: data.user.address,
+      city: data.user.city,
+      companyName: null,
+      identificationCode: data.user.identificationCode,
     }));
     toast.success('Successfully logged in...');
     localStorage.setItem('token', data.token);
@@ -46,6 +50,10 @@ export function* checkToken({ callbacks }:{ callbacks: CallBacks, type:string })
       id: data.user.id,
       email: data.user.email,
       phone: data.user.phone,
+      address: data.user.address,
+      city: data.user.city,
+      companyName: null,
+      identificationCode: data.user.identificationCode,
     }));
     localStorage.setItem('token', data.token);
     callbacks?.success && callbacks.success();

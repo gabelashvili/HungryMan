@@ -21,16 +21,16 @@ export interface UserSignUpParams extends Partial<CompanySignUpParams> {
 export interface UserSignInResponse {
     token: string,
     user: {
-      id: number,
-      email: string,
       firstName: string,
       lastName: string,
-      password: string,
+      id: number,
+      email: string,
       phone: string,
-      city: string,
       address: string,
-      phoneOrEmail: string,
-      createdAt: string,
+      city: string,
+      companyName: null
+      identificationCode: null
+      phoneOrEmail: null
     },
     admin: {
       id: number,
@@ -45,6 +45,10 @@ export interface AuthedUser {
   id: number,
   email: string,
   phone: string,
+  address: string,
+  city: string,
+  companyName: null
+  identificationCode: null
 }
 
 export interface AuthInitialState {

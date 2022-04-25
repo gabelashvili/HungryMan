@@ -45,7 +45,7 @@ export const signIn = (params: UserAuthParams, callbacks?: CallBacks) => ({
   callbacks,
 });
 
-export const setAuthedUser = (payload: any, callbacks?: CallBacks) => ({
+export const setAuthedUser = (payload: AuthedUser, callbacks?: CallBacks) => ({
   type: SET_AUTHED_USER,
   payload,
   callbacks,
