@@ -6,11 +6,12 @@ import PersonalInfoIcon from '../../../Icons/PersonalInfoIcon';
 import './user-menu.scss';
 
 const UserMenu = ({ handleClickOutside, open }: {handleClickOutside: () => void, open: boolean}) => {
-  const ref = useRef<HTMLDivElement | null>(null);
+  const ref = useRef<HTMLElement>(null);
 
-  const handleClick = (event: any) => {
-    if ((event.target.id !== 'show-user-menu' && event.target.parentNode.id !== 'show-user-menu')
-    && ref.current && !ref.current.contains(event.target as HTMLDivElement)) {
+  const handleClick = (event: Event) => {
+    const target = event.target as HTMLElement;
+    if ((target.id !== 'show-user-menu' && target.parentElement?.id !== 'show-user-menu')
+    && ref.current && !ref.current.contains(target)) {
       handleClickOutside();
     }
   };
