@@ -14,6 +14,9 @@ import RecoverPassword from '../Routes/Authentication/RecoverPassword';
 import SetPassword from '../Routes/Authentication/SetPassword';
 import SignIn from '../Routes/Authentication/SignIn';
 import SignUp from '../Routes/Authentication/SignUp';
+import ChangePassword from '../Routes/UserDashboard/ChangePassword';
+import PersonalInfo from '../Routes/UserDashboard/PersonalInfo';
+import UserDashboard from '../Routes/UserDashboard/UserDashboard';
 import { checkToken } from '../store/ducks/authDuck';
 import Layout from './Layout';
 import './styles.scss';
@@ -40,7 +43,12 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={authedUser ? <Layout /> : <Authentication />}>
-              {authedUser ? null : (
+              {authedUser ? (
+                <Route path="user-dashboard" element={<UserDashboard />}>
+                  <Route index element={<PersonalInfo />} />
+                  <Route path="change-password" element={<ChangePassword />} />
+                </Route>
+              ) : (
                 <>
                   <Route index element={<SignIn />} />
                   <Route path="sign-up" element={<SignUp />} />

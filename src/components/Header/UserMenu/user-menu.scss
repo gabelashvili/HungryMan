@@ -1,46 +1,99 @@
 .user-menu {
+  &:not(.is-relative) {
     position: absolute;
     top: 100%;
     margin-top: 8px;
     right: 0;
-    &--hide {
-      display: none;
-    }
-    &--list {
-      display: flex;
-      padding: 0;
-      list-style: none;
-      flex-direction: column;
-      margin: 0;
+  }
+  &--list {
+    display: flex;
+    padding: 0;
+    list-style: none;
+    flex-direction: column;
+    margin: 0;
+    background-color: #112231;
+    border-radius: 18px;
+    overflow: hidden;
+  }
+  &--link {
+    display: flex;
+    align-items: center;
+    padding: 15px 17px 15px 48px;
+    white-space: nowrap;
+    cursor: pointer;
+    position: relative;
+    color: #768b9d;
+    font-size: 14px;
+    font-weight: 400;
+    transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+    &:hover,
+    &.is-active {
       background-color: #112231;
-      border-radius: 18px;
-      overflow: hidden;
+      color: #fff;
     }
-    &--link {
-      display: flex;
-      align-items: center;
-      padding: 15px 17px 15px 48px;
-      white-space: nowrap;
-      cursor: pointer;
-      position: relative;
-      color: #768b9d;
-      font-size: 14px;
-      font-weight: 400;
-      transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
-      &:hover {
-        background-color: #162a3d;
-        color: #fff;
-      }
-  
-      &.log-out {
-        color: #ed2024;
-      }
+
+    &.log-out {
+      color: #ed2024;
     }
-  
-    &--icon {
-      position: absolute;
-      left: 24px;
-      transform: translateX(-50%);
+    .arrow-icon {
+      margin-left: auto;
     }
   }
-  
+  &--icon {
+    position: absolute;
+    left: 24px;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    svg {
+      flex-shrink: 0;
+    }
+  }
+
+  &.is-relative {
+    width: 100%;
+    max-width: 350px;
+    .user-menu--list {
+      background-color: #0c1925;
+    }
+
+    .user-menu--item + .user-menu--item {
+      border-top: 1px solid #112231;
+    }
+
+    .user-menu--link {
+      padding: 22px 24px 22px 75px;
+
+      span {
+        margin-right: 50px;
+
+        & + svg {
+          color: #55687a;
+        }
+      }
+
+      &.is-active {
+        .user-menu--icon {
+          background-color: #233c52;
+        }
+      }
+
+      &.log-out {
+        .user-menu--icon {
+          background-color: rgba(237, 32, 36, 0.17);
+        }
+      }
+    }
+
+    .user-menu--icon {
+      position: absolute;
+      left: 24px;
+      transform: unset;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background-color: #112231;
+    }
+  }
+}

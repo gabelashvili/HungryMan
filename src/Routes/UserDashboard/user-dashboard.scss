@@ -1,0 +1,25 @@
+.user-dashboard {
+    align-items: unset;
+  
+    &--content {
+      margin-left: 24px;
+      width: 100%;
+      .panel {
+        background-color: #0c1925;
+      }
+    }
+  
+    &--form {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 18px;
+      .form__group {
+        margin: 0;
+      }
+    }
+  }
+  
+  .ml-auto {
+    margin-left: auto;
+  }
+  
