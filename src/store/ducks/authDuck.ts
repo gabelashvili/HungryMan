@@ -15,6 +15,8 @@ export const CHECK_TOKEN = 'auth/checkToken';
 export const REQ_PASSWORD_RECOVER = 'auth/reqPasswordRecover';
 export const SET_PASSWORD = 'auth/setPassword';
 
+export const LOG_OUT = 'auth/logOut';
+
 const initialState: AuthInitialState = {
   user: null,
 };
@@ -75,4 +77,8 @@ export const setPassword = (password: string, token: string, callbacks?: CallBac
   password,
   token,
   callbacks,
+});
+
+export const logOut = () => ({
+  type: LOG_OUT,
 });

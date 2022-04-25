@@ -1,17 +1,20 @@
 import clsx from 'clsx';
 import { useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import ArrowIcon from '../../../Icons/ArrowIcon';
 import ChangePasswordIcon from '../../../Icons/ChangePasswordIcon';
 import HistoryIcon from '../../../Icons/HistoryIcon';
 import LogoutIcon from '../../../Icons/LogoutIcon';
 import PersonalInfoIcon from '../../../Icons/PersonalInfoIcon';
+import { logOut } from '../../../store/ducks/authDuck';
 import './user-menu.scss';
 
 const UserMenu = ({ handleClickOutside, open, isRelative }: {
   handleClickOutside?: () => void, open: boolean, isRelative?: boolean
 }) => {
   const { pathname } = useLocation();
+  const dispatch = useDispatch();
   const ref = useRef<HTMLElement>(null);
 
   const handleClick = (event: Event) => {
@@ -40,7 +43,7 @@ const UserMenu = ({ handleClickOutside, open, isRelative }: {
       <nav className={clsx('user-menu', isRelative && 'is-relative')} ref={ref}>
         <ul className="user-menu--list">
           {navItems.map(({ title, path, Icon }) => (
-            <li className="user-menu--item">
+            <li className="user-menu--item" key={path}>
               <Link to={path} className={clsx('user-menu--link', path === pathname && 'is-active')}>
                 <div className="user-menu--icon"><Icon /></div>
                 <span>{title}</span>
@@ -49,7 +52,7 @@ const UserMenu = ({ handleClickOutside, open, isRelative }: {
             </li>
           ))}
           <li className="user-menu--item">
-            <a className="user-menu--link log-out">
+            <a className="user-menu--link log-out" onClick={() => dispatch(logOut())}>
               <div className="user-menu--icon">
                 <LogoutIcon />
               </div>

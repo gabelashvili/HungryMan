@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { CallBacks } from '../../types/main.d';
 import axiosInstance from '../../helpers/axiosInstance';
-import { setAuthedUser } from '../ducks/authDuck';
+import { clearAuthedUser, setAuthedUser } from '../ducks/authDuck';
 import { UserAuthParams, UserSignInResponse, UserSignUpParams } from '../../types/auth';
 
 export function* reqUserLogin({ params, callbacks }:{ params: UserAuthParams, callbacks: CallBacks, type:string }) {
@@ -69,12 +69,20 @@ export function* reqPasswordRecover({ phoneOrEmail, callbacks }:
 export function* setPassword({ password, token, callbacks }:
   { password: string, token: string, callbacks: CallBacks, type:string }) {
   try {
-    console.log(password, token, process.env.REACT_APP_NOT_SECRET_CODE);
     yield axios.put(`${process.env.REACT_APP_BASE_URL}/Core/User/SetPassword`, { password }, { headers: { authorization: `Bearer ${token}` } });
     toast.success('პაროლი წარმატებით შეიცვალა.');
     callbacks?.success && callbacks.success();
   } catch (error: any) {
     toast.error('მოხდა შეცდომა');
     callbacks?.error && callbacks.error();
+  }
+}
+
+export function* logOut() {
+  try {
+    yield localStorage.removeItem('token');
+    yield put(clearAuthedUser());
+  } catch (error: any) {
+    console.log(error);
   }
 }
