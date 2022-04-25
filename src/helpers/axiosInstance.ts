@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { toast } from 'react-toastify';
-import { clearAuthedUser } from '../store/ducks/authDuck';
+import { clearAuthedUser } from '../store/ducks/userDuck';
 import storeRegistry from '../store/storeRegistry';
 
 const instance = axios.create({

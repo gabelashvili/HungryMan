@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Button from '../../components/shared/Button';
 import TextField from '../../components/shared/TextField';
-import { reqPasswordRecover } from '../../store/ducks/authDuck';
+import { reqPasswordRecover } from '../../store/ducks/userDuck';
 
 const RecoverPassword = () => {
   const dispatch = useDispatch();

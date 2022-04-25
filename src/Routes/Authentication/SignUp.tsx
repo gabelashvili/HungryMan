@@ -6,8 +6,8 @@ import Button from '../../components/shared/Button';
 import Checkbox from '../../components/shared/Checkbox';
 import TextField from '../../components/shared/TextField';
 import validateInput from '../../helpers/inputsValidations';
-import { signUp } from '../../store/ducks/authDuck';
-import { CompanySignUpParams, UserSignUpParams } from '../../types/auth';
+import { signUp } from '../../store/ducks/userDuck';
+import { CompanySignUpParams, UserSignUpParams } from '../../types/user';
 
 const SignUp = () => {
   const navigate = useNavigate();

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Button from '../../components/shared/Button';
 import TextField from '../../components/shared/TextField';
-import { setPassword } from '../../store/ducks/authDuck';
+import { setPassword } from '../../store/ducks/userDuck';
 
 const SetPassword = () => {
   const [searchParams] = useSearchParams();

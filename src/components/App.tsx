@@ -17,13 +17,13 @@ import SignUp from '../Routes/Authentication/SignUp';
 import ChangePassword from '../Routes/UserDashboard/ChangePassword';
 import PersonalInfo from '../Routes/UserDashboard/PersonalInfo';
 import UserDashboard from '../Routes/UserDashboard/UserDashboard';
-import { checkToken } from '../store/ducks/authDuck';
+import { checkToken } from '../store/ducks/userDuck';
 import Layout from './Layout';
 import './styles.scss';
 
 function App() {
   const dispatch = useDispatch();
-  const authedUser = useSelector((state) => state.authReducer.user);
+  const authedUser = useSelector((state) => state.userReducer.user);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

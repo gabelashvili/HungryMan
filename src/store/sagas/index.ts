@@ -4,7 +4,7 @@ import {
 } from './authSaga';
 import {
   CHECK_TOKEN, LOG_OUT, REQ_PASSWORD_RECOVER, REQ_USER_LOGIN, REQ_USER_SIGN_UP, SET_PASSWORD,
-} from '../ducks/authDuck';
+} from '../ducks/userDuck';
 
 function* actionWatcher() {
   // auth

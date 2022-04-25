@@ -1,7 +1,7 @@
 import { AnyAction } from 'redux';
 import {
   AuthedUser, AuthInitialState, UserAuthParams, UserSignUpParams,
-} from '../../types/auth';
+} from '../../types/user';
 import { CallBacks } from '../../types/main';
 
 export const REQ_USER_LOGIN = 'auth/reqUserLogin';
@@ -21,7 +21,7 @@ const initialState: AuthInitialState = {
   user: null,
 };
 
-export const authReducer = (state = initialState, action: AnyAction): AuthInitialState => {
+export const userReducer = (state = initialState, action: AnyAction): AuthInitialState => {
   const { payload } = action;
   switch (action.type) {
     case SET_AUTHED_USER:

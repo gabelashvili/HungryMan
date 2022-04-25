@@ -7,7 +7,7 @@ import ChangePasswordIcon from '../../../Icons/ChangePasswordIcon';
 import HistoryIcon from '../../../Icons/HistoryIcon';
 import LogoutIcon from '../../../Icons/LogoutIcon';
 import PersonalInfoIcon from '../../../Icons/PersonalInfoIcon';
-import { logOut } from '../../../store/ducks/authDuck';
+import { logOut } from '../../../store/ducks/userDuck';
 import './user-menu.scss';
 
 const UserMenu = ({ handleClickOutside, open, isRelative }: {

@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../components/shared/Button';
 import TextField from '../../components/shared/TextField';
-import { signIn } from '../../store/ducks/authDuck';
-import { UserAuthParams } from '../../types/auth';
+import { signIn } from '../../store/ducks/userDuck';
+import { UserAuthParams } from '../../types/user';
 
 const SignIn = () => {
   const navigate = useNavigate();

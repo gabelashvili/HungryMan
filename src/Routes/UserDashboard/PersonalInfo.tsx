@@ -3,7 +3,7 @@ import TextField from '../../components/shared/TextField';
 import { useSelector } from '../../hooks/useSelector';
 
 const PersonalInfo = () => {
-  const user = useSelector((state) => state.authReducer.user);
+  const user = useSelector((state) => state.userReducer.user);
   const [values, setValues] = useState<ValuesTypes >({
     firstName: '',
     lastName: '',

@@ -3,8 +3,8 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { CallBacks } from '../../types/main.d';
 import axiosInstance from '../../helpers/axiosInstance';
-import { clearAuthedUser, setAuthedUser } from '../ducks/authDuck';
-import { UserAuthParams, UserSignInResponse, UserSignUpParams } from '../../types/auth';
+import { clearAuthedUser, setAuthedUser } from '../ducks/userDuck';
+import { UserAuthParams, UserSignInResponse, UserSignUpParams } from '../../types/user';
 
 export function* reqUserLogin({ params, callbacks }:{ params: UserAuthParams, callbacks: CallBacks, type:string }) {
   try {

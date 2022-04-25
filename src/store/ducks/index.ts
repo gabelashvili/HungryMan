@@ -1,5 +1,5 @@
-import { authReducer } from './authDuck';
+import { userReducer } from './userDuck';
 
 export {
-  authReducer,
+  userReducer,
 };
