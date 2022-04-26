@@ -1,7 +1,7 @@
 import { all, takeLatest } from 'redux-saga/effects';
 import {
   checkToken, logOut, reqPasswordRecover, reqUserLogin, setPassword, signUp, updateUserInfo,
-} from './authSaga';
+} from './userSaga';
 import {
   CHECK_TOKEN, LOG_OUT, REQ_PASSWORD_RECOVER, REQ_USER_LOGIN, REQ_USER_SIGN_UP, SET_PASSWORD, UPDATE_USER_INFO,
 } from '../ducks/userDuck';

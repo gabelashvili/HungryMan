@@ -16,8 +16,6 @@ const PersonalInfo = () => {
     phone: '',
     address: '',
     city: '',
-    companyName: '',
-    identificationCode: '',
   });
   const disableSaveBtn = () => {
     let disable = false;
@@ -59,8 +57,6 @@ const PersonalInfo = () => {
         phone: user.phone,
         address: user.address,
         city: user.city,
-        companyName: user.companyName || '',
-        identificationCode: user.identificationCode || '',
       });
     }
   }, [user]);
@@ -101,14 +97,14 @@ const PersonalInfo = () => {
               <TextField
                 inputName="companyName"
                 label="კომპანიის სახელი"
-                value={values.companyName}
-                handleChange={(companyName) => setValues({ ...values, companyName })}
+                value={user.companyName}
+                disabled
               />
               <TextField
                 inputName="identificationCode"
                 label=" საიდ. კოდი"
-                value={values.identificationCode}
-                handleChange={(identificationCode) => setValues({ ...values, identificationCode })}
+                value={user.identificationCode}
+                disabled
               />
               <TextField
                 inputName="city"
@@ -152,6 +148,4 @@ interface ValuesTypes {
   phone: string,
   address: string,
   city: string,
-  companyName: string
-  identificationCode: string
 }

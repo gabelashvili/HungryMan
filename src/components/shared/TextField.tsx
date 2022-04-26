@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 
 const TextField = ({
-  value, handleChange, label, inputName, type, error,
+  value, handleChange, label, inputName, type, error, disabled,
 }: PropsTypes) => {
   return (
     <div style={{ width: '100%' }}>
@@ -11,7 +11,8 @@ const TextField = ({
           type={type || 'text'}
           id={inputName}
           value={value || ''}
-          onChange={({ target }) => handleChange(target.value)}
+          onChange={({ target }) => (handleChange ? handleChange(target.value) : undefined)}
+          disabled={disabled}
         />
         <label className="input--label" htmlFor={inputName}>
           {label}
@@ -26,9 +27,10 @@ export default TextField;
 
 interface PropsTypes {
     value: string | number | null,
-    handleChange: (val: string) => void,
+    handleChange?: (val: string) => void,
     label: string,
     inputName: string,
     type?: 'text' | 'password' | 'number',
-    error?: boolean | string
+    error?: boolean | string,
+    disabled?: boolean
 }
