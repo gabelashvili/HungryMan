@@ -99,6 +99,7 @@ const ChangePassword = () => {
             value={values.oldPassword}
             handleChange={(oldPassword) => setValues({ ...values, oldPassword })}
             error={errors?.oldPassword}
+            type="password"
           />
           <TextField
             inputName="password"
@@ -106,6 +107,7 @@ const ChangePassword = () => {
             value={values.password}
             handleChange={(password) => setValues({ ...values, password })}
             error={errors?.password}
+            type="password"
           />
           <TextField
             inputName="repeatPassword"
@@ -113,6 +115,7 @@ const ChangePassword = () => {
             value={values.repeatPassword}
             error={errors?.repeatPassword}
             handleChange={(repeatPassword) => setValues({ ...values, repeatPassword })}
+            type="password"
           />
         </form>
       </div>
