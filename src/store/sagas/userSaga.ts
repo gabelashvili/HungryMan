@@ -118,3 +118,15 @@ export function* updateUserInfo({ params, callbacks }:{ params: any, callbacks: 
     callbacks?.error && callbacks.error();
   }
 }
+
+export function* updateUserPassword({ params, callbacks }:
+  { params: {oldPassword:string, password:string}, callbacks: CallBacks, type:string }) {
+  try {
+    yield axiosInstance.put('/Core/User/ChangePassword', params);
+    toast.success('პაროლი წარმატებით განახლდა...');
+    callbacks?.success && callbacks.success();
+  } catch (error: any) {
+    toast.error(error.response.status === 500 ? error.response.data.Message : 'მოხდა შეცდომა...');
+    callbacks?.error && callbacks.error(error.response.status);
+  }
+}

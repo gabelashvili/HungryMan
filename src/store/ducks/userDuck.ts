@@ -19,6 +19,8 @@ export const LOG_OUT = 'user/logOut';
 
 export const UPDATE_USER_INFO = 'user/updateUserInfo';
 
+export const UPDATE_USER_PASSWORD = 'user/updateUserPassword';
+
 const initialState: AuthInitialState = {
   user: null,
 };
@@ -87,6 +89,12 @@ export const logOut = () => ({
 
 export const updateUserInfo = (params: any, callbacks?: CallBacks) => ({
   type: UPDATE_USER_INFO,
+  params,
+  callbacks,
+});
+
+export const updateUserPassword = (params: {oldPassword:string, password:string}, callbacks?: CallBacks) => ({
+  type: UPDATE_USER_PASSWORD,
   params,
   callbacks,
 });
