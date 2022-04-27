@@ -1,10 +1,8 @@
+/* eslint-disable no-nested-ternary */
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
+  useRoutes,
 } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -37,31 +35,63 @@ function App() {
     }
   }, []);
 
+  const defaultRoutes = useRoutes([
+    {
+      path: '/',
+      element: <Authentication />,
+      children: [
+        {
+          index: true,
+          element: <SignIn />,
+        },
+        {
+          path: 'sign-up',
+          element: <SignUp />,
+        },
+        {
+          path: 'recover-password',
+          element: <RecoverPassword />,
+        },
+        {
+          path: 'set-password',
+          element: <SetPassword />,
+        },
+      ],
+    },
+  ]);
+
+  const authRoutes = useRoutes([
+    {
+      path: '/',
+      element: <Layout />,
+      children: [
+        {
+          path: 'user-dashboard',
+          element: <UserDashboard />,
+          children: [
+            {
+              index: true,
+              element: <PersonalInfo />,
+            },
+            {
+              path: 'change-password',
+              element: <ChangePassword />,
+            },
+            {
+              path: 'order-history',
+              element: <OrderHistory />,
+            },
+          ],
+        },
+      ],
+    },
+  ]);
+
   return (
     <div>
       <ToastContainer autoClose={1200} limit={3} pauseOnFocusLoss={false} />
       {loading ? null : (
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={authedUser ? <Layout /> : <Authentication />}>
-              {authedUser ? (
-                <Route path="user-dashboard" element={<UserDashboard />}>
-                  <Route index element={<PersonalInfo />} />
-                  <Route path="change-password" element={<ChangePassword />} />
-                  <Route path="order-history" element={<OrderHistory />} />
-                </Route>
-              ) : (
-                <>
-                  <Route index element={<SignIn />} />
-                  <Route path="sign-up" element={<SignUp />} />
-                  <Route path="recover-password" element={<RecoverPassword />} />
-                  <Route path="set-password" element={<SetPassword />} />
-                </>
-              )}
-            </Route>
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-        </BrowserRouter>
+        authedUser ? authRoutes : defaultRoutes
       )}
     </div>
   );

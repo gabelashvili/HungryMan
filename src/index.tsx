@@ -2,6 +2,7 @@ import './index.css';
 import { Provider } from 'react-redux';
 import { createRoot } from 'react-dom/client';
 
+import { BrowserRouter } from 'react-router-dom';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
 import rootSaga from './store/sagas';
@@ -17,7 +18,9 @@ sagaMiddleware.run(() => rootSaga());
 
 root.render(
   <Provider store={reduxStore}>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </Provider>,
 );
 
