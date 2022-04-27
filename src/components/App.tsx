@@ -35,7 +35,7 @@ function App() {
     }
   }, []);
 
-  const defaultRoutes = useRoutes([
+  const authedRoutes = [
     {
       path: '/',
       element: <Authentication />,
@@ -58,9 +58,9 @@ function App() {
         },
       ],
     },
-  ]);
+  ];
 
-  const authRoutes = useRoutes([
+  const defaultRoutes = [
     {
       path: '/',
       element: <Layout />,
@@ -85,12 +85,14 @@ function App() {
         },
       ],
     },
-  ]);
+  ];
+
+  const routes = useRoutes(authedUser ? authedRoutes : defaultRoutes);
   return (
     <div>
       <ToastContainer autoClose={1200} limit={3} pauseOnFocusLoss={false} />
       {loading ? null : (
-        authedUser ? authRoutes : defaultRoutes
+        routes
       )}
     </div>
   );
