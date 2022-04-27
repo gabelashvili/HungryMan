@@ -86,7 +86,6 @@ function App() {
       ],
     },
   ]);
-
   return (
     <div>
       <ToastContainer autoClose={1200} limit={3} pauseOnFocusLoss={false} />
