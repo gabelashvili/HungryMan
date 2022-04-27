@@ -13,11 +13,7 @@
   cursor: pointer;
   position: relative;
   border-radius: 8px;
-
-  &:disabled {
-    cursor: not-allowed;
-  }
-
+  white-space: nowrap;
   &:hover {
     background-color: #142638;
   }
@@ -36,6 +32,13 @@
     &-left {
       svg {
         margin-right: 10px;
+      }
+    }
+
+    &-right {
+      svg {
+        width: 10px;
+        margin-left: 10px;
       }
     }
   }
@@ -71,15 +74,11 @@
   &-pull-right {
     margin-right: -12px;
   }
-  
-  &--loader {
-    svg {
-      width: 45px;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      top: 0;
-      height: min-content
-    }
+}
+
+@media screen and(max-width: 1366px) {
+  .button--icon {
+    width: 36px;
+    height: 36px;
   }
 }

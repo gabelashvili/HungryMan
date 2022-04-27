@@ -1,7 +1,7 @@
 import React, { CSSProperties } from 'react';
 
 const ClearIcon = ({ style, className, handleClick }:
-    {style?:CSSProperties, className: string, handleClick?: () => void}) => {
+    {style?:CSSProperties, className?: string, handleClick?: () => void}) => {
   return (
     <svg
       fill="none"

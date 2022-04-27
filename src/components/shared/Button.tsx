@@ -8,7 +8,7 @@ const Button = ({
   return (
     <button disabled={disabled || loading} onClick={handleClick} className={clsx(`button button--${type || 'primary'}`, classes)}>
       <div className="button--content" style={{ opacity: loading ? 0 : 1 }}>{children}</div>
-      <div className="button--loader" style={{ opacity: loading ? 1 : 0 }}><Loader /></div>
+      { loading && <div className="button--loader" style={{ opacity: loading ? 1 : 0, position: 'absolute' }}><Loader /></div>}
     </button>
   );
 };

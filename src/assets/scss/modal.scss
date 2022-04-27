@@ -10,23 +10,27 @@
   background-color: #0c1925;
   transition: right 0.2s ease-in-out;
   right: 50%;
-  transform: translateX(50%);
+  top: 50%;
+  transform: translate(50%, -50%);
   z-index: 1;
+  border-radius: 10px;
 
   &--header {
     display: flex;
-    padding: 17px 24px;
+    padding: 3px 24px;
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid #172a3a;
   }
+
   &--title {
     font-family: Helvetica Neue LT GEO;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
     line-height: 22px;
     margin-bottom: 0;
   }
+
   &--content {
     display: flex;
     flex-direction: column;
@@ -51,9 +55,23 @@
     height: 100%;
     transform: unset;
     max-height: unset;
+    top: 0;
+    transform: unset;
+    border-radius: 0;
+
     &.is-active {
       right: 0;
     }
+    .modal--header {
+      padding: 17px 24px;
+    }
+    .modal--title {
+      font-size: 18px;
+    }
+  }
+
+  &--small {
+    width: 470px;
   }
 }
 

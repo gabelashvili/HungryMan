@@ -3,17 +3,29 @@ import OrderHistoryList, { OrderHistoryListItem } from '../../components/UserDas
 import UserDashboardTab from '../../components/UserDashboard/UserDashboardTab/UserDashboardTab';
 import Hat from '../../assets/images/hat.png';
 import CellsIcon from '../../assets/images/cells-icon.svg';
+import UserDashboardModal from '../../components/UserDashboard/UserDashboardModal';
 
 const OrderHistory = () => {
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [selectedTab, setSelectedTab] = useState<0 | 1>(0);
+
+  const handleItemInfoClick = (id: number) => setSelectedItemId(id);
   return (
     <div className="panel">
+      <UserDashboardModal
+        selectedTab={selectedTab}
+        open={!!selectedItemId}
+        handleClose={() => setSelectedItemId(null)}
+      />
       <div className="panel--header with-border">
         <h3 className="panel--title">შეკვეთების ისტორია</h3>
       </div>
       <UserDashboardTab selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
       <div className="panel--content">
-        <OrderHistoryList data={selectedTab === 0 ? products : cells} />
+        <OrderHistoryList
+          data={selectedTab === 0 ? products : cells}
+          handleItemInfoClick={handleItemInfoClick}
+        />
       </div>
     </div>
   );
