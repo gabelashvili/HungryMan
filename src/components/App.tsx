@@ -15,6 +15,7 @@ import SetPassword from '../Routes/Authentication/SetPassword';
 import SignIn from '../Routes/Authentication/SignIn';
 import SignUp from '../Routes/Authentication/SignUp';
 import ChangePassword from '../Routes/UserDashboard/ChangePassword';
+import OrderHistory from '../Routes/UserDashboard/OrderHistory';
 import PersonalInfo from '../Routes/UserDashboard/PersonalInfo';
 import UserDashboard from '../Routes/UserDashboard/UserDashboard';
 import { checkToken } from '../store/ducks/userDuck';
@@ -47,6 +48,7 @@ function App() {
                 <Route path="user-dashboard" element={<UserDashboard />}>
                   <Route index element={<PersonalInfo />} />
                   <Route path="change-password" element={<ChangePassword />} />
+                  <Route path="order-history" element={<OrderHistory />} />
                 </Route>
               ) : (
                 <>
