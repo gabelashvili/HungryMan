@@ -18,6 +18,10 @@
     background-color: #142638;
   }
 
+  &--content {
+    display: flex;
+  }
+
   svg {
     width: 20px;
     flex-shrink: 0;

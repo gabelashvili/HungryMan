@@ -5,12 +5,14 @@ import createSagaMiddleware from 'redux-saga';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import {
   userReducer,
+  productsReducer,
 } from './ducks';
 
 export const sagaMiddleware = createSagaMiddleware();
 
 const appReducer = combineReducers({
   userReducer,
+  productsReducer,
 });
 
 export type RootState = ReturnType<typeof appReducer>;

@@ -11,6 +11,8 @@ import {
   UPDATE_USER_INFO,
   UPDATE_USER_PASSWORD,
 } from '../ducks/userDuck';
+import { GET_PRODUCTS } from '../ducks/productsDuck';
+import { getProducts } from './productsSaga';
 
 function* actionWatcher() {
   // auth
@@ -22,6 +24,8 @@ function* actionWatcher() {
   yield takeLatest(LOG_OUT, logOut);
   yield takeLatest(UPDATE_USER_INFO, updateUserInfo);
   yield takeLatest(UPDATE_USER_PASSWORD, updateUserPassword);
+  // products
+  yield takeLatest(GET_PRODUCTS, getProducts);
 }
 
 export default function* rootSaga() {

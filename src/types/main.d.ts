@@ -13,3 +13,13 @@ export interface PaginationParams {
     Page:number,
     PageSize: number
   }
+
+export interface MediaType {
+    id: number,
+    item: string,
+    itemId: number,
+    url: string,
+    width: number,
+    height: number,
+    mediaType: number
+  }

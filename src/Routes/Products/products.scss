@@ -5,6 +5,11 @@
     background-color: #0a1621;
     border-radius: 12px;
     width: 100%;
+    &--loader {
+      margin: auto;
+      width: 70px;
+    }
+
     &--filter {
       display: flex;
       align-items: center;
@@ -82,7 +87,10 @@
         position: absolute;
         right: 15px;
         width: 10px;
-        transform: rotate(90deg)
+        transform: rotate(90deg);
+        &.asc {
+          transform: rotate(-90deg);
+        }
       }
       &:hover {
         background-color: #1b2d3c;
@@ -167,6 +175,10 @@
       align-items: center;
       justify-content: center;
       padding: 14px 0 49px;
+      &--arrow {
+        transform: rotate(90deg);
+        width: 8px;
+      }
     }
   }
   

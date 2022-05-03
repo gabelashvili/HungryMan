@@ -1,11 +1,12 @@
 import React from 'react';
 
-const Loader = () => {
+const Loader = ({ className }: {className?: string}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="200px"
       height="200px"
+      className={className}
       viewBox="0 0 100 100"
       preserveAspectRatio="xMidYMid"
     >

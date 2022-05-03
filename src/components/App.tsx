@@ -98,7 +98,6 @@ function App() {
   ];
 
   const routes = useRoutes(authedUser ? authedUserRoutes : defaultRoutes);
-  console.log(authedUser);
   return (
     <div>
       <ToastContainer autoClose={1200} limit={3} pauseOnFocusLoss={false} />
