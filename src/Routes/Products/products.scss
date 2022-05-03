@@ -1,0 +1,213 @@
+.products {
+    margin-top: 72px;
+    display: flex;
+    flex-direction: column;
+    background-color: #0a1621;
+    border-radius: 12px;
+    width: 100%;
+    &--filter {
+      display: flex;
+      align-items: center;
+      padding: 22px 0 22px 32px;
+      background-color: #0c1925;
+      border-radius: 12px 12px 0px 0px;
+      overflow: auto;
+      white-space: nowrap;
+      position: relative;
+  
+      &::after {
+        content: " ";
+        position: sticky;
+        min-width: 32px;
+        height: 44px;
+        display: block;
+        right: 0;
+        background: linear-gradient(270deg, #0c1925 0%, rgba(12, 25, 37, 0) 100%);
+      }
+  
+      &::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+      }
+  
+      &::-webkit-scrollbar-track {
+        background: transparent;
+        display: none;
+      }
+  
+      &::-webkit-scrollbar-thumb {
+        background: transparent;
+      }
+  
+      .form__group {
+        margin-right: 8px;
+        margin-top: 0;
+      }
+      .input--checkbox {
+        background: #112231;
+        border-radius: 6px;
+        padding: 10px;
+  
+        .checkbox-box {
+          min-width: 16px;
+          height: 16px;
+          border-color: #55687a;
+          border-radius: 4px;
+        }
+        &:hover {
+          background-color: #1b2d3c;
+        }
+      }
+    }
+  
+    &--sort {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      padding: 10px 35px 10px 9px;
+      background-color: #112231;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+      position: relative;
+      font-family: "Helvetica Neue LT GEO";
+      font-style: normal;
+      font-weight: 400;
+      color: #768b9d;
+      &-icon {
+        width: 17px;
+        margin-right: 8px;
+      }
+      &-arrow {
+        position: absolute;
+        right: 15px;
+        width: 10px;
+        transform: rotate(90deg)
+      }
+      &:hover {
+        background-color: #1b2d3c;
+      }
+    }
+  
+    &-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      grid-auto-flow: dense;
+      grid-gap: 24px;
+      padding: 32px;
+    }
+  
+    &-item {
+      border: 1px solid #162a3d;
+      border-radius: 12px;
+      background-color: transparent;
+      padding: 24px;
+      cursor: pointer;
+  
+      &:hover {
+        background-color: #162a3d;
+      }
+  
+      &--image {
+        position: relative;
+        padding-bottom: 78%;
+        display: flex;
+        justify-content: center;
+        img {
+          position: absolute;
+          max-width: 100%;
+          max-height: 100%;
+          height: auto;
+        }
+      }
+  
+      &--title {
+        font-family: "Helvetica Neue LT GEO";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        color: #ffffff;
+        margin-bottom: 6px;
+  
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
+        white-space: nowrap;
+      }
+  
+      &--description {
+        font-family: "Helvetica Neue LT GEO";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 13px;
+        line-height: 16px;
+        color: #55687a;
+        margin-bottom: 12px;
+  
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 2;
+      }
+  
+      &--price {
+        font-family: "Helvetica Neue LT GEO";
+        font-style: normal;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 22px;
+        color: #ffffff;
+      }
+    }
+  
+    &-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 0 49px;
+    }
+  }
+  
+  @media screen and(max-width: 1120px) {
+    .products {
+      &--filter {
+        padding: 20px 0 20px 24px;
+  
+        &::after {
+          min-width: 24px;
+        }
+      }
+      &-list {
+        grid-template-columns: repeat(auto-fill, minmax(242px, 1fr));
+        padding: 24px;
+        grid-gap: 16px;
+      }
+    }
+  }
+  
+  @media screen and(max-width: 870px) {
+    .products {
+      &-list {
+        grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      }
+  
+      &-controls {
+        padding-bottom: 32px;
+      }
+  
+      &-item {
+        padding: 16px;
+      }
+    }
+  }
+  
+  @media screen and(max-width: 600px) {
+    :host {
+      .wrapper {
+        padding: 0;
+      }
+    }
+  }
+  

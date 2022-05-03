@@ -12,6 +12,7 @@ import RecoverPassword from '../Routes/Authentication/RecoverPassword';
 import SetPassword from '../Routes/Authentication/SetPassword';
 import SignIn from '../Routes/Authentication/SignIn';
 import SignUp from '../Routes/Authentication/SignUp';
+import Products from '../Routes/Products/Products';
 import ChangePassword from '../Routes/UserDashboard/ChangePassword';
 import OrderHistory from '../Routes/UserDashboard/OrderHistory';
 import PersonalInfo from '../Routes/UserDashboard/PersonalInfo';
@@ -35,7 +36,7 @@ function App() {
     }
   }, []);
 
-  const authedRoutes = [
+  const defaultRoutes = [
     {
       path: '/',
       element: <Authentication />,
@@ -60,7 +61,7 @@ function App() {
     },
   ];
 
-  const defaultRoutes = [
+  const authedUserRoutes = [
     {
       path: '/',
       element: <Layout />,
@@ -83,11 +84,21 @@ function App() {
             },
           ],
         },
+        {
+          path: 'products',
+          children: [
+            {
+              index: true,
+              element: <Products />,
+            },
+          ],
+        },
       ],
     },
   ];
 
-  const routes = useRoutes(authedUser ? authedRoutes : defaultRoutes);
+  const routes = useRoutes(authedUser ? authedUserRoutes : defaultRoutes);
+  console.log(authedUser);
   return (
     <div>
       <ToastContainer autoClose={1200} limit={3} pauseOnFocusLoss={false} />
