@@ -1,19 +1,21 @@
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import ProductItem from '../../components/Products/ProductItem';
 import Button from '../../components/shared/Button';
 import { useSelector } from '../../hooks/useSelector';
 import ArrowIcon from '../../Icons/ArrowIcon';
 import Loader from '../../Icons/Loader';
 import SortIcon from '../../Icons/SortIcon';
-import { getProducts } from '../../store/ducks/productsDuck';
-import { GetProductsRequest } from '../../types/products';
+import { clearProducts, getFilteredProducts, getProducts } from '../../store/ducks/productsDuck';
+import { GetProductsRequest, ProductType } from '../../types/products';
 import './products.scss';
 
 const PAGE_SIZE = 10;
 
 const Products = () => {
   const dispatch = useDispatch();
+  const [items, setItems] = useState<ProductType[] | null>(null);
   const products = useSelector((state) => state.productsReducer.productsList);
   const [filters, setFilters] = useState<GetProductsRequest>({
     Page: 1,
@@ -22,11 +24,19 @@ const Products = () => {
   const [fetching, setFetching] = useState<boolean>(false);
 
   const handlePriceFilter = () => {
+    const OrderType = filters?.OrderType === 'Asc' ? 'Desc' : 'Asc';
     setFilters({
       ...filters,
       OrderBy: 'Price',
-      OrderType: filters?.OrderType === 'Asc' ? 'Desc' : 'Asc',
+      OrderType,
     });
+    setItems(null);
+    dispatch(getFilteredProducts({
+      OrderBy: 'Price',
+      OrderType,
+      Page: 1,
+      PageSize: filters.Page * PAGE_SIZE,
+    }, { success: (data:ProductType[]) => setItems(data) }));
   };
 
   const handleLoadMore = () => {
@@ -38,8 +48,20 @@ const Products = () => {
 
   useEffect(() => {
     setFetching(true);
-    dispatch(getProducts(filters, { success: () => setFetching(false), error: () => setFetching(false) }));
-  }, [filters]);
+    dispatch(getProducts(filters, {
+      success: (data: ProductType[]) => {
+        setFetching(false);
+        setItems([...items || [], ...data]);
+      },
+      error: () => setFetching(false),
+    }));
+  }, [filters.Page]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearProducts());
+    };
+  }, []);
 
   return (
     <div className="wrapper">
@@ -54,82 +76,11 @@ const Products = () => {
           </div>
         </div>
 
-        {products?.items ? (
+        {items ? (
           <>
             <div className="products-list">
-              <div className="products-item">
-                <picture className="products-item--image">
-                  <img src="../../../assets/images/hat.png" alt="Product item" />
-                </picture>
-
-                <h6 className="products-item--title">ჰანგრიმენის ნაცრისფერი საწვიმარი</h6>
-                <p className="products-item--description">
-                  საუკეთესო ხარისხის საწვიმარი ჩვენი ერთგული მომხმარებლისთვის.
-                </p>
-                <span className="products-item--price"> 250.00₾ </span>
-              </div>
-
-              <div className="products-item">
-                <picture className="products-item--image">
-                  <img src="../../../assets/images/hat.png" alt="Product item" />
-                </picture>
-
-                <h6 className="products-item--title">ჰანგრიმენის ნაცრისფერი საწვიმარი</h6>
-                <p className="products-item--description">
-                  საუკეთესო ხარისხის საწვიმარი ჩვენი ერთგული მომხმარებლისთვის.
-                </p>
-                <span className="products-item--price"> 250.00₾ </span>
-              </div>
-
-              <div className="products-item">
-                <picture className="products-item--image">
-                  <img src="../../../assets/images/hat.png" alt="Product item" />
-                </picture>
-
-                <h6 className="products-item--title">ჰანგრიმენის ნაცრისფერი საწვიმარი</h6>
-                <p className="products-item--description">
-                  საუკეთესო ხარისხის საწვიმარი ჩვენი ერთგული მომხმარებლისთვის.
-                </p>
-                <span className="products-item--price"> 250.00₾ </span>
-              </div>
-
-              <div className="products-item">
-                <picture className="products-item--image">
-                  <img src="../../../assets/images/hat.png" alt="Product item" />
-                </picture>
-
-                <h6 className="products-item--title">ჰანგრიმენის ნაცრისფერი საწვიმარი</h6>
-                <p className="products-item--description">
-                  საუკეთესო ხარისხის საწვიმარი ჩვენი ერთგული მომხმარებლისთვის.
-                </p>
-                <span className="products-item--price"> 250.00₾ </span>
-              </div>
-
-              <div className="products-item">
-                <picture className="products-item--image">
-                  <img src="../../../assets/images/hat.png" alt="Product item" />
-                </picture>
-
-                <h6 className="products-item--title">ჰანგრიმენის ნაცრისფერი საწვიმარი</h6>
-                <p className="products-item--description">
-                  საუკეთესო ხარისხის საწვიმარი ჩვენი ერთგული მომხმარებლისთვის.
-                </p>
-                <span className="products-item--price"> 250.00₾ </span>
-              </div>
-
-              <div className="products-item">
-                <picture className="products-item--image">
-                  <img src="../../../assets/images/hat.png" alt="Product item" />
-                </picture>
-
-                <h6 className="products-item--title">ჰანგრიმენის ნაცრისფერი საწვიმარი</h6>
-                <p className="products-item--description">
-                  საუკეთესო ხარისხის საწვიმარი ჩვენი ერთგული მომხმარებლისთვის.
-                </p>
-                <span className="products-item--price"> 250.00₾ </span>
-              </div>
+              {items.map((el) => <ProductItem key={el.id} />)}
             </div>
-
             <div className="products-controls">
               <Button
                 loading={fetching}

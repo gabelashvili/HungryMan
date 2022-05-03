@@ -11,8 +11,8 @@ import {
   UPDATE_USER_INFO,
   UPDATE_USER_PASSWORD,
 } from '../ducks/userDuck';
-import { GET_PRODUCTS } from '../ducks/productsDuck';
-import { getProducts } from './productsSaga';
+import { GET_FILTERED_PRODUCTS, GET_PRODUCTS } from '../ducks/productsDuck';
+import { getFilteredProducts, getProducts } from './productsSaga';
 
 function* actionWatcher() {
   // auth
@@ -26,6 +26,7 @@ function* actionWatcher() {
   yield takeLatest(UPDATE_USER_PASSWORD, updateUserPassword);
   // products
   yield takeLatest(GET_PRODUCTS, getProducts);
+  yield takeLatest(GET_FILTERED_PRODUCTS, getFilteredProducts);
 }
 
 export default function* rootSaga() {
