@@ -1,22 +1,22 @@
 import { MediaType, PaginationParams, PaginationType } from './main';
 
 export interface ProductType {
-    id: number,
-    name: string,
-    price: number,
+    description: string
     discountPercent: number,
-    newPrice: number,
-    createdAt: number,
+    id: number
+    isInStock: boolean
     itemDetails: {
-        id: number,
-        item: string,
-        itemId: number,
-        size: string,
-        inStockCount: number,
         color: string
-      }[],
+        id: number
+        inStockCount: number
+        item: null | string,
+        itemId: number
+        size: null | number
+    }[]
     medias: MediaType[]
-    isInStock: true
+    name: string
+    newPrice: number
+    price: number
 }
 
 export interface GetProductsResponse extends PaginationType {

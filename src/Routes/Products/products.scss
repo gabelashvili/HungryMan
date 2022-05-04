@@ -5,6 +5,11 @@
   background-color: #0a1621;
   border-radius: 12px;
   width: 100%;
+  &--loader {
+    margin: auto;
+    width: 70px;
+  }
+
   &--filter {
     display: flex;
     align-items: center;
@@ -14,12 +19,6 @@
     overflow: auto;
     white-space: nowrap;
     position: relative;
-
-    &--loader {
-      margin: auto;
-      width: 70px;
-    }
-
 
     &::after {
       content: " ";
@@ -151,6 +150,10 @@
         max-width: 100%;
         max-height: 100%;
         height: auto;
+      }
+      video {
+        position: absolute;
+        width: 100%;
       }
     }
 

@@ -79,7 +79,7 @@ const Products = () => {
         {items ? (
           <>
             <div className="products-list">
-              {items.map((el) => <ProductItem key={el.id} />)}
+              {items.map((el) => <ProductItem key={el.id} data={el} />)}
             </div>
             <div className="products-controls">
               <Button
