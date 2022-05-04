@@ -14,12 +14,13 @@
   position: relative;
   border-radius: 8px;
   white-space: nowrap;
-  &:hover {
-    background-color: #142638;
-  }
 
   &--content {
     display: flex;
+  }
+  
+  &:hover {
+    background-color: #142638;
   }
 
   svg {
@@ -28,10 +29,8 @@
   }
 
   &--icon {
-    &-rounded {
-      width: 48px;
-      border-radius: 50%;
-    }
+    height: 48px;
+    width: 48px;
 
     &-left {
       svg {
@@ -44,6 +43,23 @@
         width: 10px;
         margin-left: 10px;
       }
+    }
+
+    &.is-small {
+      height: 36px;
+      width: 36px;
+      svg {
+        width: 8px;
+      }
+    }
+
+    &.is-medium {
+      height: 40px;
+      width: 40px;
+    }
+
+    &.is-rounded{
+      border-radius: 50%;
     }
   }
 
@@ -68,11 +84,6 @@
     &:hover {
       background-color: rgba(0, 0, 0, 0.1);
     }
-  }
-
-  &--medium {
-    width: 40px;
-    height: 40px;
   }
 
   &-pull-right {
