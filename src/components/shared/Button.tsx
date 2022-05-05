@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { ReactElement, ReactNode } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import Loader from '../../Icons/Loader';
 
 const Button = ({
@@ -18,7 +18,7 @@ export default Button;
 interface PropsTypes {
     children: ReactElement | string | ReactNode,
     classes?: string,
-    handleClick: () => void,
+    handleClick: (e:any) => void,
     loading?: boolean,
     type?: string,
     disabled?: boolean

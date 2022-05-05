@@ -1,0 +1,282 @@
+:host {
+    .wrapper {
+      flex-direction: column;
+    }
+  }
+  
+  .product-details {
+    background-color: #0a1621;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding: 32px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  
+    &--container {
+      display: flex;
+      align-items: flex-start;
+      width: 100%;
+      margin-bottom: 84px;
+    }
+  
+    &--slider {
+      flex: 1;
+    }
+    &--wrapper {
+      margin-left: 48px;
+      flex: 1;
+    }
+  
+    &--title {
+      font-family: "Helvetica Neue LT GEO";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 29px;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+  
+    &--description {
+      font-family: "Helvetica Neue LT GEO";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+      color: #55687a;
+      margin-bottom: 24px;
+    }
+  
+    &--form {
+      padding: 24px 0;
+      border-width: 1px 0;
+      border-style: solid;
+      border-color: #162a3d;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    &--label {
+      font-family: "Helvetica Neue LT GEO";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 17px;
+      color: #ffffff;
+      margin-bottom: 12px;
+      position: relative;
+  
+      &:before {
+        content: "*";
+        position: absolute;
+        right: -12px;
+        color: #fa433c;
+      }
+    }
+  
+    &--footer {
+      width: 100%;
+      display: flex;
+      margin-top: 24px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+  
+    &--sum {
+      display: flex;
+      flex-direction: column;
+      margin-right: auto;
+      &-label {
+        font-family: "Helvetica Neue LT GEO";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 14px;
+        color: #768b9d;
+        margin-bottom: 4px;
+      }
+      &-value {
+        font-family: "Helvetica Neue LT GEO";
+        font-style: normal;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 29px;
+        color: #ffffff;
+      }
+    }
+  
+    &--controls {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+      & > * {
+        min-width: 120px;
+        & + * {
+          margin-left: 12px;
+        }
+      }
+    }
+  
+    &-slider {
+      flex: 1;
+      background-color: #0c1925;
+      border-radius: 10px;
+      max-width: 50%;
+      padding: 22px 24px;
+  
+      &--image {
+        display: flex;
+        justify-content: center;
+        position: relative;
+        padding-bottom: 80%;
+        img {
+          position: absolute;
+          max-height: 100%;
+          max-width: 100%;
+          height: auto;
+        }
+      }
+  
+      &--wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+      }
+  
+      &--list {
+        display: flex;
+        justify-content: center;
+        flex-wrap: nowrap;
+        overflow: auto;
+        grid-gap: 12px;
+        padding: 0 40px;
+        width: 100%;
+  
+        &::-webkit-scrollbar {
+          width: 0;
+          height: 0;
+        }
+  
+        &::-webkit-scrollbar-track {
+          background: transparent;
+          display: none;
+        }
+  
+        &::-webkit-scrollbar-thumb {
+          background: transparent;
+        }
+  
+        &-wrapper {
+          width: 100%;
+          position: relative;
+          display: flex;
+          align-items: center;
+          max-width: calc(100% - 76px);
+  
+          &:before {
+            content: " ";
+            position: absolute;
+            left: 0;
+            width: 93px;
+            height: -webkit-fill-available;
+            background: linear-gradient(
+              270.22deg,
+              #0c1925 0.18%,
+              rgba(12, 25, 37, 0) 100.78%
+            );
+            transform: matrix(-1, 0, 0, 1, 0, 0);
+          }
+  
+          &::after {
+            content: " ";
+            position: absolute;
+            right: 0;
+            width: 93px;
+            height: -webkit-fill-available;
+            background: linear-gradient(
+              270.22deg,
+              #0c1925 0.18%,
+              rgba(12, 25, 37, 0) 100.78%
+            );
+          }
+        }
+      }
+  
+      &--item {
+        width: 88px;
+        height: 88px;
+        flex-shrink: 0;
+        border: 1px solid #162a3d;
+        border-radius: 10px;
+        background-color: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        &:hover {
+          background-color: #162a3d;
+        }
+        img {
+          max-width: 100%;
+          max-height: 100%;
+          height: auto;
+        }
+      }
+    }
+  }
+  
+  @media screen and(max-width: 1120px) {
+    .product-details {
+      padding: 24px;
+    }
+  }
+  
+  @media screen and(max-width: 870px) {
+    .product-details {
+      &--container {
+        flex-direction: column;
+        margin-bottom: 50px;
+      }
+      &-slider {
+        max-width: 100%;
+        margin: auto;
+        margin-bottom: 24px;
+        &--image {
+          padding-bottom: 40%;
+        }
+      }
+  
+      &--wrapper {
+        margin: 0;
+      }
+    }
+  }
+  
+  @media screen and(max-width: 600px) {
+    :host {
+      .wrapper {
+        padding: 0;
+      }
+    }
+    .product-details {
+      &--footer {
+        flex-direction: column;
+      }
+      &--controls {
+        flex-direction: column;
+        width: 100%;
+        margin-top: 20px;
+        margin-bottom: 0;
+        .button {
+          margin-left: 0;
+          margin-bottom: 12px;
+          width: 100%;
+        }
+      }
+    }
+  }
+  

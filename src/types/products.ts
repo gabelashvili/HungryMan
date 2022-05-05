@@ -29,5 +29,6 @@ export interface GetProductsRequest extends PaginationParams {
 }
 
 export interface ProductsInitialState {
-    productsList: GetProductsResponse | null
+    productsList: GetProductsResponse | null,
+    productDetails: null | ProductType
 }

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 
-const Loader = ({ className }: {className?: string}) => {
+const Loader = ({ className, styles }: {className?: string, styles?: CSSProperties}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -9,6 +9,7 @@ const Loader = ({ className }: {className?: string}) => {
       className={className}
       viewBox="0 0 100 100"
       preserveAspectRatio="xMidYMid"
+      style={styles}
     >
       <circle cx="84" cy="50" r="10" fill="#e15b64">
         <animate attributeName="r" repeatCount="indefinite" dur="0.25s" calcMode="spline" keyTimes="0;1" values="10;0" keySplines="0 0.5 0.5 1" begin="0s" />

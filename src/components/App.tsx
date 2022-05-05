@@ -12,6 +12,7 @@ import RecoverPassword from '../Routes/Authentication/RecoverPassword';
 import SetPassword from '../Routes/Authentication/SetPassword';
 import SignIn from '../Routes/Authentication/SignIn';
 import SignUp from '../Routes/Authentication/SignUp';
+import ProductDetails from '../Routes/Products/ProductDetails';
 import Products from '../Routes/Products/Products';
 import ChangePassword from '../Routes/UserDashboard/ChangePassword';
 import OrderHistory from '../Routes/UserDashboard/OrderHistory';
@@ -90,6 +91,10 @@ function App() {
             {
               index: true,
               element: <Products />,
+            },
+            {
+              path: ':productId',
+              element: <ProductDetails />,
             },
           ],
         },

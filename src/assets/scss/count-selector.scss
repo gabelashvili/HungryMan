@@ -1,0 +1,68 @@
+.count-selector {
+  display: flex;
+  align-items: center;
+  background-color: #112231;
+  overflow: hidden;
+  height: 48px;
+  border-radius: 6px;
+  border: 1px solid #162a3d;
+  &--value {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Helvetica";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 14px;
+    color: #fff;
+    border-width: 0 1px;
+    border-style: solid;
+    border-color: #162a3d;
+    width: 60px;
+    text-align: center;
+    height: 100%;
+  }
+  &--button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    outline: 0;
+    background-color: transparent;
+    color: #fff;
+    width: 46px;
+    height: 100%;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+
+    &:hover {
+      background-color: #233c52;
+    }
+  }
+}
+
+@media screen and(max-width: 1366px) {
+  .count-selector {
+    height: 36px;
+    &--value {
+      width: 44px;
+    }
+    &--button {
+      width: 36px;
+    }
+  }
+}
+
+
+@media screen and(max-width: 600px) {
+  .count-selector {
+    height: 32px;
+    &--value {
+      width: 36px;
+    }
+    &--button {
+      width: 32px;
+    }
+  }
+}

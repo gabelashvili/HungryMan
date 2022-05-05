@@ -1,0 +1,40 @@
+.color-selector {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  grid-gap: 8px;
+  margin-bottom: 24px;
+
+  &--label {
+    cursor: pointer;
+    position: relative;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #233c52;
+    border-radius: 50%;
+    input {
+      opacity: 0;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      cursor: pointer;
+
+      &:checked + .color-selector--box {
+        padding: 10px;
+        transform: scale(0.73);
+      }
+    }
+  }
+  &--box {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: currentColor;
+    display: flex;
+  }
+}

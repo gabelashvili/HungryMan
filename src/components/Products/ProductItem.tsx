@@ -1,12 +1,16 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { generatePath } from '../../helpers';
 import ArrowIcon from '../../Icons/ArrowIcon';
 import { ProductType } from '../../types/products';
 import Button from '../shared/Button';
 
 const ProductItem = ({ data }: {data: ProductType}) => {
   const [showMedia, setShowMedia] = useState(0);
+  const navigate = useNavigate();
 
-  const showNextSlide = () => {
+  const showNextSlide = (e: Event) => {
+    e.stopPropagation();
     const mediaLength = data.medias.length;
     if (showMedia === mediaLength - 1) {
       setShowMedia(0);
@@ -15,7 +19,8 @@ const ProductItem = ({ data }: {data: ProductType}) => {
     }
   };
 
-  const showPrevSlide = () => {
+  const showPrevSlide = (e: Event) => {
+    e.stopPropagation();
     const mediaLength = data.medias.length;
     if (showMedia === 0) {
       setShowMedia(mediaLength - 1);
@@ -25,12 +30,12 @@ const ProductItem = ({ data }: {data: ProductType}) => {
   };
 
   return (
-    <div className="products-item">
+    <div className="products-item" onClick={() => navigate(data.id.toString())}>
       <picture className="products-item--image">
-        {data.medias[showMedia]?.mediaType === 1 && <img src={`${process.env.REACT_APP_BASE_URL}${data.medias[showMedia].url}`} alt="Product item" />}
+        {data.medias[showMedia]?.mediaType === 1 && <img src={generatePath(data.medias[showMedia].url)} alt="Product item" />}
         {data.medias[showMedia]?.mediaType === 2 && (
           <video controls>
-            <source src={`${process.env.REACT_APP_BASE_URL}${data.medias[showMedia].url}`} type="video/mp4" />
+            <source src={generatePath(data.medias[showMedia].url)} type="video/mp4" />
           </video>
         )}
         {data.medias.length > 1 && (
