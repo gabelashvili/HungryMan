@@ -37,6 +37,7 @@
       line-height: 29px;
       color: #ffffff;
       margin-bottom: 12px;
+      word-break: break-all;
     }
   
     &--description {
@@ -47,6 +48,7 @@
       line-height: 20px;
       color: #55687a;
       margin-bottom: 24px;
+      word-break: break-all;
     }
   
     &--form {
