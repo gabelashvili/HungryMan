@@ -23,6 +23,7 @@ const Products = () => {
   });
   const [fetching, setFetching] = useState<boolean>(false);
 
+  // get full data filtered by price and add in local state
   const handlePriceFilter = () => {
     const OrderType = filters?.OrderType === 'Asc' ? 'Desc' : 'Asc';
     setFilters({
@@ -46,6 +47,7 @@ const Products = () => {
     });
   };
 
+  // handle page change and add new items in local state
   useEffect(() => {
     setFetching(true);
     dispatch(getProducts(filters, {
