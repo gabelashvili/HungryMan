@@ -19,7 +19,14 @@
         height: 100%;
         z-index: 1;
         cursor: pointer;
-  
+        &:disabled {
+          cursor: not-allowed;
+          & + .size-selector--box {
+            background-color: #233c52;
+            border: 1px solid #233c52;
+            cursor: not-allowed;
+          }
+        }
         &:checked + .size-selector--box {
           background-color: #233c52;
           border: 1px solid #233c52;

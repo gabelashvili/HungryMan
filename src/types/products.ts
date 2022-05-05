@@ -11,7 +11,7 @@ export interface ProductType {
         inStockCount: number
         item: null | string,
         itemId: number
-        size: null | number
+        size: string
     }[]
     medias: MediaType[]
     name: string

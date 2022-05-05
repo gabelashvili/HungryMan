@@ -56,7 +56,7 @@ const ProductItem = ({ data }: {data: ProductType}) => {
         {data.description}
       </p>
       <span className="products-item--price">
-        {data.price}
+        {data.newPrice}
         {' '}
         ლ
       </span>

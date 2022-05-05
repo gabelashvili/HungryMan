@@ -13,6 +13,7 @@
     font-family: "Helvetica";
     font-style: normal;
     font-weight: 700;
+    background-color: #112231;
     font-size: 12px;
     line-height: 14px;
     color: #fff;
@@ -22,6 +23,9 @@
     width: 60px;
     text-align: center;
     height: 100%;
+    &:focus {
+      outline: none;
+    }
   }
   &--button {
     display: flex;
