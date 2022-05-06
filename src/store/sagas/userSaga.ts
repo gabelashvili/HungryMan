@@ -25,6 +25,7 @@ export function* reqUserLogin({ params, callbacks }:{ params: UserAuthParams, ca
     }));
     toast.success('Successfully logged in...');
     localStorage.setItem('token', data.token);
+    callbacks?.success && callbacks.success();
   } catch (error: any) {
     toast.error('შეყვანილი მონაცემები არასწორია...');
     callbacks?.error && callbacks.error();
