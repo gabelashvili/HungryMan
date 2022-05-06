@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useSelector } from '../hooks/useSelector';
 import Authentication from '../Routes/Authentication/Authentication';
 import RecoverPassword from '../Routes/Authentication/RecoverPassword';
 import SetPassword from '../Routes/Authentication/SetPassword';
@@ -23,6 +24,7 @@ import './styles.scss';
 
 function App() {
   const dispatch = useDispatch();
+  const authedUser = useSelector((state) => state.userReducer.user);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -38,30 +40,33 @@ function App() {
   const defaultRoutes = [
     {
       path: '/',
-      element: <Layout />,
+      element: <Authentication />,
       children: [
         {
-          path: 'authentication',
-          element: <Authentication />,
-          children: [
-            {
-              index: true,
-              element: <SignIn />,
-            },
-            {
-              path: 'sign-up',
-              element: <SignUp />,
-            },
-            {
-              path: 'recover-password',
-              element: <RecoverPassword />,
-            },
-            {
-              path: 'set-password',
-              element: <SetPassword />,
-            },
-          ],
+          index: true,
+          element: <SignIn />,
         },
+        {
+          path: 'sign-up',
+          element: <SignUp />,
+        },
+        {
+          path: 'recover-password',
+          element: <RecoverPassword />,
+        },
+        {
+          path: 'set-password',
+          element: <SetPassword />,
+        },
+      ],
+    },
+  ];
+
+  const authedUserRoutes = [
+    {
+      path: '/',
+      element: <Layout />,
+      children: [
         {
           path: 'user-dashboard',
           element: <UserDashboard />,
@@ -97,7 +102,7 @@ function App() {
     },
   ];
 
-  const routes = useRoutes(defaultRoutes);
+  const routes = useRoutes(authedUser ? authedUserRoutes : defaultRoutes);
   return (
     <div>
       <ToastContainer autoClose={1200} limit={3} pauseOnFocusLoss={false} />
