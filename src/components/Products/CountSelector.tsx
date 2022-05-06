@@ -4,7 +4,7 @@ const CountSelector = ({ value, handleChange, maxValue }:
     {value: number, handleChange: (val:number) => void, maxValue:number}) => {
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    /^[0-9]*$/.test(value) && Number(value) <= maxValue && handleChange(Number(value));
+    /^[0-9]*$/.test(value) && Number(value) <= maxValue && Number(value) > 0 && handleChange(Number(value));
   };
   return (
     <div className="count-selector">
@@ -12,7 +12,7 @@ const CountSelector = ({ value, handleChange, maxValue }:
         className="count-selector--button"
         onClick={(e) => {
           e.preventDefault();
-          value > 0 && handleChange(value - 1);
+          value - 1 > 0 && handleChange(value - 1);
         }}
       >
         <svg width="14" height="2" viewBox="0 0 14 2" fill="none">

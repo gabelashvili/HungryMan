@@ -14,7 +14,7 @@ const ProductDetails = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [itemInStockBySelectedProps, setItemInStockBySelectedProps] = useState<number>(0);
-  const [selectedQuantity, setSelectedQuantity] = useState<number>(0);
+  const [selectedQuantity, setSelectedQuantity] = useState<number>(1);
   const [selectedColor, setSelectedColor] = useState<string>('');
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [filteredColors, setFilteredColors] = useState<string[]>([]);
@@ -74,7 +74,7 @@ const ProductDetails = () => {
     const selectedItemInStock: number = productDetails?.itemDetails
       .find((el) => el.color === selectedColor && el.size === selectedSize)?.inStockCount || 0;
     setItemInStockBySelectedProps(selectedItemInStock);
-    selectedQuantity > selectedItemInStock && setSelectedQuantity(0);
+    selectedQuantity > selectedItemInStock && setSelectedQuantity(1);
   }, [selectedSize]);
 
   return (
@@ -127,7 +127,7 @@ const ProductDetails = () => {
                     <div className="product-details--sum">
                       <span className="product-details--sum-label">ჯამური თანხა:</span>
                       <span className="product-details--sum-value">
-                        {selectedQuantity * productDetails.newPrice}
+                        {(selectedQuantity * productDetails.newPrice).toFixed(2)}
                         ლ
                       </span>
                     </div>
