@@ -3,10 +3,15 @@ import { ReactElement, ReactNode } from 'react';
 import Loader from '../../Icons/Loader';
 
 const Button = ({
-  children, classes, handleClick, loading, type, disabled,
+  children, classes, handleClick, loading, type, disabled, id,
 }: PropsTypes) => {
   return (
-    <button disabled={disabled || loading} onClick={!disabled && !loading ? handleClick : undefined} className={clsx(`button button--${type || 'primary'}`, classes)}>
+    <button
+      id={id}
+      disabled={disabled || loading}
+      onClick={!disabled && !loading ? handleClick : undefined}
+      className={clsx(`button button--${type || 'primary'}`, classes)}
+    >
       <div className="button--content" style={{ opacity: loading ? 0 : 1 }}>{children}</div>
       { loading && <div className="button--loader" style={{ opacity: loading ? 1 : 0, position: 'absolute' }}><Loader /></div>}
     </button>
@@ -21,5 +26,6 @@ interface PropsTypes {
     handleClick: (e:any) => void,
     loading?: boolean,
     type?: string,
-    disabled?: boolean
+    disabled?: boolean,
+    id?: string
 }

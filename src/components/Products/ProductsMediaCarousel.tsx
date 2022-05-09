@@ -63,7 +63,7 @@ const ProductsMediaCarousel = ({ data }: {data: MediaType[]}) => {
                 </picture>
               )
                 : (
-                  <video className={clsx('product-details-slider--item', active === i && 'active')} onClick={() => setActive(i)} src={generatePath(el.url)} />
+                  <video className={clsx('product-details-slider--item', active === i && 'active')} onClick={() => setActive(i)} src={generatePath(el.url)} key={el.url} />
                 )
             ))}
           </div>

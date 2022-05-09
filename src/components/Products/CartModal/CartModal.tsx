@@ -1,7 +1,8 @@
 import clsx from 'clsx';
 import {
-  Dispatch, SetStateAction, useEffect, useState,
+  Dispatch, SetStateAction, useEffect, useRef, useState,
 } from 'react';
+import useOutsideClick from '../../../hooks/useOutsideClick';
 import ClearIcon from '../../../Icons/ClearIcon';
 import Button from '../../shared/Button';
 import Tab from '../../shared/Tab/Tab';
@@ -11,14 +12,21 @@ import CartProducts from './CartProducts';
 import EmptyCard from './EmptyCard';
 
 const CartModal = ({ show, setShow }: PropsTypes) => {
+  const cartRef = useRef<HTMLDivElement>(null);
   const [selectedTab, setSelectedTab] = useState<number>(0);
 
   useEffect(() => {
     document.body.style.overflow = show ? 'hidden' : '';
   }, [show]);
+
+  useOutsideClick({
+    ref: cartRef,
+    disabled: !show,
+    handleOutsideClick: () => setShow(false),
+  });
   return (
     <>
-      <div className={clsx('modal modal--right', show && 'is-active')}>
+      <div ref={cartRef} className={clsx('modal modal--right', show && 'is-active')}>
         <div className="modal--header">
           <h3 className="modal--title">კალათა</h3>
           <Button type="text" classes="button--icon button-pull-right is-rounded" handleClick={() => setShow(false)}>
@@ -42,7 +50,6 @@ const CartModal = ({ show, setShow }: PropsTypes) => {
           <button className="button button--primary">ყიდვა</button>
         </div>
       </div>
-
       <div className="overlay" />
     </>
   );

@@ -9,7 +9,7 @@ const Tab = ({
     <nav className={clsx('tab', className, inline && 'inline')}>
       <ul className="tab--list">
         {tabs.map((el) => (
-          <li className={clsx('tab--item', selectedTab === el.value && 'is-active')}>
+          <li className={clsx('tab--item', selectedTab === el.value && 'is-active')} key={el.value}>
             <div className="tab--link" onClick={() => setSelectedTab(el.value)}>
               {el.label}
               {el.counter && (

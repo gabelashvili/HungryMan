@@ -41,7 +41,7 @@ const Header = () => {
             </ul>
           </nav>
           <SearchBar showSearchBar={showSearchBar} setShowSearchBar={setShowSearchBar} />
-          <Button type="none" classes="button--icon-rounded" handleClick={() => setShowCartModal(!showCartModal)}>
+          <Button type="none" classes="button--icon-rounded" handleClick={() => setShowCartModal(!showCartModal)} id="show-cart-btn">
             <BasketIcon />
             <span className="cart-count"> 5 </span>
           </Button>
