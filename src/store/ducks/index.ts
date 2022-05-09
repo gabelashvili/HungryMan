@@ -1,5 +1,5 @@
 import { userReducer } from './userDuck';
-import { productsReducer } from './productsDuck';
+import { persistProductsReducer as productsReducer } from './productsDuck';
 
 export {
   userReducer,

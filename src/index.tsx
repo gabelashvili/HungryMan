@@ -3,6 +3,8 @@ import { Provider } from 'react-redux';
 import { createRoot } from 'react-dom/client';
 
 import { BrowserRouter } from 'react-router-dom';
+import persistStore from 'redux-persist/es/persistStore';
+import { PersistGate } from 'redux-persist/integration/react';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
 import rootSaga from './store/sagas';
@@ -20,11 +22,15 @@ const root = createRoot(container as HTMLElement);
 storeRegistry.register(reduxStore);
 sagaMiddleware.run(() => rootSaga());
 
+const persistor = persistStore(reduxStore);
+
 root.render(
   <Provider store={reduxStore}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <PersistGate persistor={persistor}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </PersistGate>
   </Provider>,
 );
 

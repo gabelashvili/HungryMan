@@ -1,5 +1,6 @@
 import { AnyAction } from 'redux';
-
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 import { CallBacks } from '../../types/main';
 import {
   GetProductsRequest, GetProductsResponse, ProductsInitialState, ProductType, SelectedProductType,
@@ -27,7 +28,7 @@ const initialState: ProductsInitialState = {
   selectedProductsCart: [],
 };
 
-export const productsReducer = (state = initialState, action: AnyAction): ProductsInitialState => {
+const productsReducer = (state = initialState, action: AnyAction): ProductsInitialState => {
   const { payload } = action;
   switch (action.type) {
     case SET_PRODUCTS:
@@ -69,6 +70,14 @@ export const productsReducer = (state = initialState, action: AnyAction): Produc
       return state;
   }
 };
+
+const persistConfig = {
+  key: 'selectedProductsInCart',
+  storage,
+  whitelist: ['selectedProductsCart'],
+};
+
+export const persistProductsReducer = persistReducer(persistConfig, productsReducer);
 
 export const getProducts = (params: GetProductsRequest, callbacks?: CallBacks) => ({
   type: GET_PRODUCTS,
