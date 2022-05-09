@@ -64,7 +64,7 @@ const CartModal = ({ show, setShow }: PropsTypes) => {
           <Button disabled={selectedProducts.length === 0} handleClick={() => console.log('ყიდვა')}>ყიდვა</Button>
         </div>
       </div>
-      <div className="overlay" />
+      {show && <div className="overlay" />}
     </>
   );
 };
