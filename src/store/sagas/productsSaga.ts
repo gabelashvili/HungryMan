@@ -62,6 +62,7 @@ export function* reqAddProductInCart({ product, callbacks }:
       yield put(setProductInCart([product, ...selectedProducts]));
     }
     callbacks?.success && callbacks.success();
+    toast.success(`${product.product.name} დაემატა კალათაში`);
   } catch (error: any) {
     console.log(error);
     callbacks?.error && callbacks.error();
@@ -76,6 +77,7 @@ export function* reqRemoveProductFromCart({ productId, callbacks }:
     const filteredData = selectedProducts.filter((el) => el.product.id !== productId);
     yield put(setProductInCart(filteredData));
     callbacks?.success && callbacks.success();
+    toast.success(`${selectedProducts.find((el) => el.product.id === productId)?.product.name} წაიშალა კალათიდან`);
   } catch (error: any) {
     callbacks?.error && callbacks.error();
   }
