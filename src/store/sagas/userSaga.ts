@@ -90,7 +90,7 @@ export function* setPassword({ password, token, callbacks }:
 
 export function* logOut() {
   try {
-    yield localStorage.removeItem('token');
+    yield localStorage.clear();
     yield put(clearAuthedUser());
   } catch (error: any) {
     console.log(error);
