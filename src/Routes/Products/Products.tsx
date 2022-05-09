@@ -1,9 +1,8 @@
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import ProductItem from '../../components/Products/ProductItem';
 import Button from '../../components/shared/Button';
-import { useSelector } from '../../hooks/useSelector';
+import { useAppDispatch, useSelector } from '../../hooks/useSelector';
 import ArrowIcon from '../../Icons/ArrowIcon';
 import Loader from '../../Icons/Loader';
 import SortIcon from '../../Icons/SortIcon';
@@ -14,7 +13,7 @@ import './products.scss';
 const PAGE_SIZE = 10;
 
 const Products = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [items, setItems] = useState<ProductType[] | null>(null);
   const products = useSelector((state) => state.productsReducer.productsList);
   const [filters, setFilters] = useState<GetProductsRequest>({

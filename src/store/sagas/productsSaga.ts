@@ -8,7 +8,7 @@ import {
 import {
   GetProductsRequest, GetProductsResponse, ProductType, SelectedProductType,
 } from '../../types/products';
-import { RootState } from '../configureStore';
+import { RootState } from '../..';
 
 export function* getProducts({ params, callbacks }:{ params: GetProductsRequest, callbacks: CallBacks, type:string }) {
   try {

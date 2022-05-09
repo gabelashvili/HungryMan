@@ -10,6 +10,10 @@ import configureStore, { sagaMiddleware } from './store/configureStore';
 import storeRegistry from './store/storeRegistry';
 
 export const reduxStore = configureStore();
+
+export type AppDispatch = typeof reduxStore.dispatch;
+export type RootState = ReturnType<typeof reduxStore.getState>;
+
 const container = document.getElementById('root');
 const root = createRoot(container as HTMLElement);
 

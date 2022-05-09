@@ -15,8 +15,6 @@ const appReducer = combineReducers({
   productsReducer,
 });
 
-export type RootState = ReturnType<typeof appReducer>;
-
 export default function configureStore() {
   const middlewares = [sagaMiddleware];
 
