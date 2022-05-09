@@ -28,9 +28,14 @@ export interface GetProductsRequest extends PaginationParams {
     OrderType?: string
 }
 
+export interface SelectedProductType {
+    product: ProductType,
+    count: number
+}
 export interface ProductsInitialState {
     productsList: GetProductsResponse | null,
-    productDetails: null | ProductType
+    productDetails: null | ProductType,
+    selectedProductsCart: SelectedProductType[]
 }
 
 export enum Sizes {

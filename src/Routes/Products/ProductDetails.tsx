@@ -5,15 +5,18 @@ import ColorSelector from '../../components/Products/ColorSelector';
 import CountSelector from '../../components/Products/CountSelector';
 import ProductsMediaCarousel from '../../components/Products/ProductsMediaCarousel';
 import SizeSelector from '../../components/Products/SizeSelector';
+import Button from '../../components/shared/Button';
 import { useSelector } from '../../hooks/useSelector';
 import Loader from '../../Icons/Loader';
-import { getProductDetails } from '../../store/ducks/productsDuck';
+import { getProductDetails, reqAddProductInCart } from '../../store/ducks/productsDuck';
 import { Sizes } from '../../types/products';
 import './products-details.scss';
 
 const ProductDetails = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const productDetails = useSelector((state) => state.productsReducer.productDetails);
+  const { productId } = useParams();
   const [itemInStockBySelectedProps, setItemInStockBySelectedProps] = useState<number>(0);
   const [selectedQuantity, setSelectedQuantity] = useState<number>(1);
   const [selectedColor, setSelectedColor] = useState<string>('');
@@ -21,8 +24,25 @@ const ProductDetails = () => {
   const [filteredColors, setFilteredColors] = useState<string[]>([]);
   const [filteredSizes, setFilteredSizes] = useState<string[]>([]);
 
-  const productDetails = useSelector((state) => state.productsReducer.productDetails);
-  const { productId } = useParams();
+  const handleColorsChange = (val: string) => {
+    setSelectedColor(val === selectedColor ? '' : val);
+    const sizes: string[] = [];
+    productDetails?.itemDetails.forEach((el) => {
+      el.color === val && sizes.push(el.size);
+    });
+    setFilteredSizes(sizes.sort((a, b) => Sizes[a as keyof typeof Sizes] - Sizes[b as keyof typeof Sizes]));
+    if (!selectedSize || (selectedSize && !sizes.includes(selectedSize))) {
+      setSelectedSize(sizes[0]);
+    }
+  };
+
+  const handleSizeChange = (val: string) => {
+    setSelectedSize(val);
+  };
+
+  const handleItemAddInCart = () => {
+    productDetails && dispatch(reqAddProductInCart({ product: productDetails, count: selectedQuantity }));
+  };
 
   useEffect(() => {
     if (productId) {
@@ -47,22 +67,6 @@ const ProductDetails = () => {
     }
   }, [productDetails]);
 
-  const handleColorsChange = (val: string) => {
-    setSelectedColor(val === selectedColor ? '' : val);
-    const sizes: string[] = [];
-    productDetails?.itemDetails.forEach((el) => {
-      el.color === val && sizes.push(el.size);
-    });
-    setFilteredSizes(sizes.sort((a, b) => Sizes[a as keyof typeof Sizes] - Sizes[b as keyof typeof Sizes]));
-    if (!selectedSize || (selectedSize && !sizes.includes(selectedSize))) {
-      setSelectedSize(sizes[0]);
-    }
-  };
-
-  const handleSizeChange = (val: string) => {
-    setSelectedSize(val);
-  };
-
   useEffect(() => {
     if (productDetails) {
       handleColorsChange(productDetails.itemDetails[0].color || '');
@@ -75,6 +79,8 @@ const ProductDetails = () => {
     const selectedItemInStock: number = productDetails?.itemDetails
       .find((el) => el.color === selectedColor && el.size === selectedSize)?.inStockCount || 0;
     setItemInStockBySelectedProps(selectedItemInStock);
+
+    // if props change and user selected number is less than current item inStockCount set quantity 1
     selectedQuantity > selectedItemInStock && setSelectedQuantity(1);
   }, [selectedSize]);
 
@@ -134,9 +140,8 @@ const ProductDetails = () => {
                     </div>
 
                     <div className="product-details--controls">
-                      <button className="button button--primary">ყიდვა</button>
-
-                      <button className="button button--secondary">კალათაში დამატება</button>
+                      <Button handleClick={() => console.log('yidva')}>ყიდვა</Button>
+                      <Button handleClick={handleItemAddInCart} disabled={selectedQuantity === 0} type="secondary">კალათაში დამატება</Button>
                     </div>
                   </div>
                 </div>

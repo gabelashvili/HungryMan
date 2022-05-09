@@ -33,14 +33,14 @@ const ProductsMediaCarousel = ({ data }: {data: MediaType[]}) => {
   };
   return (
     <div className="product-details-slider">
-      {data[active].mediaType === 1 ? (
+      {data[active]?.mediaType === 1 ? (
         <picture className="product-details-slider--image">
-          <img src={generatePath(data[active].url)} alt="t" />
+          <img src={generatePath(data[active]?.url)} alt="t" />
         </picture>
       ) : (
         <div className="product-details-slider--image">
           <video controls style={{ position: 'absolute', width: '100%' }}>
-            <source src={generatePath(data[active].url)} type="video/mp4" />
+            <source src={generatePath(data[active]?.url)} type="video/mp4" />
           </video>
         </div>
       )}
@@ -57,7 +57,7 @@ const ProductsMediaCarousel = ({ data }: {data: MediaType[]}) => {
         <div className="product-details-slider--list-wrapper">
           <div className={clsx('product-details-slider--list', !disablePrevBtn && 'blur-start', !disableNextBtn && 'blur-end')} ref={sliderListRef}>
             {data.map((el, i) => (
-              el.mediaType === 1 ? (
+              el?.mediaType === 1 ? (
                 <picture className={clsx('product-details-slider--item', active === i && 'active')} key={el.url} onClick={() => setActive(i)}>
                   <img src={generatePath(el.url)} alt="" key={el.url} />
                 </picture>

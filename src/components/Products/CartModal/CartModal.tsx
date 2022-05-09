@@ -3,27 +3,40 @@ import {
   Dispatch, SetStateAction, useEffect, useRef, useState,
 } from 'react';
 import useOutsideClick from '../../../hooks/useOutsideClick';
+import { useSelector } from '../../../hooks/useSelector';
 import ClearIcon from '../../../Icons/ClearIcon';
 import Button from '../../shared/Button';
 import Tab from '../../shared/Tab/Tab';
 import './cart-modal.scss';
 import CartCoubs from './CartCoubs';
 import CartProducts from './CartProducts';
-// import EmptyCard from './EmptyCard';
 
 const CartModal = ({ show, setShow }: PropsTypes) => {
+  const selectedProducts = useSelector((state) => state.productsReducer.selectedProductsCart);
   const cartRef = useRef<HTMLDivElement>(null);
   const [selectedTab, setSelectedTab] = useState<number>(0);
-
-  useEffect(() => {
-    document.body.style.overflow = show ? 'hidden' : '';
-  }, [show]);
+  const tabs = [
+    {
+      label: 'უჯრები',
+      value: 0,
+    },
+    {
+      label: 'პროდუქცია',
+      value: 1,
+      counter: selectedProducts.length,
+    },
+  ];
 
   useOutsideClick({
     ref: cartRef,
     disabled: !show,
     handleOutsideClick: () => setShow(false),
   });
+
+  useEffect(() => {
+    document.body.style.overflow = show ? 'hidden' : '';
+  }, [show]);
+
   return (
     <>
       <div ref={cartRef} className={clsx('modal modal--right', show && 'is-active')}>
@@ -38,16 +51,17 @@ const CartModal = ({ show, setShow }: PropsTypes) => {
           <div className="cart-tab">
             <Tab tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
           </div>
-          {selectedTab === 0 ? <CartCoubs /> : <CartProducts />}
-          {/* <EmptyCard  /> */}
+          {selectedTab === 0 ? <CartCoubs /> : <CartProducts data={selectedProducts} />}
         </div>
 
         <div className="modal--footer">
           <div className="cart-modal--details">
             <span>ჯამური თანხა:</span>
-            1400,50.00₾
+            {/* TODO: show price based on selected tab */}
+            {selectedProducts.reduce((acc, cur) => acc + cur.product.newPrice * cur.count, 0).toFixed(2)}
+            ლ
           </div>
-          <button className="button button--primary">ყიდვა</button>
+          <Button disabled={selectedProducts.length === 0} handleClick={() => console.log('ყიდვა')}>ყიდვა</Button>
         </div>
       </div>
       <div className="overlay" />
@@ -56,18 +70,6 @@ const CartModal = ({ show, setShow }: PropsTypes) => {
 };
 
 export default CartModal;
-
-const tabs = [
-  {
-    label: 'უჯრები',
-    value: 0,
-    counter: 12,
-  },
-  {
-    label: 'პროდუქცია',
-    value: 1,
-  },
-];
 
 interface PropsTypes {
     show: boolean,

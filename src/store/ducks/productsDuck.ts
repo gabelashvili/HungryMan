@@ -2,7 +2,7 @@ import { AnyAction } from 'redux';
 
 import { CallBacks } from '../../types/main';
 import {
-  GetProductsRequest, GetProductsResponse, ProductsInitialState, ProductType,
+  GetProductsRequest, GetProductsResponse, ProductsInitialState, ProductType, SelectedProductType,
 } from '../../types/products';
 
 export const GET_PRODUCTS = 'products/getProducts';
@@ -16,9 +16,15 @@ export const GET_PRODUCT_DETAILS = 'products/getProductDetails';
 export const SET_PRODUCT_DETAILS = 'products/setProductDetails';
 export const CLEAR_PRODUCT_DETAILS = 'products/clearProductDetails';
 
+export const REQ_ADD_PRODUCT_IN_CART = 'products/reqAddProductInCart';
+export const SET_PRODUCTS_IN_CART = 'products/setProductSInCart';
+export const REQ_REMOVE_PRODUCT_FROM_CART = 'products/reqRemoveProductFromCart';
+export const CLEAR_PRODUCT_CART = 'products/clearProductCart';
+
 const initialState: ProductsInitialState = {
   productsList: null,
   productDetails: null,
+  selectedProductsCart: [],
 };
 
 export const productsReducer = (state = initialState, action: AnyAction): ProductsInitialState => {
@@ -48,6 +54,16 @@ export const productsReducer = (state = initialState, action: AnyAction): Produc
       return {
         ...state,
         productDetails: null,
+      };
+    case SET_PRODUCTS_IN_CART:
+      return {
+        ...state,
+        selectedProductsCart: payload as SelectedProductType[],
+      };
+    case CLEAR_PRODUCT_CART:
+      return {
+        ...state,
+        selectedProductsCart: [],
       };
     default:
       return state;
@@ -96,4 +112,27 @@ export const setProductDetails = (payload: ProductType, callbacks?: CallBacks) =
 
 export const clearProductDetails = () => ({
   type: CLEAR_PRODUCT_DETAILS,
+});
+
+// products cart
+export const reqAddProductInCart = (product: SelectedProductType, callbacks?: CallBacks) => ({
+  type: REQ_ADD_PRODUCT_IN_CART,
+  product,
+  callbacks,
+});
+
+export const setProductInCart = (payload: SelectedProductType[], callbacks?: CallBacks) => ({
+  type: SET_PRODUCTS_IN_CART,
+  payload,
+  callbacks,
+});
+
+export const reqRemoveProductFromCart = (productId: number, callbacks?: CallBacks) => ({
+  type: REQ_REMOVE_PRODUCT_FROM_CART,
+  productId,
+  callbacks,
+});
+
+export const clearProductCart = () => ({
+  type: CLEAR_PRODUCT_CART,
 });
