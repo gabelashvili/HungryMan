@@ -8,7 +8,6 @@ const useOutsideClick = ({ ref, disabled, handleOutsideClick }: PropsTypes) => {
   };
 
   useEffect(() => {
-    console.log(ref);
     !disabled && document.addEventListener('mousedown', handleClickOutside);
     return () => {
       !disabled && document.removeEventListener('mousedown', handleClickOutside);

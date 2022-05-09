@@ -9,7 +9,7 @@ import Tab from '../../shared/Tab/Tab';
 import './cart-modal.scss';
 import CartCoubs from './CartCoubs';
 import CartProducts from './CartProducts';
-import EmptyCard from './EmptyCard';
+// import EmptyCard from './EmptyCard';
 
 const CartModal = ({ show, setShow }: PropsTypes) => {
   const cartRef = useRef<HTMLDivElement>(null);
