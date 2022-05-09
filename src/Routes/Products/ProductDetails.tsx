@@ -8,6 +8,7 @@ import SizeSelector from '../../components/Products/SizeSelector';
 import { useSelector } from '../../hooks/useSelector';
 import Loader from '../../Icons/Loader';
 import { getProductDetails } from '../../store/ducks/productsDuck';
+import { Sizes } from '../../types/products';
 import './products-details.scss';
 
 const ProductDetails = () => {
@@ -69,7 +70,7 @@ const ProductDetails = () => {
   }, [productDetails]);
 
   // set item quantity based on selected properties and if selected
-  //   item quantity is less than user have typed quantity, set quantity 0
+  //   item quantity is less than user have typed quantity, set quantity 1
   useEffect(() => {
     const selectedItemInStock: number = productDetails?.itemDetails
       .find((el) => el.color === selectedColor && el.size === selectedSize)?.inStockCount || 0;
@@ -156,13 +157,3 @@ const ProductDetails = () => {
 };
 
 export default ProductDetails;
-
-enum Sizes {
-  XS =1,
-  S = 2,
-  M = 3,
-  L = 4,
-  XL = 5,
-  '2XL' = 6,
-  '3XL' = 7,
-}

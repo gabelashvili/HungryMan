@@ -32,3 +32,13 @@ export interface ProductsInitialState {
     productsList: GetProductsResponse | null,
     productDetails: null | ProductType
 }
+
+export enum Sizes {
+    XS =1,
+    S = 2,
+    M = 3,
+    L = 4,
+    XL = 5,
+    '2XL' = 6,
+    '3XL' = 7,
+  }
