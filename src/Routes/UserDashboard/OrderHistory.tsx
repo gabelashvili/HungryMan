@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import OrderHistoryList, { OrderHistoryListItem } from '../../components/UserDashboard/OrderHistoryList';
-import UserDashboardTab from '../../components/UserDashboard/UserDashboardTab/UserDashboardTab';
+import Tab from '../../components/shared/Tab/Tab';
 import Hat from '../../assets/images/hat.png';
 import CellsIcon from '../../assets/images/cells-icon.svg';
 import UserDashboardModal from '../../components/UserDashboard/UserDashboardModal';
 
 const OrderHistory = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
-  const [selectedTab, setSelectedTab] = useState<0 | 1>(0);
+  const [selectedTab, setSelectedTab] = useState<number>(0);
 
   const handleItemInfoClick = (id: number) => setSelectedItemId(id);
   return (
@@ -20,7 +20,7 @@ const OrderHistory = () => {
       <div className="panel--header with-border">
         <h3 className="panel--title">შეკვეთების ისტორია</h3>
       </div>
-      <UserDashboardTab selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+      <Tab inline selectedTab={selectedTab} setSelectedTab={setSelectedTab} tabs={tabs} />
       <div className="panel--content">
         <OrderHistoryList
           data={selectedTab === 0 ? products : cells}
@@ -68,5 +68,18 @@ const cells: OrderHistoryListItem[] = [
     desc: 'საჩუქარი 40 ლარიან შენაძენზე',
     price: '265ლ',
     img: Hat,
+  },
+];
+
+const tabs = [
+  {
+    label: 'უჯრები',
+    value: 0,
+    counter: 12,
+  },
+  {
+    label: 'პროდუქცია',
+    value: 1,
+    counter: 12,
   },
 ];

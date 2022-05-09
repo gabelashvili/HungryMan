@@ -44,6 +44,6 @@ const UserDashboardModal = ({ selectedTab, open, handleClose }: PropsType) => {
 export default UserDashboardModal;
 
 interface PropsType {
-  selectedTab: 0 | 1,
+  selectedTab: number,
   open: boolean, handleClose: () => void
 }
