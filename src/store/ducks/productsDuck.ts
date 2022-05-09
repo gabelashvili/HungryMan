@@ -72,7 +72,7 @@ const productsReducer = (state = initialState, action: AnyAction): ProductsIniti
 };
 
 const persistConfig = {
-  key: 'selectedProductsInCart',
+  key: 'productsReducer',
   storage,
   whitelist: ['selectedProductsCart'],
 };
