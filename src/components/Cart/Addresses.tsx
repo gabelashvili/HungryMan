@@ -1,6 +1,13 @@
+import { useState } from 'react';
+import PlusIcon from '../../Icons/PlusIcon';
+import AddAddress from '../shared/AddAddress';
+import Button from '../shared/Button';
+
 const Addresses = () => {
+  const [showAdd, setShowAdd] = useState<boolean>(false);
   return (
     <>
+      <AddAddress show={showAdd} setShow={setShowAdd} />
       <h4 className="panel--title">აირჩიე მისამართი</h4>
       <div className="radio-list">
         <div className="form__group">
@@ -18,12 +25,10 @@ const Addresses = () => {
           </label>
         </div>
       </div>
-      <button className="button button--icon-left button--secondary">
-        <svg fill="none" viewBox="0 0 14 14">
-          <path fill="currentColor" d="M6 6V0h2v6h6v2H8v6H6V8H0V6h6Z" />
-        </svg>
+      <Button handleClick={() => setShowAdd(true)} type="secondary" classes="button--icon-left ">
+        <PlusIcon />
         მისამართის დამატება
-      </button>
+      </Button>
     </>
   );
 };

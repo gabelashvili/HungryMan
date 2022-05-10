@@ -1,11 +1,16 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import ClearIcon from '../../Icons/ClearIcon';
+import PlusIcon from '../../Icons/PlusIcon';
+import AddAddress from '../shared/AddAddress';
 import AddressForm from '../shared/AddressForm';
 import Button from '../shared/Button';
 
 const MyAddresses = ({ show, setShow }: {show: boolean, setShow: Dispatch<SetStateAction<boolean>>}) => {
+  const [showAddNewAddressModal, setShowAddNewAddressModal] = useState<boolean>(false);
   return (
-    show ? (
+    <>
+      <AddAddress show={showAddNewAddressModal} setShow={setShowAddNewAddressModal} />
+      { show && (
       <>
         <div className="modal modal--small">
           <div className="modal--header">
@@ -16,17 +21,23 @@ const MyAddresses = ({ show, setShow }: {show: boolean, setShow: Dispatch<SetSta
             <div className="radio-list">
               <AddressForm />
             </div>
-            <button className="button button--icon-left button--secondary">
-              <svg fill="none" viewBox="0 0 14 14">
-                <path fill="currentColor" d="M6 6V0h2v6h6v2H8v6H6V8H0V6h6Z" />
-              </svg>
+            <Button
+              type="secondary"
+              classes=" button--icon-left button--secondary"
+              handleClick={() => {
+                setShow(false);
+                setShowAddNewAddressModal(true);
+              }}
+            >
+              <PlusIcon />
               მისამართის დამატება
-            </button>
+            </Button>
           </div>
         </div>
         <div className="overlay" />
       </>
-    ) : null
+      )}
+    </>
   );
 };
 

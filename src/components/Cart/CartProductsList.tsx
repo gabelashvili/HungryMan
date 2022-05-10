@@ -45,14 +45,14 @@ const CartProductsList = ({ data }: {data: SelectedProductType[]}) => {
                     onClick={() => el.count - 1 >= 0
                       && dispatch(updateProductCountInCart(el.product.itemDetails[0].id, el.count - 1))}
                   >
-                    <PlusIcon />
+                    <MinusIcon />
                   </button>
                   <span className="count-selector--value">{el.count}</span>
                   <button
                     className="count-selector--button"
                     onClick={() => dispatch(updateProductCountInCart(el.product.itemDetails[0].id, el.count + 1))}
                   >
-                    <MinusIcon />
+                    <PlusIcon />
                   </button>
                 </div>
                 <Button handleClick={() => dispatch(reqRemoveProductFromCart(el.product.itemDetails[0].id))} type="icon"><ClearIcon /></Button>
