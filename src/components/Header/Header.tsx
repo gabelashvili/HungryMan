@@ -7,6 +7,7 @@ import BasketIcon from '../../Icons/BasketIcon';
 import CartModal from '../Products/CartModal/CartModal';
 import Button from '../shared/Button';
 import './header.scss';
+import MyAddresses from './MyAddresses';
 import SearchBar from './SearchBar/SearchBar';
 import UserMenu from './UserMenu/UserMenu';
 
@@ -15,9 +16,11 @@ const Header = () => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [showSearchBar, setShowSearchBar] = useState<boolean>(false);
   const [showCartModal, setShowCartModal] = useState<boolean>(false);
+  const [showAddresses, setShowAddresses] = useState<boolean>(false);
 
   return (
     <>
+      <MyAddresses show={showAddresses} setShow={setShowAddresses} />
       <CartModal show={showCartModal} setShow={setShowCartModal} />
       <header className="header">
         <div className="wrapper">
@@ -53,7 +56,11 @@ const Header = () => {
                 alt="icon"
               />
             </button>
-            <UserMenu handleClickOutside={() => setShowMenu(false)} open={showMenu} />
+            <UserMenu
+              handleClickOutside={() => setShowMenu(false)}
+              open={showMenu}
+              showMyAddressModal={() => setShowAddresses(true)}
+            />
           </div>
         </div>
       </header>

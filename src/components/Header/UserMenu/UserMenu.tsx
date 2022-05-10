@@ -10,8 +10,10 @@ import PersonalInfoIcon from '../../../Icons/PersonalInfoIcon';
 import { logOut } from '../../../store/ducks/userDuck';
 import './user-menu.scss';
 
-const UserMenu = ({ handleClickOutside, open, isRelative }: {
-  handleClickOutside?: () => void, open: boolean, isRelative?: boolean
+const UserMenu = ({
+  handleClickOutside, open, isRelative, showMyAddressModal,
+}: {
+  handleClickOutside?: () => void, open: boolean, isRelative?: boolean, showMyAddressModal: () => void
 }) => {
   const { pathname } = useLocation();
   const dispatch = useDispatch();
@@ -51,6 +53,14 @@ const UserMenu = ({ handleClickOutside, open, isRelative }: {
               </Link>
             </li>
           ))}
+          <li className="user-menu--item">
+            <a className="user-menu--link " onClick={showMyAddressModal}>
+              <div className="user-menu--icon">
+                <PersonalInfoIcon />
+              </div>
+              ჩემი მისამართები
+            </a>
+          </li>
           <li className="user-menu--item">
             <a className="user-menu--link log-out" onClick={() => dispatch(logOut())}>
               <div className="user-menu--icon">
