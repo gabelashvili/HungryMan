@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import ColorSelector from '../../components/Products/ColorSelector';
-import CountSelector from '../../components/Products/CountSelector';
-import ProductsMediaCarousel from '../../components/Products/ProductsMediaCarousel';
-import SizeSelector from '../../components/Products/SizeSelector';
-import Button from '../../components/shared/Button';
-import { useSelector } from '../../hooks/useSelector';
-import Loader from '../../Icons/Loader';
-import { getProductDetails, reqAddProductInCart } from '../../store/ducks/productsDuck';
-import { Sizes } from '../../types/products';
+import ColorSelector from '../../../components/Products/ColorSelector';
+import CountSelector from '../../../components/Products/CountSelector';
+import ProductsMediaCarousel from '../../../components/Products/ProductsMediaCarousel';
+import SizeSelector from '../../../components/Products/SizeSelector';
+import Button from '../../../components/shared/Button';
+import { useSelector } from '../../../hooks/useSelector';
+import Loader from '../../../Icons/Loader';
+import { getProductDetails, reqAddProductInCart } from '../../../store/ducks/productsDuck';
+import { Sizes } from '../../../types/products';
 import './products-details.scss';
 
 const ProductDetails = () => {

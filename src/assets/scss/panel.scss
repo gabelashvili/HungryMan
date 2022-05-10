@@ -3,6 +3,10 @@
   flex-direction: column;
   background: #112231;
   border-radius: 10px;
+
+  &.without-header {
+    padding-top: 24px;
+  }
   &--header {
     display: flex;
     align-items: center;
@@ -24,6 +28,7 @@
     font-weight: 400;
     line-height: 15px;
     margin-bottom: 0;
+    color: #fff;
   }
 
   &--content {
