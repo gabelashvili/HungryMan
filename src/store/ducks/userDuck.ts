@@ -1,5 +1,7 @@
 import { AnyAction } from 'redux';
 import {
+  AddAddressParams,
+  AddressType,
   AuthedUser, AuthInitialState, UserAuthParams, UserSignUpParams,
 } from '../../types/user';
 import { CallBacks } from '../../types/main';
@@ -21,8 +23,14 @@ export const UPDATE_USER_INFO = 'user/updateUserInfo';
 
 export const UPDATE_USER_PASSWORD = 'user/updateUserPassword';
 
+export const GET_USER_ADDRESSES = 'user/getUserAddresses';
+export const SET_USER_ADDRESSES = 'user/setUserAddresses';
+export const CLEAR_USER_ADDRESSES = 'user/clearUserAddresses';
+export const ADD_USER_ADDRESS = 'user/addUserAddress';
+
 const initialState: AuthInitialState = {
   user: null,
+  addresses: null,
 };
 
 export const userReducer = (state = initialState, action: AnyAction): AuthInitialState => {
@@ -37,6 +45,16 @@ export const userReducer = (state = initialState, action: AnyAction): AuthInitia
       return {
         ...state,
         user: null,
+      };
+    case SET_USER_ADDRESSES:
+      return {
+        ...state,
+        addresses: payload as AddressType[],
+      };
+    case CLEAR_USER_ADDRESSES:
+      return {
+        ...state,
+        addresses: null,
       };
     default:
       return state;
@@ -95,6 +113,24 @@ export const updateUserInfo = (params: any, callbacks?: CallBacks) => ({
 
 export const updateUserPassword = (params: {oldPassword:string, password:string}, callbacks?: CallBacks) => ({
   type: UPDATE_USER_PASSWORD,
+  params,
+  callbacks,
+});
+
+export const getUserAddresses = (userId: number, callbacks?: CallBacks) => ({
+  type: GET_USER_ADDRESSES,
+  userId,
+  callbacks,
+});
+
+export const setUserAddresses = (payload: AddressType[], callbacks?: CallBacks) => ({
+  type: SET_USER_ADDRESSES,
+  payload,
+  callbacks,
+});
+
+export const addUserAddress = (params: AddAddressParams, callbacks?: CallBacks) => ({
+  type: ADD_USER_ADDRESS,
   params,
   callbacks,
 });

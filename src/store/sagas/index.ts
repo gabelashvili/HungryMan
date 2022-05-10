@@ -1,9 +1,11 @@
 import { all, takeLatest } from 'redux-saga/effects';
 import {
-  checkToken, logOut, reqPasswordRecover, reqUserLogin, setPassword, signUp, updateUserInfo, updateUserPassword,
+  addUserAddress,
+  checkToken, getUserAddresses, logOut, reqPasswordRecover, reqUserLogin, setPassword, signUp, updateUserInfo, updateUserPassword,
 } from './userSaga';
 import {
-  CHECK_TOKEN, LOG_OUT,
+  ADD_USER_ADDRESS,
+  CHECK_TOKEN, GET_USER_ADDRESSES, LOG_OUT,
   REQ_PASSWORD_RECOVER,
   REQ_USER_LOGIN,
   REQ_USER_SIGN_UP,
@@ -29,7 +31,7 @@ import {
 } from './productsSaga';
 
 function* actionWatcher() {
-  // auth
+  // user
   yield takeLatest(REQ_USER_LOGIN, reqUserLogin);
   yield takeLatest(REQ_USER_SIGN_UP, signUp);
   yield takeLatest(CHECK_TOKEN, checkToken);
@@ -38,6 +40,7 @@ function* actionWatcher() {
   yield takeLatest(LOG_OUT, logOut);
   yield takeLatest(UPDATE_USER_INFO, updateUserInfo);
   yield takeLatest(UPDATE_USER_PASSWORD, updateUserPassword);
+  yield takeLatest(GET_USER_ADDRESSES, getUserAddresses);
   // products
   yield takeLatest(GET_PRODUCTS, getProducts);
   yield takeLatest(GET_FILTERED_PRODUCTS, getFilteredProducts);
@@ -45,6 +48,7 @@ function* actionWatcher() {
   yield takeLatest(REQ_ADD_PRODUCT_IN_CART, reqAddProductInCart);
   yield takeLatest(REQ_REMOVE_PRODUCT_FROM_CART, reqRemoveProductFromCart);
   yield takeLatest(UPDATE_PRODUCT_COUNT_IN_CART, updateProductCountInCart);
+  yield takeLatest(ADD_USER_ADDRESS, addUserAddress);
 }
 
 export default function* rootSaga() {

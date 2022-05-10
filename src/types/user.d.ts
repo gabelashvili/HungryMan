@@ -50,6 +50,20 @@ export interface AuthedUser {
   identificationCode: null | string
 }
 
+export interface AddressType {
+  address: string,
+  city: string,
+  createdAt: string,
+  id: number,
+  name: string,
+  userId: number
+}
+
+export interface AddAddressParams {
+  city: string,
+  address: string
+}
 export interface AuthInitialState {
-  user: AuthedUser | null
+  user: AuthedUser | null,
+  addresses: null | AddressType[]
 }

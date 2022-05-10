@@ -1,16 +1,29 @@
 import { Dispatch, SetStateAction, useState } from 'react';
+import { useAppDispatch } from '../../hooks/useSelector';
 import ClearIcon from '../../Icons/ClearIcon';
+import { addUserAddress } from '../../store/ducks/userDuck';
+import { AddAddressParams } from '../../types/user';
 import Button from './Button';
 import TextField from './TextField';
 
 const AddAddress = ({ show, setShow }: {show: boolean, setShow: Dispatch<SetStateAction<boolean>>}) => {
-  const [values, setValues] = useState<{
-      address: string,
-      city: string
-  }>({
+  const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [values, setValues] = useState<AddAddressParams>({
     city: '',
     address: '',
   });
+
+  const handleAdd = () => {
+    setLoading(true);
+    dispatch(addUserAddress(values, {
+      success: () => {
+        setLoading(false);
+        setShow(false);
+      },
+      error: () => setLoading(false),
+    }));
+  };
   return (
     show ? (
       <>
@@ -25,7 +38,7 @@ const AddAddress = ({ show, setShow }: {show: boolean, setShow: Dispatch<SetStat
             <br />
             <TextField value={values.address} handleChange={(address) => setValues({ ...values, address })} label="მისამართი" inputName="address" />
             <br />
-            <Button handleClick={() => console.log('add')} type="primary">მისამართის დამატება</Button>
+            <Button disabled={!values.city || !values.address} loading={loading} handleClick={handleAdd} type="primary">მისამართის დამატება</Button>
           </div>
         </div>
 

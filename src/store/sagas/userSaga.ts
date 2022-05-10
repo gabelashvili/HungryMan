@@ -3,8 +3,10 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { CallBacks } from '../../types/main.d';
 import axiosInstance from '../../helpers/axiosInstance';
-import { clearAuthedUser, setAuthedUser } from '../ducks/userDuck';
+import { clearAuthedUser, setAuthedUser, setUserAddresses } from '../ducks/userDuck';
 import {
+  AddAddressParams,
+  AddressType,
   UserAuthParams, UserSignInResponse, UserSignUpParams,
 } from '../../types/user';
 
@@ -127,6 +129,30 @@ export function* updateUserPassword({ params, callbacks }:
     callbacks?.success && callbacks.success();
   } catch (error: any) {
     toast.error(error.response.status === 500 ? error.response.data.Message : 'მოხდა შეცდომა...');
+    callbacks?.error && callbacks.error(error.response.status);
+  }
+}
+
+export function* getUserAddresses({ userId, callbacks }:
+  { userId: number, callbacks: CallBacks, type:string }) {
+  try {
+    const { data }: {data: any} = yield axiosInstance.get('/Core/UserAddress/GetUserAddresses', { params: { userId } });
+    yield put(setUserAddresses(data));
+    callbacks?.success && callbacks.success();
+  } catch (error: any) {
+    toast.error('მოხდა შეცდომა...');
+    callbacks?.error && callbacks.error(error.response.status);
+  }
+}
+
+export function* addUserAddress({ params, callbacks }:
+  { params: AddAddressParams, callbacks: CallBacks, type:string }) {
+  try {
+    yield axiosInstance.post('/Core/UserAddress/CreateUserAddress', params);
+    toast.success('მისამართი წარმატებით დაემატა...');
+    callbacks?.success && callbacks.success();
+  } catch (error: any) {
+    toast.error('მოხდა შეცდომა...');
     callbacks?.error && callbacks.error(error.response.status);
   }
 }

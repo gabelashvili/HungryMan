@@ -1,12 +1,14 @@
-const AddressForm = () => {
+import { AddressType } from '../../types/user';
+
+const AddressForm = ({ data }: {data: AddressType}) => {
   return (
     <div className="form__group">
       <label className="input--radio radio-selector" htmlFor="address-1">
         <input type="radio" id="address-1" name="address" />
         <div className="address-info">
-          <h5 className="address--name">თბილისი</h5>
+          <h5 className="address--name">{data.city}</h5>
           <p className="address--description">
-            ვაჟა-ფშაველას გამზირი N102, კვ.6 / სართ 8
+            {data.address}
           </p>
         </div>
         <span className="radio-box">
