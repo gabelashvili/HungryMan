@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import {
   Dispatch, SetStateAction, useEffect, useRef, useState,
 } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useOutsideClick from '../../../hooks/useOutsideClick';
 import { useSelector } from '../../../hooks/useSelector';
 import ClearIcon from '../../../Icons/ClearIcon';
@@ -12,6 +13,7 @@ import CartCoubs from './CartCoubs';
 import CartProducts from './CartProducts';
 
 const CartModal = ({ show, setShow }: PropsTypes) => {
+  const navigate = useNavigate();
   const selectedProducts = useSelector((state) => state.productsReducer.selectedProductsCart);
   const cartRef = useRef<HTMLDivElement>(null);
   const [selectedTab, setSelectedTab] = useState<number>(0);
@@ -61,7 +63,7 @@ const CartModal = ({ show, setShow }: PropsTypes) => {
             {selectedProducts.reduce((acc, cur) => acc + cur.product.newPrice * cur.count, 0).toFixed(2)}
             ლ
           </div>
-          <Button disabled={selectedProducts.length === 0} handleClick={() => console.log('ყიდვა')}>ყიდვა</Button>
+          <Button disabled={selectedProducts.length === 0} handleClick={() => navigate('/products/cart')}>ყიდვა</Button>
         </div>
       </div>
       {show && <div className="overlay" />}
