@@ -1,3 +1,7 @@
+import Paypal from '../../assets/images/paypal.png';
+import MasterCard from '../../assets/images/mastercard.png';
+import Visa from '../../assets/images/visa.png';
+
 const PaymentMethod = () => {
   return (
     <>
@@ -8,7 +12,7 @@ const PaymentMethod = () => {
             <input type="radio" id="payment-1" name="payment" />
             <div className="payment-image--list">
               <picture className="payment-image">
-                <img src="http://localhost:4200/assets/images/hat.png" alt="payment" />
+                <img src={Paypal} alt="payment" />
               </picture>
             </div>
             <span className="radio-title">Paypal</span>
@@ -22,10 +26,10 @@ const PaymentMethod = () => {
             <input type="radio" id="payment-2" name="payment" />
             <div className="payment-image--list">
               <picture className="payment-image">
-                <img src="../../../assets/images/hat.png" alt="payment" />
+                <img src={MasterCard} alt="payment" />
               </picture>
               <picture className="payment-image">
-                <img src="../../../assets/images/hat.png" alt="payment" />
+                <img src={Visa} alt="payment" />
               </picture>
             </div>
             <span className="radio-title">ბარათით</span>
