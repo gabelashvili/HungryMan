@@ -15,7 +15,7 @@
       min-width: 330px;
       margin-left: 24px;
   
-      .button {
+      .button:not(#add-address-btn) {
         width: 100%;
         margin-bottom: 24px;
         svg {

@@ -17,7 +17,7 @@ const AddAddress = ({ show, setShow }: {show: boolean, setShow: Dispatch<SetStat
         <div className="modal modal--small">
           <div className="modal--header">
             <h3 className="modal--title">ახალი მისამართი</h3>
-            <Button handleClick={() => setShow(false)} classes="button--icon is-rounded button-pull-right" type="text"><ClearIcon /></Button>
+            <Button id="add-address-btn" handleClick={() => setShow(false)} classes="button--icon is-rounded button-pull-right" type="text"><ClearIcon /></Button>
           </div>
 
           <div className="modal--content">
