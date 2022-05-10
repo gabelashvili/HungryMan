@@ -63,7 +63,7 @@ const SignUp = () => {
       }, {
         success: () => {
           setLoading(false);
-          navigate('/');
+          navigate('/auth');
         },
         error: () => setLoading(false),
       }));

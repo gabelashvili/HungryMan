@@ -60,7 +60,7 @@ const SignIn = () => {
       </form>
       <div className="popup--form-controls">
         <Button disabled={!isInputsValid(values)} loading={loading} handleClick={handleClick} type="primary">ავტორიზაცია</Button>
-        <Button handleClick={() => navigate('/recover-password')} type="text">დაგავიწყდა პაროლი?</Button>
+        <Button handleClick={() => navigate('/auth/recover-password')} type="text">დაგავიწყდა პაროლი?</Button>
       </div>
     </>
   );

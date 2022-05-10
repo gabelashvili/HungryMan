@@ -18,7 +18,7 @@ const SetPassword = () => {
       setLoading(true);
       dispatch(setPassword(password, token, {
         success: () => {
-          navigate('/');
+          navigate('/auth');
         },
         error: () => setLoading(false),
       }));
@@ -27,7 +27,7 @@ const SetPassword = () => {
 
   useEffect(() => {
     if (!token) {
-      navigate('/');
+      navigate('/auth');
     }
   }, [token]);
   return (

@@ -1,9 +1,19 @@
-import { Outlet } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 import Banner from '../../assets/images/auth-banner.png';
 import Logo from '../../assets/images/logo.png';
+import { useSelector } from '../../hooks/useSelector';
 import './authentication.scss';
 
 const Authentication = () => {
+  const navigate = useNavigate();
+  const isUserAuthed = useSelector((state) => state.userReducer.user?.id);
+
+  useEffect(() => {
+    if (isUserAuthed) {
+      navigate('/products');
+    }
+  }, [isUserAuthed]);
   return (
     <div className="popup">
       <div className="popup--content">
