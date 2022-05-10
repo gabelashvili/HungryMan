@@ -1,14 +1,14 @@
 import { generatePath } from '../../helpers';
-import { useAppDispatch, useSelector } from '../../hooks/useSelector';
+import { useAppDispatch } from '../../hooks/useSelector';
 import ClearIcon from '../../Icons/ClearIcon';
 import MinusIcon from '../../Icons/MinusIcon';
 import PlusIcon from '../../Icons/PlusIcon';
 import { reqRemoveProductFromCart, updateProductCountInCart } from '../../store/ducks/productsDuck';
+import { SelectedProductType } from '../../types/products';
 import Button from '../shared/Button';
 
-const CartProductsList = () => {
+const CartProductsList = ({ data }: {data: SelectedProductType[]}) => {
   const dispatch = useAppDispatch();
-  const items = useSelector((state) => state.productsReducer.selectedProductsCart);
   return (
     <div className="panel cart">
       <div className="panel--header with-border">
@@ -16,7 +16,7 @@ const CartProductsList = () => {
       </div>
       <div className="panel--content">
         <ul className="product--list large">
-          {items.map((el) => (
+          {data.map((el) => (
             <li className="product--item" key={el.product.itemDetails[0].id}>
               {el.product.medias[0]?.mediaType === 1 ? (
                 <picture className="product--image">
