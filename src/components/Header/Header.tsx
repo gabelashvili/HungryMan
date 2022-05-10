@@ -29,16 +29,10 @@ const Header = () => {
           <nav className="header-nav">
             <ul className={clsx('header-nav--list', showSearchBar && 'hidden')}>
               <li className="header-nav--item">
-                <a href="" className="header-nav--link"> მთავარი </a>
+                <Link to="products" className="header-nav--link">პროდუქტები</Link>
               </li>
               <li className="header-nav--item">
-                <a href="" className="header-nav--link"> ჩვენ შესახებ </a>
-              </li>
-              <li className="header-nav--item">
-                <a href="" className="header-nav--link"> კონტაქტი </a>
-              </li>
-              <li className="header-nav--item">
-                <a href="" className="header-nav--link"> როგორ ვიყიდო? </a>
+                <Link to="products/cart" className="header-nav--link">Cart</Link>
               </li>
             </ul>
           </nav>
