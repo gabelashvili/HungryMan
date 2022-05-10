@@ -63,7 +63,16 @@ const CartModal = ({ show, setShow }: PropsTypes) => {
             {selectedProducts.reduce((acc, cur) => acc + cur.product.newPrice * cur.count, 0).toFixed(2)}
             ლ
           </div>
-          <Button disabled={selectedProducts.length === 0} handleClick={() => navigate('/products/cart')}>ყიდვა</Button>
+          <Button
+            disabled={selectedProducts.length === 0}
+            handleClick={() => {
+              navigate('/products/cart');
+              setShow(false);
+            }}
+          >
+            ყიდვა
+
+          </Button>
         </div>
       </div>
       {show && <div className="overlay" />}
