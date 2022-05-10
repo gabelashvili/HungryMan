@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 import { useAppDispatch } from '../../hooks/useSelector';
 import ClearIcon from '../../Icons/ClearIcon';
-import { addUserAddress } from '../../store/ducks/userDuck';
+import { addUserAddress, clearUserAddresses } from '../../store/ducks/userDuck';
 import { AddAddressParams } from '../../types/user';
 import Button from './Button';
 import TextField from './TextField';
@@ -20,6 +20,7 @@ const AddAddress = ({ show, setShow }: {show: boolean, setShow: Dispatch<SetStat
       success: () => {
         setLoading(false);
         setShow(false);
+        dispatch(clearUserAddresses());
       },
       error: () => setLoading(false),
     }));

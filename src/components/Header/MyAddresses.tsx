@@ -17,10 +17,10 @@ const MyAddresses = ({ show, setShow }: {show: boolean, setShow: Dispatch<SetSta
   const [showAddNewAddressModal, setShowAddNewAddressModal] = useState<boolean>(false);
 
   useEffect(() => {
-    if (authedUserId) {
+    if (authedUserId && !addresses) {
       dispatch(getUserAddresses(authedUserId));
     }
-  }, [authedUserId]);
+  }, [authedUserId, addresses]);
   return (
     <>
       <AddAddress show={showAddNewAddressModal} setShow={setShowAddNewAddressModal} />
@@ -35,7 +35,7 @@ const MyAddresses = ({ show, setShow }: {show: boolean, setShow: Dispatch<SetSta
             {addresses ? (
               <>
                 <div className="radio-list">
-                  {addresses.map((el) => <AddressForm data={el} key={el.id} />)}
+                  {addresses.map((el) => <AddressForm data={el} key={el.id} name={el.name} />)}
                 </div>
                 <Button
                   type="secondary"

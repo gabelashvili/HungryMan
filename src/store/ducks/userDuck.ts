@@ -134,3 +134,8 @@ export const addUserAddress = (params: AddAddressParams, callbacks?: CallBacks) 
   params,
   callbacks,
 });
+
+export const clearUserAddresses = (callbacks?: CallBacks) => ({
+  type: CLEAR_USER_ADDRESSES,
+  callbacks,
+});

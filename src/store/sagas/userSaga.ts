@@ -6,7 +6,6 @@ import axiosInstance from '../../helpers/axiosInstance';
 import { clearAuthedUser, setAuthedUser, setUserAddresses } from '../ducks/userDuck';
 import {
   AddAddressParams,
-  AddressType,
   UserAuthParams, UserSignInResponse, UserSignUpParams,
 } from '../../types/user';
 

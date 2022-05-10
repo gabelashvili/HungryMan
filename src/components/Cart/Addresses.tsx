@@ -1,30 +1,33 @@
 import { useState } from 'react';
+import { useSelector } from '../../hooks/useSelector';
+import Loader from '../../Icons/Loader';
 import PlusIcon from '../../Icons/PlusIcon';
 import AddAddress from '../shared/AddAddress';
+import AddressForm from '../shared/AddressForm';
 import Button from '../shared/Button';
 
-const Addresses = () => {
+const Addresses = ({ selectedAddress, setSelectedAddress }:
+  {selectedAddress: number | null, setSelectedAddress: (data: any) => void}) => {
   const [showAdd, setShowAdd] = useState<boolean>(false);
+  const addresses = useSelector((state) => state.userReducer.addresses);
   return (
     <>
       <AddAddress show={showAdd} setShow={setShowAdd} />
       <h4 className="panel--title">აირჩიე მისამართი</h4>
-      <div className="radio-list">
-        <div className="form__group">
-          <label className="input--radio radio-selector" htmlFor="address-2">
-            <input type="radio" id="address-2" name="address" />
-            <div className="address-info">
-              <h5 className="address--name">თბილისი</h5>
-              <p className="address--description">
-                ვაჟა-ფშაველას გამზირი N102, კვ.6 / სართ 8
-              </p>
-            </div>
-            <span className="radio-box">
-              <span className="radio-marker" />
-            </span>
-          </label>
+
+      {addresses ? (
+        <div className="radio-list">
+          {addresses.map((el) => (
+            <AddressForm
+              key={el.id}
+              data={el}
+              checked={selectedAddress === el.id}
+              handleClick={(data) => setSelectedAddress(data)}
+              name={el.name}
+            />
+          ))}
         </div>
-      </div>
+      ) : <Loader styles={{ margin: 'auto', width: 50 }} />}
       <Button handleClick={() => setShowAdd(true)} type="secondary" classes="button--icon-left ">
         <PlusIcon />
         მისამართის დამატება
