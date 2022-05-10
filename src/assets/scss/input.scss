@@ -31,7 +31,7 @@
         color: #ed2024;
       }
     }
-    
+
   }
 
   &:-webkit-autofill,
@@ -128,6 +128,64 @@
       & a {
         margin-left: 5px;
       }
+    }
+  }
+
+  &--radio {
+    display: inline-flex;
+    position: relative;
+    align-items: center;
+    cursor: pointer;
+
+    input[type="radio"] {
+      position: absolute;
+      height: 1px;
+      opacity: 0;
+      width: 1px;
+      left: 3px;
+      top: 4px;
+
+      & ~ .radio-box {
+        .radio-marker {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          display: none;
+        }
+      }
+
+      &:checked ~ .radio-box {
+        .radio-marker {
+          display: block;
+          background-color: #bc1b1e;
+        }
+      }
+    }
+
+    .radio-box {
+      min-width: 20px;
+      display: inline-block;
+      cursor: pointer;
+      position: relative;
+      margin-right: 7px;
+      border-width: 2px;
+      border-radius: 50%;
+      border-style: solid;
+      height: 20px;
+      border-color: #233c52;
+      background-color: transparent;
+    }
+
+    .radio-title {
+      color: #768b9d;
+      font-weight: 400;
+      font-size: 13px;
+      line-height: 20px;
+      color: #ffffff;
     }
   }
 }
