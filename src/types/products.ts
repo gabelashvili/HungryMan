@@ -30,7 +30,8 @@ export interface GetProductsRequest extends PaginationParams {
 
 export interface SelectedProductType {
     product: ProductType,
-    count: number
+    count: number,
+    maxInStock: number
 }
 export interface ProductsInitialState {
     productsList: GetProductsResponse | null,

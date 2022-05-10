@@ -41,7 +41,14 @@ const ProductDetails = () => {
   };
 
   const handleItemAddInCart = () => {
-    productDetails && dispatch(reqAddProductInCart({ product: productDetails, count: selectedQuantity }));
+    productDetails && dispatch(reqAddProductInCart({
+      product: {
+        ...productDetails,
+        itemDetails: productDetails.itemDetails.filter((el) => el.color === selectedColor && el.size === selectedSize),
+      },
+      count: selectedQuantity,
+      maxInStock: itemInStockBySelectedProps,
+    }));
   };
 
   useEffect(() => {

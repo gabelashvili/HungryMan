@@ -50,8 +50,9 @@ export function* reqAddProductInCart({ product, callbacks }:
     const selectedProducts: SelectedProductType[] = yield select((state: RootState) => state
       .productsReducer.selectedProductsCart);
 
-    const findIndexProductInCart = selectedProducts.findIndex((el) => el.product.id === product.product.id);
-
+    const findIndexProductInCart = selectedProducts.findIndex((el) => el.product.itemDetails[0].id
+    === product.product.itemDetails[0].id);
+    console.log(selectedProducts[findIndexProductInCart], product);
     if (findIndexProductInCart >= 0) {
       if (selectedProducts[findIndexProductInCart].count !== product.count) {
         const products = [...selectedProducts];
@@ -74,11 +75,27 @@ export function* reqRemoveProductFromCart({ productId, callbacks }:
   try {
     const selectedProducts: SelectedProductType[] = yield select((state: RootState) => state
       .productsReducer.selectedProductsCart);
-    const filteredData = selectedProducts.filter((el) => el.product.id !== productId);
+    const filteredData = selectedProducts.filter((el) => el.product.itemDetails[0].id !== productId);
     yield put(setProductInCart(filteredData));
     callbacks?.success && callbacks.success();
-    toast.success(`${selectedProducts.find((el) => el.product.id === productId)?.product.name} წაიშალა კალათიდან`);
+    toast.success(`${selectedProducts.find((el) => el.product.itemDetails[0].id === productId)?.product.name} წაიშალა კალათიდან`);
   } catch (error: any) {
+    callbacks?.error && callbacks.error();
+  }
+}
+
+export function* updateProductCountInCart({ id, value, callbacks }:
+  { id: number, value: number, callbacks: CallBacks, type:string }) {
+  try {
+    const selectedProducts: SelectedProductType[] = yield select((state: RootState) => state
+      .productsReducer.selectedProductsCart);
+    const newSelectedProducts = [...selectedProducts];
+    const productIndex = selectedProducts.findIndex((el) => el.product.itemDetails[0].id === id);
+    newSelectedProducts[productIndex].count = value;
+    yield put(setProductInCart(newSelectedProducts));
+    callbacks?.success && callbacks.success();
+  } catch (error: any) {
+    console.log(error);
     callbacks?.error && callbacks.error();
   }
 }

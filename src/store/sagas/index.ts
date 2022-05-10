@@ -12,10 +12,20 @@ import {
   UPDATE_USER_PASSWORD,
 } from '../ducks/userDuck';
 import {
-  GET_FILTERED_PRODUCTS, GET_PRODUCTS, GET_PRODUCT_DETAILS, REQ_ADD_PRODUCT_IN_CART, REQ_REMOVE_PRODUCT_FROM_CART,
+  GET_FILTERED_PRODUCTS,
+  GET_PRODUCTS,
+  GET_PRODUCT_DETAILS,
+  REQ_ADD_PRODUCT_IN_CART,
+  REQ_REMOVE_PRODUCT_FROM_CART,
+  UPDATE_PRODUCT_COUNT_IN_CART,
 } from '../ducks/productsDuck';
 import {
-  getFilteredProducts, getProductDetails, getProducts, reqAddProductInCart, reqRemoveProductFromCart,
+  getFilteredProducts,
+  getProductDetails,
+  getProducts,
+  reqAddProductInCart,
+  reqRemoveProductFromCart,
+  updateProductCountInCart,
 } from './productsSaga';
 
 function* actionWatcher() {
@@ -34,6 +44,7 @@ function* actionWatcher() {
   yield takeLatest(GET_PRODUCT_DETAILS, getProductDetails);
   yield takeLatest(REQ_ADD_PRODUCT_IN_CART, reqAddProductInCart);
   yield takeLatest(REQ_REMOVE_PRODUCT_FROM_CART, reqRemoveProductFromCart);
+  yield takeLatest(UPDATE_PRODUCT_COUNT_IN_CART, updateProductCountInCart);
 }
 
 export default function* rootSaga() {

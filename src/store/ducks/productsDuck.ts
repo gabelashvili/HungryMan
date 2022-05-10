@@ -20,6 +20,7 @@ export const CLEAR_PRODUCT_DETAILS = 'products/clearProductDetails';
 export const REQ_ADD_PRODUCT_IN_CART = 'products/reqAddProductInCart';
 export const SET_PRODUCTS_IN_CART = 'products/setProductSInCart';
 export const REQ_REMOVE_PRODUCT_FROM_CART = 'products/reqRemoveProductFromCart';
+export const UPDATE_PRODUCT_COUNT_IN_CART = 'products/updateProductCountInCart';
 export const CLEAR_PRODUCT_CART = 'products/clearProductCart';
 
 const initialState: ProductsInitialState = {
@@ -144,4 +145,11 @@ export const reqRemoveProductFromCart = (productId: number, callbacks?: CallBack
 
 export const clearProductCart = () => ({
   type: CLEAR_PRODUCT_CART,
+});
+
+export const updateProductCountInCart = (id: number, value: number, callbacks?: CallBacks) => ({
+  type: UPDATE_PRODUCT_COUNT_IN_CART,
+  id,
+  value,
+  callbacks,
 });
