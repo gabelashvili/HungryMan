@@ -1,0 +1,20 @@
+.address {
+    &-info {
+      font-family: "Helvetica Neue LT GEO";
+      font-style: normal;
+      font-weight: 400;
+      color: #768b9d;
+      margin-left: 5px;
+    }
+    &--name {
+      font-size: 13px;
+      line-height: 16px;
+      margin-bottom: 4px;
+    }
+    &--description {
+      font-size: 12px;
+      line-height: 14px;
+      margin: 0;
+    }
+  }
+  
