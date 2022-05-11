@@ -35,9 +35,6 @@ const Header = () => {
               <li className="header-nav--item">
                 <Link to="products" className="header-nav--link">პროდუქტები</Link>
               </li>
-              <li className="header-nav--item">
-                <Link to="products/cart" className="header-nav--link">Cart</Link>
-              </li>
             </ul>
           </nav>
           <SearchBar showSearchBar={showSearchBar} setShowSearchBar={setShowSearchBar} />

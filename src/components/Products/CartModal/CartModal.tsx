@@ -15,6 +15,7 @@ import CartProducts from './CartProducts';
 const CartModal = ({ show, setShow }: PropsTypes) => {
   const navigate = useNavigate();
   const selectedProducts = useSelector((state) => state.productsReducer.selectedProductsCart);
+  const isUserAuthed = useSelector((state) => state.userReducer.user);
   const cartRef = useRef<HTMLDivElement>(null);
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const tabs = [
@@ -64,14 +65,14 @@ const CartModal = ({ show, setShow }: PropsTypes) => {
             ლ
           </div>
           <Button
+            type={!isUserAuthed ? 'secondary' : ''}
             disabled={selectedProducts.length === 0}
             handleClick={() => {
-              navigate('/products/cart');
+              navigate(isUserAuthed ? '/products/cart' : '/auth');
               setShow(false);
             }}
           >
-            ყიდვა
-
+            {isUserAuthed ? 'ყიდვა' : 'ავტორიზაცია'}
           </Button>
         </div>
       </div>
