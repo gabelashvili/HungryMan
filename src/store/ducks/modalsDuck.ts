@@ -3,7 +3,7 @@ import { AnyAction } from 'redux';
 export const TOGGLE_MODAL = 'modals/toggleModal';
 
 const initialState = {
-  myAddress: false,
+  myAddressList: false,
   addAddress: false,
 };
 

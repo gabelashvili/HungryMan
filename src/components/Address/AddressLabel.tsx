@@ -1,6 +1,6 @@
 import { AddressType } from '../../types/user';
 
-const AddressForm = ({
+const AddressLabel = ({
   data, checked, handleClick, name,
 }:
    {data: AddressType, checked?: boolean, handleClick?: (data: any)=> void, name: string}) => {
@@ -25,4 +25,4 @@ const AddressForm = ({
   );
 };
 
-export default AddressForm;
+export default AddressLabel;

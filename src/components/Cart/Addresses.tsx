@@ -1,24 +1,22 @@
-import { useState } from 'react';
-import { useSelector } from '../../hooks/useSelector';
+import { useAppDispatch, useSelector } from '../../hooks/useSelector';
 import Loader from '../../Icons/Loader';
 import PlusIcon from '../../Icons/PlusIcon';
-import AddAddress from '../shared/AddAddress';
-import AddressForm from '../shared/AddressForm';
+import { toggleModal } from '../../store/ducks/modalsDuck';
+import AddressLabel from '../Address/AddressLabel';
 import Button from '../shared/Button';
 
 const Addresses = ({ selectedAddress, setSelectedAddress }:
   {selectedAddress: number | null, setSelectedAddress: (data: any) => void}) => {
-  const [showAdd, setShowAdd] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
   const addresses = useSelector((state) => state.userReducer.addresses);
   return (
     <>
-      <AddAddress show={showAdd} setShow={setShowAdd} />
       <h4 className="panel--title">აირჩიე მისამართი</h4>
 
       {addresses ? (
         <div className="radio-list">
           {addresses.map((el) => (
-            <AddressForm
+            <AddressLabel
               key={el.id}
               data={el}
               checked={selectedAddress === el.id}
@@ -28,7 +26,7 @@ const Addresses = ({ selectedAddress, setSelectedAddress }:
           ))}
         </div>
       ) : <Loader styles={{ margin: 'auto', width: 50 }} />}
-      <Button handleClick={() => setShowAdd(true)} type="secondary" classes="button--icon-left ">
+      <Button handleClick={() => dispatch(toggleModal('addAddress'))} type="secondary" classes="button--icon-left ">
         <PlusIcon />
         მისამართის დამატება
       </Button>
