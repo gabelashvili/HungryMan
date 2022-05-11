@@ -1,22 +1,23 @@
 import clsx from 'clsx';
 import { useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
+import { useAppDispatch } from '../../../hooks/useSelector';
 import ArrowIcon from '../../../Icons/ArrowIcon';
 import ChangePasswordIcon from '../../../Icons/ChangePasswordIcon';
 import HistoryIcon from '../../../Icons/HistoryIcon';
 import LogoutIcon from '../../../Icons/LogoutIcon';
 import PersonalInfoIcon from '../../../Icons/PersonalInfoIcon';
+import { toggleModal } from '../../../store/ducks/modalsDuck';
 import { logOut } from '../../../store/ducks/userDuck';
 import './user-menu.scss';
 
 const UserMenu = ({
-  handleClickOutside, open, isRelative, showMyAddressModal,
+  handleClickOutside, open, isRelative,
 }: {
-  handleClickOutside?: () => void, open: boolean, isRelative?: boolean, showMyAddressModal: () => void
+  handleClickOutside?: () => void, open: boolean, isRelative?: boolean,
 }) => {
   const { pathname } = useLocation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const ref = useRef<HTMLElement>(null);
 
   const handleClick = (event: Event) => {
@@ -54,7 +55,7 @@ const UserMenu = ({
             </li>
           ))}
           <li className="user-menu--item">
-            <a className="user-menu--link " onClick={showMyAddressModal}>
+            <a className="user-menu--link " onClick={() => dispatch(toggleModal('myAddressList'))}>
               <div className="user-menu--icon">
                 <PersonalInfoIcon />
               </div>
