@@ -21,6 +21,7 @@ const AddAddress = () => {
       success: () => {
         setLoading(false);
         dispatch(clearUserAddresses());
+        dispatch(toggleModal('addAddress'));
       },
       error: () => setLoading(false),
     }));
@@ -36,7 +37,6 @@ const AddAddress = () => {
             type="text"
           >
             <ClearIcon />
-
           </Button>
         </div>
 

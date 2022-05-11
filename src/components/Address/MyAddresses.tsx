@@ -38,7 +38,7 @@ const MyAddresses = () => {
           {addresses ? (
             <>
               <div className="radio-list">
-                {addresses.map((el) => <AddressLabel data={el} key={el.id} name={el.name} />)}
+                {addresses.map((el) => <AddressLabel data={el} key={el.id} name={el.name} disableSelect removable />)}
               </div>
               <Button
                 type="secondary"

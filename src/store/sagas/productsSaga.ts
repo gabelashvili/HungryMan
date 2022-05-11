@@ -99,3 +99,16 @@ export function* updateProductCountInCart({ id, value, callbacks }:
     callbacks?.error && callbacks.error();
   }
 }
+
+export function* removeUserAddress({ addressId, callbacks }:
+  { addressId: number, callbacks: CallBacks, type:string }) {
+  try {
+    yield axiosInstance.delete(`/Core/UserAddress/DeleteUserAddress/${addressId}`);
+    toast.success('მისამართი წაიშალა');
+    callbacks?.success && callbacks.success();
+  } catch (error: any) {
+    toast.success('მოხდა შეცდომა');
+    console.log(error);
+    callbacks?.error && callbacks.error();
+  }
+}

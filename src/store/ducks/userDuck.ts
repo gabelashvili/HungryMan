@@ -27,6 +27,7 @@ export const GET_USER_ADDRESSES = 'user/getUserAddresses';
 export const SET_USER_ADDRESSES = 'user/setUserAddresses';
 export const CLEAR_USER_ADDRESSES = 'user/clearUserAddresses';
 export const ADD_USER_ADDRESS = 'user/addUserAddress';
+export const REMOVE_USER_ADDRESS = 'user/removeUserAddress';
 
 const initialState: AuthInitialState = {
   user: null,
@@ -137,5 +138,11 @@ export const addUserAddress = (params: AddAddressParams, callbacks?: CallBacks) 
 
 export const clearUserAddresses = (callbacks?: CallBacks) => ({
   type: CLEAR_USER_ADDRESSES,
+  callbacks,
+});
+
+export const removeUserAddress = (addressId: number, callbacks?: CallBacks) => ({
+  type: REMOVE_USER_ADDRESS,
+  addressId,
   callbacks,
 });
