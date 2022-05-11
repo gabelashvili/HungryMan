@@ -14,15 +14,16 @@
   position: relative;
   border-radius: 8px;
   white-space: nowrap;
+  flex-shrink: 0;
 
   &:disabled {
     cursor: not-allowed;
   }
-  
+
   &--content {
     display: flex;
   }
-  
+
   &:hover {
     background-color: #142638;
   }
@@ -49,6 +50,18 @@
       }
     }
 
+    img {
+      max-width: 95%;
+      max-height: 95%;
+      position: absolute;
+      object-fit: contain;
+    }
+
+    &.is-xs {
+      height: 32px;
+      width: 32px;
+    }
+
     &.is-small {
       height: 36px;
       width: 36px;
@@ -62,7 +75,11 @@
       width: 40px;
     }
 
-    &.is-rounded{
+    &.is-large {
+      width: 64px;
+    }
+
+    &.is-rounded {
       border-radius: 50%;
     }
   }
@@ -93,11 +110,64 @@
   &-pull-right {
     margin-right: -12px;
   }
+
+  &--upload {
+    position: relative;
+    text-decoration: underline;
+    border: 1px dashed #162a3d;
+    border-radius: 12px;
+    background-color: #112231;
+    &.uploaded {
+      justify-content: unset;
+      .button--upload__loader {
+        animation-name: uploading;
+        animation-duration: 1s;
+        animation-timing-function: cubic-bezier(0.4, 0, 1, 1);
+      }
+    }
+
+    &__text {
+      z-index: 1;
+      position: relative;
+    }
+
+    input {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    &__loader {
+      position: absolute;
+      width: 0px;
+      height: 100%;
+      left: 0;
+      top: 0;
+      border-radius: 12px;
+      transition: width 1s cubic-bezier(0.47, 0, 0.75, 0.72);
+      background-color: #233c52;
+    }
+  }
+
+  &.is-large {
+    height: 64px;
+  }
 }
 
 @media screen and(max-width: 1366px) {
   .button--icon {
     width: 36px;
     height: 36px;
+  }
+}
+
+@keyframes uploading {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
   }
 }

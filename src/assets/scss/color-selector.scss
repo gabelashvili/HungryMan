@@ -6,6 +6,9 @@
   margin-bottom: 24px;
 
   &--label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
     position: relative;
     border-width: 1px;
@@ -29,12 +32,57 @@
         transform: scale(0.73);
       }
     }
+
+    &.x-color {
+      .color-selector--box {
+        background: conic-gradient(
+          from 180deg at 50% 50%,
+          #ff0000 0deg,
+          #ffe600 90deg,
+          #00ff85 180deg,
+          #4200ff 270deg,
+          #ff00b8 360deg,
+          #ff00b8 360deg
+        );
+      }
+    }
+
+    &.is-flat {
+      border-radius: 6px;
+
+      .color-selector--box {
+        border-radius: 6px;
+      }
+      .x-color--icon {
+        border-radius: 6px;
+      }
+    }
+
+    .x-color--icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      background-color: #fff;
+      svg {
+        width: 12px;
+      }
+    }
   }
+
   &--box {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background-color: currentColor;
+    background: currentColor;
     display: flex;
+
+    &.is-large {
+      width: 46px;
+      height: 46px;
+    }
   }
 }
