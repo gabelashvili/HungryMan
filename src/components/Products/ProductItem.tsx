@@ -5,7 +5,7 @@ import ArrowIcon from '../../Icons/ArrowIcon';
 import { ProductType } from '../../types/products';
 import Button from '../shared/Button';
 
-const ProductItem = ({ data }: {data: ProductType}) => {
+const ProductItem = ({ data, disableSlider }: {data: ProductType, disableSlider?: boolean}) => {
   const [showMedia, setShowMedia] = useState(0);
   const navigate = useNavigate();
 
@@ -30,7 +30,7 @@ const ProductItem = ({ data }: {data: ProductType}) => {
   };
 
   return (
-    <div className="products-item" onClick={() => navigate(data.id.toString())}>
+    <div className="products-item" onClick={() => navigate(`/products/${data.id.toString()}`)}>
       <picture className="products-item--image">
         {data.medias[showMedia]?.mediaType === 1 && <img src={generatePath(data.medias[showMedia].url)} alt="Product item" />}
         {data.medias[showMedia]?.mediaType === 2 && (
@@ -38,7 +38,7 @@ const ProductItem = ({ data }: {data: ProductType}) => {
             <source src={generatePath(data.medias[showMedia].url)} type="video/mp4" />
           </video>
         )}
-        {data.medias.length > 1 && (
+        {data.medias.length > 1 && !disableSlider && (
         <div className="products-item-controls">
           <Button type="icon" classes="is-rounded is-small" handleClick={showPrevSlide}>
             <ArrowIcon styles={{ transform: 'rotate(-180deg' }} />

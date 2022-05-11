@@ -1,6 +1,6 @@
 import { MediaType, PaginationParams, PaginationType } from './main';
 
-export interface ProductType {
+export interface Product {
     description: string
     discountPercent: number,
     id: number
@@ -17,6 +17,10 @@ export interface ProductType {
     name: string
     newPrice: number
     price: number
+}
+
+export interface ProductType extends Product{
+    similarItems: Product[]
 }
 
 export interface GetProductsResponse extends PaginationType {

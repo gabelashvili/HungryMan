@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import ColorSelector from '../../../components/Products/ColorSelector';
 import CountSelector from '../../../components/Products/CountSelector';
 import ProductsMediaCarousel from '../../../components/Products/ProductsMediaCarousel';
+import SimilarItems from '../../../components/Products/SimilarItems/SimilarItems';
 import SizeSelector from '../../../components/Products/SizeSelector';
 import Button from '../../../components/shared/Button';
 import { useSelector } from '../../../hooks/useSelector';
@@ -153,7 +154,7 @@ const ProductDetails = () => {
                   </div>
                 </div>
               </div>
-              {/* <app-products-carousel /> */}
+              <SimilarItems data={productDetails.similarItems} />
             </div>
           ) : (
             <Loader styles={{
