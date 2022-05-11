@@ -154,7 +154,7 @@ const ProductDetails = () => {
                   </div>
                 </div>
               </div>
-              <SimilarItems data={productDetails.similarItems} />
+              {productDetails.similarItems.length > 0 && <SimilarItems data={productDetails.similarItems} />}
             </div>
           ) : (
             <Loader styles={{
