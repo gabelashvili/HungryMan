@@ -6,6 +6,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import {
   userReducer,
   productsReducer,
+  modalsReducer,
 } from './ducks';
 
 export const sagaMiddleware = createSagaMiddleware();
@@ -13,6 +14,7 @@ export const sagaMiddleware = createSagaMiddleware();
 const appReducer = combineReducers({
   userReducer,
   productsReducer,
+  modalsReducer,
 });
 
 export default function configureStore() {
