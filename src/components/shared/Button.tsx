@@ -23,7 +23,7 @@ export default Button;
 interface PropsTypes {
     children: ReactElement | string | ReactNode,
     classes?: string,
-    handleClick: (e:any) => void,
+    handleClick?: (e:any) => void,
     loading?: boolean,
     type?: string,
     disabled?: boolean,

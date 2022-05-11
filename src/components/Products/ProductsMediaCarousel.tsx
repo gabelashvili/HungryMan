@@ -1,36 +1,18 @@
+/* eslint-disable import/no-unresolved */
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { useState } from 'react';
+import SwiperCore, { Navigation } from 'swiper';
 import clsx from 'clsx';
-import React, { useRef, useState } from 'react';
 import { generatePath } from '../../helpers';
 import ArrowIcon from '../../Icons/ArrowIcon';
 import { MediaType } from '../../types/main';
 import Button from '../shared/Button';
+import 'swiper/css';
+import 'swiper/css/navigation';
 
+SwiperCore.use([Navigation]);
 const ProductsMediaCarousel = ({ data }: {data: MediaType[]}) => {
-  const [disableNextBtn, setDisableNextBtn] = useState<boolean>(false);
-  const [disablePrevBtn, setDisablePrevBtn] = useState<boolean>(true);
-  const [active, setActive] = useState<number >(0);
-  const sliderListRef = useRef<HTMLDivElement | null>(null);
-
-  const showPrevSlide = () => {
-    if (sliderListRef.current) {
-      const parentElem = sliderListRef.current;
-      sliderListRef.current.scrollLeft -= parentElem.children[0].clientWidth;
-      sliderListRef?.current?.scrollLeft;
-      setDisablePrevBtn(sliderListRef?.current?.scrollLeft === 0);
-      setDisableNextBtn(sliderListRef.current.offsetWidth + sliderListRef.current.scrollLeft
-            >= sliderListRef.current.scrollWidth);
-    }
-  };
-
-  const showNextSlide = () => {
-    if (sliderListRef.current) {
-      const parentElem = sliderListRef.current;
-      sliderListRef.current.scrollLeft += parentElem.children[0].clientWidth;
-      setDisablePrevBtn(sliderListRef?.current?.scrollLeft === 0);
-      setDisableNextBtn(sliderListRef.current.offsetWidth + sliderListRef.current.scrollLeft
-            >= sliderListRef.current.scrollWidth);
-    }
-  };
+  const [active, setActive] = useState<number>(0);
   return (
     <div className="product-details-slider">
       {data[active]?.mediaType === 1 ? (
@@ -44,35 +26,45 @@ const ProductsMediaCarousel = ({ data }: {data: MediaType[]}) => {
           </video>
         </div>
       )}
-
-      <div className="product-details-slider--wrapper">
+      <div className="product-details--slider-swiper">
         <Button
-          disabled={disablePrevBtn}
-          handleClick={showPrevSlide}
           type="icon"
-          classes=" is-small is-rounded"
+          classes="is-small is-rounded"
+          id="swiper-prev"
         >
           <ArrowIcon styles={{ transform: 'rotate(180deg)' }} />
         </Button>
-        <div className="product-details-slider--list-wrapper">
-          <div className={clsx('product-details-slider--list', !disablePrevBtn && 'blur-start', !disableNextBtn && 'blur-end')} ref={sliderListRef}>
-            {data.map((el, i) => (
-              el?.mediaType === 1 ? (
-                <picture className={clsx('product-details-slider--item', active === i && 'active')} key={el.url} onClick={() => setActive(i)}>
-                  <img src={generatePath(el.url)} alt="" key={el.url} />
+
+        <Swiper
+          slidesPerView={1}
+          initialSlide={1}
+          loop
+          navigation={{
+            prevEl: '#swiper-prev',
+            nextEl: '#swiper-next',
+          }}
+          centeredSlides
+          className="mySwiper"
+          breakpoints={sliderBreakPoints}
+        >
+
+          {data.map((el, i) => (
+            <SwiperSlide onClick={() => setActive(i)} key={el.id}>
+              {el?.mediaType === 1 ? (
+                <picture className={clsx('product-details-slider--item', i === active && 'active')} key={el.url}>
+                  <img src={generatePath(el.url, true)} alt="" key={el.url} />
                 </picture>
               )
                 : (
-                  <video className={clsx('product-details-slider--item', active === i && 'active')} onClick={() => setActive(i)} src={generatePath(el.url)} key={el.url} />
-                )
-            ))}
-          </div>
-        </div>
+                  <video className={clsx('product-details-slider--item', i === active && 'active')} src={generatePath(el.url)} key={el.url} />
+                )}
+            </SwiperSlide>
+          ))}
+        </Swiper>
         <Button
-          disabled={disableNextBtn}
-          handleClick={showNextSlide}
           type="icon"
           classes=" is-small is-rounded"
+          id="swiper-next"
         >
           <ArrowIcon />
         </Button>
@@ -82,3 +74,18 @@ const ProductsMediaCarousel = ({ data }: {data: MediaType[]}) => {
 };
 
 export default ProductsMediaCarousel;
+
+const sliderBreakPoints = {
+  380: {
+    slidesPerView: 2,
+    spaceBetween: 20,
+  },
+  768: {
+    slidesPerView: 3,
+    spaceBetween: 20,
+  },
+  1024: {
+    slidesPerView: 4,
+    spaceBetween: 10,
+  },
+};
