@@ -56,7 +56,7 @@ const Header = () => {
                 />
               </button>
               <UserMenu
-                handleClickOutside={() => setShowMenu(false)}
+                handleClose={() => setShowMenu(false)}
                 open={showMenu}
               />
             </div>

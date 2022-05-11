@@ -12,9 +12,9 @@ import { logOut } from '../../../store/ducks/userDuck';
 import './user-menu.scss';
 
 const UserMenu = ({
-  handleClickOutside, open, isRelative,
+  handleClose, open, isRelative,
 }: {
-  handleClickOutside?: () => void, open: boolean, isRelative?: boolean,
+  handleClose?: () => void, open: boolean, isRelative?: boolean,
 }) => {
   const { pathname } = useLocation();
   const dispatch = useAppDispatch();
@@ -24,12 +24,12 @@ const UserMenu = ({
     const target = event.target as HTMLElement;
     if ((target.id !== 'show-user-menu' && target.parentElement?.id !== 'show-user-menu')
     && ref.current && !ref.current.contains(target)) {
-      handleClickOutside && handleClickOutside();
+      handleClose && handleClose();
     }
   };
 
   useEffect(() => {
-    if (open && handleClickOutside) {
+    if (open && handleClose) {
       window.addEventListener('click', handleClick);
     } else {
       return () => {
@@ -39,7 +39,13 @@ const UserMenu = ({
     return () => {
       window.removeEventListener('click', handleClick);
     };
-  }, [open, handleClickOutside]);
+  }, [open, handleClose]);
+
+  useEffect(() => {
+    if (handleClose) {
+      open && handleClose();
+    }
+  }, [pathname]);
 
   return (
     open ? (
