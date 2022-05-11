@@ -66,7 +66,7 @@ const CartModal = ({ show, setShow }: PropsTypes) => {
           </div>
           <Button
             type={!isUserAuthed ? 'secondary' : ''}
-            disabled={selectedProducts.length === 0}
+            disabled={Boolean(isUserAuthed && selectedProducts.length === 0)}
             handleClick={() => {
               navigate(isUserAuthed ? '/products/cart' : '/auth');
               setShow(false);
