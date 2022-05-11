@@ -22,6 +22,7 @@ import PersonalInfo from '../Routes/UserDashboard/PersonalInfo';
 import UserDashboard from '../Routes/UserDashboard/UserDashboard';
 import { checkToken } from '../store/ducks/userDuck';
 import Layout from './Layout';
+import RequireAuth from './shared/RequireAuth';
 import './styles.scss';
 
 function App() {
@@ -69,7 +70,7 @@ function App() {
         },
         {
           path: 'user-dashboard',
-          element: <UserDashboard />,
+          element: <RequireAuth><UserDashboard /></RequireAuth>,
           children: [
             {
               index: true,
@@ -98,7 +99,7 @@ function App() {
             },
             {
               path: 'cart',
-              element: <Cart />,
+              element: <RequireAuth><Cart /></RequireAuth>,
             },
           ],
         },
