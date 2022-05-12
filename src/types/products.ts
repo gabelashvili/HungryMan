@@ -52,3 +52,16 @@ export enum Sizes {
     '2XL' = 6,
     '3XL' = 7,
   }
+
+export type ReqPurchaseProductCartItems = {
+    itemDetailIds: number[],
+    city: string,
+    address: string
+}
+
+export type PurchaseProductCartItemsResponse = {
+    amount: number
+    currency: string,
+    expirationMinutes: number,
+    redirectLink: string
+}

@@ -18,6 +18,7 @@ import {
   GET_FILTERED_PRODUCTS,
   GET_PRODUCTS,
   GET_PRODUCT_DETAILS,
+  PURCHASE_PRODUCT_CART_ITEMS,
   REQ_ADD_PRODUCT_IN_CART,
   REQ_REMOVE_PRODUCT_FROM_CART,
   UPDATE_PRODUCT_COUNT_IN_CART,
@@ -26,6 +27,7 @@ import {
   getFilteredProducts,
   getProductDetails,
   getProducts,
+  purchaseProductCartItems,
   removeUserAddress,
   reqAddProductInCart,
   reqRemoveProductFromCart,
@@ -52,6 +54,7 @@ function* actionWatcher() {
   yield takeLatest(UPDATE_PRODUCT_COUNT_IN_CART, updateProductCountInCart);
   yield takeLatest(ADD_USER_ADDRESS, addUserAddress);
   yield takeLatest(REMOVE_USER_ADDRESS, removeUserAddress);
+  yield takeLatest(PURCHASE_PRODUCT_CART_ITEMS, purchaseProductCartItems);
 }
 
 export default function* rootSaga() {

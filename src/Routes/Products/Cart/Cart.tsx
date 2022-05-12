@@ -2,20 +2,44 @@ import { useEffect, useState } from 'react';
 import Addresses from '../../../components/Cart/Addresses';
 import CartProductsList from '../../../components/Cart/CartProductsList';
 import PaymentMethod from '../../../components/Cart/PaymentMethod';
-import { useSelector } from '../../../hooks/useSelector';
+import Button from '../../../components/shared/Button';
+import { useAppDispatch, useSelector } from '../../../hooks/useSelector';
+import { purchaseProductCartItem } from '../../../store/ducks/productsDuck';
 import { AddressType } from '../../../types/user';
 import './cart.scss';
 
 const Cart = () => {
+  const dispatch = useAppDispatch();
   const addresses = useSelector((state) => state.userReducer.addresses);
   const items = useSelector((state) => state.productsReducer.selectedProductsCart);
   const totalPrice = items.reduce((acc, cur) => acc + cur.count * cur.product.newPrice, 0);
   const [selectedAddress, setSelectedAddress] = useState<number | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const handlePurchaseItems = () => {
+    setLoading(true);
+    const address = addresses?.find((el) => el.id === selectedAddress);
+    const products = items.reduce(
+      (acc: number[], cur): number[] => [...acc, ...new Array(cur.count as number).fill(cur.product.itemDetails[0].id)],
+      [],
+    );
+    address
+    && dispatch(purchaseProductCartItem(
+      { itemDetailIds: products, city: address.city, address: address.address },
+      {
+        success: (url: string) => {
+          window.location.href = url;
+        },
+      },
+    ));
+  };
+
   useEffect(() => {
     if (addresses && !selectedAddress) {
       setSelectedAddress(addresses[0].id);
     }
   }, [addresses, selectedAddress]);
+
   return (
     <div className="wrapper">
       <CartProductsList data={items} />
@@ -44,7 +68,7 @@ const Cart = () => {
                 ლ
               </span>
             </div>
-            <button className="button button--primary">შეკვეთის გაფორმება</button>
+            <Button loading={loading} handleClick={handlePurchaseItems}>შეკვეთის გაფორმება</Button>
           </div>
         </div>
       </div>

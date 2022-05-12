@@ -3,7 +3,7 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { CallBacks } from '../../types/main';
 import {
-  GetProductsRequest, GetProductsResponse, ProductsInitialState, ProductType, SelectedProductType,
+  GetProductsRequest, GetProductsResponse, ProductsInitialState, ProductType, ReqPurchaseProductCartItems, SelectedProductType,
 } from '../../types/products';
 
 export const GET_PRODUCTS = 'products/getProducts';
@@ -22,6 +22,7 @@ export const SET_PRODUCTS_IN_CART = 'products/setProductSInCart';
 export const REQ_REMOVE_PRODUCT_FROM_CART = 'products/reqRemoveProductFromCart';
 export const UPDATE_PRODUCT_COUNT_IN_CART = 'products/updateProductCountInCart';
 export const CLEAR_PRODUCT_CART = 'products/clearProductCart';
+export const PURCHASE_PRODUCT_CART_ITEMS = 'products/purchaseProductCartItems';
 
 const initialState: ProductsInitialState = {
   productsList: null,
@@ -151,5 +152,11 @@ export const updateProductCountInCart = (id: number, value: number, callbacks?: 
   type: UPDATE_PRODUCT_COUNT_IN_CART,
   id,
   value,
+  callbacks,
+});
+
+export const purchaseProductCartItem = (params: ReqPurchaseProductCartItems, callbacks?: CallBacks) => ({
+  type: PURCHASE_PRODUCT_CART_ITEMS,
+  params,
   callbacks,
 });

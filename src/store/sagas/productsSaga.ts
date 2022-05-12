@@ -6,7 +6,7 @@ import {
   setFilteredProducts, setProductDetails, setProducts, setProductInCart,
 } from '../ducks/productsDuck';
 import {
-  GetProductsRequest, GetProductsResponse, ProductType, SelectedProductType,
+  GetProductsRequest, GetProductsResponse, ProductType, PurchaseProductCartItemsResponse, ReqPurchaseProductCartItems, SelectedProductType,
 } from '../../types/products';
 import { RootState } from '../..';
 
@@ -52,7 +52,6 @@ export function* reqAddProductInCart({ product, callbacks }:
 
     const findIndexProductInCart = selectedProducts.findIndex((el) => el.product.itemDetails[0].id
     === product.product.itemDetails[0].id);
-    console.log(selectedProducts[findIndexProductInCart], product);
     if (findIndexProductInCart >= 0) {
       if (selectedProducts[findIndexProductInCart].count !== product.count) {
         const products = [...selectedProducts];
@@ -106,6 +105,18 @@ export function* removeUserAddress({ addressId, callbacks }:
     yield axiosInstance.delete(`/Core/UserAddress/DeleteUserAddress/${addressId}`);
     toast.success('მისამართი წაიშალა');
     callbacks?.success && callbacks.success();
+  } catch (error: any) {
+    toast.success('მოხდა შეცდომა');
+    console.log(error);
+    callbacks?.error && callbacks.error();
+  }
+}
+
+export function* purchaseProductCartItems({ params, callbacks }:
+  { params: ReqPurchaseProductCartItems, callbacks: CallBacks, type:string }) {
+  try {
+    const { data }: {data: PurchaseProductCartItemsResponse} = yield axiosInstance.post('/Item/ItemPurchase/PurchaseItems', params);
+    callbacks?.success && callbacks.success(data.redirectLink);
   } catch (error: any) {
     toast.success('მოხდა შეცდომა');
     console.log(error);

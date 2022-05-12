@@ -1,4 +1,4 @@
-import Paypal from '../../assets/images/paypal.png';
+// import Paypal from '../../assets/images/paypal.png';
 import MasterCard from '../../assets/images/mastercard.png';
 import Visa from '../../assets/images/visa.png';
 
@@ -7,7 +7,7 @@ const PaymentMethod = () => {
     <>
       <h4 className="panel--title">აირჩიე გადახდის მეთოდი</h4>
       <div className="radio-list">
-        <div className="form__group">
+        {/* <div className="form__group">
           <label className="input--radio radio-selector" htmlFor="payment-1">
             <input type="radio" id="payment-1" name="payment" />
             <div className="payment-image--list">
@@ -20,10 +20,10 @@ const PaymentMethod = () => {
               <span className="radio-marker" />
             </span>
           </label>
-        </div>
+        </div> */}
         <div className="form__group">
           <label className="input--radio radio-selector" htmlFor="payment-2">
-            <input type="radio" id="payment-2" name="payment" />
+            <input type="radio" id="payment-2" name="payment" defaultChecked />
             <div className="payment-image--list">
               <picture className="payment-image">
                 <img src={MasterCard} alt="payment" />

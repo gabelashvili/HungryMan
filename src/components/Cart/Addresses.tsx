@@ -15,13 +15,13 @@ const Addresses = ({ selectedAddress, setSelectedAddress }:
 
       {addresses ? (
         <div className="radio-list">
-          {addresses.map((el) => (
+          {addresses.map((el, i) => (
             <AddressLabel
               key={el.id}
               data={el}
               checked={selectedAddress === el.id}
               handleClick={(data) => setSelectedAddress(data)}
-              name={el.name}
+              name={el.name + i}
             />
           ))}
         </div>
