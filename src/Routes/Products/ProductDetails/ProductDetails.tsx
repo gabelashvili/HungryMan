@@ -16,6 +16,7 @@ import './products-details.scss';
 const ProductDetails = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isUserAuthed = useSelector((state) => state.userReducer.user);
   const productDetails = useSelector((state) => state.productsReducer.productDetails);
   const { productId } = useParams();
   const [itemInStockBySelectedProps, setItemInStockBySelectedProps] = useState<number>(0);
@@ -148,7 +149,15 @@ const ProductDetails = () => {
                     </div>
 
                     <div className="product-details--controls">
-                      <Button handleClick={() => console.log('yidva')}>ყიდვა</Button>
+                      <Button
+                        handleClick={() => {
+                          navigate(isUserAuthed ? '/products/cart' : '/auth');
+                        }}
+                        type={isUserAuthed ? '' : 'secondary'}
+                      >
+                        {isUserAuthed ? 'ყიდვა' : 'ავტორიზაცია'}
+
+                      </Button>
                       <Button handleClick={handleItemAddInCart} disabled={selectedQuantity === 0} type="secondary">კალათაში დამატება</Button>
                     </div>
                   </div>
