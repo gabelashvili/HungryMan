@@ -2,7 +2,7 @@ import { AnyAction } from 'redux';
 import {
   AddAddressParams,
   AddressType,
-  AuthedUser, AuthInitialState, UserAuthParams, UserSignUpParams,
+  AuthedUser, UserReducerInitialState, UserAuthParams, UserSignUpParams,
 } from '../../types/user';
 import { CallBacks } from '../../types/main';
 
@@ -29,12 +29,16 @@ export const CLEAR_USER_ADDRESSES = 'user/clearUserAddresses';
 export const ADD_USER_ADDRESS = 'user/addUserAddress';
 export const REMOVE_USER_ADDRESS = 'user/removeUserAddress';
 
-const initialState: AuthInitialState = {
+export const GET_PRODUCTS_ORDER_HISTORY = 'user/getProductsOrderHistory';
+export const SET_PRODUCTS_ORDER_HISTORY = 'user/setProductsOrderHistory';
+export const CLEAR_PRODUCTS_ORDER_HISTORY = 'user/clearProductsOrderHistory';
+
+const initialState: UserReducerInitialState = {
   user: null,
   addresses: null,
 };
 
-export const userReducer = (state = initialState, action: AnyAction): AuthInitialState => {
+export const userReducer = (state = initialState, action: AnyAction): UserReducerInitialState => {
   const { payload } = action;
   switch (action.type) {
     case SET_AUTHED_USER:
@@ -67,80 +71,68 @@ export const signIn = (params: UserAuthParams, callbacks?: CallBacks) => ({
   params,
   callbacks,
 });
-
 export const setAuthedUser = (payload: AuthedUser, callbacks?: CallBacks) => ({
   type: SET_AUTHED_USER,
   payload,
   callbacks,
 });
-
 export const clearAuthedUser = () => ({
   type: CLEAR_AUTHED_USER,
 });
-
 export const checkToken = (callbacks?: CallBacks) => ({
   type: CHECK_TOKEN,
   callbacks,
 });
-
 export const signUp = (params: UserSignUpParams, callbacks?: CallBacks) => ({
   type: REQ_USER_SIGN_UP,
   params,
   callbacks,
 });
-
 export const reqPasswordRecover = (phoneOrEmail: string, callbacks?: CallBacks) => ({
   type: REQ_PASSWORD_RECOVER,
   phoneOrEmail,
   callbacks,
 });
-
 export const setPassword = (password: string, token: string, callbacks?: CallBacks) => ({
   type: SET_PASSWORD,
   password,
   token,
   callbacks,
 });
-
 export const logOut = () => ({
   type: LOG_OUT,
 });
-
 export const updateUserInfo = (params: any, callbacks?: CallBacks) => ({
   type: UPDATE_USER_INFO,
   params,
   callbacks,
 });
-
 export const updateUserPassword = (params: {oldPassword:string, password:string}, callbacks?: CallBacks) => ({
   type: UPDATE_USER_PASSWORD,
   params,
   callbacks,
 });
 
+// address
 export const getUserAddresses = (userId: number, callbacks?: CallBacks) => ({
   type: GET_USER_ADDRESSES,
   userId,
   callbacks,
 });
-
 export const setUserAddresses = (payload: AddressType[], callbacks?: CallBacks) => ({
   type: SET_USER_ADDRESSES,
   payload,
   callbacks,
 });
-
 export const addUserAddress = (params: AddAddressParams, callbacks?: CallBacks) => ({
   type: ADD_USER_ADDRESS,
   params,
   callbacks,
 });
-
 export const clearUserAddresses = (callbacks?: CallBacks) => ({
   type: CLEAR_USER_ADDRESSES,
   callbacks,
 });
-
 export const removeUserAddress = (addressId: number, callbacks?: CallBacks) => ({
   type: REMOVE_USER_ADDRESS,
   addressId,

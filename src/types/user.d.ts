@@ -63,7 +63,7 @@ export interface AddAddressParams {
   city: string,
   address: string
 }
-export interface AuthInitialState {
+export interface UserReducerInitialState {
   user: AuthedUser | null,
   addresses: null | AddressType[]
 }
