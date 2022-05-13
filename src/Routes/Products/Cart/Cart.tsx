@@ -68,7 +68,14 @@ const Cart = () => {
                 ლ
               </span>
             </div>
-            <Button loading={loading} handleClick={handlePurchaseItems}>შეკვეთის გაფორმება</Button>
+            <Button
+              loading={loading}
+              handleClick={handlePurchaseItems}
+              disabled={addresses?.length === 0 || items.length === 0}
+            >
+              შეკვეთის გაფორმება
+
+            </Button>
           </div>
         </div>
       </div>
