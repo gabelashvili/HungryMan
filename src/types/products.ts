@@ -53,10 +53,14 @@ export enum Sizes {
     '3XL' = 7,
   }
 
+export interface FormattedItemsDetails {
+    id: number,
+    count: number
+  }
+
 export type ReqPurchaseProductCartItems = {
-    itemDetailIds: number[],
-    city: string,
-    address: string
+    itemDetails: FormattedItemsDetails[],
+    userAddressId: number
 }
 
 export type PurchaseProductCartItemsResponse = {

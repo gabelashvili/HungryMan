@@ -5,6 +5,7 @@ import PaymentMethod from '../../../components/Cart/PaymentMethod';
 import Button from '../../../components/shared/Button';
 import { useAppDispatch, useSelector } from '../../../hooks/useSelector';
 import { purchaseProductCartItem } from '../../../store/ducks/productsDuck';
+import { FormattedItemsDetails } from '../../../types/products';
 import { AddressType } from '../../../types/user';
 import './cart.scss';
 
@@ -18,14 +19,17 @@ const Cart = () => {
 
   const handlePurchaseItems = () => {
     setLoading(true);
-    const address = addresses?.find((el) => el.id === selectedAddress);
     const products = items.reduce(
-      (acc: number[], cur): number[] => [...acc, ...new Array(cur.count as number).fill(cur.product.itemDetails[0].id)],
+      (acc: FormattedItemsDetails[], cur): FormattedItemsDetails[] => [...acc, ...new Array(cur.count as number)
+        .fill({
+          id: cur.product.itemDetails[0].id,
+          count: cur.count,
+        })],
       [],
     );
-    address
+    selectedAddress
     && dispatch(purchaseProductCartItem(
-      { itemDetailIds: products, city: address.city, address: address.address },
+      { itemDetails: products, userAddressId: selectedAddress },
       {
         success: (url: string) => {
           window.location.href = url;
