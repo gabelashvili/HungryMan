@@ -152,6 +152,12 @@ const ProductDetails = () => {
                       <Button
                         handleClick={() => {
                           navigate(isUserAuthed ? '/products/cart' : '/auth');
+                          if (isUserAuthed) {
+                            navigate('/products/cart');
+                            handleItemAddInCart();
+                          } else {
+                            navigate('/auth');
+                          }
                         }}
                         type={isUserAuthed ? '' : 'secondary'}
                       >
