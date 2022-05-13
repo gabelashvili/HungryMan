@@ -35,7 +35,7 @@ const Cart = () => {
   };
 
   useEffect(() => {
-    if (addresses && !selectedAddress) {
+    if (addresses && addresses?.length > 0 && !selectedAddress) {
       setSelectedAddress(addresses[0].id);
     }
   }, [addresses, selectedAddress]);
