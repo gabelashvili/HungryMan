@@ -13,6 +13,7 @@
     justify-content: space-between;
     padding: 24px;
     max-height: 65px;
+    position: relative;
 
     &.with-border {
       border-bottom: 1px solid #162a3d;
@@ -38,6 +39,12 @@
     font-weight: 400;
     line-height: 15px;
     color: #55687a;
+    &-btn {
+      margin: auto;
+      & svg {
+        transform: rotate(90deg);
+      }
+    }
   }
 
   &--footer {

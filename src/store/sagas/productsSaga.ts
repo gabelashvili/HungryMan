@@ -6,9 +6,16 @@ import {
   setFilteredProducts, setProductDetails, setProducts, setProductInCart,
 } from '../ducks/productsDuck';
 import {
-  GetProductsRequest, GetProductsResponse, ProductType, PurchaseProductCartItemsResponse, ReqPurchaseProductCartItems, SelectedProductType,
+  GetProductsRequest,
+  GetProductsResponse,
+  ProductType,
+  PurchaseProductCartItemsResponse,
+  ReqPurchaseProductCartItems,
+  SelectedProductType,
 } from '../../types/products';
 import { RootState } from '../..';
+import { ReqProductsOrderHistory } from '../../types/user';
+import { setProductsOrderHistory } from '../ducks/userDuck';
 
 export function* getProducts({ params, callbacks }:{ params: GetProductsRequest, callbacks: CallBacks, type:string }) {
   try {
@@ -120,6 +127,18 @@ export function* purchaseProductCartItems({ params, callbacks }:
   } catch (error: any) {
     toast.success('მოხდა შეცდომა');
     console.log(error);
+    callbacks?.error && callbacks.error();
+  }
+}
+
+export function* getProductsOrderHistory({ params, callbacks }:
+  { params: ReqProductsOrderHistory, callbacks: CallBacks, type:string }) {
+  try {
+    const { data }: {data: any} = yield axiosInstance.get('/Item/ItemPurchase/GetItemPurchases', { params });
+    yield put(setProductsOrderHistory(data));
+    callbacks?.success && callbacks.success(data.items);
+  } catch (error: any) {
+    toast.error('მოხდა შეცდომა');
     callbacks?.error && callbacks.error();
   }
 }

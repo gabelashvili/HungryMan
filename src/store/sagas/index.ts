@@ -1,11 +1,20 @@
 import { all, takeLatest } from 'redux-saga/effects';
 import {
   addUserAddress,
-  checkToken, getUserAddresses, logOut, reqPasswordRecover, reqUserLogin, setPassword, signUp, updateUserInfo, updateUserPassword,
+  checkToken,
+  getUserAddresses,
+  logOut,
+  reqPasswordRecover,
+  reqUserLogin,
+  setPassword,
+  signUp,
+  updateUserInfo,
+  getProductsOrderHistory,
+  updateUserPassword,
 } from './userSaga';
 import {
   ADD_USER_ADDRESS,
-  CHECK_TOKEN, GET_USER_ADDRESSES, LOG_OUT,
+  CHECK_TOKEN, GET_PRODUCTS_ORDER_HISTORY, GET_USER_ADDRESSES, LOG_OUT,
   REMOVE_USER_ADDRESS,
   REQ_PASSWORD_RECOVER,
   REQ_USER_LOGIN,
@@ -45,6 +54,7 @@ function* actionWatcher() {
   yield takeLatest(UPDATE_USER_INFO, updateUserInfo);
   yield takeLatest(UPDATE_USER_PASSWORD, updateUserPassword);
   yield takeLatest(GET_USER_ADDRESSES, getUserAddresses);
+  yield takeLatest(GET_PRODUCTS_ORDER_HISTORY, getProductsOrderHistory);
   // products
   yield takeLatest(GET_PRODUCTS, getProducts);
   yield takeLatest(GET_FILTERED_PRODUCTS, getFilteredProducts);

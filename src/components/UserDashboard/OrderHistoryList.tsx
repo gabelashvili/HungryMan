@@ -4,7 +4,7 @@ import Button from '../shared/Button';
 const OrderHistoryList = ({ data, handleItemInfoClick }: PropsType) => {
   return (
     <ul className="product--list large">
-      {data.map((el) => (
+      {data && data.map((el) => (
         <li className="product--item" key={el.id}>
           <picture className="product--image">
             <img src={el.img} alt="item" />

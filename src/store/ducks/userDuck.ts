@@ -2,7 +2,7 @@ import { AnyAction } from 'redux';
 import {
   AddAddressParams,
   AddressType,
-  AuthedUser, UserReducerInitialState, UserAuthParams, UserSignUpParams,
+  AuthedUser, UserReducerInitialState, UserAuthParams, UserSignUpParams, ReqProductsOrderHistory, ProductsOrderHistoryRes,
 } from '../../types/user';
 import { CallBacks } from '../../types/main';
 
@@ -36,6 +36,7 @@ export const CLEAR_PRODUCTS_ORDER_HISTORY = 'user/clearProductsOrderHistory';
 const initialState: UserReducerInitialState = {
   user: null,
   addresses: null,
+  productsOrderHistory: null,
 };
 
 export const userReducer = (state = initialState, action: AnyAction): UserReducerInitialState => {
@@ -60,6 +61,16 @@ export const userReducer = (state = initialState, action: AnyAction): UserReduce
       return {
         ...state,
         addresses: null,
+      };
+    case SET_PRODUCTS_ORDER_HISTORY:
+      return {
+        ...state,
+        productsOrderHistory: payload as ProductsOrderHistoryRes,
+      };
+    case CLEAR_PRODUCTS_ORDER_HISTORY:
+      return {
+        ...state,
+        productsOrderHistory: null,
       };
     default:
       return state;
@@ -136,5 +147,21 @@ export const clearUserAddresses = (callbacks?: CallBacks) => ({
 export const removeUserAddress = (addressId: number, callbacks?: CallBacks) => ({
   type: REMOVE_USER_ADDRESS,
   addressId,
+  callbacks,
+});
+
+// products order history
+export const getProductsOrderHistory = (params: ReqProductsOrderHistory, callbacks?: CallBacks) => ({
+  type: GET_PRODUCTS_ORDER_HISTORY,
+  params,
+  callbacks,
+});
+export const setProductsOrderHistory = (payload: ProductsOrderHistoryRes, callbacks?: CallBacks) => ({
+  type: SET_PRODUCTS_ORDER_HISTORY,
+  payload,
+  callbacks,
+});
+export const clearProductsOrderHistory = (callbacks?: CallBacks) => ({
+  type: CLEAR_PRODUCTS_ORDER_HISTORY,
   callbacks,
 });

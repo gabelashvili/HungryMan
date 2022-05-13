@@ -3,9 +3,13 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { CallBacks } from '../../types/main.d';
 import axiosInstance from '../../helpers/axiosInstance';
-import { clearAuthedUser, setAuthedUser, setUserAddresses } from '../ducks/userDuck';
+import {
+  clearAuthedUser, setAuthedUser, setProductsOrderHistory, setUserAddresses,
+} from '../ducks/userDuck';
 import {
   AddAddressParams,
+  ProductsOrderHistoryRes,
+  ReqProductsOrderHistory,
   UserAuthParams, UserSignInResponse, UserSignUpParams,
 } from '../../types/user';
 
@@ -153,5 +157,18 @@ export function* addUserAddress({ params, callbacks }:
   } catch (error: any) {
     toast.error('მოხდა შეცდომა...');
     callbacks?.error && callbacks.error(error.response.status);
+  }
+}
+
+export function* getProductsOrderHistory({ params, callbacks }:
+  { params: ReqProductsOrderHistory, callbacks: CallBacks, type:string }) {
+  try {
+    const { data }: {data: ProductsOrderHistoryRes} = yield axiosInstance.get('/Item/ItemPurchase/GetItemPurchases', { params });
+    yield put(setProductsOrderHistory(data));
+    callbacks?.success && callbacks.success();
+  } catch (error: any) {
+    console.log(error.response);
+    toast.error('მოხდა შეცდომა');
+    callbacks?.error && callbacks.error();
   }
 }
