@@ -21,6 +21,8 @@ import OrderHistory from '../Routes/UserDashboard/OrderHistory';
 import PersonalInfo from '../Routes/UserDashboard/PersonalInfo';
 import UserDashboard from '../Routes/UserDashboard/UserDashboard';
 import { checkToken } from '../store/ducks/userDuck';
+import PaymentError from './Cart/PaymentError';
+import PaymentSuccess from './Cart/PaymentSuccess';
 import Layout from './Layout';
 import RequireAuth from './shared/RequireAuth';
 import './styles.scss';
@@ -100,6 +102,14 @@ function App() {
             {
               path: 'cart',
               element: <RequireAuth><Cart /></RequireAuth>,
+            },
+            {
+              path: 'cart/success',
+              element: <RequireAuth><PaymentSuccess /></RequireAuth>,
+            },
+            {
+              path: 'cart/error',
+              element: <RequireAuth><PaymentError /></RequireAuth>,
             },
           ],
         },
