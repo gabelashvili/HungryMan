@@ -24,7 +24,7 @@ const OrderHistory = () => {
     pageSize: INITIAL_PAGE_SIZE,
     userId: null,
   });
-  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const [selectedItem, setSelectedItem] = useState<ProductOrderHistory | null>(null);
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const disableLoadMoreBtn = productsOrderHistory && (params.pageSize) >= productsOrderHistory.count;
   const tabs = [
@@ -40,7 +40,11 @@ const OrderHistory = () => {
     },
   ];
 
-  const handleItemInfoClick = (id: number) => setSelectedItemId(id);
+  const handleItemInfoClick = (id: number) => {
+    if (productsOrderHistory) {
+      setSelectedItem(productsOrderHistory.items.find((el) => el.id === id) || null);
+    }
+  };
 
   const handleLoadMore = () => {
     if (productsOrderHistory && (params.pageSize) < productsOrderHistory.count) {
@@ -76,8 +80,9 @@ const OrderHistory = () => {
     <div className="panel">
       <UserDashboardModal
         selectedTab={selectedTab}
-        open={!!selectedItemId}
-        handleClose={() => setSelectedItemId(null)}
+        open={!!selectedItem}
+        handleClose={() => setSelectedItem(null)}
+        data={selectedItem}
       />
       <div className="panel--header with-border">
         <h3 className="panel--title">შეკვეთების ისტორია</h3>

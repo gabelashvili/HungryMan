@@ -11,7 +11,7 @@ const Modal = ({
         <div className="modal modal--small">
           <div className="modal--header">
             <h3 className="modal--title">{modalTitle}</h3>
-            <Button type="text" classes="button--icon-rounded button-pull-right" handleClick={handleClose}>
+            <Button type="text" classes="button--icon is-rounded button-pull-right" handleClick={handleClose}>
               <ClearIcon />
             </Button>
           </div>
