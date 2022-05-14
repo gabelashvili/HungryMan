@@ -163,7 +163,7 @@ export function* addUserAddress({ params, callbacks }:
 export function* getProductsOrderHistory({ params, callbacks }:
   { params: ReqProductsOrderHistory, callbacks: CallBacks, type:string }) {
   try {
-    const { data }: {data: ProductsOrderHistoryRes} = yield axiosInstance.get('/Item/ItemPurchase/GetItemPurchases', { params });
+    const { data }: {data: ProductsOrderHistoryRes} = yield axiosInstance.get('/Item/ItemPurchase/GetItemPurchaseDetailsHistory', { params });
     yield put(setProductsOrderHistory(data));
     callbacks?.success && callbacks.success();
   } catch (error: any) {

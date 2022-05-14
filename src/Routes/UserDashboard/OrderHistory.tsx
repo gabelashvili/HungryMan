@@ -6,7 +6,7 @@ import UserDashboardModal from '../../components/UserDashboard/UserDashboardModa
 import Button from '../../components/shared/Button';
 import ArrowIcon from '../../Icons/ArrowIcon';
 import { useAppDispatch, useSelector } from '../../hooks/useSelector';
-import { ReqProductsOrderHistory } from '../../types/user';
+import { ProductOrderHistory, ReqProductsOrderHistory } from '../../types/user';
 import { getProductsOrderHistory } from '../../store/ducks/userDuck';
 
 const INITIAL_PAGE = 1;
@@ -53,7 +53,7 @@ const OrderHistory = () => {
       <Tab inline selectedTab={selectedTab} setSelectedTab={setSelectedTab} tabs={tabs} />
       <div className="panel--content">
         <OrderHistoryList
-          data={selectedTab === 0 ? products : productsOrderHistory?.items}
+          data={selectedTab === 0 ? products : productsOrderHistory?.items.map((el) => generateData(el))}
           handleItemInfoClick={handleItemInfoClick}
         />
         <Button
@@ -77,7 +77,7 @@ const products: OrderHistoryListItem[] = [
     title: 'ჰანგრიმენის ქუდი 1',
     date: '14 აპრ. 2022, 17:45',
     desc: 'საჩუქარი 300 ლარიან შენაძენზე',
-    price: '132ლ',
+    price: 23,
     img: Hat,
   },
   {
@@ -85,7 +85,7 @@ const products: OrderHistoryListItem[] = [
     title: 'ჰანგრიმენის ქუდი 2',
     date: '13 აპრ. 2022, 17:45',
     desc: 'საჩუქარი 40 ლარიან შენაძენზე',
-    price: '13ლ',
+    price: 3,
     img: Hat,
   },
 ];
@@ -102,3 +102,11 @@ const tabs = [
     counter: 12,
   },
 ];
+const generateData = (data: ProductOrderHistory): OrderHistoryListItem => ({
+  id: data.id,
+  date: data.itemPurchase.createdAt,
+  desc: data.item.description,
+  img: data.item?.medias?.length > 0 ? data.item.medias[0].url : '',
+  price: data.item.newPrice,
+  title: data.item.name,
+});

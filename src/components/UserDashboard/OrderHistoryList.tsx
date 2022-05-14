@@ -1,3 +1,6 @@
+import moment from 'moment';
+import 'moment/locale/ka';
+import { generatePath } from '../../helpers';
 import InfoIcon from '../../Icons/InfoIcon';
 import Button from '../shared/Button';
 
@@ -7,15 +10,18 @@ const OrderHistoryList = ({ data, handleItemInfoClick }: PropsType) => {
       {data && data.map((el) => (
         <li className="product--item" key={el.id}>
           <picture className="product--image">
-            <img src={el.img} alt="item" />
+            <img src={generatePath(el.img)} alt="item" />
           </picture>
           <div className="product--details">
-            <div className="product--date">{el.date}</div>
+            <div className="product--date">{moment(el.date).format('DD MMM. YYYY, hh:mm')}</div>
             <h4>{el.title}</h4>
             <p>{el.desc}</p>
           </div>
           <div className="product--options">
-            <span className="product--price">{el.price}</span>
+            <span className="product--price">
+              {el.price}
+              ლ
+            </span>
             <Button type="icon" handleClick={() => handleItemInfoClick(el.id)}>
               <InfoIcon />
             </Button>
@@ -33,11 +39,11 @@ export interface OrderHistoryListItem {
   title: string;
   date: string;
   desc: string;
-  price: string;
+  price: number;
   img: string;
 }
 
 interface PropsType {
-  data: OrderHistoryListItem[],
+  data?: OrderHistoryListItem[],
   handleItemInfoClick: (id:number) => void
 }

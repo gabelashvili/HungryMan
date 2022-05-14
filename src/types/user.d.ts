@@ -1,4 +1,5 @@
 import { PaginationParams } from './main';
+import { ItemDetail, ProductType } from './products';
 
 export interface UserAuthParams {
     phoneOrEmail: string,
@@ -75,21 +76,31 @@ export interface ReqProductsOrderHistory {
 }
 
 export interface ProductOrderHistory {
-    id: number,
+  count: number,
+  id: number,
+  item: ProductType,
+  itemDetail: ItemDetail,
+  itemDetailId: number,
+  itemId: number,
+  itemPurchaseId: number,
+  price: number,
+  itemPurchase: {
+    address: string,
+    city: string,
+    createdAt: string,
+    fullAmount: number,
+    id: number
+    itemPurchaseDetails: any[]
+    itemPurchaseStatus: 1 | 2 | 3 | 4
+    itemSendStatus: 1 | 2 | 3 | 4,
+    userAddressId: number,
     userId: number,
     user: UserType
-    fullAmount: 0,
-    itemPurchaseStatus: 1,
-    city: string,
-    address: string,
-    createdAt: string,
-    itemSendStatus: 1 | 2 | 3,
-    itemPurchaseDetails: any,
-    userAddressId: number
+  }
 }
 
 export interface ProductsOrderHistoryRes extends PaginationParams {
-  items: ProductOrderHistory
+  items: ProductOrderHistory[]
 }
 export interface UserReducerInitialState {
   user: AuthedUser | null,

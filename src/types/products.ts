@@ -1,18 +1,20 @@
 import { MediaType, PaginationParams, PaginationType } from './main';
 
+export interface ItemDetail {
+    color: string
+    id: number
+    inStockCount: number
+    item: null | string,
+    itemId: number
+    size: string
+}
+
 export interface Product {
     description: string
     discountPercent: number,
     id: number
     isInStock: boolean
-    itemDetails: {
-        color: string
-        id: number
-        inStockCount: number
-        item: null | string,
-        itemId: number
-        size: string
-    }[]
+    itemDetails: ItemDetail[]
     medias: MediaType[]
     name: string
     newPrice: number
