@@ -2,7 +2,12 @@ import { AnyAction } from 'redux';
 import {
   AddAddressParams,
   AddressType,
-  AuthedUser, UserReducerInitialState, UserAuthParams, UserSignUpParams, ReqProductsOrderHistory, ProductsOrderHistoryRes,
+  AuthedUser,
+  UserReducerInitialState,
+  UserAuthParams,
+  UserSignUpParams,
+  ReqProductsOrderHistory,
+  ProductsOrderHistoryRes,
 } from '../../types/user';
 import { CallBacks } from '../../types/main';
 
