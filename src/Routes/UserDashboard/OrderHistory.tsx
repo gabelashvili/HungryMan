@@ -7,7 +7,7 @@ import Button from '../../components/shared/Button';
 import ArrowIcon from '../../Icons/ArrowIcon';
 import { useAppDispatch, useSelector } from '../../hooks/useSelector';
 import { ProductOrderHistory, ReqProductsOrderHistory } from '../../types/user';
-import { getProductsOrderHistory } from '../../store/ducks/userDuck';
+import { clearProductsOrderHistory, getProductsOrderHistory } from '../../store/ducks/userDuck';
 
 const INITIAL_PAGE = 1;
 const INITIAL_PAGE_SIZE = 10;
@@ -16,6 +16,7 @@ const OrderHistory = () => {
   const dispatch = useAppDispatch();
   const productsOrderHistory = useSelector((state) => state.userReducer.productsOrderHistory);
   const authedUserId = useSelector((state) => state.userReducer.user?.id);
+  const [loading, setLoading] = useState<boolean>(false);
   const [params, setParams] = useState<ReqProductsOrderHistory>({
     page: INITIAL_PAGE,
     pageSize: INITIAL_PAGE_SIZE,
@@ -23,8 +24,20 @@ const OrderHistory = () => {
   });
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [selectedTab, setSelectedTab] = useState<number>(0);
+  const disableLoadMoreBtn = productsOrderHistory && (params.pageSize) >= productsOrderHistory.count;
 
   const handleItemInfoClick = (id: number) => setSelectedItemId(id);
+
+  const handleLoadMore = () => {
+    if (productsOrderHistory && (params.pageSize) < productsOrderHistory.count) {
+      setLoading(true);
+      setParams({ ...params, pageSize: params.pageSize + INITIAL_PAGE_SIZE });
+      dispatch(getProductsOrderHistory({
+        ...params,
+        pageSize: params.pageSize + INITIAL_PAGE_SIZE,
+      }, { success: () => setLoading(false), error: () => setLoading(false) }));
+    }
+  };
 
   useEffect(() => {
     if (authedUserId) {
@@ -32,13 +45,19 @@ const OrderHistory = () => {
     }
   }, [authedUserId]);
 
+  // get data based on selected tab
   useEffect(() => {
-    if (params.userId) {
-      if (selectedTab === 1 && !productsOrderHistory) {
-        dispatch(getProductsOrderHistory(params));
-      }
+    if (selectedTab === 1 && !productsOrderHistory) {
+      dispatch(getProductsOrderHistory(params));
     }
-  }, [selectedTab, productsOrderHistory, params]);
+  }, [selectedTab, productsOrderHistory]);
+
+  // clear state based on selected state
+  useEffect(() => {
+    if (selectedTab !== 1 && productsOrderHistory) {
+      dispatch(clearProductsOrderHistory());
+    }
+  }, [selectedTab]);
 
   return (
     <div className="panel">
@@ -57,9 +76,11 @@ const OrderHistory = () => {
           handleItemInfoClick={handleItemInfoClick}
         />
         <Button
-                // loading={fetching}
+          loading={loading}
           type="secondary"
           classes="button--icon-right panel--content-btn"
+          handleClick={handleLoadMore}
+          disabled={Boolean(disableLoadMoreBtn)}
         >
           მეტის ნახვა
           <ArrowIcon className="" />

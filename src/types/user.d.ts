@@ -1,4 +1,4 @@
-import { PaginationParams } from './main';
+import { PaginationType } from './main';
 import { ItemDetail, ProductType } from './products';
 
 export interface UserAuthParams {
@@ -99,7 +99,7 @@ export interface ProductOrderHistory {
   }
 }
 
-export interface ProductsOrderHistoryRes extends PaginationParams {
+export interface ProductsOrderHistoryRes extends PaginationType {
   items: ProductOrderHistory[]
 }
 export interface UserReducerInitialState {
