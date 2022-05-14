@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import OrderHistoryList, { OrderHistoryListItem } from '../../components/UserDashboard/OrderHistoryList';
 import Tab from '../../components/shared/Tab/Tab';
 import Hat from '../../assets/images/hat.png';
@@ -14,6 +15,7 @@ const INITIAL_PAGE_SIZE = 10;
 
 const OrderHistory = () => {
   const dispatch = useAppDispatch();
+  const { pathname } = useLocation();
   const productsOrderHistory = useSelector((state) => state.userReducer.productsOrderHistory);
   const authedUserId = useSelector((state) => state.userReducer.user?.id);
   const [loading, setLoading] = useState<boolean>(false);
@@ -25,6 +27,18 @@ const OrderHistory = () => {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const disableLoadMoreBtn = productsOrderHistory && (params.pageSize) >= productsOrderHistory.count;
+  const tabs = [
+    {
+      label: 'უჯრები',
+      value: 0,
+      counter: 12,
+    },
+    {
+      label: 'პროდუქცია',
+      value: 1,
+      counter: productsOrderHistory?.count,
+    },
+  ];
 
   const handleItemInfoClick = (id: number) => setSelectedItemId(id);
 
@@ -47,17 +61,16 @@ const OrderHistory = () => {
 
   // get data based on selected tab
   useEffect(() => {
-    if (selectedTab === 1 && !productsOrderHistory) {
+    if (!productsOrderHistory) {
       dispatch(getProductsOrderHistory(params));
     }
-  }, [selectedTab, productsOrderHistory]);
+  }, [productsOrderHistory]);
 
-  // clear state based on selected state
   useEffect(() => {
-    if (selectedTab !== 1 && productsOrderHistory) {
+    if (pathname !== 'order-history') {
       dispatch(clearProductsOrderHistory());
     }
-  }, [selectedTab]);
+  }, [pathname]);
 
   return (
     <div className="panel">
@@ -97,7 +110,9 @@ const products: OrderHistoryListItem[] = [
     id: 1,
     title: 'ჰანგრიმენის ქუდი 1',
     date: '14 აპრ. 2022, 17:45',
-    desc: 'საჩუქარი 300 ლარიან შენაძენზე',
+    size: 'საჩუქარი 40 ლარიან შენაძენზე',
+    count: 2,
+    color: 'red',
     price: 23,
     img: Hat,
   },
@@ -105,28 +120,20 @@ const products: OrderHistoryListItem[] = [
     id: 2,
     title: 'ჰანგრიმენის ქუდი 2',
     date: '13 აპრ. 2022, 17:45',
-    desc: 'საჩუქარი 40 ლარიან შენაძენზე',
+    size: 'საჩუქარი 40 ლარიან შენაძენზე',
+    count: 2,
+    color: 'red',
     price: 3,
     img: Hat,
   },
 ];
 
-const tabs = [
-  {
-    label: 'უჯრები',
-    value: 0,
-    counter: 12,
-  },
-  {
-    label: 'პროდუქცია',
-    value: 1,
-    counter: 12,
-  },
-];
 const generateData = (data: ProductOrderHistory): OrderHistoryListItem => ({
   id: data.id,
   date: data.itemPurchase.createdAt,
-  desc: data.item.description,
+  count: data.count,
+  color: data.itemDetail.color,
+  size: data.itemDetail.size,
   img: data.item?.medias?.length > 0 ? data.item.medias[0].url : '',
   price: data.item.newPrice,
   title: data.item.name,

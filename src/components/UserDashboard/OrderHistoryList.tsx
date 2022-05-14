@@ -15,11 +15,22 @@ const OrderHistoryList = ({ data, handleItemInfoClick }: PropsType) => {
           <div className="product--details">
             <div className="product--date">{moment(el.date).format('DD MMM. YYYY, hh:mm')}</div>
             <h4>{el.title}</h4>
-            <p>{el.desc}</p>
+            <p>
+              {`ზომა: ${el.size}`}
+              {' '}
+              /
+              ფერი:
+              {' '}
+              <span style={{
+                width: '10px', height: '10px', display: 'inline-block', borderRadius: '50%', background: el.color,
+              }}
+              />
+              {` / რაოდენობა: ${el.count}`}
+            </p>
           </div>
           <div className="product--options">
             <span className="product--price">
-              {el.price}
+              {(el.price * el.count).toFixed(2)}
               ლ
             </span>
             <Button type="icon" handleClick={() => handleItemInfoClick(el.id)}>
@@ -38,8 +49,10 @@ export interface OrderHistoryListItem {
   id: number;
   title: string;
   date: string;
-  desc: string;
+  size: string;
+  color: string,
   price: number;
+  count: number,
   img: string;
 }
 
