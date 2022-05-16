@@ -78,7 +78,7 @@ const ProductDetails = () => {
 
   useEffect(() => {
     if (productDetails) {
-      handleColorsChange(productDetails.itemDetails[0].color || '');
+      handleColorsChange(productDetails.itemDetails[0]?.color || '');
     }
   }, [productDetails]);
 
