@@ -30,7 +30,7 @@ const OrderHistoryList = ({ data, handleItemInfoClick }: PropsType) => {
           </div>
           <div className="product--options">
             <span className="product--price">
-              {(el.price * el.count).toFixed(2)}
+              {el.price}
               ლ
             </span>
             <Button type="icon" handleClick={() => handleItemInfoClick(el.id)}>

@@ -140,6 +140,6 @@ const generateData = (data: ProductOrderHistory): OrderHistoryListItem => ({
   color: data.itemDetail.color,
   size: data.itemDetail.size,
   img: data.item?.medias?.length > 0 ? data.item.medias[0].url : '',
-  price: data.item.newPrice,
+  price: data.price,
   title: data.item.name,
 });
