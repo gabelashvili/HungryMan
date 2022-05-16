@@ -20,6 +20,14 @@
     cursor: not-allowed;
   }
 
+  &.is-medium {
+    height: 56px;
+  }
+
+  &.is-large {
+    height: 64px;
+  }
+
   &--content {
     display: flex;
   }
@@ -149,10 +157,6 @@
       transition: width 1s cubic-bezier(0.47, 0, 0.75, 0.72);
       background-color: #233c52;
     }
-  }
-
-  &.is-large {
-    height: 64px;
   }
 }
 
