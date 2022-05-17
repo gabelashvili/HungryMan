@@ -26,6 +26,7 @@ const ProductsMediaCarousel = ({ data }: {data: MediaType[]}) => {
           </video>
         </div>
       )}
+      {data.length > 1 && (
       <div className="product-details--slider-swiper">
         <Button
           type="icon"
@@ -48,7 +49,7 @@ const ProductsMediaCarousel = ({ data }: {data: MediaType[]}) => {
           breakpoints={sliderBreakPoints}
         >
 
-          {data.map((el, i) => (
+          { data.map((el, i) => (
             <SwiperSlide onClick={() => setActive(i)} key={el.id}>
               {el?.mediaType === 1 ? (
                 <picture className={clsx('product-details-slider--item', i === active && 'active')} key={el.url}>
@@ -69,6 +70,7 @@ const ProductsMediaCarousel = ({ data }: {data: MediaType[]}) => {
           <ArrowIcon />
         </Button>
       </div>
+      )}
     </div>
   );
 };
