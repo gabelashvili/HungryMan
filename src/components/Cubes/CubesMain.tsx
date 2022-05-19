@@ -7,6 +7,7 @@ const ROWS = 354;
 const COLUMNS = 113;
 const WIDTH = 20;
 const HEIGHT = 20;
+const SCROLL_STEP = 5;
 
 const CubesMain = () => {
   const ref = useRef<SVGSVGElement>(null);
@@ -16,16 +17,24 @@ const CubesMain = () => {
       const currentProps = ref.current.getAttribute('viewBox')?.split(' ') || [];
       const width = Number(currentProps[2]) - (Number(currentProps[2]) * 10) / 100;
       const height = Number(currentProps[3]) - (Number(currentProps[3]) * 10) / 100;
-      ref.current?.setAttribute('viewBox', `0 0 ${width} ${height}`);
+      const viewBoxX = Number(currentProps[0]);
+      const viewBoxY = Number(currentProps[1]);
+      ref.current?.setAttribute('viewBox', `${viewBoxX} ${viewBoxY} ${width} ${height}`);
     }
   };
   const handleZoomOut = () => {
     if (ref.current) {
+      const initialWidth = WIDTH * ROWS;
+      const initialHeight = HEIGHT * COLUMNS;
       const currentProps = ref.current.getAttribute('viewBox')?.split(' ') || [];
-      const width = Number(currentProps[2]) + (Number(currentProps[2]) * 10) / 100;
-      const height = Number(currentProps[3]) + (Number(currentProps[3]) * 10) / 100;
-      if (ROWS * WIDTH >= width && COLUMNS * HEIGHT >= height) {
-        ref.current?.setAttribute('viewBox', `0 0 ${width} ${height}`);
+      const viewBoxX = Number(currentProps[0]);
+      const viewBoxY = Number(currentProps[1]);
+      const viewBoxWidth = Number(currentProps[2]) + (Number(currentProps[2]) * 10) / 100;
+      const viewBoxHeight = Number(currentProps[3]) + (Number(currentProps[3]) * 10) / 100;
+      if (ROWS * WIDTH >= viewBoxWidth && COLUMNS * HEIGHT >= viewBoxHeight) {
+        ref.current?.setAttribute('viewBox', `${viewBoxX} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`);
+      } else {
+        ref.current?.setAttribute('viewBox', `${viewBoxX} ${viewBoxY} ${initialWidth} ${initialHeight}`);
       }
     }
   };
@@ -34,11 +43,18 @@ const CubesMain = () => {
     if (ref.current) {
       const currentProps = ref.current.getAttribute('viewBox')?.split(' ') || [];
       const viewBoxX = Number(currentProps[0]);
+      const viewBoxY = Number(currentProps[1]);
       const viewBoxWidth = Number(currentProps[2]);
       const viewBoxHeight = Number(currentProps[3]);
-      const visibleCubesNumber = Math.floor(viewBoxWidth / WIDTH);
-      if (WIDTH * ROWS - WIDTH * visibleCubesNumber > viewBoxX) {
-        ref.current?.setAttribute('viewBox', `${viewBoxX + 50} 0 ${viewBoxWidth} ${viewBoxHeight}`);
+      const maxScrollX = WIDTH * ROWS - viewBoxWidth;
+      const visibleCubesNumber = Math.floor((viewBoxX + viewBoxWidth) / WIDTH);
+      const hiddenCubesNumber = ROWS - visibleCubesNumber;
+      const oneCubeWidth = maxScrollX / hiddenCubesNumber;
+      if (hiddenCubesNumber >= SCROLL_STEP && viewBoxX + SCROLL_STEP * oneCubeWidth <= maxScrollX) {
+        ref.current?.setAttribute('viewBox', `${viewBoxX + SCROLL_STEP * oneCubeWidth} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`);
+      } else {
+        console.log('aqaa');
+        ref.current?.setAttribute('viewBox', `${maxScrollX} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`);
       }
     }
   };
@@ -47,10 +63,17 @@ const CubesMain = () => {
     if (ref.current) {
       const currentProps = ref.current.getAttribute('viewBox')?.split(' ') || [];
       const viewBoxX = Number(currentProps[0]);
+      const viewBoxY = Number(currentProps[1]);
       const viewBoxWidth = Number(currentProps[2]);
       const viewBoxHeight = Number(currentProps[3]);
-      if (viewBoxX > 0) {
-        ref.current?.setAttribute('viewBox', `${viewBoxX - 50} 0 ${viewBoxWidth} ${viewBoxHeight}`);
+      const maxScrollX = WIDTH * ROWS - viewBoxWidth;
+      const visibleCubesNumber = Math.floor((viewBoxX + viewBoxWidth) / WIDTH);
+      const hiddenCubesNumber = ROWS - visibleCubesNumber;
+      const oneCubeWidth = maxScrollX / hiddenCubesNumber;
+      if (viewBoxX - SCROLL_STEP * oneCubeWidth > 0) {
+        ref.current?.setAttribute('viewBox', `${viewBoxX - SCROLL_STEP * oneCubeWidth} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`);
+      } else {
+        ref.current?.setAttribute('viewBox', `${0} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`);
       }
     }
   };
@@ -63,23 +86,6 @@ const CubesMain = () => {
     }
   };
 
-  const handleMouseMove = (e: MouseEvent) => {
-    if (isMouseClicked.current) {
-      let direction = '';
-      if (e.movementY > 0 && e.movementX === 0) {
-        direction = 'down';
-      } else if (e.movementY < 0 && e.movementX === 0) {
-        direction = 'up';
-      } else if (e.movementX > 0 && e.movementY === 0) {
-        direction = 'right';
-        handleLeftScroll();
-      } else if (e.movementX < 0 && e.movementY === 0) {
-        direction = 'left';
-        handleRightScroll();
-      }
-      console.log(direction);
-    }
-  };
   return (
     <div style={{ width: '100%', height: '800px' }}>
       <button onClick={handleZoomIn}>increase</button>
@@ -87,7 +93,7 @@ const CubesMain = () => {
       <button onClick={handleLeftScroll}>handleLeftScroll</button>
       <button onClick={handleRightScroll}>handleRightScroll</button>
       <svg
-        viewBox={`0 0 ${ROWS * (WIDTH) + 5} ${COLUMNS * HEIGHT}`}
+        viewBox={`0 0 ${ROWS * (WIDTH)} ${COLUMNS * HEIGHT}`}
         ref={ref}
         onWheel={handleMouseWheel}
         onMouseDown={() => {
@@ -96,7 +102,9 @@ const CubesMain = () => {
         onMouseUp={() => {
           isMouseClicked.current = false;
         }}
-        onMouseMove={handleMouseMove}
+        onMouseLeave={() => {
+          isMouseClicked.current = false;
+        }}
       >
         {renderCubes()}
       </svg>
