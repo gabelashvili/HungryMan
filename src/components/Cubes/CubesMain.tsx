@@ -32,8 +32,10 @@ const CubesMain = () => {
       const viewBoxHeight = Number(currentProps[3]) + (Number(currentProps[3]) * 10) / 100;
       const shouldBeVisible = (viewBoxWidth / WIDTH);
       const currentVisibleCubesNumber = ((initialWidth - viewBoxX) / WIDTH);
+      const shouldBeVisibleColumns = (viewBoxHeight / HEIGHT);
+      const currentVisibleCubesNumberColumns = ((initialHeight - viewBoxX) / HEIGHT);
       if (ROWS * WIDTH >= viewBoxWidth && COLUMNS * HEIGHT >= viewBoxHeight) {
-        ref.current?.setAttribute('viewBox', `${shouldBeVisible !== currentVisibleCubesNumber ? 0 : viewBoxX} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`);
+        ref.current?.setAttribute('viewBox', `${shouldBeVisible !== currentVisibleCubesNumber ? 0 : viewBoxX} ${shouldBeVisibleColumns !== currentVisibleCubesNumberColumns ? 0 : viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`);
       } else {
         ref.current?.setAttribute('viewBox', `${viewBoxX} ${viewBoxY} ${initialWidth} ${initialHeight}`);
       }
