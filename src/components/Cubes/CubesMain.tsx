@@ -1,12 +1,11 @@
 import {
-  MouseEvent,
   useRef, WheelEvent,
 } from 'react';
 
 const ROWS = 354;
 const COLUMNS = 113;
-const WIDTH = 20;
-const HEIGHT = 20;
+const WIDTH = 150;
+const HEIGHT = 150;
 const SCROLL_STEP = 5;
 
 const CubesMain = () => {
@@ -31,8 +30,10 @@ const CubesMain = () => {
       const viewBoxY = Number(currentProps[1]);
       const viewBoxWidth = Number(currentProps[2]) + (Number(currentProps[2]) * 10) / 100;
       const viewBoxHeight = Number(currentProps[3]) + (Number(currentProps[3]) * 10) / 100;
+      const shouldBeVisible = (viewBoxWidth / WIDTH);
+      const currentVisibleCubesNumber = ((initialWidth - viewBoxX) / WIDTH);
       if (ROWS * WIDTH >= viewBoxWidth && COLUMNS * HEIGHT >= viewBoxHeight) {
-        ref.current?.setAttribute('viewBox', `${viewBoxX} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`);
+        ref.current?.setAttribute('viewBox', `${shouldBeVisible !== currentVisibleCubesNumber ? 0 : viewBoxX} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`);
       } else {
         ref.current?.setAttribute('viewBox', `${viewBoxX} ${viewBoxY} ${initialWidth} ${initialHeight}`);
       }
@@ -53,7 +54,6 @@ const CubesMain = () => {
       if (hiddenCubesNumber >= SCROLL_STEP && viewBoxX + SCROLL_STEP * oneCubeWidth <= maxScrollX) {
         ref.current?.setAttribute('viewBox', `${viewBoxX + SCROLL_STEP * oneCubeWidth} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`);
       } else {
-        console.log('aqaa');
         ref.current?.setAttribute('viewBox', `${maxScrollX} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`);
       }
     }
