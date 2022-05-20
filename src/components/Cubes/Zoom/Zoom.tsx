@@ -2,7 +2,7 @@ import MinusIcon from '../../../Icons/MinusIcon';
 import PlusIcon from '../../../Icons/PlusIcon';
 import './zoom.scss';
 
-const Zoom = ({ zoomPercent, zoomIn, zoomOut }: {zoomPercent:number, zoomIn: () => void, zoomOut: () => void}) => {
+const Zoom = ({ zoomPercent, zoomIn, zoomOut }: {zoomPercent:number, zoomIn?: () => void, zoomOut?: () => void}) => {
   return (
     <div className="zoom">
       <button className="zoom--button" onClick={zoomOut}>

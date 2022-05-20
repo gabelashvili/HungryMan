@@ -1,9 +1,10 @@
 import {
-  useRef, useState, WheelEvent,
+  Dispatch,
+  memo,
+  SetStateAction,
+  useEffect,
+  useRef, WheelEvent,
 } from 'react';
-import CubesStatistic from './CubesStatistic/CubesStatistic';
-import SelectedCubesBar from './SelectedCubesBar/SelectedCubesBar';
-import Zoom from './Zoom/Zoom';
 
 const ROWS = 354;
 const COLUMNS = 113;
@@ -11,28 +12,27 @@ const WIDTH = 20;
 const HEIGHT = 20;
 const SCROLL_STEP = 5;
 
-const CubesMain = () => {
-  const [zoomPercent, setZoomPercent] = useState<number>(100);
-  const ref = useRef<SVGSVGElement>(null);
+const CubesMain = ({ setZoomPercent, setMethods }: PropsTypes) => {
+  const mainRef = useRef<SVGSVGElement>(null);
   const isMouseClicked = useRef<boolean>(false);
   const handleZoomIn = () => {
-    if (ref.current) {
+    if (mainRef.current) {
       const initialWidth = WIDTH * ROWS;
-      const currentProps = ref.current.getAttribute('viewBox')?.split(' ') || [];
+      const currentProps = mainRef.current.getAttribute('viewBox')?.split(' ') || [];
       const width = Number(currentProps[2]) - (Number(currentProps[2]) * 10) / 100;
       const height = Number(currentProps[3]) - (Number(currentProps[3]) * 10) / 100;
       const zoomedPercent = (initialWidth / width) * 100;
       const viewBoxX = Number(currentProps[0]);
       const viewBoxY = Number(currentProps[1]);
-      ref.current?.setAttribute('viewBox', `${viewBoxX} ${viewBoxY} ${width} ${height}`);
+      mainRef.current?.setAttribute('viewBox', `${viewBoxX} ${viewBoxY} ${width} ${height}`);
       setZoomPercent(zoomedPercent);
     }
   };
   const handleZoomOut = () => {
-    if (ref.current) {
+    if (mainRef.current) {
       const initialWidth = WIDTH * ROWS;
       const initialHeight = HEIGHT * COLUMNS;
-      const currentProps = ref.current.getAttribute('viewBox')?.split(' ') || [];
+      const currentProps = mainRef.current.getAttribute('viewBox')?.split(' ') || [];
       const viewBoxX = Number(currentProps[0]);
       const viewBoxY = Number(currentProps[1]);
       const viewBoxWidth = Number(currentProps[2]) + (Number(currentProps[2]) * 10) / 100;
@@ -45,17 +45,17 @@ const CubesMain = () => {
 
       if (ROWS * WIDTH >= viewBoxWidth && COLUMNS * HEIGHT >= viewBoxHeight) {
         setZoomPercent(zoomedPercent);
-        ref.current?.setAttribute('viewBox', `${shouldBeVisible !== currentVisibleCubesNumber ? 0 : viewBoxX} ${shouldBeVisibleColumns !== currentVisibleCubesNumberColumns ? 0 : viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`);
+        mainRef.current?.setAttribute('viewBox', `${shouldBeVisible !== currentVisibleCubesNumber ? 0 : viewBoxX} ${shouldBeVisibleColumns !== currentVisibleCubesNumberColumns ? 0 : viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`);
       } else {
         setZoomPercent(100);
-        ref.current?.setAttribute('viewBox', `${viewBoxX} ${viewBoxY} ${initialWidth} ${initialHeight}`);
+        mainRef.current?.setAttribute('viewBox', `${viewBoxX} ${viewBoxY} ${initialWidth} ${initialHeight}`);
       }
     }
   };
 
   const handleRightScroll = () => {
-    if (ref.current) {
-      const currentProps = ref.current.getAttribute('viewBox')?.split(' ') || [];
+    if (mainRef.current) {
+      const currentProps = mainRef.current.getAttribute('viewBox')?.split(' ') || [];
       const viewBoxX = Number(currentProps[0]);
       const viewBoxY = Number(currentProps[1]);
       const viewBoxWidth = Number(currentProps[2]);
@@ -65,16 +65,16 @@ const CubesMain = () => {
       const hiddenCubesNumber = ROWS - visibleCubesNumber;
       const oneCubeWidth = maxScrollX / hiddenCubesNumber;
       if (hiddenCubesNumber >= SCROLL_STEP && viewBoxX + SCROLL_STEP * oneCubeWidth <= maxScrollX) {
-        ref.current?.setAttribute('viewBox', `${viewBoxX + SCROLL_STEP * oneCubeWidth} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`);
+        mainRef.current?.setAttribute('viewBox', `${viewBoxX + SCROLL_STEP * oneCubeWidth} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`);
       } else {
-        ref.current?.setAttribute('viewBox', `${maxScrollX} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`);
+        mainRef.current?.setAttribute('viewBox', `${maxScrollX} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`);
       }
     }
   };
 
   const handleLeftScroll = () => {
-    if (ref.current) {
-      const currentProps = ref.current.getAttribute('viewBox')?.split(' ') || [];
+    if (mainRef.current) {
+      const currentProps = mainRef.current.getAttribute('viewBox')?.split(' ') || [];
       const viewBoxX = Number(currentProps[0]);
       const viewBoxY = Number(currentProps[1]);
       const viewBoxWidth = Number(currentProps[2]);
@@ -84,16 +84,16 @@ const CubesMain = () => {
       const hiddenCubesNumber = ROWS - visibleCubesNumber;
       const oneCubeWidth = maxScrollX / hiddenCubesNumber;
       if (viewBoxX - SCROLL_STEP * oneCubeWidth > 0) {
-        ref.current?.setAttribute('viewBox', `${viewBoxX - SCROLL_STEP * oneCubeWidth} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`);
+        mainRef.current?.setAttribute('viewBox', `${viewBoxX - SCROLL_STEP * oneCubeWidth} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`);
       } else {
-        ref.current?.setAttribute('viewBox', `${0} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`);
+        mainRef.current?.setAttribute('viewBox', `${0} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`);
       }
     }
   };
 
   const handleDownScroll = () => {
-    if (ref.current) {
-      const currentProps = ref.current.getAttribute('viewBox')?.split(' ') || [];
+    if (mainRef.current) {
+      const currentProps = mainRef.current.getAttribute('viewBox')?.split(' ') || [];
       const viewBoxX = Number(currentProps[0]);
       const viewBoxY = Number(currentProps[1]);
       const viewBoxWidth = Number(currentProps[2]);
@@ -103,16 +103,16 @@ const CubesMain = () => {
       const hiddenCubesNumber = COLUMNS - visibleCubesNumber;
       const oneCubeWidth = maxScrollY / hiddenCubesNumber;
       if (hiddenCubesNumber >= SCROLL_STEP && viewBoxY + SCROLL_STEP * oneCubeWidth <= maxScrollY) {
-        ref.current?.setAttribute('viewBox', `${viewBoxX} ${viewBoxY + SCROLL_STEP * oneCubeWidth} ${viewBoxWidth} ${viewBoxHeight}`);
+        mainRef.current?.setAttribute('viewBox', `${viewBoxX} ${viewBoxY + SCROLL_STEP * oneCubeWidth} ${viewBoxWidth} ${viewBoxHeight}`);
       } else {
-        ref.current?.setAttribute('viewBox', `${viewBoxX} ${maxScrollY} ${viewBoxWidth} ${viewBoxHeight}`);
+        mainRef.current?.setAttribute('viewBox', `${viewBoxX} ${maxScrollY} ${viewBoxWidth} ${viewBoxHeight}`);
       }
     }
   };
 
   const handleUpScroll = () => {
-    if (ref.current) {
-      const currentProps = ref.current.getAttribute('viewBox')?.split(' ') || [];
+    if (mainRef.current) {
+      const currentProps = mainRef.current.getAttribute('viewBox')?.split(' ') || [];
       const viewBoxX = Number(currentProps[0]);
       const viewBoxY = Number(currentProps[1]);
       const viewBoxWidth = Number(currentProps[2]);
@@ -122,9 +122,9 @@ const CubesMain = () => {
       const hiddenCubesNumber = COLUMNS - visibleCubesNumber;
       const oneCubeWidth = maxScrollY / hiddenCubesNumber;
       if (viewBoxY - SCROLL_STEP * oneCubeWidth > 0) {
-        ref.current?.setAttribute('viewBox', `${viewBoxX} ${viewBoxY - SCROLL_STEP * oneCubeWidth} ${viewBoxWidth} ${viewBoxHeight}`);
+        mainRef.current?.setAttribute('viewBox', `${viewBoxX} ${viewBoxY - SCROLL_STEP * oneCubeWidth} ${viewBoxWidth} ${viewBoxHeight}`);
       } else {
-        ref.current?.setAttribute('viewBox', `${viewBoxX} ${0} ${viewBoxWidth} ${viewBoxHeight}`);
+        mainRef.current?.setAttribute('viewBox', `${viewBoxX} ${0} ${viewBoxWidth} ${viewBoxHeight}`);
       }
     }
   };
@@ -137,20 +137,27 @@ const CubesMain = () => {
     }
   };
 
+  useEffect(() => {
+    setMethods({
+      handleZoomIn,
+      handleZoomOut,
+      handleRightScroll,
+      handleLeftScroll,
+    });
+  }, []);
+
   return (
     <div style={{
       width: '100%', height: '100%', display: 'flex', justifyContent: 'center', flexDirection: 'column',
     }}
     >
-      <button onClick={handleZoomIn}>increase</button>
-      <button onClick={handleZoomOut}>decrease</button>
       <button onClick={handleLeftScroll}>handleLeftScroll</button>
       <button onClick={handleRightScroll}>handleRightScroll</button>
       <button onClick={handleDownScroll}>handleDownScroll</button>
       <button onClick={handleUpScroll}>handleUpScroll</button>
       <svg
         viewBox={`0 0 ${ROWS * (WIDTH)} ${COLUMNS * HEIGHT}`}
-        ref={ref}
+        ref={mainRef}
         onWheel={handleMouseWheel}
         onMouseDown={() => {
           isMouseClicked.current = true;
@@ -164,14 +171,11 @@ const CubesMain = () => {
       >
         {renderCubes()}
       </svg>
-      <CubesStatistic />
-      <SelectedCubesBar />
-      <Zoom zoomPercent={zoomPercent} zoomIn={handleZoomIn} zoomOut={handleZoomOut} />
     </div>
   );
 };
 
-export default CubesMain;
+export default memo(CubesMain);
 
 const renderCubes = () => {
   const cubes = [];
@@ -203,3 +207,8 @@ const renderCubes = () => {
   }
   return cubes;
 };
+
+interface PropsTypes {
+  setZoomPercent: Dispatch<SetStateAction<number>>,
+  setMethods: Dispatch<SetStateAction<any>>
+}
