@@ -14,11 +14,14 @@ const WIDTH = 20;
 const HEIGHT = 20;
 const SCROLL_STEP = 5;
 
+// cube type = selected | new | null
+
 const CubesMain = ({ setZoomPercent, setMethods, setAuthedUserSelectedCubes }: PropsTypes) => {
   const authedUserId = useSelector((state) => state.userReducer.user?.id);
   const mainRef = useRef<SVGSVGElement>(null);
   const isMouseClicked = useRef<boolean>(false);
   const authedUserSelectedCubes = useRef<string[]>([]);
+  const isSelecting = useRef<boolean>(false);
   const handleZoomIn = () => {
     if (mainRef.current) {
       const initialWidth = WIDTH * ROWS;
@@ -167,16 +170,52 @@ const CubesMain = ({ setZoomPercent, setMethods, setAuthedUserSelectedCubes }: P
     return false;
   };
 
-  const handleCubeClick = (e: MouseEvent<SVGRectElement | null>) => {
-    const target = e.target as HTMLElement;
+  const handleCubeSelect = (target: HTMLElement) => {
     const isSelected = target.getAttribute('userId');
     const currentCubeId = target.getAttribute('id');
     if (!isSelected && currentCubeId && authedUserId && isValidCubeForSelect(target)) {
       authedUserSelectedCubes.current.push(currentCubeId);
       setAuthedUserSelectedCubes(authedUserSelectedCubes.current.length);
       target.setAttribute('userId', authedUserId?.toString());
+      target.setAttribute('type', 'new');
+      target.setAttribute('originalColor', target.getAttribute('style')?.split(':')[1].replace(';', '') || '');
       target.style.fill = 'grey';
     }
+  };
+
+  const handleCubeDeselect = (target: HTMLElement) => {
+    const cubeId = target.getAttribute('id');
+    // const topNeighborCube = document.getElementById((Number(cubeId) - ROWS).toString());
+    // const bottomNeighborCube = document.getElementById((Number(cubeId) + ROWS).toString());
+    // const leftNeighborCube = document.getElementById((Number(cubeId) - 1).toString());
+    // const rightNeighborCube = document.getElementById((Number(cubeId) + 1).toString());
+
+    const color = target.getAttribute('originalColor');
+    target.style.fill = color || '';
+    target.removeAttribute('userId');
+    target.removeAttribute('type');
+    target.removeAttribute('originalColor');
+    authedUserSelectedCubes.current = authedUserSelectedCubes.current.filter((id) => id !== cubeId);
+    setAuthedUserSelectedCubes(authedUserSelectedCubes.current.length);
+    return true;
+  };
+
+  const handleCubeClick = (e: MouseEvent<SVGRectElement | SVGElement | null>) => {
+    const target = e.target as HTMLElement;
+    const type = target.getAttribute('type');
+    const userId = target.getAttribute('userId');
+    if (!type) {
+      handleCubeSelect(target);
+    }
+    if (type === 'new' && Number(userId) === authedUserId && !isSelecting.current) {
+      console.log('deselect');
+      console.log(handleCubeDeselect(target));
+    }
+  };
+
+  const handleMultipleCubeSelect = (e: MouseEvent<SVGElement>) => {
+    isMouseClicked.current && handleCubeClick(e);
+    isSelecting.current = true;
   };
 
   useEffect(() => {
@@ -206,10 +245,13 @@ const CubesMain = ({ setZoomPercent, setMethods, setAuthedUserSelectedCubes }: P
         }}
         onMouseUp={() => {
           isMouseClicked.current = false;
+          isSelecting.current = false;
         }}
         onMouseLeave={() => {
           isMouseClicked.current = false;
+          isSelecting.current = false;
         }}
+        onMouseMove={(e) => handleMultipleCubeSelect(e)}
       >
         {renderCubes(handleCubeClick)}
       </svg>
