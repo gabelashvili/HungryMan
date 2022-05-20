@@ -1,6 +1,9 @@
 import {
-  useRef, WheelEvent,
+  useRef, useState, WheelEvent,
 } from 'react';
+import CubesStatistic from './CubesStatistic/CubesStatistic';
+import SelectedCubesBar from './SelectedCubesBar/SelectedCubesBar';
+import Zoom from './Zoom/Zoom';
 
 const ROWS = 354;
 const COLUMNS = 113;
@@ -9,16 +12,20 @@ const HEIGHT = 20;
 const SCROLL_STEP = 5;
 
 const CubesMain = () => {
+  const [zoomPercent, setZoomPercent] = useState<number>(100);
   const ref = useRef<SVGSVGElement>(null);
   const isMouseClicked = useRef<boolean>(false);
   const handleZoomIn = () => {
     if (ref.current) {
+      const initialWidth = WIDTH * ROWS;
       const currentProps = ref.current.getAttribute('viewBox')?.split(' ') || [];
       const width = Number(currentProps[2]) - (Number(currentProps[2]) * 10) / 100;
       const height = Number(currentProps[3]) - (Number(currentProps[3]) * 10) / 100;
+      const zoomedPercent = (initialWidth / width) * 100;
       const viewBoxX = Number(currentProps[0]);
       const viewBoxY = Number(currentProps[1]);
       ref.current?.setAttribute('viewBox', `${viewBoxX} ${viewBoxY} ${width} ${height}`);
+      setZoomPercent(zoomedPercent);
     }
   };
   const handleZoomOut = () => {
@@ -34,9 +41,13 @@ const CubesMain = () => {
       const currentVisibleCubesNumber = ((initialWidth - viewBoxX) / WIDTH);
       const shouldBeVisibleColumns = (viewBoxHeight / HEIGHT);
       const currentVisibleCubesNumberColumns = ((initialHeight - viewBoxX) / HEIGHT);
+      const zoomedPercent = (initialWidth / viewBoxWidth) * 100;
+
       if (ROWS * WIDTH >= viewBoxWidth && COLUMNS * HEIGHT >= viewBoxHeight) {
+        setZoomPercent(zoomedPercent);
         ref.current?.setAttribute('viewBox', `${shouldBeVisible !== currentVisibleCubesNumber ? 0 : viewBoxX} ${shouldBeVisibleColumns !== currentVisibleCubesNumberColumns ? 0 : viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`);
       } else {
+        setZoomPercent(100);
         ref.current?.setAttribute('viewBox', `${viewBoxX} ${viewBoxY} ${initialWidth} ${initialHeight}`);
       }
     }
@@ -153,6 +164,9 @@ const CubesMain = () => {
       >
         {renderCubes()}
       </svg>
+      <CubesStatistic />
+      <SelectedCubesBar />
+      <Zoom zoomPercent={zoomPercent} zoomIn={handleZoomIn} zoomOut={handleZoomOut} />
     </div>
   );
 };

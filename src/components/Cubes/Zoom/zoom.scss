@@ -1,0 +1,45 @@
+.zoom {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    overflow: hidden;
+    position: fixed;
+    height: 34px;
+    bottom: 48px;
+    right: 48px;
+    border-radius: 6px;
+    &--value {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Helvetica";
+      font-style: normal;
+      font-weight: 700;
+      font-size: 12px;
+      line-height: 14px;
+      color: #000000;
+      border-width: 0 1px;
+      border-style: solid;
+      border-color: #eeeeee;
+      width: 50px;
+      text-align: center;
+      height: 100%;
+    }
+    &--button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      outline: 0;
+      background-color: #fff;
+      width: 32px;
+      height: 100%;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+  
+      &:hover {
+        background-color: #f0f0f0;
+      }
+    }
+  }
+  
