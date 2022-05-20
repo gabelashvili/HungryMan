@@ -15,7 +15,7 @@ const Cubes = () => {
     }
   }, []);
   return (
-    <div>
+    <div style={{ display: 'flex', justifyContent: 'center', height: '100%' }}>
       <CubesMain setZoomPercent={setZoomPercent} setMethods={setMethods} />
       <CubesStatistic />
       <SelectedCubesBar />

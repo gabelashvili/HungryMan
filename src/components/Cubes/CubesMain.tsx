@@ -14,6 +14,7 @@ const SCROLL_STEP = 5;
 
 const CubesMain = ({ setZoomPercent, setMethods }: PropsTypes) => {
   const mainRef = useRef<SVGSVGElement>(null);
+  const selectSvgRef = useRef<SVGRectElement>(null);
   const isMouseClicked = useRef<boolean>(false);
   const handleZoomIn = () => {
     if (mainRef.current) {
@@ -159,8 +160,10 @@ const CubesMain = ({ setZoomPercent, setMethods }: PropsTypes) => {
         viewBox={`0 0 ${ROWS * (WIDTH)} ${COLUMNS * HEIGHT}`}
         ref={mainRef}
         onWheel={handleMouseWheel}
-        onMouseDown={() => {
+        onMouseDown={(e) => {
           isMouseClicked.current = true;
+          console.log(e.clientX);
+          // selectSvgRef.current?.setAttribute('y', e.clientY);
         }}
         onMouseUp={() => {
           isMouseClicked.current = false;
@@ -169,6 +172,18 @@ const CubesMain = ({ setZoomPercent, setMethods }: PropsTypes) => {
           isMouseClicked.current = false;
         }}
       >
+        <svg width="400" height="180">
+          <rect
+            ref={selectSvgRef}
+            x="0"
+            y="20"
+            width="150"
+            height="150"
+            style={{
+              fill: 'transparent', stroke: 'blue', strokeWidth: 2, strokeOpacity: 0.9,
+            }}
+          />
+        </svg>
         {renderCubes()}
       </svg>
     </div>
@@ -195,7 +210,6 @@ const renderCubes = () => {
           key={i * ROWS + j}
           id={(i * ROWS + j + 1).toString()}
           onClick={(e) => console.log(e.target)}
-
         />
       );
       cubes.push(el);
