@@ -6,6 +6,7 @@ import Zoom from '../components/Cubes/Zoom/Zoom';
 
 const Cubes = () => {
   const [zoomPercent, setZoomPercent] = useState<number>(100);
+  const [authedUserSelectedCubes, setAuthedUserSelectedCubes] = useState<number>(0);
   const [methods, setMethods] = useState<CubesMainMethods | null>(null);
   const cubesMainMethods = useRef<CubesMainMethods>();
 
@@ -16,9 +17,13 @@ const Cubes = () => {
   }, []);
   return (
     <div style={{ display: 'flex', justifyContent: 'center', height: '100%' }}>
-      <CubesMain setZoomPercent={setZoomPercent} setMethods={setMethods} />
+      <CubesMain
+        setZoomPercent={setZoomPercent}
+        setMethods={setMethods}
+        setAuthedUserSelectedCubes={setAuthedUserSelectedCubes}
+      />
       <CubesStatistic />
-      <SelectedCubesBar />
+      <SelectedCubesBar selectedCubes={authedUserSelectedCubes} />
       <Zoom
         zoomPercent={zoomPercent}
         zoomIn={methods?.handleZoomIn}

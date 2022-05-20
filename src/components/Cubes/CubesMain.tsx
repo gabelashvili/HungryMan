@@ -1,20 +1,24 @@
 import {
   Dispatch,
   memo,
+  MouseEvent,
   SetStateAction,
   useEffect,
   useRef, WheelEvent,
 } from 'react';
+import { useSelector } from '../../hooks/useSelector';
 
-const ROWS = 354;
-const COLUMNS = 113;
+const ROWS = 10;
+const COLUMNS = 20;
 const WIDTH = 20;
 const HEIGHT = 20;
 const SCROLL_STEP = 5;
 
-const CubesMain = ({ setZoomPercent, setMethods }: PropsTypes) => {
+const CubesMain = ({ setZoomPercent, setMethods, setAuthedUserSelectedCubes }: PropsTypes) => {
+  const authedUserId = useSelector((state) => state.userReducer.user?.id);
   const mainRef = useRef<SVGSVGElement>(null);
   const isMouseClicked = useRef<boolean>(false);
+  const authedUserSelectedCubes = useRef<string[]>([]);
   const handleZoomIn = () => {
     if (mainRef.current) {
       const initialWidth = WIDTH * ROWS;
@@ -137,6 +141,44 @@ const CubesMain = ({ setZoomPercent, setMethods }: PropsTypes) => {
     }
   };
 
+  const isValidCubeForSelect = (target: HTMLElement) => {
+    const cubeId = target.getAttribute('id');
+    const isSelected = target.getAttribute('userId');
+    // const selectedCubeY = Math.ceil(Number(cubeId) / ROWS);
+    // const selectedCubeX = Number(cubeId) - (selectedCubeY - 1) * ROWS;
+    const topNeighborCubeUserId = document.getElementById((Number(cubeId) - ROWS).toString())?.getAttribute('userId');
+    const bottomNeighborCubeUserId = document.getElementById((Number(cubeId) + ROWS).toString())?.getAttribute('userId');
+    const leftNeighborCubeUserId = document.getElementById((Number(cubeId) - 1).toString())?.getAttribute('userId');
+    const rightNeighborCubeUserId = document.getElementById((Number(cubeId) + 1).toString())?.getAttribute('userId');
+    if (isSelected) {
+      return false;
+    }
+    if (authedUserSelectedCubes.current.length === 0) {
+      return true;
+    }
+    if (authedUserSelectedCubes.current.length > 0
+       && (
+         topNeighborCubeUserId === authedUserId?.toString()
+         || bottomNeighborCubeUserId === authedUserId?.toString()
+         || leftNeighborCubeUserId === authedUserId?.toString()
+         || rightNeighborCubeUserId === authedUserId?.toString())) {
+      return true;
+    }
+    return false;
+  };
+
+  const handleCubeClick = (e: MouseEvent<SVGRectElement | null>) => {
+    const target = e.target as HTMLElement;
+    const isSelected = target.getAttribute('userId');
+    const currentCubeId = target.getAttribute('id');
+    if (!isSelected && currentCubeId && authedUserId && isValidCubeForSelect(target)) {
+      authedUserSelectedCubes.current.push(currentCubeId);
+      setAuthedUserSelectedCubes(authedUserSelectedCubes.current.length);
+      target.setAttribute('userId', authedUserId?.toString());
+      target.style.fill = 'grey';
+    }
+  };
+
   useEffect(() => {
     setMethods({
       handleZoomIn,
@@ -169,7 +211,7 @@ const CubesMain = ({ setZoomPercent, setMethods }: PropsTypes) => {
           isMouseClicked.current = false;
         }}
       >
-        {renderCubes()}
+        {renderCubes(handleCubeClick)}
       </svg>
     </div>
   );
@@ -177,10 +219,10 @@ const CubesMain = ({ setZoomPercent, setMethods }: PropsTypes) => {
 
 export default memo(CubesMain);
 
-const renderCubes = () => {
+const renderCubes = (handleCubeClick: (e: MouseEvent<SVGRectElement | null>) => void) => {
   const cubes = [];
-  let color = 'red';
-  // let color = '#09141E';
+  // let color = 'red';
+  let color = '#09141E';
   for (let i = 0; i < COLUMNS; i++) {
     for (let j = 0; j < ROWS; j++) {
       const x = j * WIDTH;
@@ -194,20 +236,21 @@ const renderCubes = () => {
           style={{ fill: color }}
           key={i * ROWS + j}
           id={(i * ROWS + j + 1).toString()}
-          onClick={(e) => console.log(e.target)}
+          onClick={(e) => handleCubeClick(e)}
         />
       );
       cubes.push(el);
-      color = color === 'red' ? 'green' : 'red';
-      // color = color === '#09141E' ? '#0C1925' : '#09141E';
+      // color = color === 'red' ? 'green' : 'red';
+      color = color === '#09141E' ? '#0C1925' : '#09141E';
     }
-    color = color === 'red' ? 'green' : 'red';
-    // color = color === '#09141E' ? '#0C1925' : '#09141E';
+    // color = color === 'red' ? 'green' : 'red';
+    color = color === '#09141E' ? '#0C1925' : '#09141E';
   }
   return cubes;
 };
 
 interface PropsTypes {
   setZoomPercent: Dispatch<SetStateAction<number>>,
-  setMethods: Dispatch<SetStateAction<any>>
+  setMethods: Dispatch<SetStateAction<any>>,
+  setAuthedUserSelectedCubes: Dispatch<SetStateAction<number>>
 }
