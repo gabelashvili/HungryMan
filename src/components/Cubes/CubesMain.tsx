@@ -127,7 +127,10 @@ const CubesMain = () => {
   };
 
   return (
-    <div style={{ width: '100%', height: '800px' }}>
+    <div style={{
+      width: '100%', height: '100%', display: 'flex', justifyContent: 'center', flexDirection: 'column',
+    }}
+    >
       <button onClick={handleZoomIn}>increase</button>
       <button onClick={handleZoomOut}>decrease</button>
       <button onClick={handleLeftScroll}>handleLeftScroll</button>

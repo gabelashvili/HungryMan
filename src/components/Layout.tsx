@@ -4,7 +4,7 @@ import Header from './Header/Header';
 
 const Layout = () => {
   return (
-    <div>
+    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header />
       {/* <BreadCrumbs /> */}
       <Outlet />
