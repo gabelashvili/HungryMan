@@ -154,6 +154,8 @@ const CubesMain = ({ setZoomPercent, setMethods, setAuthedUserSelectedCubes }: P
     const leftNeighborCubeUserId = document.getElementById((Number(cubeId) - 1).toString())?.getAttribute('userId');
     const rightNeighborCubeUserId = document.getElementById((Number(cubeId) + 1).toString())?.getAttribute('userId');
     if (isSelected) {
+      isSelecting.current = false;
+      isMouseClicked.current = false;
       return false;
     }
     if (authedUserSelectedCubes.current.length === 0) {
@@ -183,20 +185,82 @@ const CubesMain = ({ setZoomPercent, setMethods, setAuthedUserSelectedCubes }: P
     }
   };
 
-  const handleCubeDeselect = (target: HTMLElement) => {
-    const cubeId = target.getAttribute('id');
-    // const topNeighborCube = document.getElementById((Number(cubeId) - ROWS).toString());
-    // const bottomNeighborCube = document.getElementById((Number(cubeId) + ROWS).toString());
-    // const leftNeighborCube = document.getElementById((Number(cubeId) - 1).toString());
-    // const rightNeighborCube = document.getElementById((Number(cubeId) + 1).toString());
+  const getCubeNeighborsNum = (
+    currentCubeUserId: string,
+    topNeighborCube:HTMLElement | null,
+    bottomNeighborCube:HTMLElement | null,
+    leftNeighborCube:HTMLElement | null,
+    rightNeighborCube: HTMLElement | null,
+  ) => {
+    let cnt = 0;
+    if (topNeighborCube?.getAttribute('userId') === currentCubeUserId && topNeighborCube?.getAttribute('type') === 'new') {
+      cnt++;
+    }
+    if (bottomNeighborCube?.getAttribute('userId') === currentCubeUserId && bottomNeighborCube?.getAttribute('type') === 'new') {
+      cnt++;
+    }
+    if (leftNeighborCube?.getAttribute('userId') === currentCubeUserId && leftNeighborCube?.getAttribute('type') === 'new') {
+      cnt++;
+    }
+    if (rightNeighborCube?.getAttribute('userId') === currentCubeUserId && rightNeighborCube?.getAttribute('type') === 'new') {
+      cnt++;
+    }
+    return cnt;
+  };
 
+  const deselectCube = (target: HTMLElement) => {
     const color = target.getAttribute('originalColor');
     target.style.fill = color || '';
     target.removeAttribute('userId');
     target.removeAttribute('type');
     target.removeAttribute('originalColor');
-    authedUserSelectedCubes.current = authedUserSelectedCubes.current.filter((id) => id !== cubeId);
+    authedUserSelectedCubes.current = authedUserSelectedCubes.current.filter((id) => id !== target.getAttribute('id'));
     setAuthedUserSelectedCubes(authedUserSelectedCubes.current.length);
+  };
+
+  const handleCubeDeselect = (target: HTMLElement) => {
+    const cubeId = target.getAttribute('id');
+    const cubeUserId = target.getAttribute('userId');
+    // TODO: Deselect logic
+    const topNeighborCube = document.getElementById((Number(cubeId) - ROWS).toString());
+    // const topNeighborCubeOptions = {
+    //   userId: topNeighborCube?.getAttribute('userId'),
+    //   cubeId: topNeighborCube?.getAttribute('id'),
+    //   type: topNeighborCube?.getAttribute('type'),
+    // };
+    const bottomNeighborCube = document.getElementById((Number(cubeId) + ROWS).toString());
+    // const bottomNeighborCubeOptions = {
+    //   userId: bottomNeighborCube?.getAttribute('userId'),
+    //   cubeId: bottomNeighborCube?.getAttribute('id'),
+    //   type: bottomNeighborCube?.getAttribute('type'),
+    // };
+    const leftNeighborCube = document.getElementById((Number(cubeId) - 1).toString());
+    // const leftNeighborCubeOptions = {
+    //   userId: leftNeighborCube?.getAttribute('userId'),
+    //   cubeId: leftNeighborCube?.getAttribute('id'),
+    //   type: leftNeighborCube?.getAttribute('type'),
+    // };
+    const rightNeighborCube = document.getElementById((Number(cubeId) + 1).toString());
+    // const rightNeighborCubeOptions = {
+    //   userId: rightNeighborCube?.getAttribute('userId'),
+    //   cubeId: rightNeighborCube?.getAttribute('id'),
+    //   type: rightNeighborCube?.getAttribute('type'),
+    // };
+    const neighborsCnt = getCubeNeighborsNum(
+      cubeUserId?.toString() || '',
+      topNeighborCube,
+      bottomNeighborCube,
+      leftNeighborCube,
+      rightNeighborCube,
+    );
+    console.log(neighborsCnt);
+    if (neighborsCnt === 1) {
+      deselectCube(target);
+    }
+    if (neighborsCnt === 3) {
+      console.log('aqaa');
+      deselectCube(target);
+    }
     return true;
   };
 
