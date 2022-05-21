@@ -33,7 +33,8 @@ const Header = () => {
           <nav className="header-nav">
             <ul className={clsx('header-nav--list', showSearchBar && 'hidden')}>
               <li className="header-nav--item">
-                <Link to="cubes" className="header-nav--link">Cubes</Link>
+                <Link to="cubes" className="header-nav--link" style={{ marginRight: '15px' }}>კედელი</Link>
+                <Link to="products" className="header-nav--link">პროდუქტები</Link>
               </li>
             </ul>
           </nav>
