@@ -1,0 +1,201 @@
+  .landing {
+    overflow-x: hidden;
+    display: block;
+    &-intro {
+      width: 100%;
+      height: calc(100vh - 90px);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    &-content {
+      max-width: 810px;
+      width: 100%;
+      color: #ffffff;
+      font-family: "Helvetica Neue LT GEO";
+      font-style: normal;
+  
+      h1 {
+        font-weight: 700;
+        font-size: 32px;
+        line-height: 39px;
+        margin-bottom: 12px;
+      }
+  
+      p {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 22px;
+        margin-bottom: 24px;
+        opacity: 0.8;
+      }
+  
+      button {
+        min-width: 190px;
+      }
+    }
+    &-image {
+      position: absolute;
+      width: 100%;
+      min-height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+  
+    &-wrapper {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      max-width: 1580px;
+      margin-inline: auto;
+      padding-inline: 128px;
+      &:not(.landing-info) {
+        flex-direction: column;
+      }
+    }
+  
+    &-info {
+      min-height: 100vh;
+      color: #ffffff;
+      font-family: "Helvetica Neue LT GEO";
+      font-style: normal;
+      position: relative;
+  
+      &:first-of-type {
+        &::before {
+          content: "";
+          background: #768b9d;
+          opacity: 0.1;
+          position: absolute;
+          height: 900px;
+          width: 900px;
+          right: -450px;
+          top: 450px;
+          filter: blur(380px);
+        }
+  
+        &::after {
+          content: "";
+          background: #768b9d;
+          opacity: 0.1;
+          filter: blur(300px);
+          position: absolute;
+          height: 600px;
+          width: 600px;
+          left: -300px;
+          bottom: 0;
+        }
+      }
+  
+      &:nth-child(2n) {
+        .landing-info--image {
+          &::before {
+            left: unset;
+            right: -300px;
+          }
+        }
+      }
+  
+      &:nth-child(3n) {
+        &::before {
+          content: "";
+          background: #fd0d1b;
+          opacity: 0.06;
+          filter: blur(300px);
+          position: absolute;
+          left: -333px;
+          top: 333px;
+          width: 666px;
+          height: 666px;
+          z-index: 1;
+        }
+      }
+  
+      h2 {
+        font-weight: 400;
+        font-size: 32px;
+        line-height: 39px;
+        margin-bottom: 12px;
+      }
+  
+      p {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 22px;
+        color: #768b9d;
+        margin-bottom: 24px;
+      }
+  
+      &--image {
+        flex: 1;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+  
+        &::before {
+          background: #208bed;
+          opacity: 0.13;
+          filter: blur(300px);
+          content: "";
+          position: absolute;
+          width: 595px;
+          height: 595px;
+          top: -300px;
+          left: -300px;
+          z-index: 1;
+        }
+  
+        img {
+          min-width: 100%;
+          max-height: 100%;
+          object-fit: contain;
+        }
+      }
+  
+      &--content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        flex: 1;
+      }
+    }
+  
+    &-chart {
+      display: flex;
+      width: 100%;
+      margin-top: 48px;
+      &--item {
+        display: flex;
+        flex-direction: column;
+        font-family: "Helvetica Neue LT GEO";
+        font-style: normal;
+        color: #ffffff;
+  
+        &:first-of-type {
+          margin-right: 5%;
+        }
+      }
+  
+      &--name {
+        font-weight: 400;
+        font-size: 21px;
+        line-height: 25px;
+        margin-bottom: 24px;
+      }
+  
+      &--value {
+        font-weight: 700;
+        font-size: 32px;
+        line-height: 1;
+        letter-spacing: 0.05em;
+      }
+    }
+  
+    &-products-carousel {
+      margin-bottom: 32px;
+    }
+  }
+  

@@ -14,9 +14,11 @@ import SetPassword from '../Routes/Authentication/SetPassword';
 import SignIn from '../Routes/Authentication/SignIn';
 import SignUp from '../Routes/Authentication/SignUp';
 import Cubes from '../Routes/Cubes';
+import Home from '../Routes/Home/Home';
 import Cart from '../Routes/Products/Cart/Cart';
 import ProductDetails from '../Routes/Products/ProductDetails/ProductDetails';
 import Products from '../Routes/Products/Products';
+import Test from '../Routes/Test';
 import ChangePassword from '../Routes/UserDashboard/ChangePassword';
 import OrderHistory from '../Routes/UserDashboard/OrderHistory';
 import PersonalInfo from '../Routes/UserDashboard/PersonalInfo';
@@ -49,6 +51,10 @@ function App() {
       path: '/',
       element: <Layout />,
       children: [
+        {
+          path: 'home',
+          element: <Home />,
+        },
         {
           path: 'auth',
           element: <Authentication />,
@@ -123,6 +129,10 @@ function App() {
             },
           ],
         },
+        {
+          path: 'Test',
+          element: <Test />,
+        },
       ],
     },
   ];
@@ -130,7 +140,7 @@ function App() {
   const routes = useRoutes(defaultRoutes);
   useEffect(() => {
     if (pathname === '/') {
-      navigate('/products');
+      navigate('/home');
     }
   }, [pathname]);
   return (
