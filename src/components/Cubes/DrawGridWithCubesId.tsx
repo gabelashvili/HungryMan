@@ -110,7 +110,7 @@ const generateFormattedData = (cubesIds: number[]): FormattedDataType => {
   const keys = Object.keys(formattedData);
   keys.forEach((el) => {
     formattedData[el] = new Array(columnLength).fill(0).map((_, i) => {
-      const cubeId = (Number(el) - 1) * CUBES_TOTAL_ROWS + i + minColumn;
+      const cubeId: number = (Number(el) - 1) * CUBES_TOTAL_ROWS + i + minColumn;
       const cube = formattedData[el].find((x) => Number(x.cubeId) === cubeId);
       if (cube) {
         return cube;
@@ -154,7 +154,6 @@ const getCubeInfo = (e: MouseEvent<HTMLCanvasElement>, formattedData: FormattedD
     column = Math.ceil(y / cubeWidth);
     const keys = Object.keys(formattedData.formattedData);
     cubeInfo = formattedData.formattedData[keys[column - 1]][row - 1];
-    console.log(cubeInfo);
   }
   return {
     x,
@@ -178,7 +177,7 @@ columnLength: number;
 rowLength: number;
 minColumn: number;
 maxColumn: number;
-cubeInfo: {
+cubeInfo?: {
   cubeId: number;
   row: number;
   column: number;
