@@ -6,6 +6,12 @@ import Zoom from '../../components/Cubes/Zoom/Zoom';
 import { useAppDispatch } from '../../hooks/useSelector';
 import { setSelectedCubes } from '../../store/ducks/cubesDuck';
 
+export const CUBES_TOTAL_ROWS = 20;
+export const CUBES_TOTAL_COLUMNS = 5;
+export const INITIAL_CUBE_SIZE = 20;
+export const CUBE_LIGHT_COLOR = '#0C1925';
+export const CUBE_DARK_COLOR = '#09141E';
+export const FIRST_CUBE_COLOR = CUBE_DARK_COLOR;
 const Cubes = () => {
   const dispatch = useAppDispatch();
   const [zoomPercent, setZoomPercent] = useState<number>(100);
@@ -20,7 +26,6 @@ const Cubes = () => {
   }, []);
 
   useEffect(() => {
-    console.log(authedUserSelectedCubes);
     dispatch(setSelectedCubes(authedUserSelectedCubes));
   }, [authedUserSelectedCubes]);
   return (
@@ -29,6 +34,8 @@ const Cubes = () => {
         setZoomPercent={setZoomPercent}
         setMethods={setMethods}
         setAuthedUserSelectedCubes={setAuthedUserSelectedCubes}
+        totalRows={CUBES_TOTAL_ROWS}
+        totalColumns={CUBES_TOTAL_COLUMNS}
       />
       <CubesStatistic />
       <SelectedCubesBar />

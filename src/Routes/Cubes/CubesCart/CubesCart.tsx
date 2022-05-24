@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import DrawGridWithCubesId from '../../../components/Cubes/DrawGridWithCubesId';
 import UploadImgBtn from '../../../components/Cubes/UploadImgBtn';
 import Tab from '../../../components/shared/Tab/Tab';
 
@@ -22,8 +23,8 @@ const CubesCart = () => {
           <div className="panel--header with-border">
             <Tab selectedTab={selectedTab} tabs={tabs} setSelectedTab={setSelectedTab} />
           </div>
-          <div className="panel--content cart-content">
-            qwqwd
+          <div className="panel--content cart-content" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <DrawGridWithCubesId />
           </div>
           <div className="panel--footer">
             <UploadImgBtn uploadedFile={uploadedFile} setUploadedFile={setUploadedFile} />

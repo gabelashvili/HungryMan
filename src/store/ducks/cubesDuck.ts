@@ -4,7 +4,23 @@ import { CubesInitialState } from '../../types/cubes';
 export const SET_SELECTED_CUBES = 'cubes/setSelectedCubes';
 
 const initialState: CubesInitialState = {
-  selectedCubes: [],
+  selectedCubes: [
+    2,
+    3,
+    4,
+    5,
+    6,
+    26,
+    46,
+    45,
+    44,
+    64,
+    84,
+    85,
+    86,
+    87,
+    88,
+  ],
 };
 
 export const cubesReducer = (state = initialState, action: AnyAction): CubesInitialState => {

@@ -8,15 +8,15 @@ import {
 } from 'react';
 import { useSelector } from '../../hooks/useSelector';
 
-const ROWS = 354;
-const COLUMNS = 113;
 const WIDTH = 20;
 const HEIGHT = 20;
 const SCROLL_STEP = 5;
 
 // cube type = selected | new | null
 
-const CubesMain = ({ setZoomPercent, setMethods, setAuthedUserSelectedCubes }: PropsTypes) => {
+const CubesMain = ({
+  setZoomPercent, setMethods, setAuthedUserSelectedCubes, totalRows, totalColumns,
+}: PropsTypes) => {
   const authedUserId = useSelector((state) => state.userReducer.user?.id);
   const mainRef = useRef<SVGSVGElement>(null);
   const isMouseClicked = useRef<boolean>(false);
@@ -24,7 +24,7 @@ const CubesMain = ({ setZoomPercent, setMethods, setAuthedUserSelectedCubes }: P
   const isSelecting = useRef<boolean>(false);
   const handleZoomIn = () => {
     if (mainRef.current) {
-      const initialWidth = WIDTH * ROWS;
+      const initialWidth = WIDTH * totalRows;
       const currentProps = mainRef.current.getAttribute('viewBox')?.split(' ') || [];
       const width = Number(currentProps[2]) - (Number(currentProps[2]) * 10) / 100;
       const height = Number(currentProps[3]) - (Number(currentProps[3]) * 10) / 100;
@@ -37,8 +37,8 @@ const CubesMain = ({ setZoomPercent, setMethods, setAuthedUserSelectedCubes }: P
   };
   const handleZoomOut = () => {
     if (mainRef.current) {
-      const initialWidth = WIDTH * ROWS;
-      const initialHeight = HEIGHT * COLUMNS;
+      const initialWidth = WIDTH * totalRows;
+      const initialHeight = HEIGHT * totalColumns;
       const currentProps = mainRef.current.getAttribute('viewBox')?.split(' ') || [];
       const viewBoxX = Number(currentProps[0]);
       const viewBoxY = Number(currentProps[1]);
@@ -46,13 +46,13 @@ const CubesMain = ({ setZoomPercent, setMethods, setAuthedUserSelectedCubes }: P
       const viewBoxHeight = Number(currentProps[3]) + (Number(currentProps[3]) * 10) / 100;
       const shouldBeVisible = (viewBoxWidth / WIDTH);
       const currentVisibleCubesNumber = ((initialWidth - viewBoxX) / WIDTH);
-      const shouldBeVisibleColumns = (viewBoxHeight / HEIGHT);
-      const currentVisibleCubesNumberColumns = ((initialHeight - viewBoxX) / HEIGHT);
+      const shouldBeVisibletotalColumns = (viewBoxHeight / HEIGHT);
+      const currentVisibleCubesNumbertotalColumns = ((initialHeight - viewBoxX) / HEIGHT);
       const zoomedPercent = (initialWidth / viewBoxWidth) * 100;
 
-      if (ROWS * WIDTH >= viewBoxWidth && COLUMNS * HEIGHT >= viewBoxHeight) {
+      if (totalRows * WIDTH >= viewBoxWidth && totalColumns * HEIGHT >= viewBoxHeight) {
         setZoomPercent(zoomedPercent);
-        mainRef.current?.setAttribute('viewBox', `${shouldBeVisible !== currentVisibleCubesNumber ? 0 : viewBoxX} ${shouldBeVisibleColumns !== currentVisibleCubesNumberColumns ? 0 : viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`);
+        mainRef.current?.setAttribute('viewBox', `${shouldBeVisible !== currentVisibleCubesNumber ? 0 : viewBoxX} ${shouldBeVisibletotalColumns !== currentVisibleCubesNumbertotalColumns ? 0 : viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`);
       } else {
         setZoomPercent(100);
         mainRef.current?.setAttribute('viewBox', `${viewBoxX} ${viewBoxY} ${initialWidth} ${initialHeight}`);
@@ -67,9 +67,9 @@ const CubesMain = ({ setZoomPercent, setMethods, setAuthedUserSelectedCubes }: P
       const viewBoxY = Number(currentProps[1]);
       const viewBoxWidth = Number(currentProps[2]);
       const viewBoxHeight = Number(currentProps[3]);
-      const maxScrollX = WIDTH * ROWS - viewBoxWidth;
+      const maxScrollX = WIDTH * totalRows - viewBoxWidth;
       const visibleCubesNumber = Math.floor((viewBoxX + viewBoxWidth) / WIDTH);
-      const hiddenCubesNumber = ROWS - visibleCubesNumber;
+      const hiddenCubesNumber = totalRows - visibleCubesNumber;
       const oneCubeWidth = maxScrollX / hiddenCubesNumber;
       if (hiddenCubesNumber >= SCROLL_STEP && viewBoxX + SCROLL_STEP * oneCubeWidth <= maxScrollX) {
         mainRef.current?.setAttribute('viewBox', `${viewBoxX + SCROLL_STEP * oneCubeWidth} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`);
@@ -86,9 +86,9 @@ const CubesMain = ({ setZoomPercent, setMethods, setAuthedUserSelectedCubes }: P
       const viewBoxY = Number(currentProps[1]);
       const viewBoxWidth = Number(currentProps[2]);
       const viewBoxHeight = Number(currentProps[3]);
-      const maxScrollX = WIDTH * ROWS - viewBoxWidth;
+      const maxScrollX = WIDTH * totalRows - viewBoxWidth;
       const visibleCubesNumber = Math.floor((viewBoxX + viewBoxWidth) / WIDTH);
-      const hiddenCubesNumber = ROWS - visibleCubesNumber;
+      const hiddenCubesNumber = totalRows - visibleCubesNumber;
       const oneCubeWidth = maxScrollX / hiddenCubesNumber;
       if (viewBoxX - SCROLL_STEP * oneCubeWidth > 0) {
         mainRef.current?.setAttribute('viewBox', `${viewBoxX - SCROLL_STEP * oneCubeWidth} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`);
@@ -105,9 +105,9 @@ const CubesMain = ({ setZoomPercent, setMethods, setAuthedUserSelectedCubes }: P
       const viewBoxY = Number(currentProps[1]);
       const viewBoxWidth = Number(currentProps[2]);
       const viewBoxHeight = Number(currentProps[3]);
-      const maxScrollY = HEIGHT * COLUMNS - viewBoxHeight;
+      const maxScrollY = HEIGHT * totalColumns - viewBoxHeight;
       const visibleCubesNumber = Math.floor((viewBoxY + viewBoxHeight) / HEIGHT);
-      const hiddenCubesNumber = COLUMNS - visibleCubesNumber;
+      const hiddenCubesNumber = totalColumns - visibleCubesNumber;
       const oneCubeWidth = maxScrollY / hiddenCubesNumber;
       if (hiddenCubesNumber >= SCROLL_STEP && viewBoxY + SCROLL_STEP * oneCubeWidth <= maxScrollY) {
         mainRef.current?.setAttribute('viewBox', `${viewBoxX} ${viewBoxY + SCROLL_STEP * oneCubeWidth} ${viewBoxWidth} ${viewBoxHeight}`);
@@ -124,9 +124,9 @@ const CubesMain = ({ setZoomPercent, setMethods, setAuthedUserSelectedCubes }: P
       const viewBoxY = Number(currentProps[1]);
       const viewBoxWidth = Number(currentProps[2]);
       const viewBoxHeight = Number(currentProps[3]);
-      const maxScrollY = HEIGHT * COLUMNS - viewBoxHeight;
+      const maxScrollY = HEIGHT * totalColumns - viewBoxHeight;
       const visibleCubesNumber = Math.floor((viewBoxY + viewBoxHeight) / HEIGHT);
-      const hiddenCubesNumber = COLUMNS - visibleCubesNumber;
+      const hiddenCubesNumber = totalColumns - visibleCubesNumber;
       const oneCubeWidth = maxScrollY / hiddenCubesNumber;
       if (viewBoxY - SCROLL_STEP * oneCubeWidth > 0) {
         mainRef.current?.setAttribute('viewBox', `${viewBoxX} ${viewBoxY - SCROLL_STEP * oneCubeWidth} ${viewBoxWidth} ${viewBoxHeight}`);
@@ -147,10 +147,10 @@ const CubesMain = ({ setZoomPercent, setMethods, setAuthedUserSelectedCubes }: P
   const isValidCubeForSelect = (target: HTMLElement) => {
     const cubeId = target.getAttribute('id');
     const isSelected = target.getAttribute('userId');
-    // const selectedCubeY = Math.ceil(Number(cubeId) / ROWS);
-    // const selectedCubeX = Number(cubeId) - (selectedCubeY - 1) * ROWS;
-    const topNeighborCubeUserId = document.getElementById((Number(cubeId) - ROWS).toString())?.getAttribute('userId');
-    const bottomNeighborCubeUserId = document.getElementById((Number(cubeId) + ROWS).toString())?.getAttribute('userId');
+    // const selectedCubeY = Math.ceil(Number(cubeId) / totalRows);
+    // const selectedCubeX = Number(cubeId) - (selectedCubeY - 1) * totalRows;
+    const topNeighborCubeUserId = document.getElementById((Number(cubeId) - totalRows).toString())?.getAttribute('userId');
+    const bottomNeighborCubeUserId = document.getElementById((Number(cubeId) + totalRows).toString())?.getAttribute('userId');
     const leftNeighborCubeUserId = document.getElementById((Number(cubeId) - 1).toString())?.getAttribute('userId');
     const rightNeighborCubeUserId = document.getElementById((Number(cubeId) + 1).toString())?.getAttribute('userId');
     if (isSelected) {
@@ -237,7 +237,7 @@ const CubesMain = ({ setZoomPercent, setMethods, setAuthedUserSelectedCubes }: P
       <button onClick={handleDownScroll}>handleDownScroll</button>
       <button onClick={handleUpScroll}>handleUpScroll</button>
       <svg
-        viewBox={`0 0 ${ROWS * (WIDTH)} ${COLUMNS * HEIGHT}`}
+        viewBox={`0 0 ${totalRows * (WIDTH)} ${totalColumns * HEIGHT}`}
         ref={mainRef}
         onWheel={handleMouseWheel}
         onMouseDown={() => {
@@ -256,7 +256,7 @@ const CubesMain = ({ setZoomPercent, setMethods, setAuthedUserSelectedCubes }: P
         }}
         onMouseMove={(e) => handleMultipleCubeSelect(e)}
       >
-        {renderCubes(handleCubeClick)}
+        {renderCubes(handleCubeClick, totalRows, totalColumns)}
       </svg>
     </div>
   );
@@ -264,12 +264,16 @@ const CubesMain = ({ setZoomPercent, setMethods, setAuthedUserSelectedCubes }: P
 
 export default memo(CubesMain);
 
-const renderCubes = (handleCubeClick: (e: MouseEvent<SVGRectElement | null>) => void) => {
+const renderCubes = (
+  handleCubeClick: (e: MouseEvent<SVGRectElement | null>) => void,
+  totalRows: number,
+  totalColumns: number,
+) => {
   const cubes = [];
   // let color = 'red';
   let color = '#09141E';
-  for (let i = 0; i < COLUMNS; i++) {
-    for (let j = 0; j < ROWS; j++) {
+  for (let i = 0; i < totalColumns; i++) {
+    for (let j = 0; j < totalRows; j++) {
       const x = j * WIDTH;
       const y = i * HEIGHT;
       const el = (
@@ -279,8 +283,8 @@ const renderCubes = (handleCubeClick: (e: MouseEvent<SVGRectElement | null>) => 
           x={x}
           y={y}
           style={{ fill: color }}
-          key={i * ROWS + j}
-          id={(i * ROWS + j + 1).toString()}
+          key={i * totalRows + j}
+          id={(i * totalRows + j + 1).toString()}
           onClick={(e) => handleCubeClick(e)}
         />
       );
@@ -298,4 +302,6 @@ interface PropsTypes {
   setZoomPercent: Dispatch<SetStateAction<number>>,
   setMethods: Dispatch<SetStateAction<any>>,
   setAuthedUserSelectedCubes: Dispatch<SetStateAction<number[]>>
+  totalRows: number,
+  totalColumns: number
 }
