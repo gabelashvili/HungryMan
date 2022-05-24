@@ -1,10 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
+import {
+  MouseEvent, useEffect, useRef, useState,
+} from 'react';
 import { useSelector } from '../../hooks/useSelector';
 import {
   CUBES_TOTAL_ROWS, CUBE_DARK_COLOR, CUBE_LIGHT_COLOR, FIRST_CUBE_COLOR, INITIAL_CUBE_SIZE,
 } from '../../Routes/Cubes/Cubes';
 
-const DrawGridWithCubesId = () => {
+const DrawGridWithCubesId = ({ zoom }: {zoom: number}) => {
+  const [formattedData, setFormattedData] = useState<FormattedDataType | null>(null);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const selectedCubesId = useSelector((state) => state.cubesReducer.selectedCubes);
@@ -13,6 +16,7 @@ const DrawGridWithCubesId = () => {
   useEffect(() => {
     if (selectedCubesId.length > 0 && ctx && canvasRef.current) {
       const res = generateFormattedData(selectedCubesId);
+      setFormattedData(res);
       const { width: canvasWidth } = canvasRef.current.getBoundingClientRect();
       const calculatedCubeWidth = Math.floor(canvasWidth / res.columnLength);
       const cubeWidth = calculatedCubeWidth > INITIAL_CUBE_SIZE ? INITIAL_CUBE_SIZE : calculatedCubeWidth;
@@ -33,8 +37,17 @@ const DrawGridWithCubesId = () => {
   useEffect(() => {
     if (canvasRef.current) { setCtx(canvasRef.current.getContext('2d')); }
   }, []);
+
+  // handle zoom change
+
+  useEffect(() => {
+    if (canvasRef.current) {
+      canvasRef.current.style.transform = `scale(${1 + (1 * zoom) / 100})`;
+    }
+  }, [zoom]);
+
   return (
-    <canvas ref={canvasRef} style={{ imageRendering: 'pixelated' }} />
+    <canvas ref={canvasRef} onClick={(e) => getCubeInfo(e, formattedData)} />
   );
 };
 
@@ -52,7 +65,7 @@ const drawRect = (
   ctx.fillRect(x, y, w, h);
 };
 
-const generateFormattedData = (cubesIds: number[]) => {
+const generateFormattedData = (cubesIds: number[]): FormattedDataType => {
   const ids = cubesIds.sort((a, b) => a - b);
   let minColumn = 0;
   let maxColumn = 0;
@@ -118,3 +131,57 @@ const generateFormattedData = (cubesIds: number[]) => {
     maxColumn,
   };
 };
+
+const getCubeInfo = (e: MouseEvent<HTMLCanvasElement>, formattedData: FormattedDataType | null) => {
+  let x = 0;
+  let y = 0;
+  let row = 0;
+  let column = 0;
+  let cubeInfo = {
+    cubeId: 0,
+    row: 0,
+    column: 0,
+    isSelected: false,
+  };
+  if (formattedData) {
+    const target = e.target as Element;
+    const canvasProps = target.getBoundingClientRect();
+    const canvasWidth = canvasProps.width;
+    const cubeWidth = canvasWidth / formattedData.columnLength;
+    x = e.clientX - canvasProps.left;
+    y = e.clientY - canvasProps.top;
+    row = Math.ceil(x / cubeWidth);
+    column = Math.ceil(y / cubeWidth);
+    const keys = Object.keys(formattedData.formattedData);
+    cubeInfo = formattedData.formattedData[keys[column - 1]][row - 1];
+    console.log(cubeInfo);
+  }
+  return {
+    x,
+    y,
+    row,
+    column,
+    cubeInfo,
+  };
+};
+
+interface FormattedDataType {
+  formattedData: {
+    [row: string]: {
+        cubeId: number;
+        row: number;
+        column: number;
+        isSelected: boolean;
+    }[];
+};
+columnLength: number;
+rowLength: number;
+minColumn: number;
+maxColumn: number;
+cubeInfo: {
+  cubeId: number;
+  row: number;
+  column: number;
+  isSelected: boolean;
+}
+}
