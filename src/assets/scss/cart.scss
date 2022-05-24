@@ -1,4 +1,8 @@
 .cart {
+  & nav {
+      height: 65px;
+      width: 100%;
+  }
   .wrapper {
     align-items: flex-start;
   }
@@ -73,11 +77,6 @@
       text-align: center;
       color: #55687a;
     }
-  }
-
-  app-tab {
-    height: 65px;
-    width: 100%;
   }
 
   &-slider {

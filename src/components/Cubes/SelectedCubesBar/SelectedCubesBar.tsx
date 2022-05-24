@@ -1,6 +1,9 @@
+import { useSelector } from '../../../hooks/useSelector';
 import './selected-cubes-bar.scss';
 
-const SelectedCubesBar = ({ selectedCubes }: {selectedCubes: number}) => {
+const SelectedCubesBar = () => {
+  const selectedCubes = useSelector((state) => state.cubesReducer.selectedCubes).length;
+  console.log(selectedCubes);
   return (
     <div className="selected-coubs">
       <div className="selected-coubs--count">{selectedCubes}</div>

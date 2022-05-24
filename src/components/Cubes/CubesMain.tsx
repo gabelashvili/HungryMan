@@ -20,7 +20,7 @@ const CubesMain = ({ setZoomPercent, setMethods, setAuthedUserSelectedCubes }: P
   const authedUserId = useSelector((state) => state.userReducer.user?.id);
   const mainRef = useRef<SVGSVGElement>(null);
   const isMouseClicked = useRef<boolean>(false);
-  const authedUserSelectedCubes = useRef<string[]>([]);
+  const authedUserSelectedCubes = useRef<number[]>([]);
   const isSelecting = useRef<boolean>(false);
   const handleZoomIn = () => {
     if (mainRef.current) {
@@ -176,8 +176,8 @@ const CubesMain = ({ setZoomPercent, setMethods, setAuthedUserSelectedCubes }: P
     const isSelected = target.getAttribute('userId');
     const currentCubeId = target.getAttribute('id');
     if (!isSelected && currentCubeId && authedUserId && isValidCubeForSelect(target)) {
-      authedUserSelectedCubes.current.push(currentCubeId);
-      setAuthedUserSelectedCubes(authedUserSelectedCubes.current.length);
+      authedUserSelectedCubes.current.push(Number(currentCubeId));
+      setAuthedUserSelectedCubes([...authedUserSelectedCubes.current]);
       target.setAttribute('userId', authedUserId?.toString());
       target.setAttribute('type', 'new');
       target.setAttribute('originalColor', target.getAttribute('style')?.split(':')[1].replace(';', '') || '');
@@ -191,8 +191,8 @@ const CubesMain = ({ setZoomPercent, setMethods, setAuthedUserSelectedCubes }: P
     target.removeAttribute('userId');
     target.removeAttribute('type');
     target.removeAttribute('originalColor');
-    authedUserSelectedCubes.current = authedUserSelectedCubes.current.filter((id) => id !== target.getAttribute('id'));
-    setAuthedUserSelectedCubes(authedUserSelectedCubes.current.length);
+    authedUserSelectedCubes.current = authedUserSelectedCubes.current.filter((id) => id !== Number(target.getAttribute('id')));
+    setAuthedUserSelectedCubes(authedUserSelectedCubes.current);
   };
 
   const handleCubeDeselect = (target: HTMLElement) => {
@@ -242,14 +242,17 @@ const CubesMain = ({ setZoomPercent, setMethods, setAuthedUserSelectedCubes }: P
         onWheel={handleMouseWheel}
         onMouseDown={() => {
           isMouseClicked.current = true;
+          setAuthedUserSelectedCubes(authedUserSelectedCubes.current);
         }}
         onMouseUp={() => {
           isMouseClicked.current = false;
           isSelecting.current = false;
+          setAuthedUserSelectedCubes(authedUserSelectedCubes.current);
         }}
         onMouseLeave={() => {
           isMouseClicked.current = false;
           isSelecting.current = false;
+          setAuthedUserSelectedCubes(authedUserSelectedCubes.current);
         }}
         onMouseMove={(e) => handleMultipleCubeSelect(e)}
       >
@@ -294,5 +297,5 @@ const renderCubes = (handleCubeClick: (e: MouseEvent<SVGRectElement | null>) => 
 interface PropsTypes {
   setZoomPercent: Dispatch<SetStateAction<number>>,
   setMethods: Dispatch<SetStateAction<any>>,
-  setAuthedUserSelectedCubes: Dispatch<SetStateAction<number>>
+  setAuthedUserSelectedCubes: Dispatch<SetStateAction<number[]>>
 }
