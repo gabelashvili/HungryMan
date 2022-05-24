@@ -42,7 +42,7 @@ const DrawGridWithCubesId = ({ zoom }: {zoom: number}) => {
 
   useEffect(() => {
     if (canvasRef.current) {
-      canvasRef.current.style.transform = `scale(${1 + (1 * zoom) / 100})`;
+      canvasRef.current.style.transform = `scale(${1 + (1 * (zoom - 100)) / 100})`;
     }
   }, [zoom]);
 

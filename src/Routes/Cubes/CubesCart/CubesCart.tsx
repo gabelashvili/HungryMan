@@ -22,11 +22,11 @@ const CubesCart = () => {
   ];
 
   const handleCanvasZoomIn = () => {
-    zoom <= 290 && setZoom(zoom + 10);
+    zoom <= 280 && setZoom(zoom + 20);
   };
 
   const handleCanvasZoomOut = () => {
-    zoom >= 110 && setZoom(zoom - 10);
+    zoom >= 120 && setZoom(zoom - 20);
   };
   return (
     <div className="cart">
