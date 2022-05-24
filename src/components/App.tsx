@@ -29,6 +29,7 @@ import PaymentSuccess from './Products/Cart/PaymentSuccess';
 import Layout from './Layout';
 import RequireAuth from './shared/RequireAuth';
 import './styles.scss';
+import CubesCart from '../Routes/Cubes/CubesCart/CubesCart';
 
 function App() {
   const { pathname } = useLocation();
@@ -126,6 +127,10 @@ function App() {
             {
               index: true,
               element: <Cubes />,
+            },
+            {
+              path: 'cart',
+              element: <CubesCart />,
             },
           ],
         },

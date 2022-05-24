@@ -1,6 +1,10 @@
 const CubesCart = () => {
   return (
-    <div>CubesCart</div>
+    <div className="wrapper">
+      <div className="panel cart">
+        wqd
+      </div>
+    </div>
   );
 };
 

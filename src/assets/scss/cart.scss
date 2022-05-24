@@ -1,13 +1,10 @@
-:host {
+.cart {
   .wrapper {
     align-items: flex-start;
   }
   .panel {
     background-color: #0c1925;
   }
-}
-
-.cart {
   width: 100%;
   &-form {
     max-width: 445px;
