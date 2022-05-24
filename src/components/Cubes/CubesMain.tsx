@@ -197,6 +197,7 @@ const CubesMain = ({ setZoomPercent, setMethods, setAuthedUserSelectedCubes }: P
 
   const handleCubeDeselect = (target: HTMLElement) => {
     console.log(target, deselectCube);
+    deselectCube(target);
   };
 
   const handleCubeClick = (e: MouseEvent<SVGRectElement | SVGElement | null>) => {
