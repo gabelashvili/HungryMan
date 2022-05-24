@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import CubesMain from '../components/Cubes/CubesMain';
-import CubesStatistic from '../components/Cubes/CubesStatistic/CubesStatistic';
-import SelectedCubesBar from '../components/Cubes/SelectedCubesBar/SelectedCubesBar';
-import Zoom from '../components/Cubes/Zoom/Zoom';
+import CubesMain from '../../components/Cubes/CubesMain';
+import CubesStatistic from '../../components/Cubes/CubesStatistic/CubesStatistic';
+import SelectedCubesBar from '../../components/Cubes/SelectedCubesBar/SelectedCubesBar';
+import Zoom from '../../components/Cubes/Zoom/Zoom';
 
 const Cubes = () => {
   const [zoomPercent, setZoomPercent] = useState<number>(100);

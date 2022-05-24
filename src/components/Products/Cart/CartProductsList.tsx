@@ -1,11 +1,11 @@
-import { generatePath } from '../../helpers';
-import { useAppDispatch } from '../../hooks/useSelector';
-import ClearIcon from '../../Icons/ClearIcon';
-import MinusIcon from '../../Icons/MinusIcon';
-import PlusIcon from '../../Icons/PlusIcon';
-import { reqRemoveProductFromCart, updateProductCountInCart } from '../../store/ducks/productsDuck';
-import { SelectedProductType } from '../../types/products';
-import Button from '../shared/Button';
+import { generatePath } from '../../../helpers';
+import { useAppDispatch } from '../../../hooks/useSelector';
+import ClearIcon from '../../../Icons/ClearIcon';
+import MinusIcon from '../../../Icons/MinusIcon';
+import PlusIcon from '../../../Icons/PlusIcon';
+import { reqRemoveProductFromCart, updateProductCountInCart } from '../../../store/ducks/productsDuck';
+import { SelectedProductType } from '../../../types/products';
+import Button from '../../shared/Button';
 
 const CartProductsList = ({ data }: {data: SelectedProductType[]}) => {
   const dispatch = useAppDispatch();

@@ -1,6 +1,6 @@
 // import Paypal from '../../assets/images/paypal.png';
-import MasterCard from '../../assets/images/mastercard.png';
-import Visa from '../../assets/images/visa.png';
+import MasterCard from '../../../assets/images/mastercard.png';
+import Visa from '../../../assets/images/visa.png';
 
 const PaymentMethod = () => {
   return (
