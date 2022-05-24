@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 const Test = () => {
   const [ctx, setCtx] = useState<CanvasRenderingContext2D| null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const drawGrid = (w, h, id) => {
+  const drawGrid = (w, h) => {
     ctx.canvas.width = w;
     ctx.canvas.height = h;
 
