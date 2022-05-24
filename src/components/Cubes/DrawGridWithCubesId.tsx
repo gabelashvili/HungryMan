@@ -47,7 +47,13 @@ const DrawGridWithCubesId = ({ zoom }: {zoom: number}) => {
   }, [zoom]);
 
   return (
-    <canvas ref={canvasRef} onClick={(e) => getCubeInfo(e, formattedData)} />
+    <canvas
+      ref={canvasRef}
+      onClick={(e) => {
+        getCubeInfo(e, formattedData);
+      }}
+    />
+
   );
 };
 
