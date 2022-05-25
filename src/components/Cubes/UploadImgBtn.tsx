@@ -5,7 +5,6 @@ import ReloadIcon from '../../Icons/ReloadIcon';
 import Button from '../shared/Button';
 
 const UploadImgBtn = ({ uploadedFile, setUploadedFile }: PropsTypes) => {
-  console.log(uploadedFile);
   return (
     <div className="cart-upload">
       <label className="button button--upload is-large" htmlFor="upload">

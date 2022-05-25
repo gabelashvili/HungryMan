@@ -6,53 +6,52 @@ import {
   CUBES_TOTAL_ROWS, CUBE_DARK_COLOR, CUBE_LIGHT_COLOR, FIRST_CUBE_COLOR, INITIAL_CUBE_SIZE,
 } from '../../Routes/Cubes/Cubes';
 
-const DrawGridWithCubesId = ({ zoom }: {zoom: number}) => {
-  const [formattedData, setFormattedData] = useState<FormattedDataType | null>(null);
-  const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const selectedCubesId = useSelector((state) => state.cubesReducer.selectedCubes);
+let color = FIRST_CUBE_COLOR;
 
-  // draw cubes based on selected cubes id
+const DrawGridWithCubesId = () => {
+  const [formattedData, setFormattedData] = useState<FormattedDataType | null>(null);
+  const selectedCubesId = useSelector((state) => state.cubesReducer.selectedCubes);
+  const svgRef = useRef<SVGSVGElement>(null);
   useEffect(() => {
-    if (selectedCubesId.length > 0 && ctx && canvasRef.current) {
+    if (selectedCubesId.length > 0) {
       const res = generateFormattedData(selectedCubesId);
       setFormattedData(res);
-      const { width: canvasWidth } = canvasRef.current.getBoundingClientRect();
-      const calculatedCubeWidth = Math.floor(canvasWidth / res.columnLength);
-      const cubeWidth = calculatedCubeWidth > INITIAL_CUBE_SIZE ? INITIAL_CUBE_SIZE : calculatedCubeWidth;
-      canvasRef.current.width = cubeWidth * res.columnLength;
-      canvasRef.current.height = cubeWidth * res.rowLength;
-      let color = FIRST_CUBE_COLOR;
-      for (let i = 0; i < res.rowLength; i++) {
-        color = (i + 1) % 2 === 0 ? CUBE_LIGHT_COLOR : CUBE_DARK_COLOR;
-        for (let j = 0; j < res.columnLength; j++) {
-          drawRect(ctx, j * cubeWidth, i * cubeWidth, cubeWidth, cubeWidth, res.formattedData[i + 1][j].isSelected ? color : 'red');
-          color = color === CUBE_DARK_COLOR ? CUBE_LIGHT_COLOR : CUBE_DARK_COLOR;
-        }
-      }
     }
-  }, [selectedCubesId, ctx]);
+  }, [selectedCubesId]);
 
-  // set canvas context in local state
+  // set svg viewbox, width and height
   useEffect(() => {
-    if (canvasRef.current) { setCtx(canvasRef.current.getContext('2d')); }
-  }, []);
-
-  // handle zoom change
-
-  useEffect(() => {
-    if (canvasRef.current) {
-      canvasRef.current.style.transform = `scale(${1 + (1 * (zoom - 100)) / 100})`;
+    if (svgRef.current?.parentElement && formattedData) {
+      const svgProps = svgRef.current.parentElement.getBoundingClientRect();
+      const width = Math.floor(svgProps.width);
+      const height = Math.floor(svgProps.height);
+      svgRef.current.setAttribute('viewBox', `0 0 ${formattedData.columnLength * INITIAL_CUBE_SIZE}  ${formattedData.rowLength * INITIAL_CUBE_SIZE}`);
+      svgRef.current.setAttribute('width', (width).toString());
+      svgRef.current.setAttribute('height', (height).toString());
     }
-  }, [zoom]);
+  }, [formattedData]);
 
   return (
-    <canvas
-      ref={canvasRef}
-      onClick={(e) => {
-        getCubeInfo(e, formattedData);
-      }}
-    />
+    <svg ref={svgRef} preserveAspectRatio="xMidYMid meet">
+      {formattedData && Object.keys(formattedData.data)
+        .map((el, y) => {
+          color = (y + 1) % 2 === 0 ? CUBE_LIGHT_COLOR : CUBE_DARK_COLOR;
+          return formattedData.data[el]
+            .map((item, x) => {
+              color = color === CUBE_DARK_COLOR ? CUBE_LIGHT_COLOR : CUBE_DARK_COLOR;
+              return drawRect(
+                x * INITIAL_CUBE_SIZE,
+                y * INITIAL_CUBE_SIZE,
+                INITIAL_CUBE_SIZE,
+                INITIAL_CUBE_SIZE,
+                item.cubeId,
+                (e) => console.log(e),
+                color,
+                formattedData.data[el][x].isSelected,
+              );
+            });
+        })}
+    </svg>
 
   );
 };
@@ -60,119 +59,96 @@ const DrawGridWithCubesId = ({ zoom }: {zoom: number}) => {
 export default DrawGridWithCubesId;
 
 const drawRect = (
-  ctx: CanvasRenderingContext2D,
   x: number,
   y: number,
   w: number,
   h: number,
+  id: number,
+  handleClick: (e: MouseEvent<SVGRectElement>) => void,
   color: string,
-) => {
-  ctx.fillStyle = color;
-  ctx.fillRect(x, y, w, h);
-};
+  isSelected: boolean,
+) => (
+  <rect
+    width={w}
+    height={h}
+    x={x}
+    y={y}
+    key={id}
+    style={{ fill: !isSelected ? 'red' : color }}
+    id={id.toString()}
+    onClick={(e) => handleClick(e)}
+  />
+);
 
-const generateFormattedData = (cubesIds: number[]): FormattedDataType => {
+const generateFormattedData = (cubesIds: number[]) => {
   const ids = cubesIds.sort((a, b) => a - b);
-  let minColumn = 0;
-  let maxColumn = 0;
-  let columnLength = 0;
-  const formattedData: {
-      [row: string]: {
-          cubeId: number,
-          row: number,
-          column: number,
-          isSelected: boolean
-      }[]
-  } = {};
-  // group cube id by row
-  ids.forEach((el, i) => {
+  let minRow = Math.ceil(ids[0] / CUBES_TOTAL_ROWS);
+  let rowDiff = minRow - 1;
+  let minColumn = ids[0] % CUBES_TOTAL_ROWS;
+  let maxColumnLength = 0;
+  const data: {[key: string]: {
+    cubeId: number,
+    row: number,
+    column: number,
+    isSelected: boolean
+  }[]} = {};
+
+  ids.forEach((el) => {
     const row = Math.ceil(el / CUBES_TOTAL_ROWS);
-    const column = Math.ceil(el % CUBES_TOTAL_ROWS);
-    if (i === 0) {
-      minColumn = column;
-      maxColumn = column;
-    } else if (column > maxColumn) {
-      maxColumn = column;
-    } else if (column < minColumn) {
+    if (row < minRow) {
+      minRow = row;
+      rowDiff = row - 1;
+    }
+    const column = el % CUBES_TOTAL_ROWS;
+    if (column < minColumn) {
       minColumn = column;
     }
-    if (formattedData[row]) {
-      formattedData[row] = [...formattedData[row], {
+    if (data[row - rowDiff]) {
+      data[row - rowDiff].push({
         cubeId: el,
         row,
         column,
         isSelected: true,
-      }];
+      });
     } else {
-      formattedData[row] = [{
+      data[row - rowDiff] = [{
         cubeId: el,
         row,
         column,
         isSelected: true,
       }];
+    }
+    if (data[row - rowDiff].length > maxColumnLength) {
+      maxColumnLength = data[row - rowDiff].length;
     }
   });
-  columnLength = maxColumn - minColumn + 1;
-  const keys = Object.keys(formattedData);
-  keys.forEach((el) => {
-    formattedData[el] = new Array(columnLength).fill(0).map((_, i) => {
-      const cubeId: number = (Number(el) - 1) * CUBES_TOTAL_ROWS + i + minColumn;
-      const cube = formattedData[el].find((x) => Number(x.cubeId) === cubeId);
+  const keys = Object.keys(data);
+  keys.forEach((key) => {
+    const firstCubeId = (data[key][0].row - 1) * CUBES_TOTAL_ROWS + minColumn;
+    data[key] = new Array(maxColumnLength).fill(0).map((_, index) => {
+      const currentCubeId = firstCubeId + index + 1;
+      const cube = data[key].find((x) => x.cubeId === currentCubeId);
       if (cube) {
         return cube;
       }
       return {
-        cubeId,
-        row: Math.ceil(cubeId / CUBES_TOTAL_ROWS),
-        column: Math.ceil(cubeId % CUBES_TOTAL_ROWS),
+        cubeId: currentCubeId,
+        row: Math.ceil(currentCubeId / CUBES_TOTAL_ROWS),
+        column: currentCubeId % CUBES_TOTAL_ROWS,
         isSelected: false,
       };
     });
   });
   return {
-    formattedData,
-    columnLength,
-    rowLength: Object.keys(formattedData).length,
-    minColumn,
-    maxColumn,
-  };
-};
-
-const getCubeInfo = (e: MouseEvent<HTMLCanvasElement>, formattedData: FormattedDataType | null) => {
-  let x = 0;
-  let y = 0;
-  let row = 0;
-  let column = 0;
-  let cubeInfo = {
-    cubeId: 0,
-    row: 0,
-    column: 0,
-    isSelected: false,
-  };
-  if (formattedData) {
-    const target = e.target as Element;
-    const canvasProps = target.getBoundingClientRect();
-    const canvasWidth = canvasProps.width;
-    const cubeWidth = canvasWidth / formattedData.columnLength;
-    x = e.clientX - canvasProps.left;
-    y = e.clientY - canvasProps.top;
-    row = Math.ceil(x / cubeWidth);
-    column = Math.ceil(y / cubeWidth);
-    const keys = Object.keys(formattedData.formattedData);
-    cubeInfo = formattedData.formattedData[keys[column - 1]][row - 1];
-  }
-  return {
-    x,
-    y,
-    row,
-    column,
-    cubeInfo,
+    data,
+    columnLength: maxColumnLength,
+    rowLength: Object.keys(data).length,
   };
 };
 
 interface FormattedDataType {
-  formattedData: {
-    [row: string]: {
+  data: {
+    [key: string]: {
         cubeId: number;
         row: number;
         column: number;
@@ -181,12 +157,4 @@ interface FormattedDataType {
 };
 columnLength: number;
 rowLength: number;
-minColumn: number;
-maxColumn: number;
-cubeInfo?: {
-  cubeId: number;
-  row: number;
-  column: number;
-  isSelected: boolean;
-}
 }
