@@ -225,14 +225,13 @@ const pan = (
     console.log(e.clientX);
     const matrix = getComputedStyle(svgRef.current).transform.split('matrix')[1].slice(1, -1).split(',').map((x) => Number(x));
     if (e.movementY > 0 && e.movementX === 0) {
-      console.log('down');
+      matrix[5] += 30;
     } else if (e.movementY < 0 && e.movementX === 0) {
-      console.log('up');
+      matrix[5] -= 30;
     } else if (e.movementX > 0 && e.movementY === 0) {
-      console.log('right');
-      matrix[4]++;
+      matrix[4] += 30;
     } else if (e.movementX < 0 && e.movementY === 0) {
-      console.log('left');
+      matrix[4] -= 30;
     }
     svgRef.current.setAttribute('transform', `matrix (${matrix.join(' ')})`);
   }
