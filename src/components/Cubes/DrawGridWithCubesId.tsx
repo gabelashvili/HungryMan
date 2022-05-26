@@ -6,14 +6,16 @@ import { useSelector } from '../../hooks/useSelector';
 import {
   CUBES_TOTAL_ROWS, CUBE_DARK_COLOR, CUBE_LIGHT_COLOR, FIRST_CUBE_COLOR, INITIAL_CUBE_SIZE,
 } from '../../Routes/Cubes/Cubes';
+import { ZOOM_STEP } from '../../Routes/Cubes/CubesCart/CubesCart';
 
 let color = FIRST_CUBE_COLOR;
-const ZOOM_STEP = 0.05;
 
-const DrawGridWithCubesId = ({ setZoom }: {setZoom: Dispatch<SetStateAction<number>>}) => {
+const DrawGridWithCubesId = ({ setZoom, setZoomActions }: PropsTypes) => {
   const [formattedData, setFormattedData] = useState<FormattedDataType | null>(null);
   const selectedCubesId = useSelector((state) => state.cubesReducer.selectedCubes);
   const svgRef = useRef<SVGSVGElement>(null);
+
+  // generate data based on selected cubes id
   useEffect(() => {
     if (selectedCubesId.length > 0) {
       const res = generateFormattedData(selectedCubesId);
@@ -32,6 +34,17 @@ const DrawGridWithCubesId = ({ setZoom }: {setZoom: Dispatch<SetStateAction<numb
       svgRef.current.setAttribute('height', (height).toString());
     }
   }, [formattedData]);
+
+  // set zoom function in parent state
+
+  useEffect(() => {
+    if (svgRef.current) {
+      setZoomActions({
+        in: () => zoom('in', svgRef, setZoom),
+        out: () => zoom('out', svgRef, setZoom),
+      });
+    }
+  }, [svgRef]);
 
   return (
     <svg
@@ -189,4 +202,12 @@ interface FormattedDataType {
 };
 columnLength: number;
 rowLength: number;
+}
+
+interface PropsTypes {
+  setZoom: Dispatch<SetStateAction<number>>,
+  setZoomActions: Dispatch<SetStateAction<{
+    in: () => void,
+    out: () => void
+  } | null>>
 }

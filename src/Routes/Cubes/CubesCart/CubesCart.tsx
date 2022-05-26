@@ -6,10 +6,15 @@ import Button from '../../../components/shared/Button';
 import Tab from '../../../components/shared/Tab/Tab';
 import RemoveIcon from '../../../Icons/RemoveIcon';
 
+export const ZOOM_STEP = 0.05;
 const CubesCart = () => {
   const [zoom, setZoom] = useState<number>(100);
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [zoomActions, setZoomActions] = useState<{
+    in:() => void,
+    out: () => void
+      } | null>(null);
   const tabs = [
     {
       label: 'ატვირთე სურათი',
@@ -21,13 +26,6 @@ const CubesCart = () => {
     },
   ];
 
-  const handleCanvasZoomIn = () => {
-    zoom <= 280 && setZoom(zoom + 20);
-  };
-
-  const handleCanvasZoomOut = () => {
-    zoom >= 120 && setZoom(zoom - 20);
-  };
   return (
     <div className="cart">
       <div className="wrapper">
@@ -43,15 +41,15 @@ const CubesCart = () => {
               <Zoom
                 styles={{ position: 'static', marginLeft: 'auto' }}
                 zoomPercent={zoom}
-                zoomIn={handleCanvasZoomIn}
-                zoomOut={handleCanvasZoomOut}
+                zoomIn={zoomActions?.in}
+                zoomOut={zoomActions?.out}
               />
             </div>
             <div style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', minHeight: 'inherit', overflow: 'hidden',
             }}
             >
-              <DrawGridWithCubesId setZoom={setZoom} />
+              <DrawGridWithCubesId setZoom={setZoom} setZoomActions={setZoomActions} />
             </div>
           </div>
           <div className="panel--footer">
