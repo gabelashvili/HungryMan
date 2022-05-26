@@ -7,10 +7,11 @@ import {
   CUBES_TOTAL_ROWS, CUBE_DARK_COLOR, CUBE_LIGHT_COLOR, FIRST_CUBE_COLOR, INITIAL_CUBE_SIZE,
 } from '../../Routes/Cubes/Cubes';
 import { ZOOM_STEP } from '../../Routes/Cubes/CubesCart/CubesCart';
+import UploadedImage from './UploadedImage';
 
 let color = FIRST_CUBE_COLOR;
 
-const DrawGridWithCubesId = ({ setZoom, setZoomActions }: PropsTypes) => {
+const DrawGridWithCubesId = ({ setZoom, setZoomActions, uploadedFileUrl }: PropsTypes) => {
   const [formattedData, setFormattedData] = useState<FormattedDataType | null>(null);
   const selectedCubesId = useSelector((state) => state.cubesReducer.selectedCubes);
   const svgRef = useRef<SVGSVGElement>(null);
@@ -42,7 +43,7 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions }: PropsTypes) => {
       const svgProps = svgRef.current.parentElement.getBoundingClientRect();
       const width = Math.floor(svgProps.width);
       const height = Math.floor(svgProps.height);
-      svgRef.current.setAttribute('viewBox', `0 0 ${formattedData.columnLength * INITIAL_CUBE_SIZE} ${formattedData.rowLength * INITIAL_CUBE_SIZE}`);
+      svgRef.current.setAttribute('viewBox', `0 0 ${formattedData.columnLength * INITIAL_CUBE_SIZE + 15} ${formattedData.rowLength * INITIAL_CUBE_SIZE}`);
       svgRef.current.setAttribute('width', (width).toString());
       svgRef.current.setAttribute('height', (height).toString());
     }
@@ -100,6 +101,7 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions }: PropsTypes) => {
               });
           })}
       </g>
+      {uploadedFileUrl && <UploadedImage uploadedFileUrl={uploadedFileUrl} />}
     </svg>
 
   );
@@ -254,5 +256,6 @@ interface PropsTypes {
   setZoomActions: Dispatch<SetStateAction<{
     in: () => void,
     out: () => void
-  } | null>>
+  } | null>>,
+  uploadedFileUrl?: string | null
 }

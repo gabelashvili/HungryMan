@@ -35,7 +35,7 @@ const CubesCart = () => {
           </div>
           <div className="panel--content cart-content">
             <div className="cart-content--header">
-              <Button type="primary" classes="button--icon is-medium">
+              <Button type="primary" classes="button--icon is-medium" handleClick={() => setUploadedFile(null)}>
                 <RemoveIcon />
               </Button>
               <Zoom
@@ -49,7 +49,11 @@ const CubesCart = () => {
               display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', minHeight: 'inherit', overflow: 'hidden',
             }}
             >
-              <DrawGridWithCubesId setZoom={setZoom} setZoomActions={setZoomActions} />
+              <DrawGridWithCubesId
+                setZoom={setZoom}
+                setZoomActions={setZoomActions}
+                uploadedFileUrl={uploadedFile && URL.createObjectURL(uploadedFile)}
+              />
             </div>
           </div>
           <div className="panel--footer">
