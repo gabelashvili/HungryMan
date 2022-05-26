@@ -15,6 +15,7 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions, uploadedFileUrl }: Props
   const [formattedData, setFormattedData] = useState<FormattedDataType | null>(null);
   const selectedCubesId = useSelector((state) => state.cubesReducer.selectedCubes);
   const svgRef = useRef<SVGSVGElement>(null);
+  const cubesListRef = useRef<SVGGElement>(null);
   const spaceClicked = useRef<boolean>(false);
 
   const handleSpaceDown = (e: KeyboardEvent) => {
@@ -81,6 +82,7 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions, uploadedFileUrl }: Props
     >
       <g
         onMouseMove={(e) => spaceClicked.current && pan(svgRef, e)}
+        ref={cubesListRef}
       >
         {formattedData && Object.keys(formattedData.data)
           .map((el, y) => {
@@ -101,7 +103,11 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions, uploadedFileUrl }: Props
               });
           })}
       </g>
-      {uploadedFileUrl && <UploadedImage uploadedFileUrl={uploadedFileUrl} />}
+      {uploadedFileUrl && (
+      <UploadedImage
+        uploadedFileUrl={uploadedFileUrl}
+      />
+      )}
     </svg>
 
   );

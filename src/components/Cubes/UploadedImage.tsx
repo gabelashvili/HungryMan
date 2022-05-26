@@ -1,14 +1,16 @@
 import React, {
-  RefObject, useEffect, useRef,
+  RefObject, useEffect, useRef, useState,
 } from 'react';
 
 const EDIT_CIRCLE_RADIUS = 2;
 const INITIAL_X = 1;
 const INITIAL_Y = 10;
-const INITIAL_WIDTH = 70;
+const INITIAL_WIDTH = 50;
 const INITIAL_HEIGHT = 30;
 const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
-  const ref = useRef<SVGRectElement | null>(null);
+  const [showTools, setShowTools] = useState<boolean>(false);
+  const rootRef = useRef<SVGGElement>(null);
+  const rectRef = useRef<SVGRectElement | null>(null);
   const topMiddle = useRef<SVGCircleElement | null>(null);
   const leftMiddle = useRef<SVGCircleElement | null>(null);
   const rightMiddle = useRef<SVGCircleElement | null>(null);
@@ -16,9 +18,10 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
   const imageRef = useRef<SVGImageElement>(null);
 
   useEffect(() => {
-    if (ref.current) {
+    if (rootRef.current) {
       drawImage(
-        ref,
+        rootRef,
+        rectRef,
         topMiddle,
         leftMiddle,
         rightMiddle,
@@ -26,10 +29,27 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
         imageRef,
       );
     }
+  }, [showTools]);
+
+  const handleClickOutside = (e: any) => {
+    if (!rootRef?.current?.contains(e.target)) {
+      showTools && setShowTools(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   return (
     <g
+      x={INITIAL_X}
+      y={INITIAL_Y}
+      width={INITIAL_WIDTH}
+      height={INITIAL_HEIGHT}
+      ref={rootRef}
+      onMouseDown={() => setShowTools(true)}
       preserveAspectRatio="none"
       style={{
         transformBox: 'fill-box',
@@ -41,36 +61,41 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
         ref={imageRef}
         preserveAspectRatio="none"
         xlinkHref={uploadedFileUrl}
-        clipPath="url(#myClip)"
       />
-      <rect x={INITIAL_X} y={INITIAL_Y} width={INITIAL_WIDTH} height={INITIAL_HEIGHT} strokeWidth="0.5" stroke="rgba(0, 168, 255, 0.5)" fill="none" ref={ref} />
-      <circle
-        r={EDIT_CIRCLE_RADIUS}
-        fill="rgba(0, 168, 255, 1)"
-        ref={topMiddle}
-        style={{ cursor: 'pointer' }}
-      />
-      <circle
-        r={EDIT_CIRCLE_RADIUS}
-        fill="rgba(0, 168, 255, 1)"
-        ref={leftMiddle}
-        style={{ cursor: 'pointer' }}
-
-      />
-      <circle
-        r={EDIT_CIRCLE_RADIUS}
-        fill="rgba(0, 168, 255, 1)"
-        ref={rightMiddle}
-        style={{ cursor: 'pointer' }}
-
-      />
-      <circle
-        r={EDIT_CIRCLE_RADIUS}
-        fill="rgba(0, 168, 255, 1)"
-        ref={bottomMiddle}
-        style={{ cursor: 'pointer' }}
-      />
-
+      {showTools && (
+      <>
+        <rect
+          strokeWidth="0.5"
+          stroke="rgba(0, 168, 255, 0.5)"
+          fill="none"
+          ref={rectRef}
+        />
+        <circle
+          r={EDIT_CIRCLE_RADIUS}
+          fill="rgba(0, 168, 255, 1)"
+          ref={topMiddle}
+          style={{ cursor: 'pointer' }}
+        />
+        <circle
+          r={EDIT_CIRCLE_RADIUS}
+          fill="rgba(0, 168, 255, 1)"
+          ref={leftMiddle}
+          style={{ cursor: 'pointer' }}
+        />
+        <circle
+          r={EDIT_CIRCLE_RADIUS}
+          fill="rgba(0, 168, 255, 1)"
+          ref={rightMiddle}
+          style={{ cursor: 'pointer' }}
+        />
+        <circle
+          r={EDIT_CIRCLE_RADIUS}
+          fill="rgba(0, 168, 255, 1)"
+          ref={bottomMiddle}
+          style={{ cursor: 'pointer' }}
+        />
+      </>
+      )}
     </g>
   );
 };
@@ -79,6 +104,7 @@ export default UploadedImage;
 
 const drawImage = (
   mainRef:any,
+  rectRef: any,
   topMiddle: RefObject<SVGCircleElement | null>,
   leftMiddle:RefObject<SVGCircleElement | null>,
   rightMiddle: RefObject<SVGCircleElement | null>,
@@ -90,6 +116,11 @@ const drawImage = (
     const parentY = Number(mainRef.current.getAttribute('y'));
     const parentWidth = Number(mainRef.current.getAttribute('width'));
     const parentHeight = Number(mainRef.current.getAttribute('height'));
+    // set rect props
+    rectRef.current?.setAttribute('x', parentX.toString());
+    rectRef.current?.setAttribute('y', parentY.toString());
+    rectRef.current?.setAttribute('width', (parentWidth).toString());
+    rectRef.current?.setAttribute('height', (parentHeight).toString());
     // set top
     topMiddle.current?.setAttribute('cx', (Number(parentX) + parentWidth / 2).toString());
     topMiddle.current?.setAttribute('cy', parentY.toString());
