@@ -14,6 +14,19 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions }: PropsTypes) => {
   const [formattedData, setFormattedData] = useState<FormattedDataType | null>(null);
   const selectedCubesId = useSelector((state) => state.cubesReducer.selectedCubes);
   const svgRef = useRef<SVGSVGElement>(null);
+  const spaceClicked = useRef<boolean>(false);
+
+  const handleSpaceDown = (e: KeyboardEvent) => {
+    if (e.key === ' ') {
+      spaceClicked.current = true;
+    }
+  };
+
+  const handleSpaceUp = (e: KeyboardEvent) => {
+    if (e.key === ' ') {
+      spaceClicked.current = false;
+    }
+  };
 
   // generate data based on selected cubes id
   useEffect(() => {
@@ -35,8 +48,18 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions }: PropsTypes) => {
     }
   }, [formattedData]);
 
-  // set zoom function in parent state
+  // handle space click
+  useEffect(() => {
+    window.addEventListener('keypress', (e) => handleSpaceDown(e));
+    window.addEventListener('keyup', (e) => handleSpaceUp(e));
 
+    return () => {
+      window.removeEventListener('keydown', (e) => handleSpaceDown(e));
+      window.removeEventListener('keyup', (e) => handleSpaceUp(e));
+    };
+  }, []);
+
+  // set zoom function in parent state
   useEffect(() => {
     if (svgRef.current) {
       setZoomActions({
@@ -55,7 +78,9 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions }: PropsTypes) => {
         zoom(e.deltaY < 0 ? 'in' : 'out', svgRef, setZoom);
       }}
     >
-      <g>
+      <g
+        onMouseMove={(e) => spaceClicked.current && pan(svgRef, e)}
+      >
         {formattedData && Object.keys(formattedData.data)
           .map((el, y) => {
             color = (y + 1) % 2 === 0 ? CUBE_LIGHT_COLOR : CUBE_DARK_COLOR;
@@ -68,7 +93,7 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions }: PropsTypes) => {
                   INITIAL_CUBE_SIZE,
                   INITIAL_CUBE_SIZE,
                   item.cubeId,
-                  (e) => console.log(e),
+                  () => undefined,
                   color,
                   formattedData.data[el][x].isSelected,
                 );
@@ -189,6 +214,27 @@ const zoom = (
       svgRef.current.setAttribute('transform', `matrix (${matrix.join(' ')})`);
       setZoom(Math.round((matrix[0] * 100 + Number.EPSILON) * 100) / 100);
     }
+  }
+};
+
+const pan = (
+  svgRef:RefObject<SVGSVGElement>,
+  e: MouseEvent,
+) => {
+  if (svgRef.current) {
+    console.log(e.clientX);
+    const matrix = getComputedStyle(svgRef.current).transform.split('matrix')[1].slice(1, -1).split(',').map((x) => Number(x));
+    if (e.movementY > 0 && e.movementX === 0) {
+      console.log('down');
+    } else if (e.movementY < 0 && e.movementX === 0) {
+      console.log('up');
+    } else if (e.movementX > 0 && e.movementY === 0) {
+      console.log('right');
+      matrix[4]++;
+    } else if (e.movementX < 0 && e.movementY === 0) {
+      console.log('left');
+    }
+    svgRef.current.setAttribute('transform', `matrix (${matrix.join(' ')})`);
   }
 };
 interface FormattedDataType {
