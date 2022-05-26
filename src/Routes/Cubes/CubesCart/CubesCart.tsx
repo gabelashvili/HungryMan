@@ -48,10 +48,10 @@ const CubesCart = () => {
               />
             </div>
             <div style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', minHeight: 'inherit', overflow: 'auto',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', minHeight: 'inherit', overflow: 'hidden',
             }}
             >
-              <DrawGridWithCubesId zoom={zoom} />
+              <DrawGridWithCubesId setZoom={setZoom} />
             </div>
           </div>
           <div className="panel--footer">

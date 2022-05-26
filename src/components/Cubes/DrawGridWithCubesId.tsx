@@ -1,5 +1,6 @@
 import {
-  MouseEvent, useEffect, useRef, useState,
+  Dispatch,
+  MouseEvent, RefObject, SetStateAction, useEffect, useRef, useState,
 } from 'react';
 import { useSelector } from '../../hooks/useSelector';
 import {
@@ -7,8 +8,9 @@ import {
 } from '../../Routes/Cubes/Cubes';
 
 let color = FIRST_CUBE_COLOR;
+const ZOOM_STEP = 0.05;
 
-const DrawGridWithCubesId = () => {
+const DrawGridWithCubesId = ({ setZoom }: {setZoom: Dispatch<SetStateAction<number>>}) => {
   const [formattedData, setFormattedData] = useState<FormattedDataType | null>(null);
   const selectedCubesId = useSelector((state) => state.cubesReducer.selectedCubes);
   const svgRef = useRef<SVGSVGElement>(null);
@@ -25,32 +27,41 @@ const DrawGridWithCubesId = () => {
       const svgProps = svgRef.current.parentElement.getBoundingClientRect();
       const width = Math.floor(svgProps.width);
       const height = Math.floor(svgProps.height);
-      svgRef.current.setAttribute('viewBox', `0 0 ${formattedData.columnLength * INITIAL_CUBE_SIZE}  ${formattedData.rowLength * INITIAL_CUBE_SIZE}`);
+      svgRef.current.setAttribute('viewBox', `0 0 ${formattedData.columnLength * INITIAL_CUBE_SIZE} ${formattedData.rowLength * INITIAL_CUBE_SIZE}`);
       svgRef.current.setAttribute('width', (width).toString());
       svgRef.current.setAttribute('height', (height).toString());
     }
   }, [formattedData]);
 
   return (
-    <svg ref={svgRef} preserveAspectRatio="xMidYMid meet">
-      {formattedData && Object.keys(formattedData.data)
-        .map((el, y) => {
-          color = (y + 1) % 2 === 0 ? CUBE_LIGHT_COLOR : CUBE_DARK_COLOR;
-          return formattedData.data[el]
-            .map((item, x) => {
-              color = color === CUBE_DARK_COLOR ? CUBE_LIGHT_COLOR : CUBE_DARK_COLOR;
-              return drawRect(
-                x * INITIAL_CUBE_SIZE,
-                y * INITIAL_CUBE_SIZE,
-                INITIAL_CUBE_SIZE,
-                INITIAL_CUBE_SIZE,
-                item.cubeId,
-                (e) => console.log(e),
-                color,
-                formattedData.data[el][x].isSelected,
-              );
-            });
-        })}
+    <svg
+      ref={svgRef}
+      transform="matrix(1 0 0 1 0 0)"
+      preserveAspectRatio="xMidYMid meet"
+      onWheel={(e) => {
+        zoom(e.deltaY < 0 ? 'in' : 'out', svgRef, setZoom);
+      }}
+    >
+      <g>
+        {formattedData && Object.keys(formattedData.data)
+          .map((el, y) => {
+            color = (y + 1) % 2 === 0 ? CUBE_LIGHT_COLOR : CUBE_DARK_COLOR;
+            return formattedData.data[el]
+              .map((item, x) => {
+                color = color === CUBE_DARK_COLOR ? CUBE_LIGHT_COLOR : CUBE_DARK_COLOR;
+                return drawRect(
+                  x * INITIAL_CUBE_SIZE,
+                  y * INITIAL_CUBE_SIZE,
+                  INITIAL_CUBE_SIZE,
+                  INITIAL_CUBE_SIZE,
+                  item.cubeId,
+                  (e) => console.log(e),
+                  color,
+                  formattedData.data[el][x].isSelected,
+                );
+              });
+          })}
+      </g>
     </svg>
 
   );
@@ -146,6 +157,27 @@ const generateFormattedData = (cubesIds: number[]) => {
   };
 };
 
+const zoom = (
+  zoomType: 'in' | 'out',
+  svgRef:RefObject<SVGSVGElement>,
+  setZoom: Dispatch<SetStateAction<number>>,
+) => {
+  if (svgRef.current) {
+    const matrix = getComputedStyle(svgRef.current).transform.split('matrix')[1].slice(1, -1).split(',').map((x) => Number(x));
+    if (zoomType === 'in') {
+      matrix[0] += ZOOM_STEP;
+      matrix[3] += ZOOM_STEP;
+    } else {
+      matrix[0] -= ZOOM_STEP;
+      matrix[3] -= ZOOM_STEP;
+    }
+    const zoomPercent = Math.round((matrix[0] * 100 + Number.EPSILON) * 100) / 100;
+    if (zoomPercent < 155 && zoomPercent > 45) {
+      svgRef.current.setAttribute('transform', `matrix (${matrix.join(' ')})`);
+      setZoom(Math.round((matrix[0] * 100 + Number.EPSILON) * 100) / 100);
+    }
+  }
+};
 interface FormattedDataType {
   data: {
     [key: string]: {
