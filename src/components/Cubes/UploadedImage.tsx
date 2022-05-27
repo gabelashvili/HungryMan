@@ -55,6 +55,7 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
         transformBox: 'fill-box',
         transformOrigin: 'center',
         transform: 'rotate(0deg)',
+        cursor: showTools ? 'move' : 'pointer',
       }}
     >
       <image
@@ -74,25 +75,25 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
           r={EDIT_CIRCLE_RADIUS}
           fill="rgba(0, 168, 255, 1)"
           ref={topMiddle}
-          style={{ cursor: 'pointer' }}
+          style={{ cursor: 'n-resize' }}
         />
         <circle
           r={EDIT_CIRCLE_RADIUS}
           fill="rgba(0, 168, 255, 1)"
           ref={leftMiddle}
-          style={{ cursor: 'pointer' }}
+          style={{ cursor: 'e-resize' }}
         />
         <circle
           r={EDIT_CIRCLE_RADIUS}
           fill="rgba(0, 168, 255, 1)"
           ref={rightMiddle}
-          style={{ cursor: 'pointer' }}
+          style={{ cursor: 'e-resize' }}
         />
         <circle
           r={EDIT_CIRCLE_RADIUS}
           fill="rgba(0, 168, 255, 1)"
           ref={bottomMiddle}
-          style={{ cursor: 'pointer' }}
+          style={{ cursor: 'n-resize' }}
         />
       </>
       )}
