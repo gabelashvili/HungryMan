@@ -83,6 +83,7 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
     >
       <image
         ref={imageRef}
+        clipPath="url(#myClip)"
         preserveAspectRatio="none"
         xlinkHref={uploadedFileUrl}
         onMouseUp={() => {

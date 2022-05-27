@@ -4,12 +4,12 @@ import {
 } from 'react';
 import { useSelector } from '../../hooks/useSelector';
 import {
-  CUBES_TOTAL_ROWS, CUBE_DARK_COLOR, CUBE_LIGHT_COLOR, FIRST_CUBE_COLOR, INITIAL_CUBE_SIZE,
+  CUBES_TOTAL_ROWS, INITIAL_CUBE_SIZE,
 } from '../../Routes/Cubes/Cubes';
 import { ZOOM_STEP } from '../../Routes/Cubes/CubesCart/CubesCart';
 import UploadedImage from './UploadedImage';
 
-let color = FIRST_CUBE_COLOR;
+let color = 'green';
 
 const DrawGridWithCubesId = ({ setZoom, setZoomActions, uploadedFileUrl }: PropsTypes) => {
   const [formattedData, setFormattedData] = useState<FormattedDataType | null>(null);
@@ -84,12 +84,32 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions, uploadedFileUrl }: Props
         onMouseMove={(e) => spaceClicked.current && pan(svgRef, e)}
         ref={cubesListRef}
       >
+        <clipPath id="myClip">
+          {formattedData && Object.keys(formattedData.data)
+            .map((el, y) => {
+              return formattedData.data[el]
+                .map((item, x) => {
+                  return item.isSelected && drawRect(
+                    x * INITIAL_CUBE_SIZE,
+                    y * INITIAL_CUBE_SIZE,
+                    INITIAL_CUBE_SIZE,
+                    INITIAL_CUBE_SIZE,
+                    item.cubeId,
+                    () => undefined,
+                    'transparent',
+                    formattedData.data[el][x].isSelected,
+                  );
+                });
+            })}
+        </clipPath>
+      </g>
+      <g>
         {formattedData && Object.keys(formattedData.data)
           .map((el, y) => {
-            color = (y + 1) % 2 === 0 ? CUBE_LIGHT_COLOR : CUBE_DARK_COLOR;
+            color = (y + 1) % 2 === 0 ? 'blue' : 'green';
             return formattedData.data[el]
               .map((item, x) => {
-                color = color === CUBE_DARK_COLOR ? CUBE_LIGHT_COLOR : CUBE_DARK_COLOR;
+                color = color === 'green' ? 'blue' : 'green';
                 return drawRect(
                   x * INITIAL_CUBE_SIZE,
                   y * INITIAL_CUBE_SIZE,
@@ -179,11 +199,12 @@ const generateFormattedData = (cubesIds: number[]) => {
       maxColumnLength = data[row - rowDiff].length;
     }
   });
+  console.log({ ...data });
   const keys = Object.keys(data);
   keys.forEach((key) => {
     const firstCubeId = (data[key][0].row - 1) * CUBES_TOTAL_ROWS + minColumn;
     data[key] = new Array(maxColumnLength).fill(0).map((_, index) => {
-      const currentCubeId = firstCubeId + index + 1;
+      const currentCubeId = firstCubeId + index;
       const cube = data[key].find((x) => x.cubeId === currentCubeId);
       if (cube) {
         return cube;
