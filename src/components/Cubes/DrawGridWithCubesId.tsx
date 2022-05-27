@@ -110,7 +110,7 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions, uploadedFileUrl }: Props
             return formattedData.data[el]
               .map((item, x) => {
                 color = color === 'green' ? 'blue' : 'green';
-                return drawRect(
+                return !item.isSelected && drawRect(
                   x * INITIAL_CUBE_SIZE,
                   y * INITIAL_CUBE_SIZE,
                   INITIAL_CUBE_SIZE,
@@ -199,7 +199,6 @@ const generateFormattedData = (cubesIds: number[]) => {
       maxColumnLength = data[row - rowDiff].length;
     }
   });
-  console.log({ ...data });
   const keys = Object.keys(data);
   keys.forEach((key) => {
     const firstCubeId = (data[key][0].row - 1) * CUBES_TOTAL_ROWS + minColumn;
