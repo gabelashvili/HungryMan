@@ -15,7 +15,6 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions, uploadedFileUrl }: Props
   const [formattedData, setFormattedData] = useState<FormattedDataType | null>(null);
   const selectedCubesId = useSelector((state) => state.cubesReducer.selectedCubes);
   const svgRef = useRef<SVGSVGElement>(null);
-  const cubesListRef = useRef<SVGGElement>(null);
   const spaceClicked = useRef<boolean>(false);
 
   const handleSpaceDown = (e: KeyboardEvent) => {
@@ -80,10 +79,7 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions, uploadedFileUrl }: Props
         zoom(e.deltaY < 0 ? 'in' : 'out', svgRef, setZoom);
       }}
     >
-      <g
-        onMouseMove={(e) => spaceClicked.current && pan(svgRef, e)}
-        ref={cubesListRef}
-      >
+      <g>
         <clipPath id="myClip">
           {formattedData && Object.keys(formattedData.data)
             .map((el, y) => {
@@ -110,7 +106,7 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions, uploadedFileUrl }: Props
             return formattedData.data[el]
               .map((item, x) => {
                 color = color === 'green' ? 'blue' : 'green';
-                return !item.isSelected && drawRect(
+                return drawRect(
                   x * INITIAL_CUBE_SIZE,
                   y * INITIAL_CUBE_SIZE,
                   INITIAL_CUBE_SIZE,
@@ -245,25 +241,6 @@ const zoom = (
   }
 };
 
-const pan = (
-  svgRef:RefObject<SVGSVGElement>,
-  e: MouseEvent,
-) => {
-  if (svgRef.current) {
-    console.log(e.clientX);
-    const matrix = getComputedStyle(svgRef.current).transform.split('matrix')[1].slice(1, -1).split(',').map((x) => Number(x));
-    if (e.movementY > 0 && e.movementX === 0) {
-      matrix[5] += 30;
-    } else if (e.movementY < 0 && e.movementX === 0) {
-      matrix[5] -= 30;
-    } else if (e.movementX > 0 && e.movementY === 0) {
-      matrix[4] += 30;
-    } else if (e.movementX < 0 && e.movementY === 0) {
-      matrix[4] -= 30;
-    }
-    svgRef.current.setAttribute('transform', `matrix (${matrix.join(' ')})`);
-  }
-};
 interface FormattedDataType {
   data: {
     [key: string]: {
