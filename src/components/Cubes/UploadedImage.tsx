@@ -21,7 +21,7 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
   const dragStartOffset = useRef<{x:number, y:number}>({ x: 0, y: 0 });
   const isDragging = useRef<boolean>(false);
 
-  const handleMouseMove = (e: MouseEvent) => handleDrag(
+  const handleMouseMove = (e: any) => handleDrag(
     e,
     rootRef,
     dragStartOffset,
@@ -37,12 +37,28 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
     ),
   );
 
-  const handleClickOutside = (e: any) => {
-    if (rootRef.current && !rootRef.current.contains(e.target)) {
-      showTools && setShowTools(false);
+  const handleMouseDown = (e:any) => {
+    const props = imageRef.current?.getBoundingClientRect();
+    if (props) {
+      dragStartOffset.current = {
+        x: e.clientX,
+        y: e.clientY,
+      };
+      if (e.clientX >= props.left && e.clientX <= props.left + props.width
+        && e.clientY >= props.top && e.clientY <= props.top + props.height) {
+        setShowTools(true);
+        handleDragStart(e, rootRef, dragStartOffset, isDragging, showTools);
+      } else {
+        showTools && setShowTools(false);
+      }
     }
   };
 
+  const handleMouseUp = () => {
+    isDragging.current = false;
+  };
+
+  // draw initial
   useEffect(() => {
     if (rootRef.current) {
       drawImage(
@@ -57,10 +73,26 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
     }
   }, [showTools]);
 
+  // add mosedown,mousemove,mouseup, event listener to svg and check if target is image
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    if (rootRef.current) {
+      rootRef.current?.parentElement?.addEventListener('mousedown', handleMouseDown);
+      rootRef.current?.parentElement?.addEventListener('mousemove', handleMouseMove);
+      rootRef.current?.parentElement?.addEventListener('mouseup', handleMouseUp);
+    }
+    if (!setShowTools) {
+      return () => {
+        rootRef.current?.parentElement?.removeEventListener('mousedown', handleMouseDown);
+        rootRef.current?.parentElement?.removeEventListener('mousemove', handleMouseMove);
+        rootRef.current?.parentElement?.removeEventListener('mouseup', handleMouseUp);
+      };
+    }
+    return () => {
+      rootRef.current?.parentElement?.removeEventListener('mousedown', handleMouseDown);
+      rootRef.current?.parentElement?.removeEventListener('mousemove', handleMouseMove);
+      rootRef.current?.parentElement?.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [showTools]);
 
   return (
     <g
@@ -70,9 +102,6 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
       width={INITIAL_WIDTH}
       height={INITIAL_HEIGHT}
       ref={rootRef}
-      onMouseDown={() => {
-        setShowTools(true);
-      }}
       preserveAspectRatio="none"
       style={{
         transformBox: 'fill-box',
@@ -86,12 +115,6 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
         clipPath="url(#myClip)"
         preserveAspectRatio="none"
         xlinkHref={uploadedFileUrl}
-        onMouseUp={() => {
-          isDragging.current = false;
-        }}
-        onMouseDown={(e) => {
-          handleDragStart(e, rootRef, dragStartOffset, isDragging, showTools);
-        }}
       />
       {showTools && (
       <>
