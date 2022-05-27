@@ -1,4 +1,6 @@
 import React, {
+  MouseEvent,
+  MutableRefObject,
   RefObject, useEffect, useRef, useState,
 } from 'react';
 
@@ -16,6 +18,30 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
   const rightMiddle = useRef<SVGCircleElement | null>(null);
   const bottomMiddle = useRef<SVGCircleElement | null>(null);
   const imageRef = useRef<SVGImageElement>(null);
+  const dragStartOffset = useRef<{x:number, y:number}>({ x: 0, y: 0 });
+  const isDragging = useRef<boolean>(false);
+
+  const handleMouseMove = (e: MouseEvent) => handleDrag(
+    e,
+    rootRef,
+    dragStartOffset,
+    isDragging.current && showTools,
+    () => drawImage(
+      rootRef,
+      rectRef,
+      topMiddle,
+      leftMiddle,
+      rightMiddle,
+      bottomMiddle,
+      imageRef,
+    ),
+  );
+
+  const handleClickOutside = (e: any) => {
+    if (rootRef.current && !rootRef.current.contains(e.target)) {
+      showTools && setShowTools(false);
+    }
+  };
 
   useEffect(() => {
     if (rootRef.current) {
@@ -31,12 +57,6 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
     }
   }, [showTools]);
 
-  const handleClickOutside = (e: any) => {
-    if (!rootRef?.current?.contains(e.target)) {
-      showTools && setShowTools(false);
-    }
-  };
-
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
@@ -44,12 +64,15 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
 
   return (
     <g
+      onMouseMove={handleMouseMove}
       x={INITIAL_X}
       y={INITIAL_Y}
       width={INITIAL_WIDTH}
       height={INITIAL_HEIGHT}
       ref={rootRef}
-      onMouseDown={() => setShowTools(true)}
+      onMouseDown={() => {
+        setShowTools(true);
+      }}
       preserveAspectRatio="none"
       style={{
         transformBox: 'fill-box',
@@ -62,6 +85,12 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
         ref={imageRef}
         preserveAspectRatio="none"
         xlinkHref={uploadedFileUrl}
+        onMouseUp={() => {
+          isDragging.current = false;
+        }}
+        onMouseDown={(e) => {
+          handleDragStart(e, rootRef, dragStartOffset, isDragging, showTools);
+        }}
       />
       {showTools && (
       <>
@@ -140,3 +169,50 @@ const drawImage = (
     imageRef.current?.setAttribute('y', (parentY + (1)).toString());
   }
 };
+
+// drag
+const getMousePosition = (evt: MouseEvent, rootRef: RefObject<SVGGElement>) => {
+  const CTM = rootRef?.current?.getScreenCTM();
+  if (rootRef.current && CTM) {
+    return {
+      x: (evt.clientX - CTM.e) / CTM.a,
+      y: (evt.clientY - CTM.f) / CTM.d,
+    };
+  }
+  return {
+    x: 1,
+    y: 1,
+  };
+};
+
+const handleDragStart = (
+  e: MouseEvent,
+  rootRef: RefObject<SVGGElement>,
+  dragStartOffset: MutableRefObject<{x:number, y:number}>,
+  isDragging: MutableRefObject<boolean>,
+  showTools: boolean,
+) => {
+  if (rootRef.current && showTools) {
+    isDragging.current = true;
+    dragStartOffset.current = getMousePosition(e, rootRef);
+    dragStartOffset.current.x -= parseFloat(rootRef.current.getAttribute('x') as string);
+    dragStartOffset.current.y -= parseFloat(rootRef.current?.getAttribute('y') as string);
+  }
+};
+
+const handleDrag = (
+  e: MouseEvent,
+  rootRef:RefObject<SVGGElement>,
+  dragStartOffset: RefObject<{x:number, y:number}>,
+  isDragging: boolean,
+  callBack: ()=>void,
+) => {
+  if (isDragging && dragStartOffset.current && rootRef.current) {
+    const cords = getMousePosition(e, rootRef);
+    rootRef.current.setAttribute('x', (cords.x - dragStartOffset.current.x).toString());
+    rootRef.current.setAttribute('y', (cords.y - dragStartOffset.current.y).toString());
+
+    callBack();
+  }
+};
+// drag-end
