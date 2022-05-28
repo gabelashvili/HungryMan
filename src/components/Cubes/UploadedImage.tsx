@@ -9,7 +9,6 @@ const INITIAL_Y = 10;
 const INITIAL_WIDTH = 50;
 const INITIAL_HEIGHT = 30;
 const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
-  const { getDragCurrentMousePos, setDragInitialParams, disableDrag } = useUploadedImgDrag();
   const [showTools, setShowTools] = useState<boolean>(false);
   const rootRef = useRef<SVGGElement>(null);
   const rectRef = useRef<SVGRectElement | null>(null);
@@ -18,21 +17,25 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
   const rightMiddle = useRef<SVGCircleElement | null>(null);
   const bottomMiddle = useRef<SVGCircleElement | null>(null);
   const imageRef = useRef<SVGImageElement>(null);
+  const isDragging = useRef<boolean>(false);
+  const { getDragCurrentMousePos, setDragInitialParams } = useUploadedImgDrag();
 
   const handleMouseMove = (e: any) => {
-    const mousePos = getDragCurrentMousePos(e, rootRef);
-    if (rootRef.current && mousePos) {
-      rootRef.current.setAttribute('x', mousePos.x.toString());
-      rootRef.current.setAttribute('y', mousePos.y.toString());
-      drawImage(
-        rootRef,
-        rectRef,
-        topMiddle,
-        leftMiddle,
-        rightMiddle,
-        bottomMiddle,
-        imageRef,
-      );
+    if (rootRef.current) {
+      if (isDragging.current) {
+        const mousePos = getDragCurrentMousePos(e, rootRef);
+        rootRef.current.setAttribute('x', (mousePos?.x || 1).toString());
+        rootRef.current.setAttribute('y', (mousePos?.y || 1).toString());
+        drawImage(
+          rootRef,
+          rectRef,
+          topMiddle,
+          leftMiddle,
+          rightMiddle,
+          bottomMiddle,
+          imageRef,
+        );
+      }
     }
   };
 
@@ -56,6 +59,7 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
       && e.clientY + EDIT_CIRCLE_RADIUS * 4 <= props.top + props.height) {
       const x = parseFloat(rootRef.current.getAttribute('x') as string);
       const y = parseFloat(rootRef.current.getAttribute('y') as string);
+      isDragging.current = true;
       setDragInitialParams(e, rootRef, x, y);
     }
   };
@@ -66,7 +70,7 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
   };
 
   const handleMouseUp = () => {
-    disableDrag();
+    isDragging.current = false;
   };
 
   // draw initial
