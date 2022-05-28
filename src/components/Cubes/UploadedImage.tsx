@@ -39,7 +39,7 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
       if (e.clientX >= props.left && e.clientX <= props.left + props.width
         && e.clientY >= props.top && e.clientY <= props.top + props.height) {
         setShowTools(true);
-        handleDragStart(e, rootRef, showTools);
+        handleDragStart(e, rootRef);
       } else {
         showTools && setShowTools(false);
       }

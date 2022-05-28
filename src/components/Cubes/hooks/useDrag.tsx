@@ -1,8 +1,11 @@
-import { RefObject, useRef } from 'react';
+import {
+  RefObject, useEffect, useRef,
+} from 'react';
 
-const useDrag = () => {
+const useDrag = (specialKey?:string) => {
   const dragStartOffset = useRef<{x:number, y:number}>({ x: 0, y: 0 });
   const isDragging = useRef<boolean>(false);
+  const isSpecialKeyPressed = useRef<boolean>(false);
 
   const getMousePosition = (evt: MouseEvent, rootRef: RefObject<SVGGElement>) => {
     const CTM = rootRef?.current?.getScreenCTM();
@@ -20,9 +23,10 @@ const useDrag = () => {
   const handleDragStart = (
     e: MouseEvent,
     rootRef: RefObject<SVGGElement>,
-    showTools: boolean,
   ) => {
-    if (rootRef.current && showTools) {
+    console.log(Boolean(specialKey && isSpecialKeyPressed.current));
+    if (rootRef.current && ((specialKey && isSpecialKeyPressed.current) || !specialKey)) {
+      console.log('eee');
       isDragging.current = true;
       dragStartOffset.current = {
         x: e.clientX,
@@ -50,6 +54,30 @@ const useDrag = () => {
   const handleDragEnd = () => {
     isDragging.current = false;
   };
+
+  const handleSpecialKeyDown = (e: any) => {
+    if (e.key === ' ') {
+      isSpecialKeyPressed.current = true;
+    }
+  };
+
+  const handleSpecialKeyUp = (e: any) => {
+    if (e.key === ' ') {
+      isSpecialKeyPressed.current = false;
+    }
+  };
+
+  useEffect(() => {
+    if (specialKey) {
+      window.addEventListener('keypress', (e) => handleSpecialKeyDown(e));
+      window.addEventListener('keyup', (e) => handleSpecialKeyUp(e));
+    }
+
+    return () => {
+      window.removeEventListener('keydown', (e) => handleSpecialKeyDown(e));
+      window.removeEventListener('keyup', (e) => handleSpecialKeyUp(e));
+    };
+  }, [specialKey]);
   return {
     handleDragStart,
     handleDrag,
