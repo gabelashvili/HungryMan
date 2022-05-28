@@ -9,7 +9,7 @@ const INITIAL_Y = 10;
 const INITIAL_WIDTH = 50;
 const INITIAL_HEIGHT = 30;
 const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
-  const { handleDrag, handleDragStart } = useDrag();
+  const { handleDrag, handleDragStart, handleDragEnd } = useDrag();
   const [showTools, setShowTools] = useState<boolean>(false);
   const rootRef = useRef<SVGGElement>(null);
   const rectRef = useRef<SVGRectElement | null>(null);
@@ -18,14 +18,10 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
   const rightMiddle = useRef<SVGCircleElement | null>(null);
   const bottomMiddle = useRef<SVGCircleElement | null>(null);
   const imageRef = useRef<SVGImageElement>(null);
-  const dragStartOffset = useRef<{x:number, y:number}>({ x: 0, y: 0 });
-  const isDragging = useRef<boolean>(false);
 
   const handleMouseMove = (e: any) => handleDrag(
     e,
     rootRef,
-    dragStartOffset,
-    isDragging.current && showTools,
     () => drawImage(
       rootRef,
       rectRef,
@@ -40,14 +36,10 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
   const handleMouseDown = (e:any) => {
     const props = imageRef.current?.getBoundingClientRect();
     if (props) {
-      dragStartOffset.current = {
-        x: e.clientX,
-        y: e.clientY,
-      };
       if (e.clientX >= props.left && e.clientX <= props.left + props.width
         && e.clientY >= props.top && e.clientY <= props.top + props.height) {
         setShowTools(true);
-        handleDragStart(e, rootRef, dragStartOffset, isDragging, showTools);
+        handleDragStart(e, rootRef, showTools);
       } else {
         showTools && setShowTools(false);
       }
@@ -55,7 +47,7 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
   };
 
   const handleMouseUp = () => {
-    isDragging.current = false;
+    handleDragEnd();
   };
 
   // draw initial
