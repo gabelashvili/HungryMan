@@ -1,8 +1,7 @@
-import React, {
-  MouseEvent,
-  MutableRefObject,
+import {
   RefObject, useEffect, useRef, useState,
 } from 'react';
+import useDrag from './hooks/useDrag';
 
 const EDIT_CIRCLE_RADIUS = 2;
 const INITIAL_X = 1;
@@ -10,6 +9,7 @@ const INITIAL_Y = 10;
 const INITIAL_WIDTH = 50;
 const INITIAL_HEIGHT = 30;
 const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
+  const { handleDrag, handleDragStart } = useDrag();
   const [showTools, setShowTools] = useState<boolean>(false);
   const rootRef = useRef<SVGGElement>(null);
   const rectRef = useRef<SVGRectElement | null>(null);
@@ -193,50 +193,3 @@ const drawImage = (
     imageRef.current?.setAttribute('y', (parentY + (1)).toString());
   }
 };
-
-// drag
-const getMousePosition = (evt: MouseEvent, rootRef: RefObject<SVGGElement>) => {
-  const CTM = rootRef?.current?.getScreenCTM();
-  if (rootRef.current && CTM) {
-    return {
-      x: (evt.clientX - CTM.e) / CTM.a,
-      y: (evt.clientY - CTM.f) / CTM.d,
-    };
-  }
-  return {
-    x: 1,
-    y: 1,
-  };
-};
-
-const handleDragStart = (
-  e: MouseEvent,
-  rootRef: RefObject<SVGGElement>,
-  dragStartOffset: MutableRefObject<{x:number, y:number}>,
-  isDragging: MutableRefObject<boolean>,
-  showTools: boolean,
-) => {
-  if (rootRef.current && showTools) {
-    isDragging.current = true;
-    dragStartOffset.current = getMousePosition(e, rootRef);
-    dragStartOffset.current.x -= parseFloat(rootRef.current.getAttribute('x') as string);
-    dragStartOffset.current.y -= parseFloat(rootRef.current?.getAttribute('y') as string);
-  }
-};
-
-const handleDrag = (
-  e: MouseEvent,
-  rootRef:RefObject<SVGGElement>,
-  dragStartOffset: RefObject<{x:number, y:number}>,
-  isDragging: boolean,
-  callBack: ()=>void,
-) => {
-  if (isDragging && dragStartOffset.current && rootRef.current) {
-    const cords = getMousePosition(e, rootRef);
-    rootRef.current.setAttribute('x', (cords.x - dragStartOffset.current.x).toString());
-    rootRef.current.setAttribute('y', (cords.y - dragStartOffset.current.y).toString());
-
-    callBack();
-  }
-};
-// drag-end
