@@ -9,7 +9,7 @@ const INITIAL_Y = 10;
 const INITIAL_WIDTH = 50;
 const INITIAL_HEIGHT = 30;
 const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
-  const { getDragCurrentMousePos, setDragInitialParams, resetDragParams } = useUploadedImgDrag();
+  const { getDragCurrentMousePos, setDragInitialParams, disableDrag } = useUploadedImgDrag();
   const [showTools, setShowTools] = useState<boolean>(false);
   const rootRef = useRef<SVGGElement>(null);
   const rectRef = useRef<SVGRectElement | null>(null);
@@ -66,7 +66,7 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
   };
 
   const handleMouseUp = () => {
-    resetDragParams();
+    disableDrag();
   };
 
   // draw initial

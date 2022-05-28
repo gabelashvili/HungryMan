@@ -1,9 +1,9 @@
 import {
   MouseEvent,
-  RefObject, useEffect, useRef,
+  RefObject, useRef,
 } from 'react';
 
-const useUploadedImgDrag = (specialKey?:string) => {
+const useUploadedImgDrag = () => {
   const dragStartOffset = useRef<{x:number, y:number}>({ x: 0, y: 0 });
   const isDragging = useRef<boolean>(false);
   const isSpecialKeyPressed = useRef<boolean>(false);
@@ -27,7 +27,7 @@ const useUploadedImgDrag = (specialKey?:string) => {
     x:number,
     y:number,
   ) => {
-    if (rootRef.current && ((specialKey && isSpecialKeyPressed.current) || !specialKey)) {
+    if (rootRef.current) {
       isDragging.current = true;
       dragStartOffset.current = {
         x: e.clientX,
@@ -53,39 +53,15 @@ const useUploadedImgDrag = (specialKey?:string) => {
     return null;
   };
 
-  const resetDragParams = () => {
+  const disableDrag = () => {
     isDragging.current = false;
     isSpecialKeyPressed.current = false;
   };
 
-  const handleSpecialKeyDown = (e: any) => {
-    if (e.key === ' ') {
-      isSpecialKeyPressed.current = true;
-    }
-  };
-
-  const handleSpecialKeyUp = (e: any) => {
-    if (e.key === ' ') {
-      isSpecialKeyPressed.current = false;
-      isDragging.current = false;
-    }
-  };
-
-  useEffect(() => {
-    if (specialKey) {
-      window.addEventListener('keypress', (e) => handleSpecialKeyDown(e));
-      window.addEventListener('keyup', (e) => handleSpecialKeyUp(e));
-    }
-
-    return () => {
-      window.removeEventListener('keydown', (e) => handleSpecialKeyDown(e));
-      window.removeEventListener('keyup', (e) => handleSpecialKeyUp(e));
-    };
-  }, [specialKey]);
   return {
     setDragInitialParams,
     getDragCurrentMousePos,
-    resetDragParams,
+    disableDrag,
   };
 };
 
