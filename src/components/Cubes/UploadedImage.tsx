@@ -36,19 +36,33 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
     }
   };
 
-  const handleMouseDown = (e:any) => {
-    const props = imageRef.current?.getBoundingClientRect();
-    if (props) {
-      if (rootRef.current && e.clientX >= props.left && e.clientX <= props.left + props.width
-        && e.clientY >= props.top && e.clientY <= props.top + props.height) {
-        const x = parseFloat(rootRef.current.getAttribute('x') as string);
-        const y = parseFloat(rootRef.current.getAttribute('y') as string);
-        setShowTools(true);
-        handleDragStart(e, rootRef, x, y);
-      } else {
-        showTools && setShowTools(false);
-      }
+  const toggleTools = (e: any) => {
+    const props = rootRef.current?.getBoundingClientRect();
+    if (rootRef.current && props && e.clientX >= props.left && e.clientX <= props.left + props.width
+      && e.clientY >= props.top && e.clientY <= props.top + props.height) {
+      setShowTools(true);
+    } else {
+      showTools && setShowTools(false);
     }
+  };
+
+  const startDrag = (e: any) => {
+    const props = imageRef.current?.getBoundingClientRect();
+    if (rootRef.current
+      && props
+      && e.clientX - EDIT_CIRCLE_RADIUS * 4 >= props.left
+      && e.clientX - EDIT_CIRCLE_RADIUS * 4 <= props.left + props.width
+      && e.clientY - EDIT_CIRCLE_RADIUS * 4 >= props.top
+      && e.clientY - EDIT_CIRCLE_RADIUS * 4 <= props.top + props.height) {
+      const x = parseFloat(rootRef.current.getAttribute('x') as string);
+      const y = parseFloat(rootRef.current.getAttribute('y') as string);
+      handleDragStart(e, rootRef, x, y);
+    }
+  };
+
+  const handleMouseDown = (e:any) => {
+    toggleTools(e);
+    startDrag(e);
   };
 
   const handleMouseUp = () => {
