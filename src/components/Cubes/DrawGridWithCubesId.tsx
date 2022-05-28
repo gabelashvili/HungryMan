@@ -15,19 +15,7 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions, uploadedFileUrl }: Props
   const [formattedData, setFormattedData] = useState<FormattedDataType | null>(null);
   const selectedCubesId = useSelector((state) => state.cubesReducer.selectedCubes);
   const svgRef = useRef<SVGSVGElement>(null);
-  const spaceClicked = useRef<boolean>(false);
-
-  const handleSpaceDown = (e: KeyboardEvent) => {
-    if (e.key === ' ') {
-      spaceClicked.current = true;
-    }
-  };
-
-  const handleSpaceUp = (e: KeyboardEvent) => {
-    if (e.key === ' ') {
-      spaceClicked.current = false;
-    }
-  };
+  const svgGRef = useRef<SVGGElement>(null);
 
   // generate data based on selected cubes id
   useEffect(() => {
@@ -48,17 +36,6 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions, uploadedFileUrl }: Props
       svgRef.current.setAttribute('height', (height).toString());
     }
   }, [formattedData]);
-
-  // handle space click
-  useEffect(() => {
-    window.addEventListener('keypress', (e) => handleSpaceDown(e));
-    window.addEventListener('keyup', (e) => handleSpaceUp(e));
-
-    return () => {
-      window.removeEventListener('keydown', (e) => handleSpaceDown(e));
-      window.removeEventListener('keyup', (e) => handleSpaceUp(e));
-    };
-  }, []);
 
   // set zoom function in parent state
   useEffect(() => {
@@ -99,7 +76,9 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions, uploadedFileUrl }: Props
             })}
         </clipPath>
       </g>
-      <g>
+      <g
+        ref={svgGRef}
+      >
         {formattedData && Object.keys(formattedData.data)
           .map((el, y) => {
             color = (y + 1) % 2 === 0 ? 'blue' : 'green';
