@@ -51,9 +51,9 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
     if (rootRef.current
       && props
       && e.clientX - EDIT_CIRCLE_RADIUS * 4 >= props.left
-      && e.clientX - EDIT_CIRCLE_RADIUS * 4 <= props.left + props.width
+      && e.clientX + EDIT_CIRCLE_RADIUS * 4 <= props.left + props.width
       && e.clientY - EDIT_CIRCLE_RADIUS * 4 >= props.top
-      && e.clientY - EDIT_CIRCLE_RADIUS * 4 <= props.top + props.height) {
+      && e.clientY + EDIT_CIRCLE_RADIUS * 4 <= props.top + props.height) {
       const x = parseFloat(rootRef.current.getAttribute('x') as string);
       const y = parseFloat(rootRef.current.getAttribute('y') as string);
       handleDragStart(e, rootRef, x, y);
