@@ -19,27 +19,32 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
   const bottomMiddle = useRef<SVGCircleElement | null>(null);
   const imageRef = useRef<SVGImageElement>(null);
 
-  const handleMouseMove = (e: any) => handleDrag(
-    e,
-    rootRef,
-    () => drawImage(
-      rootRef,
-      rectRef,
-      topMiddle,
-      leftMiddle,
-      rightMiddle,
-      bottomMiddle,
-      imageRef,
-    ),
-  );
+  const handleMouseMove = (e: any) => {
+    const mousePos = handleDrag(e, rootRef);
+    if (rootRef.current && mousePos) {
+      rootRef.current.setAttribute('x', mousePos.x.toString());
+      rootRef.current.setAttribute('y', mousePos.y.toString());
+      drawImage(
+        rootRef,
+        rectRef,
+        topMiddle,
+        leftMiddle,
+        rightMiddle,
+        bottomMiddle,
+        imageRef,
+      );
+    }
+  };
 
   const handleMouseDown = (e:any) => {
     const props = imageRef.current?.getBoundingClientRect();
     if (props) {
-      if (e.clientX >= props.left && e.clientX <= props.left + props.width
+      if (rootRef.current && e.clientX >= props.left && e.clientX <= props.left + props.width
         && e.clientY >= props.top && e.clientY <= props.top + props.height) {
+        const x = parseFloat(rootRef.current.getAttribute('x') as string);
+        const y = parseFloat(rootRef.current.getAttribute('y') as string);
         setShowTools(true);
-        handleDragStart(e, rootRef);
+        handleDragStart(e, rootRef, x, y);
       } else {
         showTools && setShowTools(false);
       }

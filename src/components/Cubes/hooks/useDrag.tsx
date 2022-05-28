@@ -1,4 +1,5 @@
 import {
+  MouseEvent,
   RefObject, useEffect, useRef,
 } from 'react';
 
@@ -23,10 +24,10 @@ const useDrag = (specialKey?:string) => {
   const handleDragStart = (
     e: MouseEvent,
     rootRef: RefObject<SVGGElement>,
+    x:number,
+    y:number,
   ) => {
-    console.log(Boolean(specialKey && isSpecialKeyPressed.current));
     if (rootRef.current && ((specialKey && isSpecialKeyPressed.current) || !specialKey)) {
-      console.log('eee');
       isDragging.current = true;
       dragStartOffset.current = {
         x: e.clientX,
@@ -34,25 +35,27 @@ const useDrag = (specialKey?:string) => {
       };
       isDragging.current = true;
       dragStartOffset.current = getMousePosition(e, rootRef);
-      dragStartOffset.current.x -= parseFloat(rootRef.current.getAttribute('x') as string);
-      dragStartOffset.current.y -= parseFloat(rootRef.current?.getAttribute('y') as string);
+      dragStartOffset.current.x -= x;
+      dragStartOffset.current.y -= y;
     }
   };
   const handleDrag = (
     e: MouseEvent,
     rootRef:RefObject<SVGGElement>,
-    callBack: ()=>void,
   ) => {
     if (isDragging.current && dragStartOffset.current && rootRef.current) {
       const cords = getMousePosition(e, rootRef);
-      rootRef.current.setAttribute('x', (cords.x - dragStartOffset.current.x).toString());
-      rootRef.current.setAttribute('y', (cords.y - dragStartOffset.current.y).toString());
-      callBack();
+      return {
+        x: (cords.x - dragStartOffset.current.x),
+        y: cords.y - dragStartOffset.current.y,
+      };
     }
+    return null;
   };
 
   const handleDragEnd = () => {
     isDragging.current = false;
+    isSpecialKeyPressed.current = false;
   };
 
   const handleSpecialKeyDown = (e: any) => {
@@ -64,6 +67,7 @@ const useDrag = (specialKey?:string) => {
   const handleSpecialKeyUp = (e: any) => {
     if (e.key === ' ') {
       isSpecialKeyPressed.current = false;
+      isDragging.current = false;
     }
   };
 
