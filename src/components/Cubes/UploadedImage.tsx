@@ -1,7 +1,7 @@
 import {
   RefObject, useEffect, useRef, useState,
 } from 'react';
-import useDrag from './hooks/useDrag';
+import useUploadedImgDrag from './hooks/useUploadedImgDrag';
 
 const EDIT_CIRCLE_RADIUS = 2;
 const INITIAL_X = 1;
@@ -9,7 +9,7 @@ const INITIAL_Y = 10;
 const INITIAL_WIDTH = 50;
 const INITIAL_HEIGHT = 30;
 const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
-  const { handleDrag, handleDragStart, handleDragEnd } = useDrag();
+  const { getDragCurrentMousePos, setDragInitialParams, resetDragParams } = useUploadedImgDrag();
   const [showTools, setShowTools] = useState<boolean>(false);
   const rootRef = useRef<SVGGElement>(null);
   const rectRef = useRef<SVGRectElement | null>(null);
@@ -20,7 +20,7 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
   const imageRef = useRef<SVGImageElement>(null);
 
   const handleMouseMove = (e: any) => {
-    const mousePos = handleDrag(e, rootRef);
+    const mousePos = getDragCurrentMousePos(e, rootRef);
     if (rootRef.current && mousePos) {
       rootRef.current.setAttribute('x', mousePos.x.toString());
       rootRef.current.setAttribute('y', mousePos.y.toString());
@@ -56,7 +56,7 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
       && e.clientY + EDIT_CIRCLE_RADIUS * 4 <= props.top + props.height) {
       const x = parseFloat(rootRef.current.getAttribute('x') as string);
       const y = parseFloat(rootRef.current.getAttribute('y') as string);
-      handleDragStart(e, rootRef, x, y);
+      setDragInitialParams(e, rootRef, x, y);
     }
   };
 
@@ -66,7 +66,7 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
   };
 
   const handleMouseUp = () => {
-    handleDragEnd();
+    resetDragParams();
   };
 
   // draw initial

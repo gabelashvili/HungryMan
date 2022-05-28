@@ -3,7 +3,7 @@ import {
   RefObject, useEffect, useRef,
 } from 'react';
 
-const useDrag = (specialKey?:string) => {
+const useUploadedImgDrag = (specialKey?:string) => {
   const dragStartOffset = useRef<{x:number, y:number}>({ x: 0, y: 0 });
   const isDragging = useRef<boolean>(false);
   const isSpecialKeyPressed = useRef<boolean>(false);
@@ -21,7 +21,7 @@ const useDrag = (specialKey?:string) => {
       y: 1,
     };
   };
-  const handleDragStart = (
+  const setDragInitialParams = (
     e: MouseEvent,
     rootRef: RefObject<SVGGElement>,
     x:number,
@@ -39,7 +39,7 @@ const useDrag = (specialKey?:string) => {
       dragStartOffset.current.y -= y;
     }
   };
-  const handleDrag = (
+  const getDragCurrentMousePos = (
     e: MouseEvent,
     rootRef:RefObject<SVGGElement>,
   ) => {
@@ -53,7 +53,7 @@ const useDrag = (specialKey?:string) => {
     return null;
   };
 
-  const handleDragEnd = () => {
+  const resetDragParams = () => {
     isDragging.current = false;
     isSpecialKeyPressed.current = false;
   };
@@ -83,10 +83,10 @@ const useDrag = (specialKey?:string) => {
     };
   }, [specialKey]);
   return {
-    handleDragStart,
-    handleDrag,
-    handleDragEnd,
+    setDragInitialParams,
+    getDragCurrentMousePos,
+    resetDragParams,
   };
 };
 
-export default useDrag;
+export default useUploadedImgDrag;
