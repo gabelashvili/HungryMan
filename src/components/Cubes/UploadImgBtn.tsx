@@ -17,7 +17,7 @@ const UploadImgBtn = ({ uploadedFile, setUploadedFile }: PropsTypes) => {
       const imageWidth = image.width;
       const imageHeight = image.height;
       const imageSize = Number((file.size / 1024 / 1024).toFixed(2));
-      if (imageWidth > 2500 || imageHeight) {
+      if (imageWidth > 2500 || imageHeight > 2500) {
         toast.error('მაქსიმალური გაფართოება უნდა იყოს: 2500x2500');
       } else if (imageSize > 15) {
         toast.error('მაქსიმალური ზომა უნდა იყოს 15MB');

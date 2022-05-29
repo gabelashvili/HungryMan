@@ -127,7 +127,7 @@ const UserSelectedObject = ({ image }: {image:File}) => {
         imageRef,
       );
     }
-  }, [showTools]);
+  }, [showTools, image]);
 
   // add mosedown,mousemove,mouseup, event listener to svg and check if target is image
   useEffect(() => {
