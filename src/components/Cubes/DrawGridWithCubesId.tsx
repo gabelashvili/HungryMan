@@ -126,7 +126,7 @@ const drawRect = (
     x={x}
     y={y}
     key={id}
-    style={{ fill: !isSelected ? 'transparent' : color }}
+    style={{ fill: !isSelected ? 'red' : color }}
     id={id.toString()}
     onClick={(e) => handleClick(e)}
   />
