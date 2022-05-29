@@ -129,6 +129,7 @@ const drawRect = (
     style={{ fill: !isSelected ? 'red' : color }}
     id={id.toString()}
     onClick={(e) => handleClick(e)}
+    data-selectable={isSelected ? 'true' : 'false'}
   />
 );
 

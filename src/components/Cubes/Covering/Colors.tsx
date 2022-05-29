@@ -17,10 +17,8 @@ const Colors = ({ selectedColor, setSelectedColor, colorsList }:
           handleChange={() => setSelectedColor(el)}
         />
       ))}
-
-      {/* <label htmlFor="xColor" className="color-selector--label x-color">
-        <input type="color" id="xColor" />
-
+      <label htmlFor="xColor" className="color-selector--label x-color">
+        <input type="color" id="xColor" onChange={(e) => setSelectedColor(e.target.value)} />
         <span className="x-color--icon">
           <svg fill="none" viewBox="0 0 14 13">
             <path
@@ -30,7 +28,7 @@ const Colors = ({ selectedColor, setSelectedColor, colorsList }:
           </svg>
         </span>
         <span className="color-selector--box is-large" />
-      </label> */}
+      </label>
     </div>
   );
 };
