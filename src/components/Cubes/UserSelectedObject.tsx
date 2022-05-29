@@ -19,9 +19,11 @@ const UserSelectedObject = ({ image }: {image:File}) => {
   const topRight = useRef<SVGCircleElement | null>(null);
   const bottomLeft = useRef<SVGCircleElement | null>(null);
   const bottomRight = useRef<SVGCircleElement | null>(null);
+  const rotateBtn = useRef<SVGCircleElement | null>(null);
   const imageRef = useRef<SVGImageElement>(null);
   const isDragging = useRef<boolean>(false);
   const isSizing = useRef<boolean>(false);
+  const isRotating = useRef<boolean>(false);
   const { getDragCurrentMousePos, setDragInitialParams } = useObjectDrag();
   const { onSizingStart, resize } = useObjectSizing(rootRef);
 
@@ -38,6 +40,7 @@ const UserSelectedObject = ({ image }: {image:File}) => {
           topRight,
           bottomLeft,
           bottomRight,
+          rotateBtn,
           imageRef,
         );
       }
@@ -49,8 +52,12 @@ const UserSelectedObject = ({ image }: {image:File}) => {
           topRight,
           bottomLeft,
           bottomRight,
+          rotateBtn,
           imageRef,
         ));
+      }
+      if (isRotating.current) {
+        rotate(e);
       }
     }
   };
@@ -100,15 +107,40 @@ const UserSelectedObject = ({ image }: {image:File}) => {
     }
   };
 
+  const startRotating = (e:MouseEvent) => {
+    const target = e.target as Element;
+    if (rotateBtn.current?.contains(target)) {
+      isRotating.current = true;
+      console.log('wqd');
+    }
+  };
+
   const handleMouseDown = (e:any) => {
     toggleTools(e);
     startDrag(e);
     startSizing(e);
+    startRotating(e);
   };
 
   const handleMouseUp = () => {
     isDragging.current = false;
     isSizing.current = false;
+    isRotating.current = false;
+  };
+
+  const rotate = (e:MouseEvent) => {
+    if (rootRef.current) {
+      const {
+        left, top, width, height,
+      } = rootRef.current.getBoundingClientRect();
+      const x = left + width / 2;
+      const y = top + height / 2;
+      const angle = Math.atan2(e.clientY - y, e.clientX - x);
+      const currentAngel = getComputedStyle(rootRef.current);
+      console.log(currentAngel);
+      rootRef.current.style.transform = `rotate(${angle}rad)`;
+      console.log('angel', angle);
+    }
   };
 
   // draw initial
@@ -124,6 +156,7 @@ const UserSelectedObject = ({ image }: {image:File}) => {
         topRight,
         bottomLeft,
         bottomRight,
+        rotateBtn,
         imageRef,
       );
     }
@@ -187,6 +220,13 @@ const UserSelectedObject = ({ image }: {image:File}) => {
           id="top-left"
         />
         <circle
+          style={{ cursor: 'pointer' }}
+          r={EDIT_CIRCLE_RADIUS}
+          fill="rgba(0, 168, 255, 1)"
+          ref={rotateBtn}
+          id="rotation"
+        />
+        <circle
           style={{ cursor: 'ne-resize' }}
           r={EDIT_CIRCLE_RADIUS}
           fill="rgba(0, 168, 255, 1)"
@@ -222,6 +262,7 @@ const drawObject = (
   topRight:RefObject<SVGCircleElement | null>,
   bottomLeft: RefObject<SVGCircleElement | null>,
   bottomRight: RefObject<SVGCircleElement | null>,
+  rotateBtn: RefObject<SVGCircleElement | null>,
   imageRef: RefObject<SVGImageElement | null>,
 ) => {
   if (mainRef.current) {
@@ -244,6 +285,9 @@ const drawObject = (
     bottomLeft.current?.setAttribute('cy', (parentY + parentHeight).toString());
     bottomRight.current?.setAttribute('cx', (Number(parentX) + parentWidth).toString());
     bottomRight.current?.setAttribute('cy', (parentY + parentHeight).toString());
+    // set rotate btn
+    rotateBtn.current?.setAttribute('cx', (Number(parentX + parentWidth / 2)).toString());
+    rotateBtn.current?.setAttribute('cy', (parentY).toString());
     // set image props
     imageRef.current?.setAttribute('width', (parentWidth - 2).toString());
     imageRef.current?.setAttribute('height', (parentHeight - 1.8).toString());
