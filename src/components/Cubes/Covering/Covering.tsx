@@ -50,7 +50,15 @@ const Covering = () => {
       </div>
       <div className="cart-slider--list">
         <div className="cart-slider--item">
-          <Colors colorsList={colorsList} selectedColor={selectedColor} setSelectedColor={setSelectedColor} />
+          {selectedTab === 1 && (
+          <Colors
+            colorsList={colorsList}
+            selectedColor={selectedColor}
+            setSelectedColor={setSelectedColor}
+          />
+          )}
+          {selectedTab === 2 && 'stickers'}
+          {selectedTab === 3 && 'text'}
         </div>
       </div>
     </div>
