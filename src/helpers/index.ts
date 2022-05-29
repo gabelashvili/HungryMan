@@ -6,3 +6,14 @@ export const generatePath = (url: string, thumbnail?: boolean) => {
   }
   return `${process.env.REACT_APP_BASE_URL}${url}`;
 };
+
+export const getBase64 = (file: File, callback: (val: string | ArrayBuffer) => void) => {
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = () => {
+    reader.result && callback(reader.result);
+  };
+  reader.onerror = (error) => {
+    console.log('Error: ', error);
+  };
+};

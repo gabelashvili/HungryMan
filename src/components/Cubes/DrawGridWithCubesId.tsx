@@ -11,7 +11,7 @@ import UserSelectedObject from './UserSelectedObject';
 
 let color = 'green';
 
-const DrawGridWithCubesId = ({ setZoom, setZoomActions, uploadedFileUrl }: PropsTypes) => {
+const DrawGridWithCubesId = ({ setZoom, setZoomActions, image }: PropsTypes) => {
   const [formattedData, setFormattedData] = useState<FormattedDataType | null>(null);
   const selectedCubesId = useSelector((state) => state.cubesReducer.selectedCubes);
   const svgRef = useRef<SVGSVGElement>(null);
@@ -98,9 +98,9 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions, uploadedFileUrl }: Props
               });
           })}
       </g>
-      {uploadedFileUrl && (
+      {image && (
       <UserSelectedObject
-        uploadedFileUrl={uploadedFileUrl}
+        image={image}
       />
       )}
     </svg>
@@ -239,5 +239,5 @@ interface PropsTypes {
     in: () => void,
     out: () => void
   } | null>>,
-  uploadedFileUrl?: string | null
+  image?: File | null
 }

@@ -2,6 +2,7 @@ import {
   MouseEvent,
   RefObject, useEffect, useRef, useState,
 } from 'react';
+import { getBase64 } from '../../helpers';
 import useObjectDrag from './hooks/useObjectDrag';
 import useObjectSizing from './hooks/useObjectSizing';
 
@@ -10,7 +11,7 @@ const INITIAL_X = 1;
 const INITIAL_Y = 10;
 const INITIAL_WIDTH = 50;
 const INITIAL_HEIGHT = 30;
-const UserSelectedObject = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
+const UserSelectedObject = ({ image }: {image:File}) => {
   const [showTools, setShowTools] = useState<boolean>(false);
   const rootRef = useRef<SVGGElement>(null);
   const rectRef = useRef<SVGRectElement | null>(null);
@@ -113,6 +114,10 @@ const UserSelectedObject = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
   // draw initial
   useEffect(() => {
     if (rootRef.current) {
+      getBase64(image, (val) => {
+        console.log(val);
+        imageRef.current?.setAttribute('href', val.toString());
+      });
       drawObject(
         rootRef,
         rectRef,
@@ -166,7 +171,6 @@ const UserSelectedObject = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
         ref={imageRef}
         clipPath="url(#myClip)"
         preserveAspectRatio="none"
-        xlinkHref={uploadedFileUrl}
       />
       {showTools && (
       <>

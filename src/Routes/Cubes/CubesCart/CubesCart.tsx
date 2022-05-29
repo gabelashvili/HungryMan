@@ -10,7 +10,7 @@ export const ZOOM_STEP = 0.05;
 const CubesCart = () => {
   const [zoom, setZoom] = useState<number>(100);
   const [selectedTab, setSelectedTab] = useState<number>(0);
-  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [zoomActions, setZoomActions] = useState<{
     in:() => void,
     out: () => void
@@ -35,7 +35,7 @@ const CubesCart = () => {
           </div>
           <div className="panel--content cart-content">
             <div className="cart-content--header">
-              <Button type="primary" classes="button--icon is-medium" handleClick={() => setUploadedFile(null)}>
+              <Button type="primary" classes="button--icon is-medium" handleClick={() => setUploadedImage(null)}>
                 <RemoveIcon />
               </Button>
               <Zoom
@@ -52,12 +52,12 @@ const CubesCart = () => {
               <DrawGridWithCubesId
                 setZoom={setZoom}
                 setZoomActions={setZoomActions}
-                uploadedFileUrl={uploadedFile && URL.createObjectURL(uploadedFile)}
+                image={uploadedImage}
               />
             </div>
           </div>
           <div className="panel--footer">
-            <UploadImgBtn uploadedFile={uploadedFile} setUploadedFile={setUploadedFile} />
+            <UploadImgBtn uploadedFile={uploadedImage} setUploadedFile={setUploadedImage} />
           </div>
         </div>
         <div className="panel without-header cart-form">
