@@ -17,3 +17,12 @@ export const getBase64 = (file: File, callback: (val: string | ArrayBuffer) => v
     console.log('Error: ', error);
   };
 };
+
+export const getBase64Test = (file:File) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
+};

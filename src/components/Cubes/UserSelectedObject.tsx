@@ -115,7 +115,6 @@ const UserSelectedObject = ({ image }: {image:File}) => {
   useEffect(() => {
     if (rootRef.current) {
       getBase64(image, (val) => {
-        console.log(val);
         imageRef.current?.setAttribute('href', val.toString());
       });
       drawObject(

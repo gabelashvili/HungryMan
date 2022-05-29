@@ -35,9 +35,11 @@ const CubesCart = () => {
           </div>
           <div className="panel--content cart-content">
             <div className="cart-content--header">
+              {uploadedImage && (
               <Button type="primary" classes="button--icon is-medium" handleClick={() => setUploadedImage(null)}>
                 <RemoveIcon />
               </Button>
+              )}
               <Zoom
                 styles={{ position: 'static', marginLeft: 'auto' }}
                 zoomPercent={zoom}
