@@ -1,7 +1,7 @@
 import { MouseEvent, RefObject, useRef } from 'react';
 
 const MINIMUM_SIZE = 5;
-const useUploadImgSizing = (rootRef: RefObject<SVGGElement>) => {
+const useObjectSizing = (rootRef: RefObject<SVGGElement>) => {
   const sizingStartInitialParams = useRef({
     originalWidth: 0,
     originalHeight: 0,
@@ -112,4 +112,4 @@ const useUploadImgSizing = (rootRef: RefObject<SVGGElement>) => {
   };
 };
 
-export default useUploadImgSizing;
+export default useObjectSizing;

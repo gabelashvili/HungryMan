@@ -2,15 +2,15 @@ import {
   MouseEvent,
   RefObject, useEffect, useRef, useState,
 } from 'react';
-import useUploadedImgDrag from './hooks/useUploadedImgDrag';
-import useUploadImgSizing from './hooks/useUploadImgSizing';
+import useObjectDrag from './hooks/useObjectDrag';
+import useObjectSizing from './hooks/useObjectSizing';
 
 const EDIT_CIRCLE_RADIUS = 2;
 const INITIAL_X = 1;
 const INITIAL_Y = 10;
 const INITIAL_WIDTH = 50;
 const INITIAL_HEIGHT = 30;
-const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
+const UserSelectedObject = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
   const [showTools, setShowTools] = useState<boolean>(false);
   const rootRef = useRef<SVGGElement>(null);
   const rectRef = useRef<SVGRectElement | null>(null);
@@ -21,8 +21,8 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
   const imageRef = useRef<SVGImageElement>(null);
   const isDragging = useRef<boolean>(false);
   const isSizing = useRef<boolean>(false);
-  const { getDragCurrentMousePos, setDragInitialParams } = useUploadedImgDrag();
-  const { onSizingStart, resize } = useUploadImgSizing(rootRef);
+  const { getDragCurrentMousePos, setDragInitialParams } = useObjectDrag();
+  const { onSizingStart, resize } = useObjectSizing(rootRef);
 
   const handleMouseMove = (e: any) => {
     if (rootRef.current) {
@@ -30,7 +30,7 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
         const mousePos = getDragCurrentMousePos(e, rootRef);
         rootRef.current.setAttribute('x', (mousePos?.x || 1).toString());
         rootRef.current.setAttribute('y', (mousePos?.y || 1).toString());
-        drawImage(
+        drawObject(
           rootRef,
           rectRef,
           topLeft,
@@ -41,7 +41,7 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
         );
       }
       if (isSizing.current) {
-        resize(e, () => drawImage(
+        resize(e, () => drawObject(
           rootRef,
           rectRef,
           topLeft,
@@ -113,7 +113,7 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
   // draw initial
   useEffect(() => {
     if (rootRef.current) {
-      drawImage(
+      drawObject(
         rootRef,
         rectRef,
         topLeft,
@@ -210,9 +210,9 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
   );
 };
 
-export default UploadedImage;
+export default UserSelectedObject;
 
-const drawImage = (
+const drawObject = (
   mainRef:any,
   rectRef: any,
   topLeft: RefObject<SVGCircleElement | null>,

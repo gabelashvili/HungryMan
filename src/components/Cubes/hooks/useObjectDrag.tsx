@@ -3,7 +3,7 @@ import {
   RefObject, useRef,
 } from 'react';
 
-const useUploadedImgDrag = () => {
+const useObjectDrag = () => {
   const dragStartOffset = useRef<{x:number, y:number}>({ x: 0, y: 0 });
 
   const getMousePosition = (evt: MouseEvent, rootRef: RefObject<SVGGElement>) => {
@@ -55,4 +55,4 @@ const useUploadedImgDrag = () => {
   };
 };
 
-export default useUploadedImgDrag;
+export default useObjectDrag;

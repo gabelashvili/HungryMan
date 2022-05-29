@@ -7,7 +7,7 @@ import {
   CUBES_TOTAL_ROWS, INITIAL_CUBE_SIZE,
 } from '../../Routes/Cubes/Cubes';
 import { ZOOM_STEP } from '../../Routes/Cubes/CubesCart/CubesCart';
-import UploadedImage from './UploadedImage';
+import UserSelectedObject from './UserSelectedObject';
 
 let color = 'green';
 
@@ -99,7 +99,7 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions, uploadedFileUrl }: Props
           })}
       </g>
       {uploadedFileUrl && (
-      <UploadedImage
+      <UserSelectedObject
         uploadedFileUrl={uploadedFileUrl}
       />
       )}
