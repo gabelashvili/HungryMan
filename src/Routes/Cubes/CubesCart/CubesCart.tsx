@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Covering from '../../../components/Cubes/Covering/Covering';
 import DrawGridWithCubesId from '../../../components/Cubes/DrawGridWithCubesId';
 import UploadImgBtn from '../../../components/Cubes/UploadImgBtn';
 import Zoom from '../../../components/Cubes/Zoom/Zoom';
@@ -59,7 +60,8 @@ const CubesCart = () => {
             </div>
           </div>
           <div className="panel--footer">
-            <UploadImgBtn uploadedFile={uploadedImage} setUploadedFile={setUploadedImage} />
+            {selectedTab === 0 ? <UploadImgBtn uploadedFile={uploadedImage} setUploadedFile={setUploadedImage} />
+              : <Covering />}
           </div>
         </div>
         <div className="panel without-header cart-form">
