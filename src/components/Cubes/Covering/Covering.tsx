@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ArrowIcon2 from '../../../Icons/ArrowIcon2';
 import Button from '../../shared/Button';
 import Colors from './Colors';
@@ -18,18 +18,6 @@ const Covering = () => {
     }
   };
 
-  const handleCubeClick = (e: MouseEvent) => {
-    const target = e.target as HTMLElement;
-    if (target.tagName === 'rect' && target.getAttribute('id') && target.getAttribute('data-selectable') === 'true') {
-      console.log(target);
-      target.style.fill = selectedColor;
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('mousedown', handleCubeClick);
-    return () => window.removeEventListener('mousedown', handleCubeClick);
-  }, [selectedColor]);
   return (
     <div className="cart-slider">
       <div className="cart-slider--header">

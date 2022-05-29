@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import ColorSelector from '../../shared/ColorSelector';
 
 const Colors = ({ selectedColor, setSelectedColor, colorsList }:
@@ -7,6 +7,20 @@ const Colors = ({ selectedColor, setSelectedColor, colorsList }:
         setSelectedColor: Dispatch<SetStateAction<string>>
         colorsList: string[]
     }) => {
+  const handleCubeClick = (e: MouseEvent) => {
+    const target = e.target as HTMLElement;
+    if (target.tagName === 'rect' && target.getAttribute('id') && target.getAttribute('data-selectable') === 'true') {
+      target.style.fill = selectedColor;
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('mousedown', handleCubeClick);
+    return () => {
+      window.removeEventListener('mousedown', handleCubeClick);
+    };
+  }, []);
+
   return (
     <div className="color-selector">
       {colorsList.map((el) => (
