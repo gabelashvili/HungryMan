@@ -1,7 +1,9 @@
 import {
+  MouseEvent,
   RefObject, useEffect, useRef, useState,
 } from 'react';
 import useUploadedImgDrag from './hooks/useUploadedImgDrag';
+import useUploadImgSizing from './hooks/useUploadImgSizing';
 
 const EDIT_CIRCLE_RADIUS = 2;
 const INITIAL_X = 1;
@@ -12,13 +14,15 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
   const [showTools, setShowTools] = useState<boolean>(false);
   const rootRef = useRef<SVGGElement>(null);
   const rectRef = useRef<SVGRectElement | null>(null);
-  const topMiddle = useRef<SVGCircleElement | null>(null);
-  const leftMiddle = useRef<SVGCircleElement | null>(null);
-  const rightMiddle = useRef<SVGCircleElement | null>(null);
-  const bottomMiddle = useRef<SVGCircleElement | null>(null);
+  const topLeft = useRef<SVGCircleElement | null>(null);
+  const topRight = useRef<SVGCircleElement | null>(null);
+  const bottomLeft = useRef<SVGCircleElement | null>(null);
+  const bottomRight = useRef<SVGCircleElement | null>(null);
   const imageRef = useRef<SVGImageElement>(null);
   const isDragging = useRef<boolean>(false);
+  const isSizing = useRef<boolean>(false);
   const { getDragCurrentMousePos, setDragInitialParams } = useUploadedImgDrag();
+  const { onSizingStart, resize } = useUploadImgSizing(rootRef);
 
   const handleMouseMove = (e: any) => {
     if (rootRef.current) {
@@ -29,12 +33,23 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
         drawImage(
           rootRef,
           rectRef,
-          topMiddle,
-          leftMiddle,
-          rightMiddle,
-          bottomMiddle,
+          topLeft,
+          topRight,
+          bottomLeft,
+          bottomRight,
           imageRef,
         );
+      }
+      if (isSizing.current) {
+        resize(e, () => drawImage(
+          rootRef,
+          rectRef,
+          topLeft,
+          topRight,
+          bottomLeft,
+          bottomRight,
+          imageRef,
+        ));
       }
     }
   };
@@ -64,13 +79,35 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
     }
   };
 
+  const startSizing = (e:MouseEvent) => {
+    const target = e.target as Element;
+    if (topLeft.current?.contains(target)) {
+      isSizing.current = true;
+      onSizingStart(e, 'topLeft');
+    }
+    if (topRight.current?.contains(target)) {
+      isSizing.current = true;
+      onSizingStart(e, 'topRight');
+    }
+    if (bottomLeft.current?.contains(target)) {
+      isSizing.current = true;
+      onSizingStart(e, 'bottomLeft');
+    }
+    if (bottomRight.current?.contains(target)) {
+      isSizing.current = true;
+      onSizingStart(e, 'bottomRight');
+    }
+  };
+
   const handleMouseDown = (e:any) => {
     toggleTools(e);
     startDrag(e);
+    startSizing(e);
   };
 
   const handleMouseUp = () => {
     isDragging.current = false;
+    isSizing.current = false;
   };
 
   // draw initial
@@ -79,10 +116,10 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
       drawImage(
         rootRef,
         rectRef,
-        topMiddle,
-        leftMiddle,
-        rightMiddle,
-        bottomMiddle,
+        topLeft,
+        topRight,
+        bottomLeft,
+        bottomRight,
         imageRef,
       );
     }
@@ -140,28 +177,32 @@ const UploadedImage = ({ uploadedFileUrl }: {uploadedFileUrl:string}) => {
           ref={rectRef}
         />
         <circle
+          style={{ cursor: 'nw-resize' }}
           r={EDIT_CIRCLE_RADIUS}
           fill="rgba(0, 168, 255, 1)"
-          ref={topMiddle}
-          style={{ cursor: 'n-resize' }}
+          ref={topLeft}
+          id="top-left"
         />
         <circle
+          style={{ cursor: 'ne-resize' }}
           r={EDIT_CIRCLE_RADIUS}
           fill="rgba(0, 168, 255, 1)"
-          ref={leftMiddle}
-          style={{ cursor: 'e-resize' }}
+          ref={topRight}
+          id="top-right"
         />
         <circle
+          style={{ cursor: 'ne-resize' }}
           r={EDIT_CIRCLE_RADIUS}
           fill="rgba(0, 168, 255, 1)"
-          ref={rightMiddle}
-          style={{ cursor: 'e-resize' }}
+          ref={bottomLeft}
+          id="bottom-left"
         />
         <circle
+          style={{ cursor: 'nw-resize' }}
           r={EDIT_CIRCLE_RADIUS}
           fill="rgba(0, 168, 255, 1)"
-          ref={bottomMiddle}
-          style={{ cursor: 'n-resize' }}
+          ref={bottomRight}
+          id="bottom-right"
         />
       </>
       )}
@@ -174,10 +215,10 @@ export default UploadedImage;
 const drawImage = (
   mainRef:any,
   rectRef: any,
-  topMiddle: RefObject<SVGCircleElement | null>,
-  leftMiddle:RefObject<SVGCircleElement | null>,
-  rightMiddle: RefObject<SVGCircleElement | null>,
-  bottomMiddle: RefObject<SVGCircleElement | null>,
+  topLeft: RefObject<SVGCircleElement | null>,
+  topRight:RefObject<SVGCircleElement | null>,
+  bottomLeft: RefObject<SVGCircleElement | null>,
+  bottomRight: RefObject<SVGCircleElement | null>,
   imageRef: RefObject<SVGImageElement | null>,
 ) => {
   if (mainRef.current) {
@@ -191,16 +232,15 @@ const drawImage = (
     rectRef.current?.setAttribute('width', (parentWidth).toString());
     rectRef.current?.setAttribute('height', (parentHeight).toString());
     // set top
-    topMiddle.current?.setAttribute('cx', (Number(parentX) + parentWidth / 2).toString());
-    topMiddle.current?.setAttribute('cy', parentY.toString());
-    // set middle
-    leftMiddle.current?.setAttribute('cx', parentX.toString());
-    leftMiddle.current?.setAttribute('cy', (parentY + parentHeight / 2).toString());
-    rightMiddle.current?.setAttribute('cx', (Number(parentX) + parentWidth).toString());
-    rightMiddle.current?.setAttribute('cy', (parentY + parentHeight / 2).toString());
+    topLeft.current?.setAttribute('cx', (Number(parentX)).toString());
+    topLeft.current?.setAttribute('cy', parentY.toString());
+    topRight.current?.setAttribute('cx', (parentX + parentWidth).toString());
+    topRight.current?.setAttribute('cy', (parentY).toString());
     // set bottom
-    bottomMiddle.current?.setAttribute('cx', (Number(parentX) + parentWidth / 2).toString());
-    bottomMiddle.current?.setAttribute('cy', (parentY + parentHeight).toString());
+    bottomLeft.current?.setAttribute('cx', (Number(parentX)).toString());
+    bottomLeft.current?.setAttribute('cy', (parentY + parentHeight).toString());
+    bottomRight.current?.setAttribute('cx', (Number(parentX) + parentWidth).toString());
+    bottomRight.current?.setAttribute('cy', (parentY + parentHeight).toString());
     // set image props
     imageRef.current?.setAttribute('width', (parentWidth - 2).toString());
     imageRef.current?.setAttribute('height', (parentHeight - 1.8).toString());
