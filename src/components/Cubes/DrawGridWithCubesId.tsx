@@ -7,6 +7,7 @@ import {
   CUBES_TOTAL_ROWS, INITIAL_CUBE_SIZE,
 } from '../../Routes/Cubes/Cubes';
 import { ZOOM_STEP } from '../../Routes/Cubes/CubesCart/CubesCart';
+import useObjectDrag from './hooks/useObjectDrag';
 import UserSelectedObject from './UserSelectedObject';
 
 let color = '#1A3044';
@@ -17,6 +18,40 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions, image }: PropsTypes) => 
   const svgRef = useRef<SVGSVGElement>(null);
   const svgGRef = useRef<SVGGElement>(null);
   const isZooming = useRef<boolean>(false);
+  const isDragging = useRef<boolean>(false);
+  const isSpaceClicked = useRef<boolean>(false);
+  const { getDragCurrentMousePos, setDragInitialParams } = useObjectDrag(svgRef);
+
+  const handleDragStart = (e:MouseEvent) => {
+    isDragging.current = true;
+    const x = svgRef.current?.getAttribute('x');
+    const y = svgRef.current?.getAttribute('y');
+    setDragInitialParams(e, Number(x), Number(y));
+  };
+
+  const handleDrag = (e:MouseEvent) => {
+    const cords = getDragCurrentMousePos(e);
+    if (isDragging.current && svgRef.current && cords && isSpaceClicked.current) {
+      const matrix = getComputedStyle(svgRef.current).transform.split('matrix')[1].slice(1, -1).split(',').map((x) => Number(x));
+      matrix[4] += cords.x;
+      matrix[5] += cords.y;
+      svgRef.current.setAttribute('transform', `matrix (${matrix.join(' ')})`);
+    }
+  };
+
+  const handleSpaceDown = (e:KeyboardEvent) => {
+    if (e.key === ' ') {
+      e.preventDefault();
+      e.stopPropagation();
+      isSpaceClicked.current = true;
+    }
+  };
+
+  const handleSpaceUp = (e:KeyboardEvent) => {
+    if (e.key === ' ') {
+      isSpaceClicked.current = false;
+    }
+  };
 
   // generate data based on selected cubes id
   useEffect(() => {
@@ -49,11 +84,21 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions, image }: PropsTypes) => 
   }, [svgRef]);
 
   // disable scroll when zooming
-
   useEffect(() => {
     document.addEventListener('wheel', (e) => preventScroll(e, isZooming.current), { passive: false });
     return () => {
       document.removeEventListener('wheel', preventScroll);
+    };
+  }, []);
+
+  // handle space down and up
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleSpaceDown);
+    document.addEventListener('keyup', handleSpaceUp);
+    return () => {
+      document.removeEventListener('keydown', handleSpaceDown);
+      document.removeEventListener('keyup', handleSpaceUp);
     };
   }, []);
 
@@ -62,11 +107,17 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions, image }: PropsTypes) => 
       style={{ width: '100%' }}
       id="root-svg"
       ref={svgRef}
+      onMouseMove={handleDrag}
+      onMouseDown={handleDragStart}
+      onMouseUp={() => {
+        isDragging.current = false;
+      }}
       onMouseEnter={() => {
         isZooming.current = true;
       }}
       onMouseLeave={() => {
         isZooming.current = false;
+        isDragging.current = false;
       }}
       transform="matrix(1 0 0 1 0 0)"
       preserveAspectRatio="xMidYMid meet"

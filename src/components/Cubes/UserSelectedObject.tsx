@@ -24,13 +24,13 @@ const UserSelectedObject = ({ image }: {image:File}) => {
   const isDragging = useRef<boolean>(false);
   const isSizing = useRef<boolean>(false);
   const isRotating = useRef<boolean>(false);
-  const { getDragCurrentMousePos, setDragInitialParams } = useObjectDrag();
+  const { getDragCurrentMousePos, setDragInitialParams } = useObjectDrag(rootRef);
   const { onSizingStart, resize } = useObjectSizing(rootRef);
 
   const handleMouseMove = (e: any) => {
     if (rootRef.current) {
       if (isDragging.current) {
-        const mousePos = getDragCurrentMousePos(e, rootRef);
+        const mousePos = getDragCurrentMousePos(e);
         rootRef.current.setAttribute('x', (mousePos?.x || 1).toString());
         rootRef.current.setAttribute('y', (mousePos?.y || 1).toString());
         drawObject(
@@ -83,7 +83,7 @@ const UserSelectedObject = ({ image }: {image:File}) => {
       const x = parseFloat(rootRef.current.getAttribute('x') as string);
       const y = parseFloat(rootRef.current.getAttribute('y') as string);
       isDragging.current = true;
-      setDragInitialParams(e, rootRef, x, y);
+      setDragInitialParams(e, x, y);
     }
   };
 

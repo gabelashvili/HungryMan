@@ -3,10 +3,10 @@ import {
   RefObject, useRef,
 } from 'react';
 
-const useObjectDrag = () => {
+const useObjectDrag = (rootRef: RefObject<SVGGElement>) => {
   const dragStartOffset = useRef<{x:number, y:number}>({ x: 0, y: 0 });
 
-  const getMousePosition = (evt: MouseEvent, rootRef: RefObject<SVGGElement>) => {
+  const getMousePosition = (evt: MouseEvent) => {
     const CTM = rootRef?.current?.getScreenCTM();
     if (rootRef.current && CTM) {
       return {
@@ -21,7 +21,6 @@ const useObjectDrag = () => {
   };
   const setDragInitialParams = (
     e: MouseEvent,
-    rootRef: RefObject<SVGGElement>,
     x:number,
     y:number,
   ) => {
@@ -30,17 +29,16 @@ const useObjectDrag = () => {
         x: e.clientX,
         y: e.clientY,
       };
-      dragStartOffset.current = getMousePosition(e, rootRef);
+      dragStartOffset.current = getMousePosition(e);
       dragStartOffset.current.x -= x;
       dragStartOffset.current.y -= y;
     }
   };
   const getDragCurrentMousePos = (
     e: MouseEvent,
-    rootRef:RefObject<SVGGElement>,
   ) => {
     if (dragStartOffset.current && rootRef.current) {
-      const cords = getMousePosition(e, rootRef);
+      const cords = getMousePosition(e);
       return {
         x: (cords.x - dragStartOffset.current.x),
         y: cords.y - dragStartOffset.current.y,
