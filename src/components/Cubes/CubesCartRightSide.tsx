@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useSelector } from '../../hooks/useSelector';
+import { buyCubes } from '../../store/ducks/cubesDuck';
 import { AddressType } from '../../types/user';
 import Addresses from '../Address/Addresses';
 import Button from '../shared/Button';
@@ -9,6 +11,8 @@ import TextArea from '../shared/TextArea';
 import TextField from '../shared/TextField';
 
 const CubesCartRightSide = () => {
+  const dispatch = useDispatch();
+  const selectedCubes = useSelector((state) => state.cubesReducer.selectedCubes);
   const addresses = useSelector((state) => state.userReducer.addresses);
   const [comment, setComment] = useState<{enabled:boolean, value: string}>({
     enabled: false,
@@ -19,6 +23,22 @@ const CubesCartRightSide = () => {
     value: '',
   });
   const [selectedAddress, setSelectedAddress] = useState<number | null>(null);
+
+  const handleBuy = () => {
+    if (selectedAddress) {
+      dispatch(buyCubes({
+        data: {
+          comment: comment.value,
+          hasComment: comment.enabled,
+          RedirectLink: comment.value,
+          hasRedirectLink: comment.enabled,
+          UserAddressId: selectedAddress,
+          PurchaseDetails: selectedCubes,
+        },
+        file: 'test',
+      }));
+    }
+  };
 
   useEffect(() => {
     if (addresses && addresses?.length > 0 && !selectedAddress) {
@@ -74,7 +94,7 @@ const CubesCartRightSide = () => {
             <span className="cart-details--sum__name">ჯამი</span>
             <span className="cart-details--sum__value">1050.00₾</span>
           </div>
-          <Button>შეკვეთის გაფორმება</Button>
+          <Button handleClick={handleBuy}>შეკვეთის გაფორმება</Button>
         </div>
       </div>
     </>

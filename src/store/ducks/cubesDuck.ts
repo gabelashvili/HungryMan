@@ -1,7 +1,8 @@
 import { AnyAction } from 'redux';
-import { CubesInitialState } from '../../types/cubes';
+import { BuyCubesPayload, CubesInitialState } from '../../types/cubes';
 
 export const SET_SELECTED_CUBES = 'cubes/setSelectedCubes';
+export const BUY_CUBES = 'cubes/buyCubes';
 
 const initialState: CubesInitialState = {
   selectedCubes: [
@@ -38,5 +39,10 @@ export const cubesReducer = (state = initialState, action: AnyAction): CubesInit
 
 export const setSelectedCubes = (payload: number[]) => ({
   type: SET_SELECTED_CUBES,
+  payload,
+});
+
+export const buyCubes = (payload: BuyCubesPayload) => ({
+  type: BUY_CUBES,
   payload,
 });

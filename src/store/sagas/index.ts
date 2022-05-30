@@ -42,6 +42,8 @@ import {
   reqRemoveProductFromCart,
   updateProductCountInCart,
 } from './productsSaga';
+import { BUY_CUBES } from '../ducks/cubesDuck';
+import { buyCubes } from './cubesSaga';
 
 function* actionWatcher() {
   // user
@@ -65,6 +67,8 @@ function* actionWatcher() {
   yield takeLatest(ADD_USER_ADDRESS, addUserAddress);
   yield takeLatest(REMOVE_USER_ADDRESS, removeUserAddress);
   yield takeLatest(PURCHASE_PRODUCT_CART_ITEMS, purchaseProductCartItems);
+  // cubes
+  yield takeLatest(BUY_CUBES, buyCubes);
 }
 
 export default function* rootSaga() {
