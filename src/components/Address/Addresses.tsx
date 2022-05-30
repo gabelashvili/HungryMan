@@ -1,9 +1,9 @@
-import { useAppDispatch, useSelector } from '../../../hooks/useSelector';
-import Loader from '../../../Icons/Loader';
-import PlusIcon from '../../../Icons/PlusIcon';
-import { toggleModal } from '../../../store/ducks/modalsDuck';
-import AddressLabel from '../../Address/AddressLabel';
-import Button from '../../shared/Button';
+import { useAppDispatch, useSelector } from '../../hooks/useSelector';
+import Loader from '../../Icons/Loader';
+import PlusIcon from '../../Icons/PlusIcon';
+import { toggleModal } from '../../store/ducks/modalsDuck';
+import AddressLabel from './AddressLabel';
+import Button from '../shared/Button';
 
 const Addresses = ({ selectedAddress, setSelectedAddress }:
   {selectedAddress: number | null, setSelectedAddress: (data: any) => void}) => {

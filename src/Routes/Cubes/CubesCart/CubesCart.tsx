@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Covering from '../../../components/Cubes/Covering/Covering';
+import CubesCartRightSide from '../../../components/Cubes/CubesCartRightSide';
 import DrawGridWithCubesId from '../../../components/Cubes/DrawGridWithCubesId';
 import UploadImgBtn from '../../../components/Cubes/UploadImgBtn';
 import Zoom from '../../../components/Cubes/Zoom/Zoom';
@@ -65,9 +66,7 @@ const CubesCart = () => {
           </div>
         </div>
         <div className="panel without-header cart-form">
-          <div className="panel--content">
-            right side
-          </div>
+          <CubesCartRightSide />
         </div>
       </div>
     </div>

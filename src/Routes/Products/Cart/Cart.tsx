@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import Addresses from '../../../components/Products/Cart/Addresses';
+import Addresses from '../../../components/Address/Addresses';
 import CartProductsList from '../../../components/Products/Cart/CartProductsList';
-import PaymentMethod from '../../../components/Products/Cart/PaymentMethod';
+import PaymentMethod from '../../../components/shared/PaymentMethod';
 import Button from '../../../components/shared/Button';
 import { useAppDispatch, useSelector } from '../../../hooks/useSelector';
 import { purchaseProductCartItem } from '../../../store/ducks/productsDuck';
