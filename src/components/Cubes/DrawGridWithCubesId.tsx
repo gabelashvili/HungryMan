@@ -4,12 +4,12 @@ import {
 } from 'react';
 import { useSelector } from '../../hooks/useSelector';
 import {
-  CUBES_TOTAL_ROWS, CUBE_DARK_COLOR, CUBE_LIGHT_COLOR, INITIAL_CUBE_SIZE,
+  CUBES_TOTAL_ROWS, INITIAL_CUBE_SIZE,
 } from '../../Routes/Cubes/Cubes';
 import { ZOOM_STEP } from '../../Routes/Cubes/CubesCart/CubesCart';
 import UserSelectedObject from './UserSelectedObject';
 
-let color = CUBE_DARK_COLOR;
+let color = '#1A3044';
 
 const DrawGridWithCubesId = ({ setZoom, setZoomActions, image }: PropsTypes) => {
   const [formattedData, setFormattedData] = useState<FormattedDataType | null>(null);
@@ -82,10 +82,10 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions, image }: PropsTypes) => 
       >
         {formattedData && Object.keys(formattedData.data)
           .map((el, y) => {
-            color = (y + 1) % 2 === 0 ? CUBE_DARK_COLOR : CUBE_LIGHT_COLOR;
+            color = (y + 1) % 2 === 0 ? '#1A3044' : '#132636';
             return formattedData.data[el]
               .map((item, x) => {
-                color = color === CUBE_LIGHT_COLOR ? CUBE_DARK_COLOR : CUBE_LIGHT_COLOR;
+                color = color === '#132636' ? '#1A3044' : '#132636';
                 return drawRect(
                   x * INITIAL_CUBE_SIZE,
                   y * INITIAL_CUBE_SIZE,
