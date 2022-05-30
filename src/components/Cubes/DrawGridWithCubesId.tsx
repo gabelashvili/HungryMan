@@ -4,12 +4,12 @@ import {
 } from 'react';
 import { useSelector } from '../../hooks/useSelector';
 import {
-  CUBES_TOTAL_ROWS, INITIAL_CUBE_SIZE,
+  CUBES_TOTAL_ROWS, CUBE_DARK_COLOR, CUBE_LIGHT_COLOR, INITIAL_CUBE_SIZE,
 } from '../../Routes/Cubes/Cubes';
 import { ZOOM_STEP } from '../../Routes/Cubes/CubesCart/CubesCart';
 import UserSelectedObject from './UserSelectedObject';
 
-let color = 'green';
+let color = CUBE_DARK_COLOR;
 
 const DrawGridWithCubesId = ({ setZoom, setZoomActions, image }: PropsTypes) => {
   const [formattedData, setFormattedData] = useState<FormattedDataType | null>(null);
@@ -82,10 +82,10 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions, image }: PropsTypes) => 
       >
         {formattedData && Object.keys(formattedData.data)
           .map((el, y) => {
-            color = (y + 1) % 2 === 0 ? 'blue' : 'green';
+            color = (y + 1) % 2 === 0 ? CUBE_DARK_COLOR : CUBE_LIGHT_COLOR;
             return formattedData.data[el]
               .map((item, x) => {
-                color = color === 'green' ? 'blue' : 'green';
+                color = color === CUBE_LIGHT_COLOR ? CUBE_DARK_COLOR : CUBE_LIGHT_COLOR;
                 return drawRect(
                   x * INITIAL_CUBE_SIZE,
                   y * INITIAL_CUBE_SIZE,
@@ -127,7 +127,7 @@ const drawRect = (
     x={x}
     y={y}
     key={id}
-    style={{ fill: !isSelected ? 'red' : color }}
+    style={{ fill: !isSelected ? 'transparent' : color }}
     id={id.toString()}
     onClick={(e) => handleClick(e)}
     data-selectable={isSelected ? 'true' : 'false'}
