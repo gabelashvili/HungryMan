@@ -92,7 +92,6 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions, image }: PropsTypes) => 
   }, []);
 
   // handle space down and up
-
   useEffect(() => {
     document.addEventListener('keydown', handleSpaceDown);
     document.addEventListener('keyup', handleSpaceUp);
