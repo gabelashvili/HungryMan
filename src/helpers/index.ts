@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 export const generatePath = (url: string, thumbnail?: boolean) => {
   if (thumbnail) {
     const lastIndex = url.lastIndexOf('.');
@@ -25,4 +26,26 @@ export const getBase64Test = (file:File) => {
     reader.onload = () => resolve(reader.result);
     reader.onerror = (error) => reject(error);
   });
+};
+
+export const fetchSvgData = async (url: string) => fetch(url).then((res) => res.blob()).then((blob) => new File([blob], 'File name', { type: 'image/svg+xml' }));
+
+export const generateFile = async (el:Node) => {
+  // get svg source.
+  const serializer = new XMLSerializer();
+  let source = serializer.serializeToString(el);
+  // add name spaces.
+  if (!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)) {
+    source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+  }
+  if (!source.match(/^<svg[^>]+"http\:\/\/www\.w3\.org\/1999\/xlink"/)) {
+    source = source.replace(/^<svg/, '<svg xmlns:xlink="http://www.w3.org/1999/xlink"');
+  }
+  // add xml declaration
+  source = `<?xml version="1.0" standalone="no"?>\r\n${source}`;
+  // convert svg source to URI data scheme.
+  const url = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(source)}`;
+  const res = fetchSvgData(url);
+  return res;
+  // generate file
 };

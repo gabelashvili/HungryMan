@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { generateFile } from '../../helpers';
 import { useSelector } from '../../hooks/useSelector';
 import { buyCubes } from '../../store/ducks/cubesDuck';
 import { AddressType } from '../../types/user';
@@ -24,8 +25,10 @@ const CubesCartRightSide = () => {
   });
   const [selectedAddress, setSelectedAddress] = useState<number | null>(null);
 
-  const handleBuy = () => {
-    if (selectedAddress) {
+  const handleBuy = async () => {
+    const el = document.getElementById('root-svg');
+    if (selectedAddress && el) {
+      const file = await generateFile(el);
       dispatch(buyCubes({
         data: {
           comment: comment.value,
@@ -35,7 +38,7 @@ const CubesCartRightSide = () => {
           UserAddressId: selectedAddress,
           PurchaseDetails: selectedCubes,
         },
-        file: 'test',
+        file,
       }));
     }
   };

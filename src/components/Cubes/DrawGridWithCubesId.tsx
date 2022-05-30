@@ -49,6 +49,7 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions, image }: PropsTypes) => 
 
   return (
     <svg
+      id="root-svg"
       ref={svgRef}
       transform="matrix(1 0 0 1 0 0)"
       preserveAspectRatio="xMidYMid meet"

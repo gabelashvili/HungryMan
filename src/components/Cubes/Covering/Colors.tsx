@@ -19,7 +19,7 @@ const Colors = ({ selectedColor, setSelectedColor, colorsList }:
     return () => {
       window.removeEventListener('mousedown', handleCubeClick);
     };
-  }, []);
+  }, [selectedColor]);
 
   return (
     <div className="color-selector">
