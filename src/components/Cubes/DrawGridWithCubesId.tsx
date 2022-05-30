@@ -16,6 +16,7 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions, image }: PropsTypes) => 
   const selectedCubesId = useSelector((state) => state.cubesReducer.selectedCubes);
   const svgRef = useRef<SVGSVGElement>(null);
   const svgGRef = useRef<SVGGElement>(null);
+  const isZooming = useRef<boolean>(false);
 
   // generate data based on selected cubes id
   useEffect(() => {
@@ -47,10 +48,26 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions, image }: PropsTypes) => 
     }
   }, [svgRef]);
 
+  // disable scroll when zooming
+
+  useEffect(() => {
+    document.addEventListener('wheel', (e) => preventScroll(e, isZooming.current), { passive: false });
+    return () => {
+      document.removeEventListener('wheel', preventScroll);
+    };
+  }, []);
+
   return (
     <svg
+      style={{ width: '100%' }}
       id="root-svg"
       ref={svgRef}
+      onMouseEnter={() => {
+        isZooming.current = true;
+      }}
+      onMouseLeave={() => {
+        isZooming.current = false;
+      }}
       transform="matrix(1 0 0 1 0 0)"
       preserveAspectRatio="xMidYMid meet"
       onWheel={(e) => {
@@ -243,3 +260,11 @@ interface PropsTypes {
   } | null>>,
   image?: File | null
 }
+
+const preventScroll = (e: WheelEvent, isZooming?: boolean) => {
+  if (isZooming) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+  return false;
+};
