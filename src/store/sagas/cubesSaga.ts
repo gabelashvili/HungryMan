@@ -7,7 +7,8 @@ export function* buyCubes({ payload, callbacks }:{ payload: BuyCubesPayload, cal
   try {
     const formData = new FormData();
     formData.append('file', payload.file);
-    formData.append('data', JSON.stringify(payload.data));
+    console.log(payload.file);
+    formData.append('request', JSON.stringify(payload.data));
     yield axiosInstance.post('/Wall/Purchase/Purchase', formData);
     callbacks?.success && callbacks.success();
   } catch (error: any) {

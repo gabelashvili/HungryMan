@@ -28,7 +28,7 @@ export const getBase64Test = (file:File) => {
   });
 };
 
-export const fetchSvgData = async (url: string) => fetch(url).then((res) => res.blob()).then((blob) => new File([blob], 'File name', { type: 'image/svg+xml' }));
+export const fetchSvgData = async (url: string) => fetch(url).then((res) => res.blob()).then((blob) => new File([blob], 'wall.svg', { type: 'image/svg+xml' }));
 
 export const generateFile = async (el:Node) => {
   // get svg source.
