@@ -7,6 +7,7 @@ import {
   CUBES_TOTAL_ROWS, INITIAL_CUBE_SIZE,
 } from '../../Routes/Cubes/Cubes';
 import { ZOOM_STEP } from '../../Routes/Cubes/CubesCart/CubesCart';
+import DrawText from './DrawObject/DrawText';
 import useObjectDrag from './hooks/useObjectDrag';
 import Images from './Images';
 
@@ -18,6 +19,7 @@ const DrawGridWithCubesId = ({
   images,
   selectedObjectId,
   setSelectedObjectId,
+  text,
 }: PropsTypes) => {
   const [formattedData, setFormattedData] = useState<FormattedDataType | null>(null);
   const selectedCubesId = useSelector((state) => state.cubesReducer.selectedCubes);
@@ -30,9 +32,7 @@ const DrawGridWithCubesId = ({
 
   const handleDragStart = (e:MouseEvent) => {
     isDragging.current = true;
-    const x = svgRef.current?.getAttribute('x');
-    const y = svgRef.current?.getAttribute('y');
-    setDragInitialParams(e, Number(x), Number(y));
+    setDragInitialParams(e);
   };
 
   const handleDrag = (e:MouseEvent) => {
@@ -179,6 +179,7 @@ const DrawGridWithCubesId = ({
         selectedObjectId={selectedObjectId}
         setSelectedObjectId={setSelectedObjectId}
       />
+      {text && <DrawText text={text} />}
     </svg>
 
   );
@@ -318,7 +319,8 @@ interface PropsTypes {
   } | null>>,
   images: {id:string, file?:File, base64?:string, value?:string }[],
   selectedObjectId: string,
-  setSelectedObjectId: (val:string) => void
+  setSelectedObjectId: (val:string) => void,
+  text: {val:string, fontSize: number}
 }
 
 const preventScroll = (e: WheelEvent, isZooming?: boolean) => {

@@ -76,5 +76,5 @@ const colorsList = ['#FF8385', '#0193E5', '#F78F1E', '#34A853', '#FFFFFF', '#187
 
 interface PropsTypes {
   handleStickerAdd: (base64:string) => void,
-  handleTextAdd: (val:string) => void
+  handleTextAdd: (val: {val:string, fontSize: number}) => void
 }

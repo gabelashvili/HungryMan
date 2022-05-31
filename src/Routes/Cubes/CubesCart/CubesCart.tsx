@@ -10,6 +10,7 @@ import RemoveIcon from '../../../Icons/RemoveIcon';
 
 export const ZOOM_STEP = 0.05;
 const CubesCart = () => {
+  const [text, setText] = useState<{val:string, fontSize: number}>({ val: '', fontSize: 10 });
   const [selectedObjectId, setSelectedObjectId] = useState<string>('');
   const [zoom, setZoom] = useState<number>(100);
   const [selectedTab, setSelectedTab] = useState<number>(0);
@@ -47,9 +48,10 @@ const CubesCart = () => {
     }
   };
 
-  const handleTextAdd = (val:string) => {
-    console.log(val);
+  const handleTextAdd = (text:{val:string, fontSize: number}) => {
+    setText(text);
   };
+  console.log(text);
 
   return (
     <div className="cart">
@@ -82,6 +84,7 @@ const CubesCart = () => {
                 images={images}
                 selectedObjectId={selectedObjectId}
                 setSelectedObjectId={(val) => handleSelectObj(val)}
+                text={text}
               />
             </div>
           </div>
