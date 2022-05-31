@@ -3,8 +3,9 @@ import ArrowIcon2 from '../../../Icons/ArrowIcon2';
 import Button from '../../shared/Button';
 import Colors from './Colors';
 import Stickers from './Stickers';
+import Text from './Text';
 
-const Covering = ({ handleStickerAdd }: PropsTypes) => {
+const Covering = ({ handleStickerAdd, handleTextAdd }: PropsTypes) => {
   const [selectedTab, setSelectedTab] = useState<number>(1);
   const [selectedColor, setSelectedColor] = useState<string>(colorsList[0]);
   const handleTabChange = (type: 'prev' | 'next') => {
@@ -47,7 +48,7 @@ const Covering = ({ handleStickerAdd }: PropsTypes) => {
           />
           )}
           {selectedTab === 2 && <Stickers handleStickerAdd={handleStickerAdd} />}
-          {selectedTab === 3 && 'text'}
+          {selectedTab === 3 && <Text handleTextAdd={handleTextAdd} />}
         </div>
       </div>
     </div>
@@ -74,5 +75,6 @@ const tabs = [
 const colorsList = ['#FF8385', '#0193E5', '#F78F1E', '#34A853', '#FFFFFF', '#1877F2', '#F7DCBF', '#D8A782', '#EA4335', '#1A3044'];
 
 interface PropsTypes {
-  handleStickerAdd: (base64:string) => void
+  handleStickerAdd: (base64:string) => void,
+  handleTextAdd: (val:string) => void
 }

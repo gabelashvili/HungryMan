@@ -316,7 +316,7 @@ interface PropsTypes {
     in: () => void,
     out: () => void
   } | null>>,
-  images: {id:string, file?:File, base64:string }[],
+  images: {id:string, file?:File, base64?:string, value?:string }[],
   selectedObjectId: string,
   setSelectedObjectId: (val:string) => void
 }

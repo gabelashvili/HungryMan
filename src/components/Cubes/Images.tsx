@@ -21,7 +21,7 @@ const Images = ({ images, selectedObjectId, setSelectedObjectId }: PropsTypes) =
 export default Images;
 
 interface PropsTypes {
-    images: {id:string, file?:File, base64:string }[],
+    images: {id:string, file?:File, base64?:string, value?:string }[],
     selectedObjectId: string,
     setSelectedObjectId: (val:string) => void
 }

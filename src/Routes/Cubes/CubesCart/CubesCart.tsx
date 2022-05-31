@@ -13,7 +13,7 @@ const CubesCart = () => {
   const [selectedObjectId, setSelectedObjectId] = useState<string>('');
   const [zoom, setZoom] = useState<number>(100);
   const [selectedTab, setSelectedTab] = useState<number>(0);
-  const [images, setImages] = useState<{id:string, file?:File, base64: string}[]>([]);
+  const [images, setImages] = useState<{id:string, file?:File, base64?: string, value?: string}[]>([]);
   const [zoomActions, setZoomActions] = useState<{
     in:() => void,
     out: () => void
@@ -45,6 +45,10 @@ const CubesCart = () => {
       setImages(newArr);
       setSelectedObjectId(val);
     }
+  };
+
+  const handleTextAdd = (val:string) => {
+    console.log(val);
   };
 
   return (
@@ -88,7 +92,7 @@ const CubesCart = () => {
                 setUploadedFile={handleImg}
               />
             )
-              : <Covering handleStickerAdd={handleStickerAdd} />}
+              : <Covering handleStickerAdd={handleStickerAdd} handleTextAdd={handleTextAdd} />}
           </div>
         </div>
         <div className="panel without-header cart-form">

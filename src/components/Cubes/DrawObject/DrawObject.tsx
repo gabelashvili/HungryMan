@@ -83,26 +83,24 @@ const DrawObject = ({ image, isSelected, setSelectedObjectId }: PropsTypes) => {
         setSelectedObjectId(image.id);
       }}
     >
-      {image.id.includes('text') ? '' : (
-        <image
-          ref={imageRef}
-          clipPath="url(#myClip)"
-          preserveAspectRatio="none"
-          href={image.base64}
-          onMouseMove={(e) => handleDrag(e)}
-          onMouseDown={(e) => {
-            setDragging(true);
-            const ev = e as MouseEvent;
-            setDragInitialParams(ev);
-          }}
-          onMouseUp={() => {
-            setDragging(false);
-          }}
-          onMouseLeave={() => {
-            setDragging(false);
-          }}
-        />
-      )}
+      <image
+        ref={imageRef}
+        clipPath="url(#myClip)"
+        preserveAspectRatio="none"
+        href={image.base64}
+        onMouseMove={(e) => handleDrag(e)}
+        onMouseDown={(e) => {
+          setDragging(true);
+          const ev = e as MouseEvent;
+          setDragInitialParams(ev);
+        }}
+        onMouseUp={() => {
+          setDragging(false);
+        }}
+        onMouseLeave={() => {
+          setDragging(false);
+        }}
+      />
       <Tools ref={toolsRef} onSizingStart={handleSizingStart} />
     </g>
   );
@@ -155,8 +153,9 @@ const drawInitialWall = (
 
 interface PropsTypes {
     image: {
-        base64: string,
-        id: string
+        base64?: string,
+        id: string,
+        value?:string
     },
     isSelected:boolean,
     setSelectedObjectId: (val:string) => void
