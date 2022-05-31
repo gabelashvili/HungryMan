@@ -14,6 +14,9 @@ const Tools = forwardRef(({ onSizingStart }: PropsTypes, ref:ForwardedRef<SVGGEl
         r={EDIT_CIRCLE_RADIUS}
         fill="rgba(0, 168, 255, 1)"
         id="top-left"
+        onMouseDown={(e) => {
+          onSizingStart(e, 'topLeft');
+        }}
       />
       <circle
         style={{ cursor: 'pointer' }}

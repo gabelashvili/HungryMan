@@ -6,7 +6,6 @@ import useObjectSizing from '../hooks/useObjectSizing';
 import Tools from './Tools';
 
 const DrawObject = ({ image, isSelected, setSelectedObjectId }: PropsTypes) => {
-  const [currentMatrix, setCurrentMatrix] = useState([1, 0, 0, 1, 2, 2]);
   const [isDragging, setDragging] = useState(false);
   const [isSizing, setSizing] = useState(false);
   const rootRef = useRef<SVGGElement>(null);
@@ -16,12 +15,11 @@ const DrawObject = ({ image, isSelected, setSelectedObjectId }: PropsTypes) => {
   const { onSizingStart, resize } = useObjectSizing(rootRef);
 
   const handleDrag = (e:MouseEvent) => {
-    if (isDragging && rootRef.current) {
-      const matrix = [...currentMatrix];
-      const mousePos = getDragCurrentMousePos(e);
-      matrix[4] += mousePos?.x || 1;
-      matrix[5] += mousePos?.y || 1;
-      setCurrentMatrix(matrix);
+    const mousePos = getDragCurrentMousePos(e);
+    if (isDragging && rootRef.current && mousePos) {
+      rootRef.current.setAttribute('x', mousePos.x.toString());
+      rootRef.current.setAttribute('y', mousePos.y.toString());
+      drawInitialWall(rootRef, imageRef, toolsRef);
     }
   };
 
@@ -31,7 +29,7 @@ const DrawObject = ({ image, isSelected, setSelectedObjectId }: PropsTypes) => {
   };
 
   const handleSizeChange = useCallback((e:any) => {
-    resize(e, () => console.log(22));
+    resize(e, () => drawInitialWall(rootRef, imageRef, toolsRef));
   }, []);
 
   const stopSizing = () => {
@@ -74,7 +72,6 @@ const DrawObject = ({ image, isSelected, setSelectedObjectId }: PropsTypes) => {
 
   return (
     <g
-      transform={`matrix(${currentMatrix.join(' ')})`}
       x={INITIAL_X}
       y={INITIAL_Y}
       width={INITIAL_WIDTH}
@@ -111,8 +108,8 @@ const DrawObject = ({ image, isSelected, setSelectedObjectId }: PropsTypes) => {
 
 export default DrawObject;
 
-const INITIAL_X = 0;
-const INITIAL_Y = 0;
+const INITIAL_X = 2;
+const INITIAL_Y = 2;
 const INITIAL_WIDTH = 50;
 const INITIAL_HEIGHT = 30;
 
@@ -123,9 +120,8 @@ const drawInitialWall = (
 ) => {
   const rootEl = rootRef.current;
   if (rootEl) {
-    const matrix = getComputedStyle(rootRef.current).transform.split('matrix')[1].slice(1, -1).split(',').map((x) => Number(x));
-    const parentX = matrix[4];
-    const parentY = matrix[5];
+    const parentX = Number(rootRef.current.getAttribute('x'));
+    const parentY = Number(rootRef.current.getAttribute('y'));
     const parentWidth = Number(rootEl.getAttribute('width'));
     const parentHeight = Number(rootEl.getAttribute('height'));
     if (imageRef.current) {
