@@ -83,24 +83,26 @@ const DrawObject = ({ image, isSelected, setSelectedObjectId }: PropsTypes) => {
         setSelectedObjectId(image.id);
       }}
     >
-      <image
-        ref={imageRef}
-        clipPath="url(#myClip)"
-        preserveAspectRatio="none"
-        href={image.base64}
-        onMouseMove={(e) => handleDrag(e)}
-        onMouseDown={(e) => {
-          setDragging(true);
-          const ev = e as MouseEvent;
-          setDragInitialParams(ev);
-        }}
-        onMouseUp={() => {
-          setDragging(false);
-        }}
-        onMouseLeave={() => {
-          setDragging(false);
-        }}
-      />
+      {image.id.includes('text') ? '' : (
+        <image
+          ref={imageRef}
+          clipPath="url(#myClip)"
+          preserveAspectRatio="none"
+          href={image.base64}
+          onMouseMove={(e) => handleDrag(e)}
+          onMouseDown={(e) => {
+            setDragging(true);
+            const ev = e as MouseEvent;
+            setDragInitialParams(ev);
+          }}
+          onMouseUp={() => {
+            setDragging(false);
+          }}
+          onMouseLeave={() => {
+            setDragging(false);
+          }}
+        />
+      )}
       <Tools ref={toolsRef} onSizingStart={handleSizingStart} />
     </g>
   );
