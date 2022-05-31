@@ -37,6 +37,16 @@ const CubesCart = () => {
     setImages(newImgs);
   };
 
+  const handleSelectObj = (val:string) => {
+    const el = images.find((el) => el.id === val);
+    if (el) {
+      let newArr = images.filter((el) => el.id !== val);
+      newArr = [...newArr, el];
+      setImages(newArr);
+      setSelectedObjectId(val);
+    }
+  };
+
   return (
     <div className="cart">
       <div className="wrapper">
@@ -67,7 +77,7 @@ const CubesCart = () => {
                 setZoomActions={setZoomActions}
                 images={images}
                 selectedObjectId={selectedObjectId}
-                setSelectedObjectId={setSelectedObjectId}
+                setSelectedObjectId={(val) => handleSelectObj(val)}
               />
             </div>
           </div>

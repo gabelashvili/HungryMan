@@ -318,7 +318,7 @@ interface PropsTypes {
   } | null>>,
   images: {id:string, file?:File, base64:string }[],
   selectedObjectId: string,
-  setSelectedObjectId: Dispatch<SetStateAction<string>>
+  setSelectedObjectId: (val:string) => void
 }
 
 const preventScroll = (e: WheelEvent, isZooming?: boolean) => {

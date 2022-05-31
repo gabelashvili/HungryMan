@@ -1,5 +1,5 @@
 import {
-  Dispatch, MouseEvent, RefObject, SetStateAction, useCallback, useEffect, useRef, useState,
+  MouseEvent, RefObject, useCallback, useEffect, useRef, useState,
 } from 'react';
 import useObjectDrag from '../hooks/useObjectDrag';
 import useObjectSizing from '../hooks/useObjectSizing';
@@ -161,5 +161,5 @@ interface PropsTypes {
         id: string
     },
     isSelected:boolean,
-    setSelectedObjectId: Dispatch<SetStateAction<string>>
+    setSelectedObjectId: (val:string) => void
 }
