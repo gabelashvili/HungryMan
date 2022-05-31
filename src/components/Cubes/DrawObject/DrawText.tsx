@@ -7,12 +7,12 @@ const DrawText = ({ text }: {text:{val:string, fontSize: number}}) => {
   useEffect(() => {
     if (ref.current) {
       ref.current.setAttribute('x', '2');
-      ref.current.setAttribute('y', '10');
+      ref.current.setAttribute('y', text.fontSize.toString());
       ref.current.style.cursor = 'pointer';
     }
   }, []);
   return (
-    <text ref={ref} fontSize={text.fontSize}>{text.val}</text>
+    <text fill="white" ref={ref} fontSize={text.fontSize}>{text.val}</text>
   );
 };
 
