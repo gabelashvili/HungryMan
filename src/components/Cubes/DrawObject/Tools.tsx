@@ -1,8 +1,12 @@
+import {
+  ForwardedRef, forwardRef,
+} from 'react';
+
 const EDIT_CIRCLE_RADIUS = 2;
 
-const Tools = () => {
+const Tools = forwardRef((params, ref:ForwardedRef<SVGGElement>) => {
   return (
-    <g>
+    <g ref={ref}>
       <circle
         style={{ cursor: 'nw-resize' }}
         r={EDIT_CIRCLE_RADIUS}
@@ -35,6 +39,6 @@ const Tools = () => {
       />
     </g>
   );
-};
+});
 
 export default Tools;

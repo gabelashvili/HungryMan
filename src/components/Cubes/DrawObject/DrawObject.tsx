@@ -1,38 +1,50 @@
 import {
-  Dispatch, MouseEvent, RefObject, SetStateAction, useEffect, useRef,
+  Dispatch, MouseEvent, RefObject, SetStateAction, useEffect, useRef, useState,
 } from 'react';
 import useObjectDrag from '../hooks/useObjectDrag';
 import Tools from './Tools';
 
 const DrawObject = ({ image, isSelected, setSelectedObjectId }: PropsTypes) => {
+  const [currentMatrix, setCurrentMatrix] = useState([1, 0, 0, 1, 2, 2]);
   const rootRef = useRef<SVGGElement>(null);
   const imageRef = useRef<SVGImageElement>(null);
   const isDragging = useRef<boolean>(false);
+  const toolsRef = useRef<SVGGElement>(null);
   const { getDragCurrentMousePos, setDragInitialParams } = useObjectDrag(rootRef);
 
   const handleDrag = (e:MouseEvent) => {
     if (isDragging.current && rootRef.current) {
-      const matrix = getComputedStyle(rootRef.current).transform.split('matrix')[1].slice(1, -1).split(',').map((x) => Number(x));
+      const matrix = [...currentMatrix];
       const mousePos = getDragCurrentMousePos(e);
-      console.log(mousePos);
       matrix[4] += mousePos?.x || 1;
       matrix[5] += mousePos?.y || 1;
-      rootRef.current.setAttribute('transform', `matrix (${matrix.join(' ')})`);
+      setCurrentMatrix(matrix);
     }
   };
 
   // set initial params
   useEffect(() => {
     if (rootRef.current) {
-      drawInitialWall(rootRef, imageRef);
+      drawInitialWall(rootRef, imageRef, toolsRef);
     }
   }, []);
+
+  useEffect(() => {
+    if (toolsRef.current) {
+      toolsRef.current.style.visibility = 'hidden';
+      if (!isSelected) {
+        toolsRef.current.style.visibility = 'hidden';
+      } else {
+        toolsRef.current.style.visibility = 'visible';
+      }
+    }
+  }, [isSelected]);
 
   // show toolbar
 
   return (
     <g
-      transform="matrix(1 0 0 1 50 0)"
+      transform={`matrix(${currentMatrix.join(' ')})`}
       x={INITIAL_X}
       y={INITIAL_Y}
       width={INITIAL_WIDTH}
@@ -62,7 +74,7 @@ const DrawObject = ({ image, isSelected, setSelectedObjectId }: PropsTypes) => {
           isDragging.current = false;
         }}
       />
-      <Tools />
+      <Tools ref={toolsRef} />
     </g>
   );
 };
@@ -77,6 +89,7 @@ const INITIAL_HEIGHT = 30;
 const drawInitialWall = (
   rootRef: RefObject<SVGGElement>,
   imageRef: RefObject<SVGImageElement>,
+  toolsRef: RefObject<SVGGElement>,
 ) => {
   const rootEl = rootRef.current;
   if (rootEl) {
@@ -91,25 +104,21 @@ const drawInitialWall = (
       imageRef.current?.setAttribute('x', (parentX).toString());
       imageRef.current?.setAttribute('y', (parentY).toString());
     }
-    const topRight = document.getElementById('top-right');
-    const topLeft = document.getElementById('top-left');
-    const rotateBtn = document.getElementById('rotation');
-    const bottomLeft = document.getElementById('bottom-left');
-    const bottomRight = document.getElementById('bottom-right');
-    if (topRight && topLeft && bottomRight && rotateBtn && bottomLeft && bottomRight) {
+    if (toolsRef.current) {
+      const { children } = toolsRef.current;
       // set top
-      topLeft.setAttribute('cx', (Number(parentX)).toString());
-      topLeft.setAttribute('cy', parentY.toString());
-      topRight.setAttribute('cx', (parentX + parentWidth).toString());
-      topRight.setAttribute('cy', (parentY).toString());
+      children[0].setAttribute('cx', (Number(parentX)).toString());
+      children[0].setAttribute('cy', parentY.toString());
+      children[2].setAttribute('cx', (parentX + parentWidth).toString());
+      children[2].setAttribute('cy', (parentY).toString());
       // set bottom
-      bottomLeft.setAttribute('cx', (Number(parentX)).toString());
-      bottomLeft.setAttribute('cy', (parentY + parentHeight).toString());
-      bottomRight.setAttribute('cx', (Number(parentX) + parentWidth).toString());
-      bottomRight.setAttribute('cy', (parentY + parentHeight).toString());
+      children[3].setAttribute('cx', (Number(parentX)).toString());
+      children[3].setAttribute('cy', (parentY + parentHeight).toString());
+      children[4].setAttribute('cx', (Number(parentX) + parentWidth).toString());
+      children[4].setAttribute('cy', (parentY + parentHeight).toString());
       // set rotate btn
-      rotateBtn.setAttribute('cx', (Number(parentX + parentWidth / 2)).toString());
-      rotateBtn.setAttribute('cy', (parentY).toString());
+      children[1].setAttribute('cx', (Number(parentX + parentWidth / 2)).toString());
+      children[1].setAttribute('cy', (parentY).toString());
     }
   }
 };
