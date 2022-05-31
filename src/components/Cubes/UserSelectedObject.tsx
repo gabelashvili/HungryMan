@@ -169,7 +169,7 @@ const UserSelectedObject = ({ image }: {image:File}) => {
       rootRef.current?.parentElement?.addEventListener('mousemove', handleMouseMove);
       rootRef.current?.parentElement?.addEventListener('mouseup', handleMouseUp);
     }
-    if (!setShowTools) {
+    if (!showTools) {
       return () => {
         rootRef.current?.parentElement?.removeEventListener('mousedown', handleMouseDown);
         rootRef.current?.parentElement?.removeEventListener('mousemove', handleMouseMove);
