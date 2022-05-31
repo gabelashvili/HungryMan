@@ -104,6 +104,8 @@ const drawInitialWall = (
       imageRef.current?.setAttribute('x', (parentX).toString());
       imageRef.current?.setAttribute('y', (parentY).toString());
     }
+
+    // draw tools
     if (toolsRef.current) {
       const { children } = toolsRef.current;
       // set top
