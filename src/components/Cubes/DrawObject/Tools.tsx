@@ -3,12 +3,6 @@ const EDIT_CIRCLE_RADIUS = 2;
 const Tools = () => {
   return (
     <g>
-      <rect
-        strokeWidth="0.5"
-        stroke="rgba(0, 168, 255, 0.5)"
-        fill="none"
-        id="object-rect"
-      />
       <circle
         style={{ cursor: 'nw-resize' }}
         r={EDIT_CIRCLE_RADIUS}

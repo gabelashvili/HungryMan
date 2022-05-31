@@ -18,6 +18,7 @@ const DrawObject = ({ image }: PropsTypes) => {
       height={INITIAL_HEIGHT}
       ref={rootRef}
       id={image.id}
+      style={{ cursor: 'pointer' }}
     >
       <image
         ref={imageRef}
@@ -48,23 +49,17 @@ const redrawChildren = (
     const parentWidth = Number(rootEl.getAttribute('width'));
     const parentHeight = Number(rootEl.getAttribute('height'));
     if (imageRef.current) {
-      imageRef.current?.setAttribute('width', (parentWidth - 2).toString());
-      imageRef.current?.setAttribute('height', (parentHeight - 1.8).toString());
-      imageRef.current?.setAttribute('x', (parentX + (1)).toString());
-      imageRef.current?.setAttribute('y', (parentY + (1)).toString());
+      imageRef.current?.setAttribute('width', (parentWidth).toString());
+      imageRef.current?.setAttribute('height', (parentHeight).toString());
+      imageRef.current?.setAttribute('x', (parentX).toString());
+      imageRef.current?.setAttribute('y', (parentY).toString());
     }
-    const objectRect = document.getElementById('object-rect');
     const topRight = document.getElementById('top-right');
     const topLeft = document.getElementById('top-left');
     const rotateBtn = document.getElementById('rotation');
     const bottomLeft = document.getElementById('bottom-left');
     const bottomRight = document.getElementById('bottom-right');
-    if (objectRect && topRight && topLeft && bottomRight && rotateBtn && bottomLeft && bottomRight) {
-      // set rect props
-      objectRect.setAttribute('x', parentX.toString());
-      objectRect.setAttribute('y', parentY.toString());
-      objectRect.setAttribute('width', (parentWidth).toString());
-      objectRect.setAttribute('height', (parentHeight).toString());
+    if (topRight && topLeft && bottomRight && rotateBtn && bottomLeft && bottomRight) {
       // set top
       topLeft.setAttribute('cx', (Number(parentX)).toString());
       topLeft.setAttribute('cy', parentY.toString());
