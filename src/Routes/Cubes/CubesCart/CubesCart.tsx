@@ -20,7 +20,7 @@ const CubesCart = () => {
       } | null>(null);
 
   const handleImg = (file:File, base64:string) => {
-    const newImgs = images.filter((el) => el.id === 'image-1');
+    const newImgs = images.filter((el) => el.id !== 'image-1');
     newImgs.push({ file, base64, id: 'image-1' });
     setImages(newImgs);
   };
