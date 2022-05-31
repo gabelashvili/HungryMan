@@ -4,7 +4,7 @@ import Button from '../../shared/Button';
 import Colors from './Colors';
 import Stickers from './Stickers';
 
-const Covering = () => {
+const Covering = ({ handleStickerAdd }: PropsTypes) => {
   const [selectedTab, setSelectedTab] = useState<number>(1);
   const [selectedColor, setSelectedColor] = useState<string>(colorsList[0]);
   const handleTabChange = (type: 'prev' | 'next') => {
@@ -46,7 +46,7 @@ const Covering = () => {
             setSelectedColor={setSelectedColor}
           />
           )}
-          {selectedTab === 2 && <Stickers />}
+          {selectedTab === 2 && <Stickers handleStickerAdd={handleStickerAdd} />}
           {selectedTab === 3 && 'text'}
         </div>
       </div>
@@ -72,3 +72,7 @@ const tabs = [
 ];
 
 const colorsList = ['#FF8385', '#0193E5', '#F78F1E', '#34A853', '#FFFFFF', '#1877F2', '#F7DCBF', '#D8A782', '#EA4335', '#1A3044'];
+
+interface PropsTypes {
+  handleStickerAdd: (base64:string) => void
+}

@@ -1,6 +1,5 @@
 import {
   ChangeEvent,
-  Dispatch, SetStateAction,
 } from 'react';
 import { toast } from 'react-toastify';
 import { getBase64Test } from '../../helpers';
@@ -22,7 +21,7 @@ const UploadImgBtn = ({ uploadedFile, setUploadedFile }: PropsTypes) => {
       } else if (imageSize > 15) {
         toast.error('მაქსიმალური ზომა უნდა იყოს 15MB');
       } else {
-        setUploadedFile(e.target.files[0]);
+        setUploadedFile(e.target.files[0], base64);
       }
       e.target.value = '';
     }
@@ -55,6 +54,6 @@ const UploadImgBtn = ({ uploadedFile, setUploadedFile }: PropsTypes) => {
 export default UploadImgBtn;
 
 interface PropsTypes {
-    uploadedFile: File | null,
-     setUploadedFile: Dispatch<SetStateAction<File | null>>
+    uploadedFile?: File | null,
+    setUploadedFile: (file: File, base64: string) => void
 }

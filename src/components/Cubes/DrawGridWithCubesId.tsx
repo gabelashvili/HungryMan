@@ -8,11 +8,11 @@ import {
 } from '../../Routes/Cubes/Cubes';
 import { ZOOM_STEP } from '../../Routes/Cubes/CubesCart/CubesCart';
 import useObjectDrag from './hooks/useObjectDrag';
-import UserSelectedObject from './UserSelectedObject';
+import Images from './Images';
 
 let color = '#1A3044';
 
-const DrawGridWithCubesId = ({ setZoom, setZoomActions, image }: PropsTypes) => {
+const DrawGridWithCubesId = ({ setZoom, setZoomActions, images }: PropsTypes) => {
   const [formattedData, setFormattedData] = useState<FormattedDataType | null>(null);
   const selectedCubesId = useSelector((state) => state.cubesReducer.selectedCubes);
   const svgRef = useRef<SVGSVGElement>(null);
@@ -168,11 +168,7 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions, image }: PropsTypes) => 
               });
           })}
       </g>
-      {image && (
-      <UserSelectedObject
-        image={image}
-      />
-      )}
+      <Images images={images} />
     </svg>
 
   );
@@ -310,7 +306,7 @@ interface PropsTypes {
     in: () => void,
     out: () => void
   } | null>>,
-  image?: File | null
+  images: {id:string, file?:File, base64:string }[]
 }
 
 const preventScroll = (e: WheelEvent, isZooming?: boolean) => {
