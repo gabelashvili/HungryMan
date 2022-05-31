@@ -2,6 +2,7 @@ import { useState } from 'react';
 import ArrowIcon2 from '../../../Icons/ArrowIcon2';
 import Button from '../../shared/Button';
 import Colors from './Colors';
+import Stickers from './Stickers';
 
 const Covering = () => {
   const [selectedTab, setSelectedTab] = useState<number>(1);
@@ -45,7 +46,7 @@ const Covering = () => {
             setSelectedColor={setSelectedColor}
           />
           )}
-          {selectedTab === 2 && 'stickers'}
+          {selectedTab === 2 && <Stickers />}
           {selectedTab === 3 && 'text'}
         </div>
       </div>

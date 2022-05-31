@@ -12,8 +12,13 @@ const Button = ({
       onClick={!disabled && !loading ? handleClick : undefined}
       className={clsx(`button button--${type || 'primary'}`, classes)}
     >
-      <div className="button--content" style={{ opacity: loading ? 0 : 1 }}>{children}</div>
-      { loading && <div className="button--loader" style={{ opacity: loading ? 1 : 0, position: 'absolute' }}><Loader /></div>}
+      {type === 'icon' ? children : (
+        <>
+          <div className="button--content" style={{ opacity: loading ? 0 : 1 }}>{children}</div>
+          { loading && <div className="button--loader" style={{ opacity: loading ? 1 : 0, position: 'absolute' }}><Loader /></div>}
+        </>
+      )}
+
     </button>
   );
 };

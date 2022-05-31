@@ -21,6 +21,7 @@ module.exports = {
     'sort-imports-es6-autofix',
   ],
   rules: {
+    'global-require': 0,
     'no-plusplus': 0,
     'react/react-in-jsx-scope': 'off',
     'no-console': 0,
