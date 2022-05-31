@@ -1,25 +1,41 @@
 import {
-  Dispatch, MouseEvent, RefObject, SetStateAction, useEffect, useRef, useState,
+  Dispatch, MouseEvent, RefObject, SetStateAction, useCallback, useEffect, useRef, useState,
 } from 'react';
 import useObjectDrag from '../hooks/useObjectDrag';
+import useObjectSizing from '../hooks/useObjectSizing';
 import Tools from './Tools';
 
 const DrawObject = ({ image, isSelected, setSelectedObjectId }: PropsTypes) => {
   const [currentMatrix, setCurrentMatrix] = useState([1, 0, 0, 1, 2, 2]);
+  const [isDragging, setDragging] = useState(false);
+  const [isSizing, setSizing] = useState(false);
   const rootRef = useRef<SVGGElement>(null);
   const imageRef = useRef<SVGImageElement>(null);
-  const isDragging = useRef<boolean>(false);
   const toolsRef = useRef<SVGGElement>(null);
   const { getDragCurrentMousePos, setDragInitialParams } = useObjectDrag(rootRef);
+  const { onSizingStart, resize } = useObjectSizing(rootRef);
 
   const handleDrag = (e:MouseEvent) => {
-    if (isDragging.current && rootRef.current) {
+    if (isDragging && rootRef.current) {
       const matrix = [...currentMatrix];
       const mousePos = getDragCurrentMousePos(e);
       matrix[4] += mousePos?.x || 1;
       matrix[5] += mousePos?.y || 1;
       setCurrentMatrix(matrix);
     }
+  };
+
+  const handleSizingStart = (e: MouseEvent, resizeBtn: 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight') => {
+    setSizing(true);
+    onSizingStart(e, resizeBtn);
+  };
+
+  const handleSizeChange = useCallback((e:any) => {
+    resize(e, () => console.log(22));
+  }, []);
+
+  const stopSizing = () => {
+    setSizing(false);
   };
 
   // set initial params
@@ -40,7 +56,21 @@ const DrawObject = ({ image, isSelected, setSelectedObjectId }: PropsTypes) => {
     }
   }, [isSelected]);
 
-  // show toolbar
+  // listen mouse move and resize
+
+  useEffect(() => {
+    if (isSizing) {
+      window.addEventListener('mousemove', handleSizeChange);
+      window.addEventListener('mouseup', stopSizing);
+    } else {
+      window.removeEventListener('mousemove', handleSizeChange);
+      window.removeEventListener('mouseup', stopSizing);
+    }
+    return () => {
+      window.removeEventListener('mousemove', handleSizeChange);
+      window.removeEventListener('mouseup', stopSizing);
+    };
+  }, [isSizing]);
 
   return (
     <g
@@ -63,18 +93,18 @@ const DrawObject = ({ image, isSelected, setSelectedObjectId }: PropsTypes) => {
         href={image.base64}
         onMouseMove={(e) => handleDrag(e)}
         onMouseDown={(e) => {
-          isDragging.current = true;
+          setDragging(true);
           const ev = e as MouseEvent;
           setDragInitialParams(ev);
         }}
         onMouseUp={() => {
-          isDragging.current = false;
+          setDragging(false);
         }}
         onMouseLeave={() => {
-          isDragging.current = false;
+          setDragging(false);
         }}
       />
-      <Tools ref={toolsRef} />
+      <Tools ref={toolsRef} onSizingStart={handleSizingStart} />
     </g>
   );
 };
