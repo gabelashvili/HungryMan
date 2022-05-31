@@ -10,6 +10,7 @@ import RemoveIcon from '../../../Icons/RemoveIcon';
 
 export const ZOOM_STEP = 0.05;
 const CubesCart = () => {
+  const [selectedObjectId, setSelectedObjectId] = useState<string>('');
   const [zoom, setZoom] = useState<number>(100);
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const [images, setImages] = useState<{id:string, file?:File, base64: string}[]>([]);
@@ -60,6 +61,8 @@ const CubesCart = () => {
                 setZoom={setZoom}
                 setZoomActions={setZoomActions}
                 images={images}
+                selectedObjectId={selectedObjectId}
+                setSelectedObjectId={setSelectedObjectId}
               />
             </div>
           </div>

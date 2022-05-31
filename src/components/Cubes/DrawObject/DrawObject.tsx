@@ -1,17 +1,38 @@
-import { RefObject, useEffect, useRef } from 'react';
+import {
+  Dispatch, MouseEvent, RefObject, SetStateAction, useEffect, useRef,
+} from 'react';
+import useObjectDrag from '../hooks/useObjectDrag';
 import Tools from './Tools';
 
-const DrawObject = ({ image }: PropsTypes) => {
+const DrawObject = ({ image, isSelected, setSelectedObjectId }: PropsTypes) => {
   const rootRef = useRef<SVGGElement>(null);
   const imageRef = useRef<SVGImageElement>(null);
+  const isDragging = useRef<boolean>(false);
+  const { getDragCurrentMousePos, setDragInitialParams } = useObjectDrag(rootRef);
 
+  const handleDrag = (e:MouseEvent) => {
+    if (isDragging.current && rootRef.current) {
+      const matrix = getComputedStyle(rootRef.current).transform.split('matrix')[1].slice(1, -1).split(',').map((x) => Number(x));
+      const mousePos = getDragCurrentMousePos(e);
+      console.log(mousePos);
+      matrix[4] += mousePos?.x || 1;
+      matrix[5] += mousePos?.y || 1;
+      rootRef.current.setAttribute('transform', `matrix (${matrix.join(' ')})`);
+    }
+  };
+
+  // set initial params
   useEffect(() => {
     if (rootRef.current) {
-      redrawChildren(rootRef, imageRef);
+      drawInitialWall(rootRef, imageRef);
     }
   }, []);
+
+  // show toolbar
+
   return (
     <g
+      transform="matrix(1 0 0 1 50 0)"
       x={INITIAL_X}
       y={INITIAL_Y}
       width={INITIAL_WIDTH}
@@ -19,12 +40,27 @@ const DrawObject = ({ image }: PropsTypes) => {
       ref={rootRef}
       id={image.id}
       style={{ cursor: 'pointer' }}
+      onMouseDown={() => {
+        setSelectedObjectId(image.id);
+      }}
     >
       <image
         ref={imageRef}
         clipPath="url(#myClip)"
         preserveAspectRatio="none"
         href={image.base64}
+        onMouseMove={(e) => handleDrag(e)}
+        onMouseDown={(e) => {
+          isDragging.current = true;
+          const ev = e as MouseEvent;
+          setDragInitialParams(ev);
+        }}
+        onMouseUp={() => {
+          isDragging.current = false;
+        }}
+        onMouseLeave={() => {
+          isDragging.current = false;
+        }}
       />
       <Tools />
     </g>
@@ -33,19 +69,20 @@ const DrawObject = ({ image }: PropsTypes) => {
 
 export default DrawObject;
 
-const INITIAL_X = 2;
-const INITIAL_Y = 2;
+const INITIAL_X = 0;
+const INITIAL_Y = 0;
 const INITIAL_WIDTH = 50;
 const INITIAL_HEIGHT = 30;
 
-const redrawChildren = (
+const drawInitialWall = (
   rootRef: RefObject<SVGGElement>,
   imageRef: RefObject<SVGImageElement>,
 ) => {
   const rootEl = rootRef.current;
   if (rootEl) {
-    const parentX = Number(rootEl.getAttribute('x'));
-    const parentY = Number(rootEl.getAttribute('y'));
+    const matrix = getComputedStyle(rootRef.current).transform.split('matrix')[1].slice(1, -1).split(',').map((x) => Number(x));
+    const parentX = matrix[4];
+    const parentY = matrix[5];
     const parentWidth = Number(rootEl.getAttribute('width'));
     const parentHeight = Number(rootEl.getAttribute('height'));
     if (imageRef.current) {
@@ -81,5 +118,7 @@ interface PropsTypes {
     image: {
         base64: string,
         id: string
-    }
+    },
+    isSelected:boolean,
+    setSelectedObjectId: Dispatch<SetStateAction<string>>
 }

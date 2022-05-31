@@ -21,17 +21,17 @@ const useObjectDrag = (rootRef: RefObject<SVGGElement>) => {
   };
   const setDragInitialParams = (
     e: MouseEvent,
-    x:number,
-    y:number,
   ) => {
     if (rootRef.current) {
+      const x = rootRef.current.getAttribute('x');
+      const y = rootRef.current.getAttribute('y');
       dragStartOffset.current = {
         x: e.clientX,
         y: e.clientY,
       };
       dragStartOffset.current = getMousePosition(e);
-      dragStartOffset.current.x -= x;
-      dragStartOffset.current.y -= y;
+      dragStartOffset.current.x -= Number(x);
+      dragStartOffset.current.y -= Number(y);
     }
   };
   const getDragCurrentMousePos = (
