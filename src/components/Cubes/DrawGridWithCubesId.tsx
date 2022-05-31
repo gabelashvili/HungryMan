@@ -124,8 +124,10 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions, image }: PropsTypes) => 
         zoom(e.deltaY < 0 ? 'in' : 'out', svgRef, setZoom);
       }}
     >
-      <g>
-        <clipPath id="myClip">
+      {/* <g>
+        <clipPath
+          id="myClip"
+        >
           {formattedData && Object.keys(formattedData.data)
             .map((el, y) => {
               return formattedData.data[el]
@@ -143,7 +145,7 @@ const DrawGridWithCubesId = ({ setZoom, setZoomActions, image }: PropsTypes) => 
                 });
             })}
         </clipPath>
-      </g>
+      </g> */}
       <g
         ref={svgGRef}
       >
