@@ -32,6 +32,11 @@ const CubesCart = () => {
     setImages(newImgs);
   };
 
+  const handleRemove = () => {
+    const newImgs = images.filter((el) => el.id !== selectedObjectId);
+    setImages(newImgs);
+  };
+
   return (
     <div className="cart">
       <div className="wrapper">
@@ -42,7 +47,7 @@ const CubesCart = () => {
           <div className="panel--content cart-content">
             <div className="cart-content--header">
               {images.length > 0 && (
-              <Button type="primary" classes="button--icon is-medium" handleClick={() => console.log('rm')}>
+              <Button type="primary" classes="button--icon is-medium" handleClick={handleRemove}>
                 <RemoveIcon />
               </Button>
               )}
