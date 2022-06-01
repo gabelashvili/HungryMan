@@ -22,6 +22,7 @@ const DrawGridWithCubesId = ({
   text,
 }: PropsTypes) => {
   const [formattedData, setFormattedData] = useState<FormattedDataType | null>(null);
+  const [showClipPath, setShowClipPath] = useState(true);
   const selectedCubesId = useSelector((state) => state.cubesReducer.selectedCubes);
   const svgRef = useRef<SVGSVGElement>(null);
   const svgGRef = useRef<SVGGElement>(null);
@@ -119,10 +120,12 @@ const DrawGridWithCubesId = ({
       }}
       onMouseEnter={() => {
         isZooming.current = true;
+        setShowClipPath(false);
       }}
       onMouseLeave={() => {
         isZooming.current = false;
         isDragging.current = false;
+        setShowClipPath(true);
       }}
       transform="matrix(1 0 0 1 0 0)"
       preserveAspectRatio="xMidYMid meet"
@@ -130,8 +133,10 @@ const DrawGridWithCubesId = ({
         zoom(e.deltaY < 0 ? 'in' : 'out', svgRef, setZoom);
       }}
     >
-      {/* <g>
+      {showClipPath && (
+      <g>
         <clipPath
+          // display="none"
           id="myClip"
         >
           {formattedData && Object.keys(formattedData.data)
@@ -151,7 +156,8 @@ const DrawGridWithCubesId = ({
                 });
             })}
         </clipPath>
-      </g> */}
+      </g>
+      )}
       <g
         ref={svgGRef}
       >
