@@ -3,8 +3,8 @@ import CubesMain from '../../components/Cubes/CubesMain';
 import CubesStatistic from '../../components/Cubes/CubesStatistic/CubesStatistic';
 import SelectedCubesBar from '../../components/Cubes/SelectedCubesBar/SelectedCubesBar';
 import Zoom from '../../components/Cubes/Zoom/Zoom';
-import { useAppDispatch } from '../../hooks/useSelector';
-import { setSelectedCubes } from '../../store/ducks/cubesDuck';
+import { useAppDispatch, useSelector } from '../../hooks/useSelector';
+import { getInitialData, setSelectedCubes } from '../../store/ducks/cubesDuck';
 
 export const CUBES_TOTAL_ROWS = 20;
 export const CUBES_TOTAL_COLUMNS = 5;
@@ -14,6 +14,7 @@ export const CUBE_DARK_COLOR = '#09141E';
 export const FIRST_CUBE_COLOR = CUBE_DARK_COLOR;
 const Cubes = () => {
   const dispatch = useAppDispatch();
+  const cubesInitialData = useSelector((state) => state.cubesReducer.initialData);
   const [zoomPercent, setZoomPercent] = useState<number>(100);
   const [authedUserSelectedCubes, setAuthedUserSelectedCubes] = useState<number[]>([]);
   const [methods, setMethods] = useState<CubesMainMethods | null>(null);
@@ -28,6 +29,12 @@ const Cubes = () => {
   useEffect(() => {
     dispatch(setSelectedCubes(authedUserSelectedCubes));
   }, [authedUserSelectedCubes]);
+
+  useEffect(() => {
+    if (!cubesInitialData) {
+      dispatch(getInitialData());
+    }
+  }, [cubesInitialData]);
   return (
     <div style={{ display: 'flex', justifyContent: 'center', height: '100%' }}>
       <CubesMain

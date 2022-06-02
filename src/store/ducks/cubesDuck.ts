@@ -1,27 +1,15 @@
 import { AnyAction } from 'redux';
-import { BuyCubesPayload, CubesInitialState } from '../../types/cubes';
+import { BuyCubesPayload, CubesInitialData, CubesInitialState } from '../../types/cubes';
 
+export const GET_INITIAL_DATA = 'cubes/getInitialData';
+export const SET_INITIAL_DATA = 'cubes/setInitialData';
+export const CLEAR_INITIAL_DATA = 'cubes/clearInitialData';
 export const SET_SELECTED_CUBES = 'cubes/setSelectedCubes';
 export const BUY_CUBES = 'cubes/buyCubes';
 
 const initialState: CubesInitialState = {
-  selectedCubes: [
-    2,
-    3,
-    4,
-    5,
-    6,
-    26,
-    46,
-    45,
-    44,
-    64,
-    84,
-    85,
-    86,
-    87,
-    88,
-  ],
+  selectedCubes: [],
+  initialData: null,
 };
 
 export const cubesReducer = (state = initialState, action: AnyAction): CubesInitialState => {
@@ -31,6 +19,16 @@ export const cubesReducer = (state = initialState, action: AnyAction): CubesInit
       return {
         ...state,
         selectedCubes: [...payload as number[]],
+      };
+    case SET_INITIAL_DATA:
+      return {
+        ...state,
+        initialData: payload as CubesInitialData,
+      };
+    case CLEAR_INITIAL_DATA:
+      return {
+        ...state,
+        initialData: null,
       };
     default:
       return state;
@@ -45,4 +43,17 @@ export const setSelectedCubes = (payload: number[]) => ({
 export const buyCubes = (payload: BuyCubesPayload) => ({
   type: BUY_CUBES,
   payload,
+});
+
+export const getInitialData = () => ({
+  type: GET_INITIAL_DATA,
+});
+
+export const setInitialData = (payload: CubesInitialData) => ({
+  type: SET_INITIAL_DATA,
+  payload,
+});
+
+export const clearInitialData = () => ({
+  type: CLEAR_INITIAL_DATA,
 });
