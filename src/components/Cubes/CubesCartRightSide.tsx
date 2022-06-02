@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react';
+import {
+  Dispatch, SetStateAction, useEffect, useState,
+} from 'react';
 import { useDispatch } from 'react-redux';
 import { generateFile } from '../../helpers';
 import { useSelector } from '../../hooks/useSelector';
@@ -11,7 +13,9 @@ import SwitchBox from '../shared/SwitchBox';
 import TextArea from '../shared/TextArea';
 import TextField from '../shared/TextField';
 
-const CubesCartRightSide = ({ selectedCubes }: {selectedCubes:number[]}) => {
+const CubesCartRightSide = ({
+  selectedCubes, setTotalPrice, giftOneProp, giftTwoProp,
+}: PropsTypes) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState<boolean>(false);
   const cubesParams = useSelector((state) => state.cubesReducer.initialData);
@@ -37,6 +41,7 @@ const CubesCartRightSide = ({ selectedCubes }: {selectedCubes:number[]}) => {
         price += selectedCubes.length * cubesParams.squarePrice * (cubesParams.redirectUrlAdditionalPercent / 100);
       }
     }
+    setTotalPrice(Number(price.toFixed(2)));
     return price.toFixed(2);
   };
 
@@ -45,6 +50,19 @@ const CubesCartRightSide = ({ selectedCubes }: {selectedCubes:number[]}) => {
     if (selectedAddress && el) {
       setLoading(true);
       const file = await generateFile(el);
+      const gifts = [];
+      if (giftOneProp) {
+        gifts.push({
+          GiftId: giftOneProp.id,
+          size: giftOneProp.value,
+        });
+      }
+      if (giftTwoProp) {
+        gifts.push({
+          GiftId: giftTwoProp.id,
+          size: giftTwoProp.value,
+        });
+      }
       dispatch(buyCubes({
         data: {
           comment: comment.value,
@@ -54,6 +72,7 @@ const CubesCartRightSide = ({ selectedCubes }: {selectedCubes:number[]}) => {
           UserAddressId: selectedAddress,
           PurchaseDetails: selectedCubes,
           FullAmount: Number(totalPrice()),
+          PurchaseGiftDetails: gifts,
         },
         file,
       }, {
@@ -130,3 +149,10 @@ const CubesCartRightSide = ({ selectedCubes }: {selectedCubes:number[]}) => {
 };
 
 export default CubesCartRightSide;
+
+interface PropsTypes {
+  selectedCubes:number[],
+  setTotalPrice:Dispatch<SetStateAction<number>>,
+  giftOneProp: {value: string, id:number} | null,
+  giftTwoProp:{value: string, id:number} | null
+}

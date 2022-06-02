@@ -1,7 +1,5 @@
-import React from 'react';
-
-const SizeSelector = ({ value, selectedSize, handleChange }:
-     {value: string, selectedSize: string, handleChange: (val:string) => void}) => {
+const PropsSelector = ({ value, selectedValue, handleChange }:
+     {value: string, selectedValue: string, handleChange: (val:string) => void}) => {
   return (
     <label htmlFor={value} className="size-selector--label">
       <input
@@ -9,7 +7,7 @@ const SizeSelector = ({ value, selectedSize, handleChange }:
         type="radio"
         name="sizes"
         value={value}
-        checked={value === selectedSize}
+        checked={value === selectedValue}
         onChange={() => handleChange(value)}
       />
       <span className="size-selector--box">
@@ -19,4 +17,4 @@ const SizeSelector = ({ value, selectedSize, handleChange }:
   );
 };
 
-export default SizeSelector;
+export default PropsSelector;

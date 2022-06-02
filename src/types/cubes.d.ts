@@ -11,7 +11,7 @@ export interface CubesInitialState {
 
 export interface BuyCubesPayload {
     data: {
-        PurchaseGiftDetails?: {
+        PurchaseGiftDetails: {
             size: string,
             GiftId: number
         }[],
@@ -38,7 +38,11 @@ interface Gift {
     name: string,
     url: string,
     width: number,
-    height: number
+    height: number,
+    title: string,
+    description: string,
+    options: string[],
+    displayName: string
 }
 
 export interface CubesInitialData {

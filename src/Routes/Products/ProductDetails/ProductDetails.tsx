@@ -5,7 +5,7 @@ import ColorSelector from '../../../components/shared/ColorSelector';
 import CountSelector from '../../../components/Products/CountSelector';
 import ProductsMediaCarousel from '../../../components/Products/ProductsMediaCarousel';
 import SimilarItems from '../../../components/Products/SimilarItems/SimilarItems';
-import SizeSelector from '../../../components/Products/SizeSelector';
+import PropsSelector from '../../../components/Products/PropsSelector';
 import Button from '../../../components/shared/Button';
 import { useSelector } from '../../../hooks/useSelector';
 import Loader from '../../../Icons/Loader';
@@ -122,10 +122,10 @@ const ProductDetails = () => {
                     <h5 className="product-details--label">აირჩიე ზომა</h5>
                     <div className="size-selector">
                       {[...filteredSizes].map((el) => (
-                        <SizeSelector
+                        <PropsSelector
                           value={el}
                           key={el}
-                          selectedSize={selectedSize}
+                          selectedValue={selectedSize}
                           handleChange={(val) => handleSizeChange(val)}
                         />
                       ))}
