@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Covering from '../../../components/Cubes/Covering/Covering';
 import CubesCartRightSide from '../../../components/Cubes/CubesCartRightSide';
 import DrawGridWithCubesId from '../../../components/Cubes/DrawGridWithCubesId';
@@ -6,10 +7,13 @@ import UploadImgBtn from '../../../components/Cubes/UploadImgBtn';
 import Zoom from '../../../components/Cubes/Zoom/Zoom';
 import Button from '../../../components/shared/Button';
 import Tab from '../../../components/shared/Tab/Tab';
+import { useSelector } from '../../../hooks/useSelector';
 import RemoveIcon from '../../../Icons/RemoveIcon';
 
 export const ZOOM_STEP = 0.05;
 const CubesCart = () => {
+  const navigate = useNavigate();
+  const selectedCubesId = useSelector((state) => state.cubesReducer.selectedCubes);
   const [text, setText] = useState<{val:string, fontSize: number}>({ val: '', fontSize: 10 });
   const [selectedObjectId, setSelectedObjectId] = useState<string>('');
   const [zoom, setZoom] = useState<number>(100);
@@ -51,8 +55,12 @@ const CubesCart = () => {
   const handleTextAdd = (text:{val:string, fontSize: number}) => {
     setText(text);
   };
-  console.log(text);
 
+  useEffect(() => {
+    if (selectedCubesId.length === 0) {
+      navigate('/cubes');
+    }
+  }, [selectedCubesId]);
   return (
     <div className="cart">
       <div className="wrapper">
@@ -85,6 +93,7 @@ const CubesCart = () => {
                 selectedObjectId={selectedObjectId}
                 setSelectedObjectId={(val) => handleSelectObj(val)}
                 text={text}
+                selectedCubesId={selectedCubesId}
               />
             </div>
           </div>

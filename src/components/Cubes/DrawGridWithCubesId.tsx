@@ -2,7 +2,6 @@ import {
   Dispatch,
   MouseEvent, RefObject, SetStateAction, useEffect, useRef, useState,
 } from 'react';
-import { useSelector } from '../../hooks/useSelector';
 import {
   CUBES_TOTAL_ROWS, INITIAL_CUBE_SIZE,
 } from '../../Routes/Cubes/Cubes';
@@ -20,10 +19,10 @@ const DrawGridWithCubesId = ({
   selectedObjectId,
   setSelectedObjectId,
   text,
+  selectedCubesId,
 }: PropsTypes) => {
   const [formattedData, setFormattedData] = useState<FormattedDataType | null>(null);
   const [showClipPath, setShowClipPath] = useState(true);
-  const selectedCubesId = useSelector((state) => state.cubesReducer.selectedCubes);
   const svgRef = useRef<SVGSVGElement>(null);
   const svgGRef = useRef<SVGGElement>(null);
   const isZooming = useRef<boolean>(false);
@@ -326,7 +325,8 @@ interface PropsTypes {
   images: {id:string, file?:File, base64?:string, value?:string }[],
   selectedObjectId: string,
   setSelectedObjectId: (val:string) => void,
-  text: {val:string, fontSize: number}
+  text: {val:string, fontSize: number},
+  selectedCubesId: number[]
 }
 
 const preventScroll = (e: WheelEvent, isZooming?: boolean) => {

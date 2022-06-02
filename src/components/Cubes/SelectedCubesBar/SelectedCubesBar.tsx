@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from '../../../hooks/useSelector';
+import Button from '../../shared/Button';
 import './selected-cubes-bar.scss';
 
 const SelectedCubesBar = () => {
@@ -10,7 +11,7 @@ const SelectedCubesBar = () => {
       <div className="selected-coubs--count">{selectedCubes}</div>
       <div className="selected-coubs--title">არჩეული კუბები</div>
       <button className="button button--secondary">კალათაში დამატება</button>
-      <button className="button button--primary" onClick={() => navigate('cart')}>ყიდვა</button>
+      <Button disabled={selectedCubes === 0} handleClick={() => navigate('cart')}>ყიდვა</Button>
     </div>
   );
 };
