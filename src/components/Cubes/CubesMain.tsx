@@ -196,7 +196,6 @@ const CubesMain = ({
   };
 
   const handleCubeDeselect = (target: HTMLElement) => {
-    console.log(target, deselectCube);
     deselectCube(target);
   };
 
