@@ -108,7 +108,7 @@ const CubesCart = () => {
           </div>
         </div>
         <div className="panel without-header cart-form">
-          <CubesCartRightSide />
+          <CubesCartRightSide selectedCubes={selectedCubesId} />
         </div>
       </div>
     </div>

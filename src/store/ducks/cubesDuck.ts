@@ -1,5 +1,6 @@
 import { AnyAction } from 'redux';
 import { BuyCubesPayload, CubesInitialData, CubesInitialState } from '../../types/cubes';
+import { CallBacks } from '../../types/main';
 
 export const GET_INITIAL_DATA = 'cubes/getInitialData';
 export const SET_INITIAL_DATA = 'cubes/setInitialData';
@@ -40,9 +41,10 @@ export const setSelectedCubes = (payload: number[]) => ({
   payload,
 });
 
-export const buyCubes = (payload: BuyCubesPayload) => ({
+export const buyCubes = (payload: BuyCubesPayload, callbacks?: CallBacks) => ({
   type: BUY_CUBES,
   payload,
+  callbacks,
 });
 
 export const getInitialData = () => ({

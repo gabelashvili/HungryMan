@@ -11,9 +11,10 @@ import SwitchBox from '../shared/SwitchBox';
 import TextArea from '../shared/TextArea';
 import TextField from '../shared/TextField';
 
-const CubesCartRightSide = () => {
+const CubesCartRightSide = ({ selectedCubes }: {selectedCubes:number[]}) => {
   const dispatch = useDispatch();
-  const selectedCubes = useSelector((state) => state.cubesReducer.selectedCubes);
+  const [loading, setLoading] = useState<boolean>(false);
+  const cubesParams = useSelector((state) => state.cubesReducer.initialData);
   const addresses = useSelector((state) => state.userReducer.addresses);
   const [comment, setComment] = useState<{enabled:boolean, value: string}>({
     enabled: false,
@@ -25,9 +26,24 @@ const CubesCartRightSide = () => {
   });
   const [selectedAddress, setSelectedAddress] = useState<number | null>(null);
 
+  const totalPrice = () => {
+    let price = 0;
+    if (cubesParams && selectedCubes) {
+      price += selectedCubes.length * cubesParams.squarePrice;
+      if (comment.enabled) {
+        price += cubesParams.commentPrice;
+      }
+      if (link.enabled) {
+        price += selectedCubes.length * cubesParams.squarePrice * (cubesParams.redirectUrlAdditionalPercent / 100);
+      }
+    }
+    return price.toFixed(2);
+  };
+
   const handleBuy = async () => {
     const el = document.getElementById('root-svg');
     if (selectedAddress && el) {
+      setLoading(true);
       const file = await generateFile(el);
       dispatch(buyCubes({
         data: {
@@ -39,6 +55,12 @@ const CubesCartRightSide = () => {
           PurchaseDetails: selectedCubes,
         },
         file,
+      }, {
+        success: (url: string) => {
+          window.location.href = url;
+          // setLoading(false);
+        },
+        error: () => setLoading(false),
       }));
     }
   };
@@ -87,17 +109,19 @@ const CubesCartRightSide = () => {
           <h4 className="cart-details--title">შეკვეთის დეტალები</h4>
           <div className="cart-details--item">
             <span className="cart-details--name">პროდუქტის ღირებულება</span>
-            <span className="cart-details--value">1050.00₾</span>
-          </div>
-          <div className="cart-details--item">
-            <span className="cart-details--name">პროდუქტის ღირებულება</span>
-            <span className="cart-details--value">1050.00₾</span>
+            <span className="cart-details--value">
+              {totalPrice()}
+              ლ
+            </span>
           </div>
           <div className="cart-details--sum">
             <span className="cart-details--sum__name">ჯამი</span>
-            <span className="cart-details--sum__value">1050.00₾</span>
+            <span className="cart-details--sum__value">
+              {totalPrice()}
+              ლ
+            </span>
           </div>
-          <Button handleClick={handleBuy}>შეკვეთის გაფორმება</Button>
+          <Button handleClick={handleBuy} loading={loading}>შეკვეთის გაფორმება</Button>
         </div>
       </div>
     </>
