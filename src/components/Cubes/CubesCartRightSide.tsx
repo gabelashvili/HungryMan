@@ -53,6 +53,7 @@ const CubesCartRightSide = ({ selectedCubes }: {selectedCubes:number[]}) => {
           hasRedirectLink: comment.enabled,
           UserAddressId: selectedAddress,
           PurchaseDetails: selectedCubes,
+          FullAmount: Number(totalPrice()),
         },
         file,
       }, {

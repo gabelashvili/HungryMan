@@ -20,7 +20,8 @@ export interface BuyCubesPayload {
         comment : string,
         RedirectLink : string,
         PurchaseDetails: number[],
-        UserAddressId:number
+        UserAddressId:number,
+        FullAmount: number
     },
     file: File
 }
