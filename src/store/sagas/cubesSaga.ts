@@ -10,8 +10,8 @@ export function* buyCubes({ payload, callbacks }:{ payload: BuyCubesPayload, cal
     const formData = new FormData();
     formData.append('file', payload.file);
     formData.append('request', JSON.stringify(payload.data));
-    yield axiosInstance.post('/Wall/Purchase/Purchase', formData);
-    callbacks?.success && callbacks.success();
+    const { data }: {data: any} = yield axiosInstance.post('/Wall/Purchase/Purchase', formData);
+    callbacks?.success && callbacks.success(data.redirectLink);
   } catch (error: any) {
     toast.error('მოხდა შეცდომა');
     callbacks?.error && callbacks.error();
