@@ -29,10 +29,6 @@ const CubesGift = ({
           <form className="product-details--form">
             <h5 className="product-details--label">{el.displayName}</h5>
             <div className="size-selector">
-              <label htmlFor="size" className="size-selector--label">
-                <input id="size" type="radio" name="sizes" value="xs" />
-                <span className="size-selector--box"> xs </span>
-              </label>
               {el.options.map((option) => (
                 <PropsSelector
                   value={option}
@@ -41,10 +37,6 @@ const CubesGift = ({
                     : setGiftTwoProp({ value: option, id: el.id }))}
                 />
               ))}
-              <label htmlFor="size" className="size-selector--label">
-                <input id="size" type="radio" name="sizes" value="s" />
-                <span className="size-selector--box"> s </span>
-              </label>
             </div>
           </form>
         </div>
