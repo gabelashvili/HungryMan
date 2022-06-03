@@ -70,7 +70,11 @@ const CubesCart = () => {
       <div className="wrapper">
         <div className="panel cart">
           <div className="panel--header with-border">
-            <Tab selectedTab={selectedTab} tabs={tabs} setSelectedTab={setSelectedTab} />
+            <Tab
+              selectedTab={selectedTab}
+              tabs={totalPrice < 50 ? tabs.slice(0, 2) : tabs}
+              setSelectedTab={setSelectedTab}
+            />
           </div>
           <div className="panel--content cart-content">
             {selectedTab < 2 && (
@@ -88,7 +92,7 @@ const CubesCart = () => {
               />
             </div>
             )}
-            {selectedTab === 2 ? (
+            {selectedTab === 2 && (
               <CubesGift
                 totalPrice={totalPrice}
                 setGiftOneProp={setGiftOneProp}
@@ -96,22 +100,26 @@ const CubesCart = () => {
                 giftOneProp={giftOneProp}
                 giftTwoProp={giftTwoProp}
               />
-            ) : (
-              <div style={{
-                display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', minHeight: 'inherit', overflow: 'hidden',
-              }}
-              >
-                <DrawGridWithCubesId
-                  setZoom={setZoom}
-                  setZoomActions={setZoomActions}
-                  images={images}
-                  selectedObjectId={selectedObjectId}
-                  setSelectedObjectId={(val) => handleSelectObj(val)}
-                  text={text}
-                  selectedCubesId={selectedCubesId}
-                />
-              </div>
-            )}
+            ) }
+            <div style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '100%',
+              minHeight: 'inherit',
+              overflow: 'hidden',
+              display: selectedTab === 2 ? 'none' : 'flex',
+            }}
+            >
+              <DrawGridWithCubesId
+                setZoom={setZoom}
+                setZoomActions={setZoomActions}
+                images={images}
+                selectedObjectId={selectedObjectId}
+                setSelectedObjectId={(val) => handleSelectObj(val)}
+                text={text}
+                selectedCubesId={selectedCubesId}
+              />
+            </div>
           </div>
           {selectedTab < 2 && (
           <div className="panel--footer">

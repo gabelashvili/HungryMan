@@ -41,7 +41,6 @@ const CubesCartRightSide = ({
         price += selectedCubes.length * cubesParams.squarePrice * (cubesParams.redirectUrlAdditionalPercent / 100);
       }
     }
-    setTotalPrice(Number(price.toFixed(2)));
     return price.toFixed(2);
   };
 
@@ -90,6 +89,11 @@ const CubesCartRightSide = ({
       setSelectedAddress(addresses[0].id);
     }
   }, [addresses, selectedAddress]);
+
+  useEffect(() => {
+    const res = totalPrice();
+    setTotalPrice(Number(res));
+  }, [cubesParams, comment, link]);
 
   return (
     <>
