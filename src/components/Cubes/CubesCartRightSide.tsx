@@ -98,7 +98,13 @@ const CubesCartRightSide = ({
           <div className="form__group switcher">
             <div>
               <h4 className="panel--title">კომენტარის დამატება</h4>
-              <span>ღირებულება შეადგენს 15 ლარს</span>
+              <span>
+                ღირებულება შეადგენს
+                {' '}
+                {cubesParams?.commentPrice || 0}
+                {' '}
+                ლარს
+              </span>
             </div>
             <SwitchBox name="comment-switch" checked={comment.enabled} handleChange={() => setComment({ ...comment, enabled: !comment.enabled })} />
           </div>
@@ -108,7 +114,12 @@ const CubesCartRightSide = ({
           <div className="form__group switcher">
             <div>
               <h4 className="panel--title">ლინკის დამატება</h4>
-              <span>ღირებულება შეადგენს 25 ლარს</span>
+              <span>
+                ღირებულება გაიზრდება
+                {' '}
+                {cubesParams?.redirectUrlAdditionalPercent}
+                -ი პროცენტით
+              </span>
             </div>
             <SwitchBox name="link-switch" checked={link.enabled} handleChange={() => setLink({ ...link, enabled: !link.enabled })} />
           </div>
