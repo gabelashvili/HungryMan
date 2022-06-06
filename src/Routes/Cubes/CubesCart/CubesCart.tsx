@@ -13,8 +13,8 @@ import RemoveIcon from '../../../Icons/RemoveIcon';
 
 export const ZOOM_STEP = 0.05;
 const CubesCart = () => {
-  const [totalPrice, setTotalPrice] = useState<number>(0);
   const navigate = useNavigate();
+  const totalPrice = useSelector((state) => state.cubesReducer.selectedCubesInfo?.totalPrice) || 0;
   const selectedCubesId = useSelector((state) => state.cubesReducer.selectedCubesInfo?.cubesId);
   const [text, setText] = useState<{val:string, fontSize: number}>({ val: '', fontSize: 10 });
   const [selectedObjectId, setSelectedObjectId] = useState<string>('');
@@ -138,7 +138,6 @@ const CubesCart = () => {
         <div className="panel without-header cart-form">
           <CubesCartRightSide
             selectedCubes={selectedCubesId || []}
-            setTotalPrice={setTotalPrice}
             giftOneProp={giftOneProp}
             giftTwoProp={giftTwoProp}
           />

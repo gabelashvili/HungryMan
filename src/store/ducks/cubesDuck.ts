@@ -5,13 +5,19 @@ import { CallBacks } from '../../types/main';
 export const GET_INITIAL_DATA = 'cubes/getInitialData';
 export const SET_INITIAL_DATA = 'cubes/setInitialData';
 export const CLEAR_INITIAL_DATA = 'cubes/clearInitialData';
+
 export const SET_SELECTED_CUBES = 'cubes/setSelectedCubes';
 export const SET_TOTAL_PRICE = 'cubes/setTotalPrice';
 export const BUY_CUBES = 'cubes/buyCubes';
 
+export const GET_CUBES_PURCHASE_HISTORY = 'cubes/getCubesPurchaseHistory';
+export const SET_CUBES_PURCHASE_HISTORY = 'cubes/setCubesPurchaseHistory';
+export const CLEAR_CUBES_PURCHASE_HISTORY = 'cubes/clearCubesPurchaseHistory';
+
 const initialState: CubesInitialState = {
   selectedCubesInfo: null,
   initialData: null,
+  purchaseHistory: null,
 };
 
 export const cubesReducer = (state = initialState, action: AnyAction): CubesInitialState => {
@@ -39,6 +45,16 @@ export const cubesReducer = (state = initialState, action: AnyAction): CubesInit
         initialData: payload as CubesInitialData,
       };
     case CLEAR_INITIAL_DATA:
+      return {
+        ...state,
+        initialData: null,
+      };
+    case GET_CUBES_PURCHASE_HISTORY:
+      return {
+        ...state,
+        initialData: payload as CubesInitialData,
+      };
+    case SET_CUBES_PURCHASE_HISTORY:
       return {
         ...state,
         initialData: null,

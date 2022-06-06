@@ -7,9 +7,48 @@ export interface SelectedCubesInfoType {
     totalPrice?: number
 }
 
+export interface PurchaseInfo {
+        id: number,
+        user: UserType,
+        userId: number,
+        hasComment: boolean,
+        comment: string,
+        commentPrice:number,
+        imageUrl: string,
+        imageWidth:number,
+        imageHeight:number,
+        fullAmount:number,
+        squarePrice:number,
+        hasRedirectLink: boolean,
+        redirectLink: string,
+        redirectLinkPrice:number,
+        status: number,
+        giftSendStatus: number,
+        purchaseDetails: {
+            id: number,
+            purchaseId: number,
+            squareId: number
+        }[]
+        purchaseGiftDetails: [
+          {
+            id: number,
+            gift:Gift[]
+            giftId: number,
+            purchaseId: number,
+            size: string
+          }
+        ],
+        mustGenerateInvoice: boolean,
+        city: string,
+        address: string,
+        sendComment: string,
+        userAddressId: number
+}
+
 export interface CubesInitialState {
     selectedCubesInfo: SelectedCubesInfoType | null,
-    initialData: CubesInitialData | null
+    initialData: CubesInitialData | null,
+    purchaseHistory: any | null
 }
 
 export interface BuyCubesPayload {

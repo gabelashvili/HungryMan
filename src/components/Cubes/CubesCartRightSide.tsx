@@ -1,6 +1,4 @@
-import {
-  Dispatch, SetStateAction, useEffect, useState,
-} from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { generateFile } from '../../helpers';
 import { useSelector } from '../../hooks/useSelector';
@@ -14,7 +12,7 @@ import TextArea from '../shared/TextArea';
 import TextField from '../shared/TextField';
 
 const CubesCartRightSide = ({
-  selectedCubes, setTotalPrice, giftOneProp, giftTwoProp,
+  selectedCubes, giftOneProp, giftTwoProp,
 }: PropsTypes) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState<boolean>(false);
@@ -92,7 +90,6 @@ const CubesCartRightSide = ({
 
   useEffect(() => {
     const res = totalPrice();
-    setTotalPrice(Number(res));
     dispatch(setTotalPriceInStore(Number(res)));
   }, [cubesParams, comment, link]);
 
@@ -168,7 +165,6 @@ export default CubesCartRightSide;
 
 interface PropsTypes {
   selectedCubes:number[],
-  setTotalPrice:Dispatch<SetStateAction<number>>,
   giftOneProp: {value: string, id:number} | null,
   giftTwoProp:{value: string, id:number} | null
 }
