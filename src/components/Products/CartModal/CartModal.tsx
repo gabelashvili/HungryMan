@@ -10,7 +10,7 @@ import Button from '../../shared/Button';
 import Tab from '../../shared/Tab/Tab';
 import './cart-modal.scss';
 import './gift-panel.scss';
-import CartCoubs from './CartCoubs';
+import CartCoubs from './CartCoubsModal';
 import CartProducts from './CartProducts';
 
 const CartModal = ({ show, setShow }: PropsTypes) => {

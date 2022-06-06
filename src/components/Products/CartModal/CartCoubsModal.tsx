@@ -1,26 +1,24 @@
-import { useEffect } from 'react';
-import { generateFile, getBase64Test } from '../../../helpers';
-import { useAppDispatch, useSelector } from '../../../hooks/useSelector';
+import { useEffect, useRef } from 'react';
+import { generateFile } from '../../../helpers';
+import { useSelector } from '../../../hooks/useSelector';
 import RemoveIcon from '../../../Icons/RemoveIcon';
-import { setBase64 } from '../../../store/ducks/cubesDuck';
 import Button from '../../shared/Button';
 
 const CartCoubs = ({ show }:{show:boolean}) => {
-  const dispatch = useAppDispatch();
-  const data = useSelector((state) => state.cubesReducer.selectedCubesInfo);
-  const updateImageBase64 = async () => {
+  const imgRef = useRef<HTMLImageElement>(null);
+  const data = useSelector((state) => state.cubesReducer);
+  const updateFile = async () => {
     const el = document.getElementById('root-svg');
-    if (el) {
+    if (el && imgRef.current) {
       const file = await generateFile(el);
-      const base64 = await getBase64Test(file) as string;
-      dispatch(setBase64(base64));
+      imgRef.current.setAttribute('src', URL.createObjectURL(file));
     }
   };
 
   // temp solution to draw image in cart
   useEffect(() => {
     if (show) {
-      updateImageBase64();
+      updateFile();
     }
   }, [show]);
 
@@ -29,18 +27,24 @@ const CartCoubs = ({ show }:{show:boolean}) => {
       <div className="panel without-header coubs-quantity">
         <div className="panel--content">
           <div className="coubs-quantity--display">
-            <img src={data?.base64} alt="coubs selected" />
+            <img ref={imgRef} alt="coubs selected" />
           </div>
         </div>
         <div className="panel--footer coubs-quantity--details">
           <div className="coubs-quantity--value">
             <div>
               უჯრების რაოდენობა :
-              <span>46</span>
+              <span>
+                {' '}
+                {data?.selectedCubesInfo?.cubesId?.length || 0}
+              </span>
             </div>
             <div>
               1x -
-              <span> 25</span>
+              <span>
+                {' '}
+                {data.initialData?.squarePrice}
+              </span>
             </div>
           </div>
           <Button type="icon" classes="is-medium button--secondary">
@@ -48,6 +52,7 @@ const CartCoubs = ({ show }:{show:boolean}) => {
           </Button>
         </div>
       </div>
+      {data?.selectedCubesInfo?.totalPrice && data.selectedCubesInfo.totalPrice >= 50 && (
       <div className="gift-panel">
         <div className="gift-panel--wrapper">
           <p className="gift-panel--description">
@@ -77,8 +82,8 @@ const CartCoubs = ({ show }:{show:boolean}) => {
           </ul>
         </div>
       </div>
+      )}
     </>
-  // <app-gift-panel></app-gift-panel>
   );
 };
 

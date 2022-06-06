@@ -4,7 +4,7 @@ import {
 import { useDispatch } from 'react-redux';
 import { generateFile } from '../../helpers';
 import { useSelector } from '../../hooks/useSelector';
-import { buyCubes } from '../../store/ducks/cubesDuck';
+import { buyCubes, setTotalPriceInStore } from '../../store/ducks/cubesDuck';
 import { AddressType } from '../../types/user';
 import Addresses from '../Address/Addresses';
 import Button from '../shared/Button';
@@ -93,6 +93,7 @@ const CubesCartRightSide = ({
   useEffect(() => {
     const res = totalPrice();
     setTotalPrice(Number(res));
+    dispatch(setTotalPriceInStore(Number(res)));
   }, [cubesParams, comment, link]);
 
   return (

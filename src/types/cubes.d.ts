@@ -4,7 +4,7 @@ import { MediaType } from './main';
 
 export interface SelectedCubesInfoType {
     cubesId?: number[],
-    base64?: string
+    totalPrice?: number
 }
 
 export interface CubesInitialState {

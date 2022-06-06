@@ -107,6 +107,8 @@ const DrawGridWithCubesId = ({
     };
   }, []);
 
+  // set total price
+
   return (
     <svg
       style={{ width: '100%' }}
