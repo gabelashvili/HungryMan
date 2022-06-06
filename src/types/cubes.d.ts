@@ -3,7 +3,8 @@ import { ItemDetail } from './products';
 import { MediaType } from './main';
 
 export interface SelectedCubesInfoType {
-    cubesId: number[]
+    cubesId?: number[],
+    base64?: string
 }
 
 export interface CubesInitialState {

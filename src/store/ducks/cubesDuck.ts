@@ -6,6 +6,7 @@ export const GET_INITIAL_DATA = 'cubes/getInitialData';
 export const SET_INITIAL_DATA = 'cubes/setInitialData';
 export const CLEAR_INITIAL_DATA = 'cubes/clearInitialData';
 export const SET_SELECTED_CUBES = 'cubes/setSelectedCubes';
+export const SET_BASE64 = 'cubes/setBase64';
 export const BUY_CUBES = 'cubes/buyCubes';
 
 const initialState: CubesInitialState = {
@@ -22,6 +23,14 @@ export const cubesReducer = (state = initialState, action: AnyAction): CubesInit
         selectedCubesInfo: {
           ...state.selectedCubesInfo,
           cubesId: [...payload as number[]],
+        },
+      };
+    case SET_BASE64:
+      return {
+        ...state,
+        selectedCubesInfo: {
+          ...state.selectedCubesInfo,
+          base64: payload as string,
         },
       };
     case SET_INITIAL_DATA:
@@ -41,6 +50,11 @@ export const cubesReducer = (state = initialState, action: AnyAction): CubesInit
 
 export const setSelectedCubes = (payload: number[]) => ({
   type: SET_SELECTED_CUBES,
+  payload,
+});
+
+export const setBase64 = (payload: string) => ({
+  type: SET_BASE64,
   payload,
 });
 

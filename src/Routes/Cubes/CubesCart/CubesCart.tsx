@@ -61,10 +61,12 @@ const CubesCart = () => {
   };
 
   useEffect(() => {
-    if (selectedCubesId && selectedCubesId.length === 0) {
+    if ((selectedCubesId && selectedCubesId.length === 0) || !selectedCubesId) {
       navigate('/cubes');
     }
   }, [selectedCubesId]);
+  console.log(selectedCubesId, 22);
+
   return (
     <div className="cart">
       <div className="wrapper">
