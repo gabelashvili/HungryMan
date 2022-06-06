@@ -1,19 +1,28 @@
 import { generatePath } from '../../helpers';
+import { ProductOrderHistory } from '../../types/user';
 import Modal from '../Modal';
 
-const UserDashboardModal = ({
+const CubeInfoModal = ({
   selectedTab, open, handleClose, data,
 }: PropsType) => {
-  console.log(data);
   return (
     <Modal open={open} handleClose={handleClose} modalTitle="ინფორმაცია პროდუქტზე">
       <ul className="product-info">
         {selectedTab === 0 ? (
-          <li className="product-info--item">
-            <picture className="product-info--image">
-              <img src={generatePath(data?.imageUrl || '')} alt="t" />
-            </picture>
-          </li>
+          <>
+            <li className="product-info--item">
+              <span className="product-info--title">სტატუსი:</span>
+              <span className="product-info--calue">შეკვეთა ჩაბარებულია</span>
+            </li>
+            <li className="product-info--item">
+              <span className="product-info--title">სტატუსი:</span>
+              <span className="product-info--calue">შეკვეთა ჩაბარებულია</span>
+            </li>
+            <li className="product-info--item">
+              <span className="product-info--title">სტატუსი:</span>
+              <span className="product-info--calue">შეკვეთა ჩაბარებულია</span>
+            </li>
+          </>
         ) : (
           <>
             <li className="product-info--item">
@@ -32,12 +41,12 @@ const UserDashboardModal = ({
   );
 };
 
-export default UserDashboardModal;
+export default CubeInfoModal;
 
 interface PropsType {
   selectedTab: number,
   open: boolean, handleClose: () => void,
-  data: any | null
+  data: ProductOrderHistory | null
 }
 
 const generateSentStatusLabel = (val?: 1|2|3|4) => {

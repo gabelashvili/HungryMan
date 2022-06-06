@@ -9,6 +9,8 @@ import { useAppDispatch, useSelector } from '../../hooks/useSelector';
 import { ProductOrderHistory, ReqProductsOrderHistory } from '../../types/user';
 import { clearProductsOrderHistory, getProductsOrderHistory } from '../../store/ducks/userDuck';
 import { getCubesPurchaseHistory } from '../../store/ducks/cubesDuck';
+import CubesOrderHistoryList from '../../components/UserDashboard/CubesOrderHistoryList';
+import { PurchaseInfo } from '../../types/cubes';
 
 const INITIAL_PAGE = 1;
 const INITIAL_PAGE_SIZE = 10;
@@ -25,7 +27,7 @@ const OrderHistory = () => {
     pageSize: INITIAL_PAGE_SIZE,
     userId: null,
   });
-  const [selectedItem, setSelectedItem] = useState<ProductOrderHistory | null>(null);
+  const [selectedItem, setSelectedItem] = useState<ProductOrderHistory | PurchaseInfo | null>(null);
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const disableLoadMoreBtn = productsOrderHistory && (params.pageSize) >= productsOrderHistory.count;
   const tabs = [
@@ -43,7 +45,10 @@ const OrderHistory = () => {
   ];
 
   const handleItemInfoClick = (id: number) => {
-    if (productsOrderHistory) {
+    if (cubesOrderHistory && selectedTab === 0) {
+      setSelectedItem(cubesOrderHistory.find((el) => el.id === id) || null);
+    }
+    if (productsOrderHistory && selectedTab === 1) {
       setSelectedItem(productsOrderHistory.items.find((el) => el.id === id) || null);
     }
   };
@@ -90,10 +95,12 @@ const OrderHistory = () => {
       </div>
       <Tab inline selectedTab={selectedTab} setSelectedTab={setSelectedTab} tabs={tabs} />
       <div className="panel--content">
-        <ProductsOrderHistoryList
-          data={productsOrderHistory}
-          handleItemInfoClick={handleItemInfoClick}
-        />
+        {selectedTab === 0 ? <CubesOrderHistoryList handleItemInfoClick={handleItemInfoClick} /> : (
+          <ProductsOrderHistoryList
+            data={productsOrderHistory}
+            handleItemInfoClick={handleItemInfoClick}
+          />
+        )}
         {selectedTab === 1 && productsOrderHistory && productsOrderHistory?.count > INITIAL_PAGE_SIZE && (
         <Button
           loading={loading}
