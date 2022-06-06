@@ -10,12 +10,13 @@ import Button from '../../shared/Button';
 import Tab from '../../shared/Tab/Tab';
 import './cart-modal.scss';
 import './gift-panel.scss';
-import CartCoubs from './CartCoubsModal';
+import CartCoubsModal from './CartCoubsModal';
 import CartProducts from './CartProducts';
 
 const CartModal = ({ show, setShow }: PropsTypes) => {
   const navigate = useNavigate();
   const selectedProducts = useSelector((state) => state.productsReducer.selectedProductsCart);
+  const cubesTotalPrice = useSelector((state) => state.cubesReducer.selectedCubesInfo?.totalPrice) || 0;
   const isUserAuthed = useSelector((state) => state.userReducer.user);
   const cartRef = useRef<HTMLDivElement>(null);
   const [selectedTab, setSelectedTab] = useState<number>(0);
@@ -55,21 +56,22 @@ const CartModal = ({ show, setShow }: PropsTypes) => {
           <div className="cart-tab">
             <Tab tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
           </div>
-          {selectedTab === 0 ? <CartCoubs show={show} /> : <CartProducts data={selectedProducts} />}
+          {selectedTab === 0 ? <CartCoubsModal show={show} /> : <CartProducts data={selectedProducts} />}
         </div>
 
         <div className="modal--footer">
           <div className="cart-modal--details">
             <span>ჯამური თანხა:</span>
             {/* TODO: show price based on selected tab */}
-            {selectedProducts.reduce((acc, cur) => acc + cur.product.newPrice * cur.count, 0).toFixed(2)}
+            {selectedTab === 0 ? cubesTotalPrice
+              : selectedProducts.reduce((acc, cur) => acc + cur.product.newPrice * cur.count, 0).toFixed(2)}
             ლ
           </div>
           <Button
             type={!isUserAuthed ? 'secondary' : ''}
-            disabled={Boolean(isUserAuthed && selectedProducts.length === 0)}
+            disabled={Boolean(isUserAuthed && (selectedTab === 1 && selectedProducts.length === 0))}
             handleClick={() => {
-              navigate(isUserAuthed ? '/products/cart' : '/auth');
+              navigate(isUserAuthed ? `/${selectedTab === 0 ? 'cubes' : 'products'}/cart` : '/auth');
               setShow(false);
             }}
           >
