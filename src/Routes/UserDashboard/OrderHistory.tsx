@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import OrderHistoryList, { OrderHistoryListItem } from '../../components/UserDashboard/OrderHistoryList';
+import ProductsOrderHistoryList from '../../components/UserDashboard/ProductsOrderHistoryList';
 import Tab from '../../components/shared/Tab/Tab';
-import Hat from '../../assets/images/hat.png';
 import UserDashboardModal from '../../components/UserDashboard/UserDashboardModal';
 import Button from '../../components/shared/Button';
 import ArrowIcon from '../../Icons/ArrowIcon';
@@ -91,8 +90,8 @@ const OrderHistory = () => {
       </div>
       <Tab inline selectedTab={selectedTab} setSelectedTab={setSelectedTab} tabs={tabs} />
       <div className="panel--content">
-        <OrderHistoryList
-          data={selectedTab === 0 ? products : productsOrderHistory?.items.map((el) => generateData(el))}
+        <ProductsOrderHistoryList
+          data={productsOrderHistory}
           handleItemInfoClick={handleItemInfoClick}
         />
         {selectedTab === 1 && productsOrderHistory && productsOrderHistory?.count > INITIAL_PAGE_SIZE && (
@@ -113,37 +112,3 @@ const OrderHistory = () => {
 };
 
 export default OrderHistory;
-
-const products: OrderHistoryListItem[] = [
-  {
-    id: 1,
-    title: 'ჰანგრიმენის ქუდი 1',
-    date: '14 აპრ. 2022, 17:45',
-    size: 'საჩუქარი 40 ლარიან შენაძენზე',
-    count: 2,
-    color: 'red',
-    price: 23,
-    img: Hat,
-  },
-  {
-    id: 2,
-    title: 'ჰანგრიმენის ქუდი 2',
-    date: '13 აპრ. 2022, 17:45',
-    size: 'საჩუქარი 40 ლარიან შენაძენზე',
-    count: 2,
-    color: 'red',
-    price: 3,
-    img: Hat,
-  },
-];
-
-const generateData = (data: ProductOrderHistory): OrderHistoryListItem => ({
-  id: data.id,
-  date: data.itemPurchase.createdAt,
-  count: data.count,
-  color: data.itemDetail.color,
-  size: data.itemDetail.size,
-  img: data.item?.medias?.length > 0 ? data.item.medias[0].url : '',
-  price: data.price,
-  title: data.item.name,
-});

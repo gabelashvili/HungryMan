@@ -42,7 +42,9 @@ export interface PurchaseInfo {
         city: string,
         address: string,
         sendComment: string,
-        userAddressId: number
+        userAddressId: number,
+        createdAt: string,
+
 }
 
 export interface CubesInitialState {
