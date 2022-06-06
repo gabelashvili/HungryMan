@@ -2,10 +2,12 @@ import { UserType } from './user';
 import { ItemDetail } from './products';
 import { MediaType } from './main';
 
-export type SelectedCubesType = number[]
+export interface SelectedCubesInfoType {
+    cubesId: number[]
+}
 
 export interface CubesInitialState {
-    selectedCubes: SelectedCubesType,
+    selectedCubesInfo: SelectedCubesInfoType | null,
     initialData: CubesInitialData | null
 }
 

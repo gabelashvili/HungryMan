@@ -9,7 +9,7 @@ export const SET_SELECTED_CUBES = 'cubes/setSelectedCubes';
 export const BUY_CUBES = 'cubes/buyCubes';
 
 const initialState: CubesInitialState = {
-  selectedCubes: [],
+  selectedCubesInfo: null,
   initialData: null,
 };
 
@@ -19,7 +19,10 @@ export const cubesReducer = (state = initialState, action: AnyAction): CubesInit
     case SET_SELECTED_CUBES:
       return {
         ...state,
-        selectedCubes: [...payload as number[]],
+        selectedCubesInfo: {
+          ...state.selectedCubesInfo,
+          cubesId: [...payload as number[]],
+        },
       };
     case SET_INITIAL_DATA:
       return {

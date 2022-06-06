@@ -5,7 +5,7 @@ import './selected-cubes-bar.scss';
 
 const SelectedCubesBar = () => {
   const navigate = useNavigate();
-  const selectedCubes = useSelector((state) => state.cubesReducer.selectedCubes).length;
+  const selectedCubes = useSelector((state) => state.cubesReducer.selectedCubesInfo?.cubesId)?.length;
   return (
     <div className="selected-coubs">
       <div className="selected-coubs--count">{selectedCubes}</div>

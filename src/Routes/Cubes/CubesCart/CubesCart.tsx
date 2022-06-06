@@ -15,7 +15,7 @@ export const ZOOM_STEP = 0.05;
 const CubesCart = () => {
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const navigate = useNavigate();
-  const selectedCubesId = useSelector((state) => state.cubesReducer.selectedCubes);
+  const selectedCubesId = useSelector((state) => state.cubesReducer.selectedCubesInfo?.cubesId);
   const [text, setText] = useState<{val:string, fontSize: number}>({ val: '', fontSize: 10 });
   const [selectedObjectId, setSelectedObjectId] = useState<string>('');
   const [zoom, setZoom] = useState<number>(100);
@@ -61,7 +61,7 @@ const CubesCart = () => {
   };
 
   useEffect(() => {
-    if (selectedCubesId.length === 0) {
+    if (selectedCubesId && selectedCubesId.length === 0) {
       navigate('/cubes');
     }
   }, [selectedCubesId]);
@@ -117,7 +117,7 @@ const CubesCart = () => {
                 selectedObjectId={selectedObjectId}
                 setSelectedObjectId={(val) => handleSelectObj(val)}
                 text={text}
-                selectedCubesId={selectedCubesId}
+                selectedCubesId={selectedCubesId || []}
               />
             </div>
           </div>
@@ -135,7 +135,7 @@ const CubesCart = () => {
         </div>
         <div className="panel without-header cart-form">
           <CubesCartRightSide
-            selectedCubes={selectedCubesId}
+            selectedCubes={selectedCubesId || []}
             setTotalPrice={setTotalPrice}
             giftOneProp={giftOneProp}
             giftTwoProp={giftTwoProp}
