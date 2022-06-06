@@ -9,6 +9,7 @@ import ArrowIcon from '../../Icons/ArrowIcon';
 import { useAppDispatch, useSelector } from '../../hooks/useSelector';
 import { ProductOrderHistory, ReqProductsOrderHistory } from '../../types/user';
 import { clearProductsOrderHistory, getProductsOrderHistory } from '../../store/ducks/userDuck';
+import { getCubesPurchaseHistory } from '../../store/ducks/cubesDuck';
 
 const INITIAL_PAGE = 1;
 const INITIAL_PAGE_SIZE = 10;
@@ -17,6 +18,7 @@ const OrderHistory = () => {
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const productsOrderHistory = useSelector((state) => state.userReducer.productsOrderHistory);
+  const cubesOrderHistory = useSelector((state) => state.cubesReducer.purchaseHistory);
   const authedUserId = useSelector((state) => state.userReducer.user?.id);
   const [loading, setLoading] = useState<boolean>(false);
   const [params, setParams] = useState<ReqProductsOrderHistory>({
@@ -31,12 +33,13 @@ const OrderHistory = () => {
     {
       label: 'უჯრები',
       value: 0,
-      counter: 12,
+      ...cubesOrderHistory && cubesOrderHistory.length > 0 && { counter: cubesOrderHistory.length },
+
     },
     {
       label: 'პროდუქცია',
       value: 1,
-      counter: productsOrderHistory?.count,
+      ...productsOrderHistory?.count && productsOrderHistory?.count > 0 && { counter: productsOrderHistory.count },
     },
   ];
 
@@ -65,10 +68,9 @@ const OrderHistory = () => {
 
   // get data based on selected tab
   useEffect(() => {
-    if (!productsOrderHistory) {
-      dispatch(getProductsOrderHistory(params));
-    }
-  }, [productsOrderHistory]);
+    dispatch(getProductsOrderHistory(params));
+    dispatch(getCubesPurchaseHistory());
+  }, []);
 
   useEffect(() => {
     if (pathname !== 'order-history') {
@@ -93,7 +95,7 @@ const OrderHistory = () => {
           data={selectedTab === 0 ? products : productsOrderHistory?.items.map((el) => generateData(el))}
           handleItemInfoClick={handleItemInfoClick}
         />
-        {productsOrderHistory && productsOrderHistory?.count > INITIAL_PAGE_SIZE && (
+        {selectedTab === 1 && productsOrderHistory && productsOrderHistory?.count > INITIAL_PAGE_SIZE && (
         <Button
           loading={loading}
           type="secondary"

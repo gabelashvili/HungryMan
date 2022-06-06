@@ -51,12 +51,12 @@ export const cubesReducer = (state = initialState, action: AnyAction): CubesInit
         ...state,
         initialData: null,
       };
-    case GET_CUBES_PURCHASE_HISTORY:
+    case SET_CUBES_PURCHASE_HISTORY:
       return {
         ...state,
         purchaseHistory: payload as PurchaseInfo[],
       };
-    case SET_CUBES_PURCHASE_HISTORY:
+    case CLEAR_CUBES_PURCHASE_HISTORY:
       return {
         ...state,
         purchaseHistory: null,
