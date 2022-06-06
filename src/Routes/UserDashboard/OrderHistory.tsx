@@ -93,6 +93,7 @@ const OrderHistory = () => {
           data={selectedTab === 0 ? products : productsOrderHistory?.items.map((el) => generateData(el))}
           handleItemInfoClick={handleItemInfoClick}
         />
+        {productsOrderHistory && productsOrderHistory?.count > INITIAL_PAGE_SIZE && (
         <Button
           loading={loading}
           type="secondary"
@@ -103,6 +104,7 @@ const OrderHistory = () => {
           მეტის ნახვა
           <ArrowIcon className="" />
         </Button>
+        )}
       </div>
     </div>
   );
