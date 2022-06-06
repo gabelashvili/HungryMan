@@ -1,9 +1,9 @@
 import { toast } from 'react-toastify';
 import { put } from 'redux-saga/effects';
 import { CallBacks } from '../../types/main.d';
-import { BuyCubesPayload, CubesInitialData } from '../../types/cubes';
+import { BuyCubesPayload, CubesInitialData, PurchaseInfo } from '../../types/cubes';
 import axiosInstance from '../../helpers/axiosInstance';
-import { setInitialData } from '../ducks/cubesDuck';
+import { setCubesPurchaseHistory, setInitialData } from '../ducks/cubesDuck';
 
 export function* buyCubes({ payload, callbacks }:{ payload: BuyCubesPayload, callbacks: CallBacks, type:string }) {
   try {
@@ -22,6 +22,17 @@ export function* getInitialData({ callbacks }:{ callbacks: CallBacks, type:strin
   try {
     const { data }: { data: CubesInitialData } = yield axiosInstance.get('/Initial/Initial/GetInitialData');
     yield put(setInitialData(data));
+    callbacks?.success && callbacks.success();
+  } catch (error: any) {
+    toast.error('მოხდა შეცდომა');
+    callbacks?.error && callbacks.error();
+  }
+}
+
+export function* getCubesPurchaseHistory({ callbacks }:{ callbacks: CallBacks, type:string }) {
+  try {
+    const { data }: { data: PurchaseInfo[] } = yield axiosInstance.get('/Wall/Purchase/GetUserPurchases');
+    yield put(setCubesPurchaseHistory(data));
     callbacks?.success && callbacks.success();
   } catch (error: any) {
     toast.error('მოხდა შეცდომა');

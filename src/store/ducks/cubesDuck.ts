@@ -1,5 +1,7 @@
 import { AnyAction } from 'redux';
-import { BuyCubesPayload, CubesInitialData, CubesInitialState } from '../../types/cubes';
+import {
+  BuyCubesPayload, CubesInitialData, CubesInitialState, PurchaseInfo,
+} from '../../types/cubes';
 import { CallBacks } from '../../types/main';
 
 export const GET_INITIAL_DATA = 'cubes/getInitialData';
@@ -52,12 +54,12 @@ export const cubesReducer = (state = initialState, action: AnyAction): CubesInit
     case GET_CUBES_PURCHASE_HISTORY:
       return {
         ...state,
-        initialData: payload as CubesInitialData,
+        purchaseHistory: payload as PurchaseInfo[],
       };
     case SET_CUBES_PURCHASE_HISTORY:
       return {
         ...state,
-        initialData: null,
+        purchaseHistory: null,
       };
     default:
       return state;
@@ -91,4 +93,17 @@ export const setInitialData = (payload: CubesInitialData) => ({
 
 export const clearInitialData = () => ({
   type: CLEAR_INITIAL_DATA,
+});
+
+export const getCubesPurchaseHistory = () => ({
+  type: GET_CUBES_PURCHASE_HISTORY,
+});
+
+export const setCubesPurchaseHistory = (payload: PurchaseInfo[]) => ({
+  type: SET_CUBES_PURCHASE_HISTORY,
+  payload,
+});
+
+export const clearCubesPurchaseHistory = () => ({
+  type: CLEAR_CUBES_PURCHASE_HISTORY,
 });

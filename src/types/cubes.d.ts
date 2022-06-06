@@ -48,7 +48,7 @@ export interface PurchaseInfo {
 export interface CubesInitialState {
     selectedCubesInfo: SelectedCubesInfoType | null,
     initialData: CubesInitialData | null,
-    purchaseHistory: any | null
+    purchaseHistory: PurchaseInfo[] | null
 }
 
 export interface BuyCubesPayload {
