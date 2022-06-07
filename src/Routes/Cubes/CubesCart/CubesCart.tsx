@@ -65,7 +65,6 @@ const CubesCart = () => {
       navigate('/cubes');
     }
   }, [selectedCubesId]);
-  console.log(selectedCubesId, 22);
 
   return (
     <div className="cart">
