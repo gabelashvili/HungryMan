@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import DoneIcon from '../../../Icons/DoneIcon';
 import Button from '../../shared/Button';
-import Select from '../../shared/Select';
+// import Select from '../../shared/Select';
 import TextField from '../../shared/TextField';
 
 const Text = ({ handleTextAdd }: {handleTextAdd: (val: {val:string, fontSize:number}) => void}) => {
