@@ -47,7 +47,7 @@ const DrawGridWithCubesId = ({
 
   const handleSpaceDown = (e:KeyboardEvent) => {
     if (e.key === ' ') {
-      e.preventDefault();
+      // e.preventDefault();
       e.stopPropagation();
       isSpaceClicked.current = true;
     }
