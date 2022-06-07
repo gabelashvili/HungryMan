@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { CUBES_TOTAL_COLUMNS, CUBES_TOTAL_ROWS } from '../../Routes/Cubes/Cubes';
+import {
+  CUBES_TOTAL_COLUMNS, CUBES_TOTAL_ROWS, CUBE_DARK_COLOR, CUBE_LIGHT_COLOR,
+} from '../../Routes/Cubes/Cubes';
 
 const Wall = () => {
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
@@ -17,16 +19,16 @@ const Wall = () => {
 
   useEffect(() => {
     if (ctx && canvasRef.current) {
-      let color = '#09141E';
+      let color = CUBE_DARK_COLOR;
       const cubeSize = Math.round(canvasRef.current.width / CUBES_TOTAL_ROWS);
       for (let i = 0; i < CUBES_TOTAL_COLUMNS; i++) {
         for (let j = 0; j < CUBES_TOTAL_ROWS; j++) {
           const x = j * cubeSize;
           const y = i * cubeSize;
           drawRect(ctx, x, y, cubeSize, cubeSize, color);
-          color = color === '#09141E' ? '#0C1925' : '#09141E';
+          color = color === CUBE_DARK_COLOR ? CUBE_LIGHT_COLOR : CUBE_DARK_COLOR;
         }
-        color = color === '#09141E' ? '#0C1925' : '#09141E';
+        color = color === CUBE_DARK_COLOR ? CUBE_LIGHT_COLOR : CUBE_DARK_COLOR;
       }
     }
   }, [ctx]);
