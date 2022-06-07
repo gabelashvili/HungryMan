@@ -1,17 +1,38 @@
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from '../../../hooks/useSelector';
+import { useAppDispatch } from '../../../hooks/useSelector';
+import { setSelectedCubes, setTotalPriceInStore } from '../../../store/ducks/cubesDuck';
 import Button from '../../shared/Button';
 import './selected-cubes-bar.scss';
 
-const SelectedCubesBar = () => {
+const SelectedCubesBar = ({ selectedCubes, cubePrice }: {selectedCubes: number[], cubePrice:number}) => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const selectedCubes = useSelector((state) => state.cubesReducer.selectedCubesInfo?.cubesId)?.length;
   return (
     <div className="selected-coubs">
-      <div className="selected-coubs--count">{selectedCubes}</div>
+      <div className="selected-coubs--count">{selectedCubes.length}</div>
       <div className="selected-coubs--title">არჩეული კუბები</div>
-      <button className="button button--secondary">კალათაში დამატება</button>
-      <Button disabled={selectedCubes === 0} handleClick={() => navigate('cart')}>ყიდვა</Button>
+      <Button
+        type="secondary"
+        handleClick={() => {
+          console.log('movida');
+          selectedCubes.length > 0 && dispatch(setSelectedCubes(selectedCubes));
+          dispatch(setTotalPriceInStore(selectedCubes.length * cubePrice));
+        }}
+      >
+        კალათაში დამატება
+
+      </Button>
+      <Button
+        disabled={selectedCubes.length === 0}
+        handleClick={() => {
+          navigate('cart');
+          dispatch(setSelectedCubes(selectedCubes));
+          dispatch(setTotalPriceInStore(selectedCubes.length * cubePrice));
+        }}
+      >
+        ყიდვა
+
+      </Button>
     </div>
   );
 };
