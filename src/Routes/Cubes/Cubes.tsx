@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
-import CubesMain from '../../components/Cubes/CubesMain';
+// import CubesMain from '../../components/Cubes/CubesMain';
 import CubesStatistic from '../../components/Cubes/CubesStatistic/CubesStatistic';
 import SelectedCubesBar from '../../components/Cubes/SelectedCubesBar/SelectedCubesBar';
+import Wall from '../../components/Cubes/Wall';
 import Zoom from '../../components/Cubes/Zoom/Zoom';
 import { useAppDispatch, useSelector } from '../../hooks/useSelector';
 import { getInitialData } from '../../store/ducks/cubesDuck';
 
-export const CUBES_TOTAL_ROWS = 20;
-export const CUBES_TOTAL_COLUMNS = 10;
+export const CUBES_TOTAL_ROWS = 354;
+export const CUBES_TOTAL_COLUMNS = 113;
 export const INITIAL_CUBE_SIZE = 20;
 export const CUBE_LIGHT_COLOR = '#0C1925';
 export const CUBE_DARK_COLOR = '#09141E';
@@ -37,13 +38,14 @@ const Cubes = () => {
   }, [cubesInitialData]);
   return (
     <div style={{ display: 'flex', justifyContent: 'center', height: '100%' }}>
-      <CubesMain
+      {/* <CubesMain
         setZoomPercent={setZoomPercent}
         setMethods={setMethods}
         setAuthedUserSelectedCubes={setAuthedUserSelectedCubes}
         totalRows={CUBES_TOTAL_ROWS}
         totalColumns={CUBES_TOTAL_COLUMNS}
-      />
+      /> */}
+      <Wall />
       <CubesStatistic />
       <SelectedCubesBar selectedCubes={authedUserSelectedCubes} cubePrice={cubesInitialData?.squarePrice || 0} />
       <Zoom
