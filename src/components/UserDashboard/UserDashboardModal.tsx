@@ -9,11 +9,31 @@ const UserDashboardModal = ({
     <Modal open={open} handleClose={handleClose} modalTitle="ინფორმაცია პროდუქტზე">
       <ul className="product-info">
         {selectedTab === 0 ? (
-          <li className="product-info--item">
-            <picture className="product-info--image">
-              <img src={generatePath(data?.imageUrl || '')} alt="t" />
-            </picture>
-          </li>
+          <>
+            <li className="product-info--item">
+              <picture className="product-info--image">
+                <img src={generatePath(data?.imageUrl || '')} alt="t" />
+              </picture>
+            </li>
+            {data?.comment && (
+            <li className="product-info--item">
+              <span className="product-info--title">კომენტარი:</span>
+              <span className="product-info--calue">{data.comment}</span>
+            </li>
+            )}
+            {data?.redirectLink && (
+            <li className="product-info--item">
+              <span className="product-info--title">Redirect Link:</span>
+              <a style={{ color: 'white' }} href={data.redirectLink} className="product-info--calue">დააჭირე აქ</a>
+            </li>
+            )}
+            {data?.purchaseGiftDetails?.length > 0 && (
+            <li className="product-info--item">
+              <span className="product-info--title">საჩუქრების რაოდენობა:</span>
+              <a style={{ color: 'white' }} href={data.redirectLink} className="product-info--calue">{data.purchaseGiftDetails.length}</a>
+            </li>
+            )}
+          </>
         ) : (
           <>
             <li className="product-info--item">

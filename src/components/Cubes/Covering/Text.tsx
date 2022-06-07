@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import DoneIcon from '../../../Icons/DoneIcon';
 import Button from '../../shared/Button';
+import Select from '../../shared/Select';
 import TextField from '../../shared/TextField';
 
 const Text = ({ handleTextAdd }: {handleTextAdd: (val: {val:string, fontSize:number}) => void}) => {
@@ -22,6 +23,7 @@ const Text = ({ handleTextAdd }: {handleTextAdd: (val: {val:string, fontSize:num
           handleChange={(fontSize) => setValue({ ...value, fontSize: Number(fontSize) })}
           inputName="number"
         />
+        <Select />
       </div>
       <div className="form__group">
         <Button type="icon" handleClick={() => handleTextAdd(value)}><DoneIcon /></Button>
