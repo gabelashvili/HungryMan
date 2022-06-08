@@ -1,12 +1,15 @@
 import {
+  Dispatch,
+  SetStateAction,
   useEffect, useRef, useState,
 } from 'react';
-import { TransformWrapper, TransformComponent } from '@kokarn/react-zoom-pan-pinch';
+import { TransformWrapper, TransformComponent, ReactZoomPanPinchRef } from '@kokarn/react-zoom-pan-pinch';
 import {
   CUBES_TOTAL_COLUMNS, CUBES_TOTAL_ROWS, CUBE_DARK_COLOR, CUBE_LIGHT_COLOR,
 } from '../../Routes/Cubes/Cubes';
 
-const Wall = () => {
+const Wall = ({ setMethods, setZoomPercent }: PropsTypes) => {
+  const panRef = useRef<ReactZoomPanPinchRef>(null);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -33,9 +36,22 @@ const Wall = () => {
       );
     }
   }, [ctx]);
+
   return (
     <div style={{ width: '100%' }}>
-      <TransformWrapper>
+      <TransformWrapper
+        doubleClick={{
+          disabled: true,
+        }}
+        ref={panRef}
+        onInit={(x) => setMethods({
+          handleZoomIn: x.zoomIn,
+          handleZoomOut: x.zoomOut,
+        })}
+        onZoomStop={(props) => {
+          setZoomPercent(props.state.scale * 100);
+        }}
+      >
         <TransformComponent>
           <canvas
             ref={canvasRef}
@@ -81,3 +97,11 @@ const redrawWall = (
   }
   ctx.restore();
 };
+
+interface PropsTypes {
+  setMethods: Dispatch<SetStateAction<{
+    handleZoomIn: () => void
+    handleZoomOut: () => void
+  } | null>>,
+  setZoomPercent: Dispatch<SetStateAction<number>>
+}

@@ -36,6 +36,7 @@ const Cubes = () => {
       dispatch(getInitialData());
     }
   }, [cubesInitialData]);
+
   return (
     <div style={{ display: 'flex', justifyContent: 'center', height: '100%' }}>
       {/* <CubesMain
@@ -45,10 +46,14 @@ const Cubes = () => {
         totalRows={CUBES_TOTAL_ROWS}
         totalColumns={CUBES_TOTAL_COLUMNS}
       /> */}
-      <Wall />
+      <Wall setMethods={setMethods} setZoomPercent={setZoomPercent} />
       <CubesStatistic />
-      <SelectedCubesBar selectedCubes={authedUserSelectedCubes} cubePrice={cubesInitialData?.squarePrice || 0} />
+      <SelectedCubesBar
+        selectedCubes={authedUserSelectedCubes}
+        cubePrice={cubesInitialData?.squarePrice || 0}
+      />
       <Zoom
+        setZoomPercent={setZoomPercent}
         zoomPercent={zoomPercent}
         zoomIn={methods?.handleZoomIn}
         zoomOut={methods?.handleZoomOut}
@@ -62,6 +67,4 @@ export default Cubes;
 interface CubesMainMethods {
   handleZoomIn: () => void
   handleZoomOut: () => void
-  handleRightScroll: () => void
-  handleLeftScroll: () => void
 }
