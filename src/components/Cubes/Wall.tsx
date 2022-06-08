@@ -31,10 +31,13 @@ const Wall = ({ setMethods, setZoomPercent }: PropsTypes) => {
   };
 
   const deselectCube = (e: MouseEvent) => {
-    if (canvasRef.current && panRef.current && panRef.current.instance.contentComponent && ctx) {
-      const cubeId = getCubeId(e);
-      setSelectedCubes(selectedCubes.filter((el) => el !== cubeId));
-    }
+    const cubeId = getCubeId(e);
+    const canDeselect = true;
+    const leftNeighbor = selectedCubes.includes(cubeId - 1) ? cubeId - 1 : -1;
+    const rightNeighbor = selectedCubes.includes(cubeId + 1) ? cubeId + 1 : -1;
+    const topNeighbor = selectedCubes.includes(cubeId - CUBES_TOTAL_ROWS) ? cubeId - CUBES_TOTAL_ROWS : -1;
+    const bottomNeighbor = selectedCubes.includes(cubeId + CUBES_TOTAL_ROWS) ? cubeId + CUBES_TOTAL_ROWS : -1;
+    console.log(canDeselect, leftNeighbor, rightNeighbor, topNeighbor, bottomNeighbor);
   };
 
   const isCubeSelectable = (cubeId:number) => {
