@@ -56,7 +56,10 @@ const Wall = ({ setMethods, setZoomPercent }: PropsTypes) => {
   return (
     <div style={{ width: '100%' }}>
       <TransformWrapper
-        maxScale={2.5}
+        panning={{
+          activationKeys: [' '],
+        }}
+        maxScale={8}
         doubleClick={{
           disabled: true,
         }}
@@ -69,7 +72,7 @@ const Wall = ({ setMethods, setZoomPercent }: PropsTypes) => {
           setZoomPercent(props.state.scale * 100);
         }}
       >
-        <TransformComponent>
+        <TransformComponent contentStyle={{ width: '100%' }} wrapperStyle={{ width: '100%' }}>
           <canvas
             ref={canvasRef}
             style={{ width: '100%' }}
@@ -108,7 +111,7 @@ const redrawWall = (
     for (let j = 0; j < CUBES_TOTAL_ROWS; j++) {
       const x = j * cubeSize;
       const y = i * cubeSize;
-      drawRect(ctx, x, y, cubeSize, cubeSize, i === 2 && j === 15 ? 'red' : color);
+      drawRect(ctx, x, y, cubeSize, cubeSize, color);
       color = color === CUBE_DARK_COLOR ? CUBE_LIGHT_COLOR : CUBE_DARK_COLOR;
     }
     color = color === CUBE_DARK_COLOR ? CUBE_LIGHT_COLOR : CUBE_DARK_COLOR;
