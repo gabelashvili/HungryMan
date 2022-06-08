@@ -1,6 +1,7 @@
 import {
   Dispatch, SetStateAction, useEffect, useRef,
 } from 'react';
+import { getCssMatrix } from '../../../helpers';
 import MinusIcon from '../../../Icons/MinusIcon';
 import PlusIcon from '../../../Icons/PlusIcon';
 import './zoom.scss';
@@ -15,7 +16,7 @@ const Zoom = ({
   const timer = useRef<any>();
   timer.current = () => setTimeout(() => {
     const el = document.getElementsByClassName('react-transform-component ')[0];
-    setZoomPercent(Number(getComputedStyle(el).transform.split('matrix(')[1].split(',')[0]) * 100);
+    setZoomPercent(getCssMatrix(el)[0] * 100);
   }, 300);
 
   useEffect(() => {

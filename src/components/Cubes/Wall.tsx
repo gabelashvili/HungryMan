@@ -1,5 +1,6 @@
 import {
   Dispatch,
+  MouseEvent,
   SetStateAction,
   useEffect, useRef, useState,
 } from 'react';
@@ -12,6 +13,21 @@ const Wall = ({ setMethods, setZoomPercent }: PropsTypes) => {
   const panRef = useRef<ReactZoomPanPinchRef>(null);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  const handleCubeSelect = (e:MouseEvent) => {
+    if (canvasRef.current && panRef.current && panRef.current.instance.contentComponent) {
+      // const { clientX, clientY } = e;
+
+      const { clientX } = e;
+      const { clientY } = e;
+      const canvasProps = canvasRef.current.getBoundingClientRect();
+      const cubeSize = canvasProps.width / CUBES_TOTAL_ROWS;
+      const row = Math.ceil((clientX - canvasProps.left) / cubeSize);
+      const column = Math.ceil((clientY - canvasProps.top) / cubeSize);
+      const cubeId = (column - 1) * CUBES_TOTAL_ROWS + row;
+      console.log(row, column, cubeId);
+    }
+  };
 
   // set context
   useEffect(() => {
@@ -57,6 +73,7 @@ const Wall = ({ setMethods, setZoomPercent }: PropsTypes) => {
           <canvas
             ref={canvasRef}
             style={{ width: '100%' }}
+            onClick={handleCubeSelect}
           />
         </TransformComponent>
       </TransformWrapper>

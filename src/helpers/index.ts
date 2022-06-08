@@ -49,3 +49,7 @@ export const generateFile = async (el:Node) => {
   return res;
   // generate file
 };
+
+export const getCssMatrix = (el:Element) => (getComputedStyle(el)
+  .transform.split('matrix(')[1].slice(0, -1).split(','))
+  .map((el) => Number(el));
