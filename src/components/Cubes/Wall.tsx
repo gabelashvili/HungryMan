@@ -11,13 +11,26 @@ import {
 
 const Wall = ({ setMethods, setZoomPercent }: PropsTypes) => {
   const panRef = useRef<ReactZoomPanPinchRef>(null);
+  const isSelecting = useRef(false);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [selectedCubes, setSelectedCubes] = useState<number[]>([]);
 
+  const isCubeSelectable = (cubeId:number) => {
+    // TODO: if cube is purchased return false
+    if (selectedCubes.length === 0) {
+      return true;
+    }
+    if (selectedCubes.includes(cubeId - 1)
+      || selectedCubes.includes(cubeId + 1)
+      || selectedCubes.includes(cubeId - CUBES_TOTAL_ROWS)
+      || selectedCubes.includes(cubeId + CUBES_TOTAL_ROWS)) {
+      return true;
+    }
+    return false;
+  };
   const handleCubeSelect = (e:MouseEvent) => {
-    if (canvasRef.current && panRef.current && panRef.current.instance.contentComponent) {
-      // const { clientX, clientY } = e;
-
+    if (canvasRef.current && panRef.current && panRef.current.instance.contentComponent && ctx) {
       const { clientX } = e;
       const { clientY } = e;
       const canvasProps = canvasRef.current.getBoundingClientRect();
@@ -25,7 +38,20 @@ const Wall = ({ setMethods, setZoomPercent }: PropsTypes) => {
       const row = Math.ceil((clientX - canvasProps.left) / cubeSize);
       const column = Math.ceil((clientY - canvasProps.top) / cubeSize);
       const cubeId = (column - 1) * CUBES_TOTAL_ROWS + row;
-      console.log(row, column, cubeId);
+      if (isCubeSelectable(cubeId)) {
+        setSelectedCubes([...selectedCubes, cubeId]);
+      }
+    }
+  };
+  const handleCubeSelectStart = () => {
+    isSelecting.current = true;
+  };
+  const handleCubeSelectEnd = () => {
+    isSelecting.current = false;
+  };
+  const handleMouseMove = (e:MouseEvent) => {
+    if (isSelecting.current) {
+      handleCubeSelect(e);
     }
   };
 
@@ -49,9 +75,10 @@ const Wall = ({ setMethods, setZoomPercent }: PropsTypes) => {
         canvasRef.current.width,
         canvasRef.current.height,
         cubeSize,
+        selectedCubes,
       );
     }
-  }, [ctx]);
+  }, [ctx, selectedCubes]);
 
   return (
     <div style={{ width: '100%' }}>
@@ -75,6 +102,9 @@ const Wall = ({ setMethods, setZoomPercent }: PropsTypes) => {
         <TransformComponent contentStyle={{ width: '100%' }} wrapperStyle={{ width: '100%' }}>
           <canvas
             ref={canvasRef}
+            onMouseDown={handleCubeSelectStart}
+            onMouseUp={handleCubeSelectEnd}
+            onMouseMove={handleMouseMove}
             style={{ width: '100%' }}
             onClick={handleCubeSelect}
           />
@@ -105,13 +135,17 @@ const redrawWall = (
   canvasWidth: number,
   canvasHeight: number,
   cubeSize: number,
+  selectedCubes: number[],
 ) => {
   let color = CUBE_DARK_COLOR;
   for (let i = 0; i < CUBES_TOTAL_COLUMNS; i++) {
     for (let j = 0; j < CUBES_TOTAL_ROWS; j++) {
       const x = j * cubeSize;
       const y = i * cubeSize;
-      drawRect(ctx, x, y, cubeSize, cubeSize, color);
+      console.log(x, y);
+      const cubeId = (i) * CUBES_TOTAL_ROWS + j + 1;
+      const isSelected = selectedCubes.includes(cubeId);
+      drawRect(ctx, x, y, cubeSize, cubeSize, isSelected ? 'red' : color);
       color = color === CUBE_DARK_COLOR ? CUBE_LIGHT_COLOR : CUBE_DARK_COLOR;
     }
     color = color === CUBE_DARK_COLOR ? CUBE_LIGHT_COLOR : CUBE_DARK_COLOR;
