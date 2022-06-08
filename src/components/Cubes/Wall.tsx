@@ -21,10 +21,10 @@ const Wall = ({ setMethods, setZoomPercent }: PropsTypes) => {
     if (selectedCubes.length === 0) {
       return true;
     }
-    if (selectedCubes.includes(cubeId - 1)
+    if ((selectedCubes.includes(cubeId - 1)
       || selectedCubes.includes(cubeId + 1)
       || selectedCubes.includes(cubeId - CUBES_TOTAL_ROWS)
-      || selectedCubes.includes(cubeId + CUBES_TOTAL_ROWS)) {
+      || selectedCubes.includes(cubeId + CUBES_TOTAL_ROWS)) && !selectedCubes.includes(cubeId)) {
       return true;
     }
     return false;
@@ -78,6 +78,7 @@ const Wall = ({ setMethods, setZoomPercent }: PropsTypes) => {
         selectedCubes,
       );
     }
+    console.log('re');
   }, [ctx, selectedCubes]);
 
   return (
@@ -142,7 +143,6 @@ const redrawWall = (
     for (let j = 0; j < CUBES_TOTAL_ROWS; j++) {
       const x = j * cubeSize;
       const y = i * cubeSize;
-      console.log(x, y);
       const cubeId = (i) * CUBES_TOTAL_ROWS + j + 1;
       const isSelected = selectedCubes.includes(cubeId);
       drawRect(ctx, x, y, cubeSize, cubeSize, isSelected ? 'red' : color);
