@@ -1,18 +1,20 @@
-import { useEffect, useRef, useState } from 'react';
+import {
+  MouseEvent,
+  useEffect, useRef, useState, WheelEvent,
+} from 'react';
 import {
   CUBES_TOTAL_COLUMNS, CUBES_TOTAL_ROWS, CUBE_DARK_COLOR, CUBE_LIGHT_COLOR,
 } from '../../Routes/Cubes/Cubes';
 
 const Wall = () => {
   const [canvasOptions, setCanvasOptions] = useState({
-    mapW: 200,
-    mapH: 200,
     panX: 0,
     panY: 0,
     scaleFactor: 1.00,
   });
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const mouseStartPos = useRef({ x: 0, y: 0 });
 
   const zoomIn = () => {
     setCanvasOptions({ ...canvasOptions, scaleFactor: canvasOptions.scaleFactor * 1.1 });
@@ -36,6 +38,25 @@ const Wall = () => {
 
   const panRight = () => {
     setCanvasOptions({ ...canvasOptions, panX: canvasOptions.panX + 25 });
+  };
+
+  const onMouseWheel = (event:WheelEvent<HTMLCanvasElement>) => {
+    event.deltaY < 0 ? zoomIn() : zoomOut();
+  };
+
+  const handleMouseDown = (e: MouseEvent) => {
+    const startX = e.clientX;
+    const startY = e.clientY;
+    mouseStartPos.current = {
+      x: startX,
+      y: startY,
+    };
+  };
+
+  const handleMouseMove = (e:MouseEvent) => {
+    const { x, y } = mouseStartPos.current;
+    setCanvasOptions({ ...canvasOptions, panX: canvasOptions.panX - (x - e.clientX) });
+    console.log(x - e.clientX);
   };
 
   // set context
@@ -62,15 +83,6 @@ const Wall = () => {
         canvasOptions.panX,
         canvasOptions.panY,
       );
-    //   for (let i = 0; i < CUBES_TOTAL_COLUMNS; i++) {
-    //     for (let j = 0; j < CUBES_TOTAL_ROWS; j++) {
-    //       const x = j * cubeSize;
-    //       const y = i * cubeSize;
-    //       drawRect(ctx, x, y, cubeSize, cubeSize, color);
-    //       color = color === CUBE_DARK_COLOR ? CUBE_LIGHT_COLOR : CUBE_DARK_COLOR;
-    //     }
-    //     color = color === CUBE_DARK_COLOR ? CUBE_LIGHT_COLOR : CUBE_DARK_COLOR;
-    //   }
     }
   }, [ctx, canvasOptions]);
   return (
@@ -81,7 +93,13 @@ const Wall = () => {
       <button onClick={panDown}>PAN DOWN</button>
       <button onClick={panLeft}>PAN LEFT</button>
       <button onClick={panRight}>PAN RIGHT</button>
-      <canvas ref={canvasRef} style={{ width: '100%' }} />
+      <canvas
+        ref={canvasRef}
+        style={{ width: '100%' }}
+        onWheel={onMouseWheel}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+      />
     </div>
   );
 };
@@ -111,13 +129,17 @@ const redrawWall = (
   panX: number,
   panY:number,
 ) => {
+  console.log(canvasWidth * scaleFactor, canvasWidth / 2);
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
   ctx.save();
-  ctx.translate(1, 1);
-  ctx.scale(scaleFactor, scaleFactor);
-  ctx.translate(panX, panY);
-  //   ctx.fillStyle = 'Green';
-  //   ctx.fillRect(mapW / -2, mapH / -2, mapW, mapH);
+  ctx.transform(
+    scaleFactor,
+    0,
+    0,
+    scaleFactor,
+    panX + (canvasWidth - canvasWidth * scaleFactor) / 2,
+    panY + (canvasHeight - canvasHeight * scaleFactor) / 2,
+  );
   let color = CUBE_DARK_COLOR;
   for (let i = 0; i < CUBES_TOTAL_COLUMNS; i++) {
     for (let j = 0; j < CUBES_TOTAL_ROWS; j++) {
