@@ -40,6 +40,7 @@ const Wall = ({ setMethods, setZoomPercent }: PropsTypes) => {
   return (
     <div style={{ width: '100%' }}>
       <TransformWrapper
+        maxScale={2.5}
         doubleClick={{
           disabled: true,
         }}
