@@ -16,6 +16,27 @@ const Wall = ({ setMethods, setZoomPercent }: PropsTypes) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [selectedCubes, setSelectedCubes] = useState<number[]>([]);
 
+  const getCubeId = (e:MouseEvent) => {
+    if (canvasRef.current && panRef.current && panRef.current.instance.contentComponent && ctx) {
+      const { clientX } = e;
+      const { clientY } = e;
+      const canvasProps = canvasRef.current.getBoundingClientRect();
+      const cubeSize = canvasProps.width / CUBES_TOTAL_ROWS;
+      const row = Math.ceil((clientX - canvasProps.left) / cubeSize);
+      const column = Math.ceil((clientY - canvasProps.top) / cubeSize);
+      const cubeId = (column - 1) * CUBES_TOTAL_ROWS + row;
+      return cubeId;
+    }
+    return 0;
+  };
+
+  const deselectCube = (e: MouseEvent) => {
+    if (canvasRef.current && panRef.current && panRef.current.instance.contentComponent && ctx) {
+      const cubeId = getCubeId(e);
+      setSelectedCubes(selectedCubes.filter((el) => el !== cubeId));
+    }
+  };
+
   const isCubeSelectable = (cubeId:number) => {
     // TODO: if cube is purchased return false
     if (selectedCubes.length === 0) {
@@ -29,26 +50,30 @@ const Wall = ({ setMethods, setZoomPercent }: PropsTypes) => {
     }
     return false;
   };
+
   const handleCubeSelect = (e:MouseEvent) => {
-    if (canvasRef.current && panRef.current && panRef.current.instance.contentComponent && ctx) {
-      const { clientX } = e;
-      const { clientY } = e;
-      const canvasProps = canvasRef.current.getBoundingClientRect();
-      const cubeSize = canvasProps.width / CUBES_TOTAL_ROWS;
-      const row = Math.ceil((clientX - canvasProps.left) / cubeSize);
-      const column = Math.ceil((clientY - canvasProps.top) / cubeSize);
-      const cubeId = (column - 1) * CUBES_TOTAL_ROWS + row;
-      if (isCubeSelectable(cubeId)) {
-        setSelectedCubes([...selectedCubes, cubeId]);
-      }
+    const cubeId = getCubeId(e);
+    if (isCubeSelectable(cubeId)) {
+      setSelectedCubes([...selectedCubes, cubeId]);
     }
   };
-  const handleCubeSelectStart = () => {
-    isSelecting.current = true;
+
+  const handleMouseDown = (e: MouseEvent) => {
+    const cubeId = getCubeId(e);
+    if (isCubeSelectable(cubeId)) {
+      setSelectedCubes([...selectedCubes, cubeId]);
+      isSelecting.current = true;
+    }
   };
-  const handleCubeSelectEnd = () => {
-    isSelecting.current = false;
+
+  const handleMouseUp = (e: MouseEvent) => {
+    if (isSelecting.current) {
+      isSelecting.current = false;
+    } else {
+      deselectCube(e);
+    }
   };
+
   const handleMouseMove = (e:MouseEvent) => {
     if (isSelecting.current) {
       handleCubeSelect(e);
@@ -103,11 +128,10 @@ const Wall = ({ setMethods, setZoomPercent }: PropsTypes) => {
         <TransformComponent contentStyle={{ width: '100%' }} wrapperStyle={{ width: '100%' }}>
           <canvas
             ref={canvasRef}
-            onMouseDown={handleCubeSelectStart}
-            onMouseUp={handleCubeSelectEnd}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
             onMouseMove={handleMouseMove}
             style={{ width: '100%' }}
-            onClick={handleCubeSelect}
           />
         </TransformComponent>
       </TransformWrapper>
