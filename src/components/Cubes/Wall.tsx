@@ -8,11 +8,13 @@ import { TransformWrapper, TransformComponent, ReactZoomPanPinchRef } from '@kok
 import {
   CUBES_TOTAL_COLUMNS, CUBES_TOTAL_ROWS, CUBE_DARK_COLOR, CUBE_LIGHT_COLOR,
 } from '../../Routes/Cubes/Cubes';
-import { useAppDispatch } from '../../hooks/useSelector';
+import { useAppDispatch, useSelector } from '../../hooks/useSelector';
 import { setSelectedCubes } from '../../store/ducks/cubesDuck';
 import Logo from '../../assets/images/Vector2.png';
+import { SoldCubesDetail } from '../../types/cubes';
 
 const Wall = ({ setMethods, setZoomPercent }: PropsTypes) => {
+  const soldCubesDetail = useSelector((state) => state.cubesReducer.soldCubesDetails);
   const [img, setImg] = useState<any>(null);
   const dispatch = useAppDispatch();
   const panRef = useRef<ReactZoomPanPinchRef>(null);
@@ -47,7 +49,9 @@ const Wall = ({ setMethods, setZoomPercent }: PropsTypes) => {
   };
 
   const isCubeSelectable = (cubeId:number) => {
-    // TODO: if cube is purchased return false
+    if (soldCubesDetail?.soldCubes.includes(cubeId)) {
+      return false;
+    }
     if (cubes.length === 0) {
       return true;
     }
@@ -102,16 +106,17 @@ const Wall = ({ setMethods, setZoomPercent }: PropsTypes) => {
 
   // draw and redraw cubes
   useEffect(() => {
-    if (ctx && canvasRef.current && img) {
+    if (ctx && canvasRef.current && img && soldCubesDetail) {
       const cubeSize = Math.round(canvasRef.current.width / CUBES_TOTAL_ROWS);
       redrawWall(
         ctx,
         cubeSize,
         cubes,
         img,
+        soldCubesDetail,
       );
     }
-  }, [ctx, cubes, img]);
+  }, [ctx, cubes, img, soldCubesDetail]);
 
   // save cubes id in store
   useEffect(() => {
@@ -176,12 +181,24 @@ const drawRect = (
   ctx.stroke();
 };
 
+const generateColor = (isSold:boolean, isSelected:boolean, color: string) => {
+  if (isSold) {
+    return 'gray';
+  }
+  if (isSelected) {
+    return 'red';
+  }
+  return color;
+};
+
 const redrawWall = (
   ctx: CanvasRenderingContext2D,
   cubeSize: number,
   selectedCubes: number[],
-  img: any,
+  logo: any,
+  soldCubesDetail: SoldCubesDetail,
 ) => {
+  console.log(soldCubesDetail);
   let color = CUBE_DARK_COLOR;
   for (let i = 0; i < CUBES_TOTAL_COLUMNS; i++) {
     for (let j = 0; j < CUBES_TOTAL_ROWS; j++) {
@@ -189,18 +206,35 @@ const redrawWall = (
       const y = i * cubeSize;
       const cubeId = (i) * CUBES_TOTAL_ROWS + j + 1;
       const isSelected = selectedCubes.includes(cubeId);
-      drawRect(ctx, x, y, cubeSize, cubeSize, isSelected ? 'red' : color);
+      drawRect(
+        ctx,
+        x,
+        y,
+        cubeSize,
+        cubeSize,
+        generateColor(soldCubesDetail.soldCubes.includes(cubeId), isSelected, color),
+      );
       color = color === CUBE_DARK_COLOR ? CUBE_LIGHT_COLOR : CUBE_DARK_COLOR;
     }
     color = color === CUBE_DARK_COLOR ? CUBE_LIGHT_COLOR : CUBE_DARK_COLOR;
   }
+  // draw logo
   ctx.drawImage(
-    img,
+    logo,
     (cubeSize * CUBES_TOTAL_ROWS - cubeSize * 86) / 2,
     0,
     cubeSize * 86,
     cubeSize * CUBES_TOTAL_COLUMNS,
   );
+  // draw images
+  // for (let i = 0; i < images.length; i++) {
+  //   const x = (images[i].topLeftCube.row - 1) * cubeSize;
+  //   const y = (images[i].topLeftCube.column - 1) * cubeSize;
+  //   const w = (images[i].bottomRightCube.row - images[i].topLeftCube.row) * cubeSize;
+  //   const h = (images[i].bottomRightCube.column - images[i].topLeftCube.column) * cubeSize;
+  //   ctx.drawImage(images[i].htmlImg, x, y, w, h);
+  //   console.log(x, y);
+  // }
   ctx.restore();
 };
 

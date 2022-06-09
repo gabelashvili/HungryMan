@@ -7,6 +7,7 @@ import {
 import axiosInstance from '../../helpers/axiosInstance';
 import { setCubesPurchaseHistory, setInitialData, setSoldCubesDetail } from '../ducks/cubesDuck';
 import { CUBES_TOTAL_ROWS } from '../../Routes/Cubes/Cubes';
+import { generatePath } from '../../helpers';
 
 export function* buyCubes({ payload, callbacks }:{ payload: BuyCubesPayload, callbacks: CallBacks, type:string }) {
   try {
@@ -35,19 +36,23 @@ export function* getInitialData({ callbacks }:{ callbacks: CallBacks, type:strin
       });
       formattedData.soldCubes.push(...soldCubes);
       const sorted = [...soldCubes].sort((a, b) => a - b);
-      formattedData.images.push({
-        url: el.imageUrl,
-        topLeftCube: {
-          id: sorted[0],
-          row: sorted[0] % CUBES_TOTAL_ROWS,
-          column: Math.ceil(sorted[0] / CUBES_TOTAL_ROWS),
-        },
-        bottomRightCube: {
-          id: sorted[sorted.length - 1],
-          row: sorted[sorted.length - 1] % CUBES_TOTAL_ROWS,
-          column: Math.ceil(sorted[sorted.length - 1] / CUBES_TOTAL_ROWS),
-        },
-      });
+      const img = new Image();
+      img.onload = () => {
+        formattedData.images.push({
+          htmlImg: img,
+          topLeftCube: {
+            id: sorted[0],
+            row: sorted[0] % CUBES_TOTAL_ROWS,
+            column: Math.ceil(sorted[0] / CUBES_TOTAL_ROWS),
+          },
+          bottomRightCube: {
+            id: sorted[sorted.length - 1],
+            row: sorted[sorted.length - 1] % CUBES_TOTAL_ROWS,
+            column: Math.ceil(sorted[sorted.length - 1] / CUBES_TOTAL_ROWS),
+          },
+        });
+      };
+      img.src = generatePath(el.imageUrl);
     });
     yield put(setInitialData(data));
     yield put(setSoldCubesDetail(formattedData));

@@ -160,7 +160,7 @@ export interface CubesInitialData {
 export interface SoldCubesDetail {
   soldCubes: number[],
   images: {
-    url: string,
+    htmlImg: HTMLImageElement,
     topLeftCube: {
       id: number;
       row: number;
