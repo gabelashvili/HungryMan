@@ -1,10 +1,11 @@
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../../hooks/useSelector';
+import { useAppDispatch, useSelector } from '../../../hooks/useSelector';
 import { setSelectedCubes, setTotalPriceInStore } from '../../../store/ducks/cubesDuck';
 import Button from '../../shared/Button';
 import './selected-cubes-bar.scss';
 
-const SelectedCubesBar = ({ selectedCubes, cubePrice }: {selectedCubes: number[], cubePrice:number}) => {
+const SelectedCubesBar = ({ cubePrice }: { cubePrice:number}) => {
+  const selectedCubes = useSelector((state) => state.cubesReducer.selectedCubesInfo?.cubesId) || [];
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   return (

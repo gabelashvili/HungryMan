@@ -8,13 +8,16 @@ import { TransformWrapper, TransformComponent, ReactZoomPanPinchRef } from '@kok
 import {
   CUBES_TOTAL_COLUMNS, CUBES_TOTAL_ROWS, CUBE_DARK_COLOR, CUBE_LIGHT_COLOR,
 } from '../../Routes/Cubes/Cubes';
+import { useAppDispatch } from '../../hooks/useSelector';
+import { setSelectedCubes } from '../../store/ducks/cubesDuck';
 
 const Wall = ({ setMethods, setZoomPercent }: PropsTypes) => {
+  const dispatch = useAppDispatch();
   const panRef = useRef<ReactZoomPanPinchRef>(null);
   const isSelecting = useRef(false);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [selectedCubes, setSelectedCubes] = useState<number[]>([]);
+  const [cubes, setCubes] = useState<number[]>([]);
 
   const getCubeId = (e:MouseEvent) => {
     if (canvasRef.current && panRef.current && panRef.current.instance.contentComponent && ctx) {
@@ -33,22 +36,23 @@ const Wall = ({ setMethods, setZoomPercent }: PropsTypes) => {
   const deselectCube = (e: MouseEvent) => {
     const cubeId = getCubeId(e);
     const canDeselect = true;
-    const leftNeighbor = selectedCubes.includes(cubeId - 1) ? cubeId - 1 : -1;
-    const rightNeighbor = selectedCubes.includes(cubeId + 1) ? cubeId + 1 : -1;
-    const topNeighbor = selectedCubes.includes(cubeId - CUBES_TOTAL_ROWS) ? cubeId - CUBES_TOTAL_ROWS : -1;
-    const bottomNeighbor = selectedCubes.includes(cubeId + CUBES_TOTAL_ROWS) ? cubeId + CUBES_TOTAL_ROWS : -1;
+    const leftNeighbor = cubes.includes(cubeId - 1) ? cubeId - 1 : -1;
+    const rightNeighbor = cubes.includes(cubeId + 1) ? cubeId + 1 : -1;
+    const topNeighbor = cubes.includes(cubeId - CUBES_TOTAL_ROWS) ? cubeId - CUBES_TOTAL_ROWS : -1;
+    const bottomNeighbor = cubes.includes(cubeId + CUBES_TOTAL_ROWS) ? cubeId + CUBES_TOTAL_ROWS : -1;
+    setCubes(cubes.filter((el) => el !== cubeId));
     console.log(canDeselect, leftNeighbor, rightNeighbor, topNeighbor, bottomNeighbor);
   };
 
   const isCubeSelectable = (cubeId:number) => {
     // TODO: if cube is purchased return false
-    if (selectedCubes.length === 0) {
+    if (cubes.length === 0) {
       return true;
     }
-    if ((selectedCubes.includes(cubeId - 1)
-      || selectedCubes.includes(cubeId + 1)
-      || selectedCubes.includes(cubeId - CUBES_TOTAL_ROWS)
-      || selectedCubes.includes(cubeId + CUBES_TOTAL_ROWS)) && !selectedCubes.includes(cubeId)) {
+    if ((cubes.includes(cubeId - 1)
+      || cubes.includes(cubeId + 1)
+      || cubes.includes(cubeId - CUBES_TOTAL_ROWS)
+      || cubes.includes(cubeId + CUBES_TOTAL_ROWS)) && !cubes.includes(cubeId)) {
       return true;
     }
     return false;
@@ -57,14 +61,14 @@ const Wall = ({ setMethods, setZoomPercent }: PropsTypes) => {
   const handleCubeSelect = (e:MouseEvent) => {
     const cubeId = getCubeId(e);
     if (isCubeSelectable(cubeId)) {
-      setSelectedCubes([...selectedCubes, cubeId]);
+      setCubes([...cubes, cubeId]);
     }
   };
 
   const handleMouseDown = (e: MouseEvent) => {
     const cubeId = getCubeId(e);
     if (isCubeSelectable(cubeId)) {
-      setSelectedCubes([...selectedCubes, cubeId]);
+      setCubes([...cubes, cubeId]);
       isSelecting.current = true;
     }
   };
@@ -103,11 +107,15 @@ const Wall = ({ setMethods, setZoomPercent }: PropsTypes) => {
         canvasRef.current.width,
         canvasRef.current.height,
         cubeSize,
-        selectedCubes,
+        cubes,
       );
     }
-    console.log('re');
-  }, [ctx, selectedCubes]);
+  }, [ctx, cubes]);
+
+  // save cubes id in store
+  useEffect(() => {
+    dispatch(setSelectedCubes(cubes));
+  }, [cubes]);
 
   return (
     <div style={{ width: '100%' }}>
