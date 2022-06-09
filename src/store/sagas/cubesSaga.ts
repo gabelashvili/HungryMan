@@ -1,9 +1,12 @@
 import { toast } from 'react-toastify';
 import { put } from 'redux-saga/effects';
 import { CallBacks } from '../../types/main.d';
-import { BuyCubesPayload, CubesInitialData, PurchaseInfo } from '../../types/cubes';
+import {
+  BuyCubesPayload, CubesInitialData, PurchaseInfo, SoldCubesDetail,
+} from '../../types/cubes';
 import axiosInstance from '../../helpers/axiosInstance';
-import { setCubesPurchaseHistory, setInitialData } from '../ducks/cubesDuck';
+import { setCubesPurchaseHistory, setInitialData, setSoldCubesDetail } from '../ducks/cubesDuck';
+import { CUBES_TOTAL_ROWS } from '../../Routes/Cubes/Cubes';
 
 export function* buyCubes({ payload, callbacks }:{ payload: BuyCubesPayload, callbacks: CallBacks, type:string }) {
   try {
@@ -21,7 +24,33 @@ export function* buyCubes({ payload, callbacks }:{ payload: BuyCubesPayload, cal
 export function* getInitialData({ callbacks }:{ callbacks: CallBacks, type:string }) {
   try {
     const { data }: { data: CubesInitialData } = yield axiosInstance.get('/Initial/Initial/GetInitialData');
+    const formattedData: SoldCubesDetail = {
+      soldCubes: [],
+      images: [],
+    };
+    data.purchases.forEach((el) => {
+      const soldCubes: number[] = [];
+      el.purchaseDetails.forEach((cube) => {
+        soldCubes.push(cube.squareId);
+      });
+      formattedData.soldCubes.push(...soldCubes);
+      const sorted = [...soldCubes].sort((a, b) => a - b);
+      formattedData.images.push({
+        url: el.imageUrl,
+        topLeftCube: {
+          id: sorted[0],
+          row: sorted[0] % CUBES_TOTAL_ROWS,
+          column: Math.ceil(sorted[0] / CUBES_TOTAL_ROWS),
+        },
+        bottomRightCube: {
+          id: sorted[sorted.length - 1],
+          row: sorted[sorted.length - 1] % CUBES_TOTAL_ROWS,
+          column: Math.ceil(sorted[sorted.length - 1] / CUBES_TOTAL_ROWS),
+        },
+      });
+    });
     yield put(setInitialData(data));
+    yield put(setSoldCubesDetail(formattedData));
     callbacks?.success && callbacks.success();
   } catch (error: any) {
     toast.error('მოხდა შეცდომა');

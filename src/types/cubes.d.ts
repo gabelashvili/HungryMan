@@ -50,7 +50,8 @@ export interface PurchaseInfo {
 export interface CubesInitialState {
     selectedCubesInfo: SelectedCubesInfoType | null,
     initialData: CubesInitialData | null,
-    purchaseHistory: PurchaseInfo[] | null
+    purchaseHistory: PurchaseInfo[] | null,
+    soldCubesDetails: null | SoldCubesDetail
 }
 
 export interface BuyCubesPayload {
@@ -113,7 +114,7 @@ export interface CubesInitialData {
                 id: number,
                 purchaseId: number,
                 squareId: number
-            },
+            }[],
             purchaseGiftDetails: {
                 id: number,
                 gift: {
@@ -154,4 +155,21 @@ export interface CubesInitialData {
         commentPrice: number,
         redirectUrlAdditionalPercent: number,
         purchaserUserCount: number
+}
+
+export interface SoldCubesDetail {
+  soldCubes: number[],
+  images: {
+    url: string,
+    topLeftCube: {
+      id: number;
+      row: number;
+      column: number
+    },
+    bottomRightCube: {
+      id: number;
+      row: number;
+      column: number
+    }
+  }[]
 }

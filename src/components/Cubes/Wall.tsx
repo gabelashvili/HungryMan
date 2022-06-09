@@ -119,7 +119,6 @@ const Wall = ({ setMethods, setZoomPercent }: PropsTypes) => {
   }, [cubes]);
 
   // get base64 from logo an save local state
-
   useEffect(() => {
     const img = new Image();
     img.onload = () => {
