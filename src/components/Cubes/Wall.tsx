@@ -14,6 +14,7 @@ import Logo from '../../assets/images/Vector2.png';
 import { SoldCubesDetail } from '../../types/cubes';
 
 const Wall = ({ setMethods, setZoomPercent }: PropsTypes) => {
+  const [isSpaceClicked, setSpaceClicked] = useState(false);
   const soldCubesDetail = useSelector((state) => state.cubesReducer.soldCubesDetails);
   const [img, setImg] = useState<any>(null);
   const dispatch = useAppDispatch();
@@ -132,6 +133,24 @@ const Wall = ({ setMethods, setZoomPercent }: PropsTypes) => {
     img.src = Logo;
   }, []);
 
+  // handle space press
+  const handleSpaceDown = (e:KeyboardEvent) => {
+    e.key === ' ' && setSpaceClicked(true);
+  };
+
+  const handleSpaceUp = (e:KeyboardEvent) => {
+    e.key === ' ' && setSpaceClicked(false);
+  };
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleSpaceDown);
+    window.addEventListener('keyup', handleSpaceUp);
+    return () => {
+      window.removeEventListener('keydown', handleSpaceDown);
+      window.removeEventListener('keyup', handleSpaceUp);
+    };
+  }, []);
+
   return (
     <div style={{ width: '100%' }}>
       <TransformWrapper
@@ -154,9 +173,9 @@ const Wall = ({ setMethods, setZoomPercent }: PropsTypes) => {
         <TransformComponent contentStyle={{ width: '100%' }} wrapperStyle={{ width: '100%' }}>
           <canvas
             ref={canvasRef}
-            onMouseDown={handleMouseDown}
-            onMouseUp={handleMouseUp}
-            onMouseMove={handleMouseMove}
+            onMouseDown={isSpaceClicked ? undefined : handleMouseDown}
+            onMouseUp={isSpaceClicked ? undefined : handleMouseUp}
+            onMouseMove={isSpaceClicked ? undefined : handleMouseMove}
             style={{ width: '100%' }}
           />
         </TransformComponent>
