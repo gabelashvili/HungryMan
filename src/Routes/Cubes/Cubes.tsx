@@ -6,8 +6,8 @@ import Zoom from '../../components/Cubes/Zoom/Zoom';
 import { useAppDispatch, useSelector } from '../../hooks/useSelector';
 import { getInitialData } from '../../store/ducks/cubesDuck';
 
-export const CUBES_TOTAL_ROWS = 20;
-export const CUBES_TOTAL_COLUMNS = 10;
+export const CUBES_TOTAL_ROWS = 354;
+export const CUBES_TOTAL_COLUMNS = 113;
 export const INITIAL_CUBE_SIZE = 20;
 export const CUBE_LIGHT_COLOR = '#0C1925';
 export const CUBE_DARK_COLOR = '#09141E';

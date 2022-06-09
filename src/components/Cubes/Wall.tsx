@@ -10,8 +10,10 @@ import {
 } from '../../Routes/Cubes/Cubes';
 import { useAppDispatch } from '../../hooks/useSelector';
 import { setSelectedCubes } from '../../store/ducks/cubesDuck';
+import Logo from '../../assets/images/Vector2.png';
 
 const Wall = ({ setMethods, setZoomPercent }: PropsTypes) => {
+  const [img, setImg] = useState<any>(null);
   const dispatch = useAppDispatch();
   const panRef = useRef<ReactZoomPanPinchRef>(null);
   const isSelecting = useRef(false);
@@ -100,22 +102,31 @@ const Wall = ({ setMethods, setZoomPercent }: PropsTypes) => {
 
   // draw and redraw cubes
   useEffect(() => {
-    if (ctx && canvasRef.current) {
+    if (ctx && canvasRef.current && img) {
       const cubeSize = Math.round(canvasRef.current.width / CUBES_TOTAL_ROWS);
       redrawWall(
         ctx,
-        canvasRef.current.width,
-        canvasRef.current.height,
         cubeSize,
         cubes,
+        img,
       );
     }
-  }, [ctx, cubes]);
+  }, [ctx, cubes, img]);
 
   // save cubes id in store
   useEffect(() => {
     dispatch(setSelectedCubes(cubes));
   }, [cubes]);
+
+  // get base64 from logo an save local state
+
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => {
+      setImg(img);
+    };
+    img.src = Logo;
+  }, []);
 
   return (
     <div style={{ width: '100%' }}>
@@ -168,10 +179,9 @@ const drawRect = (
 
 const redrawWall = (
   ctx: CanvasRenderingContext2D,
-  canvasWidth: number,
-  canvasHeight: number,
   cubeSize: number,
   selectedCubes: number[],
+  img: any,
 ) => {
   let color = CUBE_DARK_COLOR;
   for (let i = 0; i < CUBES_TOTAL_COLUMNS; i++) {
@@ -185,6 +195,13 @@ const redrawWall = (
     }
     color = color === CUBE_DARK_COLOR ? CUBE_LIGHT_COLOR : CUBE_DARK_COLOR;
   }
+  ctx.drawImage(
+    img,
+    (cubeSize * CUBES_TOTAL_ROWS - cubeSize * 86) / 2,
+    0,
+    cubeSize * 86,
+    cubeSize * CUBES_TOTAL_COLUMNS,
+  );
   ctx.restore();
 };
 
