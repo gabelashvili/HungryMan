@@ -86,6 +86,7 @@ const CubesCart = () => {
               </Button>
               )}
               <Zoom
+                setZoomPercent={setZoom}
                 styles={{ position: 'static', marginLeft: 'auto' }}
                 zoomPercent={zoom}
                 zoomIn={zoomActions?.in}
