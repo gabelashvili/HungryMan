@@ -5,6 +5,7 @@ import './tab.scss';
 const Tab = ({
   selectedTab, setSelectedTab, className, inline, tabs,
 }: PropsType) => {
+  console.log(tabs);
   return (
     <nav className={clsx('tab', className, inline && 'inline')}>
       <ul className="tab--list">
@@ -13,9 +14,9 @@ const Tab = ({
             <div className="tab--link" onClick={() => setSelectedTab(el.value)}>
               {el.label}
               {el.showError && <span style={{ color: 'red', marginLeft: 5 }}>*</span>}
-              {el.counter && (
+              {(el?.counter || 0) > 0 && (
               <span className="tab--counter">
-                {el.counter}
+                {el.counter || ''}
               </span>
               )}
             </div>
