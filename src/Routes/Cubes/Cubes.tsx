@@ -14,6 +14,7 @@ export const CUBE_DARK_COLOR = '#09141E';
 export const FIRST_CUBE_COLOR = CUBE_DARK_COLOR;
 const Cubes = () => {
   const dispatch = useAppDispatch();
+  const [selectedCubes, setSelectedCubes] = useState<number[]>([]);
   const cubesInitialData = useSelector((state) => state.cubesReducer.initialData);
   const [zoomPercent, setZoomPercent] = useState<number>(100);
   const [methods, setMethods] = useState<CubesMainMethods | null>(null);
@@ -33,10 +34,16 @@ const Cubes = () => {
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', height: '100%' }}>
-      <Wall setMethods={setMethods} setZoomPercent={setZoomPercent} />
+      <Wall
+        setMethods={setMethods}
+        setZoomPercent={setZoomPercent}
+        selectedCubes={selectedCubes}
+        setSelectedCubes={setSelectedCubes}
+      />
       <CubesStatistic />
       <SelectedCubesBar
         cubePrice={cubesInitialData?.squarePrice || 0}
+        selectedCubes={selectedCubes}
       />
       <Zoom
         setZoomPercent={setZoomPercent}

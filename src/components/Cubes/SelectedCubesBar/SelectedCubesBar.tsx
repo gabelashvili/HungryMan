@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { useAppDispatch, useSelector } from '../../../hooks/useSelector';
+import { useAppDispatch } from '../../../hooks/useSelector';
 import { CUBES_TOTAL_ROWS } from '../../../Routes/Cubes/Cubes';
 import { setSelectedCubes, setTotalPriceInStore } from '../../../store/ducks/cubesDuck';
 import Button from '../../shared/Button';
 import './selected-cubes-bar.scss';
 
-const SelectedCubesBar = ({ cubePrice }: { cubePrice:number}) => {
+const SelectedCubesBar = ({ cubePrice, selectedCubes }: { cubePrice:number, selectedCubes:number[]}) => {
   const [canAddInCart, setCanAddInCart] = useState<boolean>(false);
-  const selectedCubes = useSelector((state) => state.cubesReducer.selectedCubesInfo?.cubesId) || [];
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
