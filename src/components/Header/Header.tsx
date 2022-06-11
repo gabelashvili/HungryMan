@@ -15,10 +15,18 @@ const Header = () => {
   const navigate = useNavigate();
   const isUserAuthed = useSelector((state) => state.userReducer.user?.id);
   const selectedProductsInCart = useSelector((state) => state.productsReducer.selectedProductsCart);
+  const cubesPrice = useSelector((state) => state.cubesReducer.selectedCubesInfo?.totalPrice) || 0;
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [showSearchBar, setShowSearchBar] = useState<boolean>(false);
   const [showCartModal, setShowCartModal] = useState<boolean>(false);
-
+  const cartsTotalItem = () => {
+    let total = 0;
+    total += selectedProductsInCart.length;
+    if (cubesPrice > 0) {
+      total += 1;
+    }
+    return total;
+  };
   return (
     <>
       <Address />
@@ -42,11 +50,9 @@ const Header = () => {
           <Button type="none" classes="button--icon-rounded" handleClick={() => setShowCartModal(!showCartModal)} id="show-cart-btn">
             <BasketIcon />
             {/* TODO: add coubs data */}
-            {selectedProductsInCart.length > 0 && (
             <span className="cart-count">
-              {selectedProductsInCart.length}
+              {cartsTotalItem()}
             </span>
-            )}
           </Button>
           {isUserAuthed ? (
             <div className="relative">

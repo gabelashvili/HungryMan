@@ -24,6 +24,7 @@ const CartModal = ({ show, setShow }: PropsTypes) => {
     {
       label: 'უჯრები',
       value: 0,
+      counter: cubesTotalPrice > 0 ? 1 : 0,
     },
     {
       label: 'პროდუქცია',
