@@ -217,7 +217,6 @@ const redrawWall = (
   logo: any,
   soldCubesDetail: SoldCubesDetail,
 ) => {
-  console.log(soldCubesDetail);
   let color = CUBE_DARK_COLOR;
   for (let i = 0; i < CUBES_TOTAL_COLUMNS; i++) {
     for (let j = 0; j < CUBES_TOTAL_ROWS; j++) {
