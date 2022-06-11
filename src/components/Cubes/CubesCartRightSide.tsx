@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 import { generateFile } from '../../helpers';
 import { useSelector } from '../../hooks/useSelector';
 import { buyCubes, setTotalPriceInStore } from '../../store/ducks/cubesDuck';
@@ -39,46 +40,51 @@ const CubesCartRightSide = ({
         price += selectedCubes.length * cubesParams.squarePrice * (cubesParams.redirectUrlAdditionalPercent / 100);
       }
     }
-    return price.toFixed(2);
+    return Number(price.toFixed(2));
   };
 
   const handleBuy = async () => {
-    const el = document.getElementById('root-svg');
-    if (selectedAddress && el) {
-      setLoading(true);
-      const file = await generateFile(el);
-      const gifts = [];
-      if (giftOneProp) {
-        gifts.push({
-          GiftId: giftOneProp.id,
-          size: giftOneProp.value,
-        });
-      }
-      if (giftTwoProp) {
-        gifts.push({
-          GiftId: giftTwoProp.id,
-          size: giftTwoProp.value,
-        });
-      }
-      dispatch(buyCubes({
-        data: {
-          comment: comment.value,
-          hasComment: comment.enabled,
-          RedirectLink: comment.value,
-          hasRedirectLink: comment.enabled,
-          UserAddressId: selectedAddress,
-          PurchaseDetails: selectedCubes,
-          FullAmount: Number(totalPrice()),
-          PurchaseGiftDetails: gifts,
-        },
-        file,
-      }, {
-        success: (url: string) => {
-          window.location.href = url;
+    if (((totalPrice()) > 50 && (totalPrice()) < 100 && !giftOneProp)
+     || ((totalPrice()) >= 100 && (!giftOneProp || !giftTwoProp))) {
+      toast.error('აირჩიეთ საჩუქრის პარამეტრები');
+    } else {
+      const el = document.getElementById('root-svg');
+      if (selectedAddress && el) {
+        setLoading(true);
+        const file = await generateFile(el);
+        const gifts = [];
+        if (giftOneProp) {
+          gifts.push({
+            GiftId: giftOneProp.id,
+            size: giftOneProp.value,
+          });
+        }
+        if (giftTwoProp) {
+          gifts.push({
+            GiftId: giftTwoProp.id,
+            size: giftTwoProp.value,
+          });
+        }
+        dispatch(buyCubes({
+          data: {
+            comment: comment.value,
+            hasComment: comment.enabled,
+            RedirectLink: comment.value,
+            hasRedirectLink: comment.enabled,
+            UserAddressId: selectedAddress,
+            PurchaseDetails: selectedCubes,
+            FullAmount: Number(totalPrice()),
+            PurchaseGiftDetails: gifts,
+          },
+          file,
+        }, {
+          success: (url: string) => {
+            window.location.href = url;
           // setLoading(false);
-        },
-        error: () => setLoading(false),
-      }));
+          },
+          error: () => setLoading(false),
+        }));
+      }
     }
   };
 

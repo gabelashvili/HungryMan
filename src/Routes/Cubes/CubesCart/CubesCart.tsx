@@ -28,6 +28,32 @@ const CubesCart = () => {
     out: () => void
       } | null>(null);
 
+  const showGiftTabError = () => {
+    if (totalPrice > 50 && totalPrice < 100 && !giftOneProp) {
+      return true;
+    }
+    if (totalPrice > 100 && (!giftOneProp || !giftTwoProp)) {
+      return true;
+    }
+    return false;
+  };
+
+  const tabs = [
+    {
+      label: 'ატვირთე სურათი',
+      value: 0,
+    },
+    {
+      label: 'გაფორმება',
+      value: 1,
+    },
+    {
+      label: 'საჩუქარი',
+      value: 2,
+      showError: showGiftTabError(),
+    },
+  ];
+
   const handleImg = (file:File, base64:string) => {
     const newImgs = images.filter((el) => el.id !== 'image-1');
     newImgs.push({ file, base64, id: 'image-1' });
@@ -148,18 +174,3 @@ const CubesCart = () => {
 };
 
 export default CubesCart;
-
-const tabs = [
-  {
-    label: 'ატვირთე სურათი',
-    value: 0,
-  },
-  {
-    label: 'გაფორმება',
-    value: 1,
-  },
-  {
-    label: 'საჩუქარი',
-    value: 2,
-  },
-];

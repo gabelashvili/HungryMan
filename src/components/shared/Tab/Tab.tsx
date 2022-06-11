@@ -12,6 +12,7 @@ const Tab = ({
           <li className={clsx('tab--item', selectedTab === el.value && 'is-active')} key={el.value}>
             <div className="tab--link" onClick={() => setSelectedTab(el.value)}>
               {el.label}
+              {el.showError && <span style={{ color: 'red', marginLeft: 5 }}>*</span>}
               {el.counter && (
               <span className="tab--counter">
                 {el.counter}
@@ -36,6 +37,7 @@ interface PropsType {
   tabs: {
     label: string,
     value: number,
-    counter?: number
+    counter?: number,
+    showError?: boolean
   }[]
 }
