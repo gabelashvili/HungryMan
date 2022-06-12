@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import { generateFile } from '../../helpers';
+import { base64ToFile } from '../../helpers';
 import { useSelector } from '../../hooks/useSelector';
 import { buyCubes, setTotalPriceInStore } from '../../store/ducks/cubesDuck';
 import { AddressType } from '../../types/user';
@@ -17,6 +17,7 @@ const CubesCartRightSide = ({
 }: PropsTypes) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState<boolean>(false);
+  const base64 = useSelector((state) => state.cubesReducer.selectedCubesInfo?.base64);
   const cubesParams = useSelector((state) => state.cubesReducer.initialData);
   const addresses = useSelector((state) => state.userReducer.addresses);
   const [comment, setComment] = useState<{enabled:boolean, value: string}>({
@@ -47,44 +48,42 @@ const CubesCartRightSide = ({
     if (((totalPrice()) > 50 && (totalPrice()) < 100 && !giftOneProp)
      || ((totalPrice()) >= 100 && (!giftOneProp || !giftTwoProp))) {
       toast.error('აირჩიეთ საჩუქრის პარამეტრები');
-    } else {
-      const el = document.getElementById('root-svg');
-      if (selectedAddress && el) {
-        setLoading(true);
-        const file = await generateFile(el);
-        const gifts = [];
-        if (giftOneProp) {
-          gifts.push({
-            GiftId: giftOneProp.id,
-            size: giftOneProp.value,
-          });
-        }
-        if (giftTwoProp) {
-          gifts.push({
-            GiftId: giftTwoProp.id,
-            size: giftTwoProp.value,
-          });
-        }
-        dispatch(buyCubes({
-          data: {
-            comment: comment.value,
-            hasComment: comment.enabled,
-            RedirectLink: comment.value,
-            hasRedirectLink: comment.enabled,
-            UserAddressId: selectedAddress,
-            PurchaseDetails: selectedCubes,
-            FullAmount: Number(totalPrice()),
-            PurchaseGiftDetails: gifts,
-          },
-          file,
-        }, {
-          success: (url: string) => {
-            window.location.href = url;
-          // setLoading(false);
-          },
-          error: () => setLoading(false),
-        }));
+    } else if (selectedAddress && base64) {
+      setLoading(true);
+      const file = await base64ToFile(base64);
+      console.log(file);
+      const gifts = [];
+      if (giftOneProp) {
+        gifts.push({
+          GiftId: giftOneProp.id,
+          size: giftOneProp.value,
+        });
       }
+      if (giftTwoProp) {
+        gifts.push({
+          GiftId: giftTwoProp.id,
+          size: giftTwoProp.value,
+        });
+      }
+      dispatch(buyCubes({
+        data: {
+          comment: comment.value,
+          hasComment: comment.enabled,
+          RedirectLink: comment.value,
+          hasRedirectLink: comment.enabled,
+          UserAddressId: selectedAddress,
+          PurchaseDetails: selectedCubes,
+          FullAmount: Number(totalPrice()),
+          PurchaseGiftDetails: gifts,
+        },
+        file,
+      }, {
+        success: (url: string) => {
+          window.location.href = url;
+          // setLoading(false);
+        },
+        error: () => setLoading(false),
+      }));
     }
   };
 

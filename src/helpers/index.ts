@@ -53,3 +53,9 @@ export const generateFile = async (el:Node) => {
 export const getCssMatrix = (el:Element) => (getComputedStyle(el)
   .transform.split('matrix(')[1].slice(0, -1).split(','))
   .map((el) => Number(el));
+
+export async function base64ToFile(dataUrl: string): Promise<File> {
+  const res: Response = await fetch(dataUrl);
+  const blob: Blob = await res.blob();
+  return new File([blob], 'result', { type: 'image/png' });
+}
