@@ -12,7 +12,7 @@ import ImageWrapper from './Image';
 import TextWrapper from './Text';
 
 const DrawGridWithCubesId = ({
-  scale, setScale, text, setSelectedObjectId, selectedObjectId, images,
+  scale, setScale, text, setSelectedObjectId, selectedObjectId, images, selectedColor,
 }: PropsTypes) => {
   const [stageCords, setStageCords] = useState({
     x: 0,
@@ -21,6 +21,7 @@ const DrawGridWithCubesId = ({
   const [canvasProps, setCanvasProps] = useState<{w:number, h:number, cubeSize: number} | null>(null);
   const [showClipPath, setClipPath] = useState(true);
   const [data, setData] = useState<ReturnType<typeof generateFormattedData> | null>(null);
+  const [cubesColor, setCubesColor] = useState<{[key:string]: string}>({});
   const selectedCubesIds = useSelector((state) => state.cubesReducer.selectedCubesInfo?.cubesId);
   const canvasWrapperRef = useRef<HTMLDivElement>(null);
 
@@ -124,7 +125,8 @@ const DrawGridWithCubesId = ({
                       y={y * canvasProps.cubeSize}
                       width={canvasProps.cubeSize}
                       height={canvasProps.cubeSize}
-                      fill={item.isSelected ? 'red' : 'transparent'}
+                      fill={item.isSelected ? cubesColor[item.cubeId] || 'red' : 'transparent'}
+                      onClick={() => setCubesColor({ ...cubesColor, [item.cubeId]: selectedColor })}
                     />
                   );
                 });
@@ -234,5 +236,6 @@ interface PropsTypes {
   text: {val: string},
   setSelectedObjectId: Dispatch<SetStateAction<string | null>>
   selectedObjectId: string | null,
-  images: {id:string, file?:File, base64?: string, value?: string}[]
+  images: {id:string, file?:File, base64?: string, value?: string}[],
+  selectedColor: string
 }

@@ -1,13 +1,15 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import ArrowIcon2 from '../../../Icons/ArrowIcon2';
 import Button from '../../shared/Button';
 import Colors from './Colors';
 import Stickers from './Stickers';
 import Text from './Text';
 
-const Covering = ({ handleStickerAdd, handleTextAdd }: PropsTypes) => {
+const Covering = ({
+  handleStickerAdd, handleTextAdd, colorsList, setSelectedColor, selectedColor,
+}: PropsTypes) => {
   const [selectedTab, setSelectedTab] = useState<number>(1);
-  const [selectedColor, setSelectedColor] = useState<string>(colorsList[0]);
+
   const handleTabChange = (type: 'prev' | 'next') => {
     if (type === 'next' && selectedTab < 3) {
       setSelectedTab(selectedTab + 1);
@@ -72,9 +74,10 @@ const tabs = [
   },
 ];
 
-const colorsList = ['#FF8385', '#0193E5', '#F78F1E', '#34A853', '#FFFFFF', '#1877F2', '#F7DCBF', '#D8A782', '#EA4335', '#1A3044'];
-
 interface PropsTypes {
   handleStickerAdd: (file:File) => void,
-  handleTextAdd: (val: {val:string}) => void
+  handleTextAdd: (val: {val:string}) => void,
+  colorsList: string[]
+  setSelectedColor: Dispatch<SetStateAction<string>>
+  selectedColor: string
 }

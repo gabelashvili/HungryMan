@@ -18,6 +18,7 @@ const CubesCart = () => {
   const totalPrice = useSelector((state) => state.cubesReducer.selectedCubesInfo?.totalPrice) || 0;
   const selectedCubesId = useSelector((state) => state.cubesReducer.selectedCubesInfo?.cubesId);
   const [text, setText] = useState<{val:string}>({ val: '' });
+  const [selectedColor, setSelectedColor] = useState<string>(colorsList[0]);
   const [selectedObjectId, setSelectedObjectId] = useState<string | null>(null);
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const [giftOneProp, setGiftOneProp] = useState<{id:number, value:string} | null>(null);
@@ -128,6 +129,7 @@ const CubesCart = () => {
                 setScale={setScale}
                 text={text}
                 images={images}
+                selectedColor={selectedColor}
               />
             </div>
           </div>
@@ -139,7 +141,15 @@ const CubesCart = () => {
                 setUploadedFile={handleImg}
               />
             )
-              : <Covering handleStickerAdd={handleStickerAdd} handleTextAdd={handleTextAdd} />}
+              : (
+                <Covering
+                  handleStickerAdd={handleStickerAdd}
+                  handleTextAdd={handleTextAdd}
+                  selectedColor={selectedColor}
+                  setSelectedColor={setSelectedColor}
+                  colorsList={colorsList}
+                />
+              )}
           </div>
           )}
         </div>
@@ -156,3 +166,5 @@ const CubesCart = () => {
 };
 
 export default CubesCart;
+
+const colorsList = ['#FF8385', '#0193E5', '#F78F1E', '#34A853', '#FFFFFF', '#1877F2', '#F7DCBF', '#D8A782', '#EA4335', '#1A3044'];
