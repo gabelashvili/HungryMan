@@ -14,7 +14,7 @@ import RemoveIcon from '../../../Icons/RemoveIcon';
 export const ZOOM_STEP = 0.05;
 const CubesCart = () => {
   const navigate = useNavigate();
-  const [scale, setScale] = useState<number>(0);
+  const [scale, setScale] = useState<number>(1);
   const totalPrice = useSelector((state) => state.cubesReducer.selectedCubesInfo?.totalPrice) || 0;
   const selectedCubesId = useSelector((state) => state.cubesReducer.selectedCubesInfo?.cubesId);
   const [text, setText] = useState<{val:string}>({ val: '' });

@@ -10,7 +10,6 @@ const Zoom = ({
   setScale,
 }: PropsTypes) => {
   const timer = useRef<any>();
-
   return (
     <div className="zoom" style={{ position: 'static', marginLeft: 'auto' }}>
       <button
