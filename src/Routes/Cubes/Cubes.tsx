@@ -33,7 +33,10 @@ const Cubes = () => {
   }, [cubesInitialData]);
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', height: '100%' }}>
+    <div style={{
+      display: 'flex', justifyContent: 'center', height: '100%', flexDirection: 'column-reverse',
+    }}
+    >
       <Wall
         setMethods={setMethods}
         setZoomPercent={setZoomPercent}
@@ -46,8 +49,8 @@ const Cubes = () => {
         selectedCubes={selectedCubes}
       />
       <Zoom
-        setZoomPercent={setZoomPercent}
-        zoomPercent={zoomPercent}
+        setScale={setZoomPercent}
+        scale={zoomPercent / 100}
         zoomIn={methods?.handleZoomIn}
         zoomOut={methods?.handleZoomOut}
       />
