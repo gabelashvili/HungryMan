@@ -6668,6 +6668,11 @@
   "resolved" "https://registry.npmjs.org/klona/-/klona-2.0.5.tgz"
   "version" "2.0.5"
 
+"konva@^8.0.1 || ^7.2.5":
+  "integrity" "sha512-vZ7f4Y1LMMOkvfFCGoHt0CoanKdpv81gZC4Q4pnIBO6vHEBx+1KBdH6NR5ORd+HOkGwkRXTVPbFokrYkBSWo1g=="
+  "resolved" "https://registry.npmjs.org/konva/-/konva-8.3.9.tgz"
+  "version" "8.3.9"
+
 "language-subtag-registry@~0.3.2":
   "integrity" "sha512-L0IqwlIXjilBVVYKFT37X9Ih11Um5NEl9cbJIuU/SwP/zEEAbBPOnEeeuxVMf45ydWQRDQN3Nqc96OgbH1K+Pg=="
   "resolved" "https://registry.npmjs.org/language-subtag-registry/-/language-subtag-registry-0.3.21.tgz"
@@ -8533,7 +8538,7 @@
     "strip-ansi" "^6.0.1"
     "text-table" "^0.2.0"
 
-"react-dom@*", "react-dom@^16.8.0 || ^17.0.0 || ^18.0.0", "react-dom@^17.0.2", "react-dom@^18.0.0", "react-dom@>=16", "react-dom@>=16.6.0", "react-dom@>=16.8":
+"react-dom@*", "react-dom@^16.8.0 || ^17.0.0 || ^18.0.0", "react-dom@^17.0.2", "react-dom@^18.0.0", "react-dom@>=16", "react-dom@>=16.6.0", "react-dom@>=16.8", "react-dom@>=18.0.0":
   "integrity" "sha512-XqX7uzmFo0pUceWFCt7Gff6IyIMzFUn7QMZrbrQfGxtaxXZIcGQzoNpRLE3fQLnS4XzLLPMZX2T9TRcSrasicw=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-18.0.0.tgz"
   "version" "18.0.0"
@@ -8560,6 +8565,22 @@
   "integrity" "sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w=="
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
   "version" "17.0.2"
+
+"react-konva@^18.1.1":
+  "integrity" "sha512-oh01+z6pQn9XNP4phRI8CWy8/LnkEZA2tagrvnT3xSt4eRrKeWOQ2eH5f5s5nf937U8hLhVI+kvqPxMBRc4T+g=="
+  "resolved" "https://registry.npmjs.org/react-konva/-/react-konva-18.1.1.tgz"
+  "version" "18.1.1"
+  dependencies:
+    "react-reconciler" "~0.28.0"
+    "scheduler" "^0.22.0"
+
+"react-reconciler@~0.28.0":
+  "integrity" "sha512-sGIHDOpgVjRYgsi8NgosDnbkDvvkYFFSF900ZUhUw0+lSBEA5n76TcKFaVkfYMIuYm+7W6mT8Q673DLBfuTxcQ=="
+  "resolved" "https://registry.npmjs.org/react-reconciler/-/react-reconciler-0.28.0.tgz"
+  "version" "0.28.0"
+  dependencies:
+    "loose-envify" "^1.1.0"
+    "scheduler" "^0.22.0"
 
 "react-redux@^7.2.8":
   "integrity" "sha512-6+uDjhs3PSIclqoCk0kd6iX74gzrGc3W5zcAjbrFgEdIjRSQObdIwfx80unTkVUYvbQ95Y8Av3OvFHq1w5EOUw=="
@@ -8678,7 +8699,7 @@
     "loose-envify" "^1.4.0"
     "prop-types" "^15.6.2"
 
-"react@*", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.8.3 || ^17 || ^18", "react@^17.0.2", "react@^18.0.0", "react@>= 16", "react@>=16", "react@>=16.6.0", "react@>=16.8", "react@>=16.8.0":
+"react@*", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.8.3 || ^17 || ^18", "react@^17.0.2", "react@^18.0.0", "react@^18.1.0", "react@>= 16", "react@>=16", "react@>=16.6.0", "react@>=16.8", "react@>=16.8.0", "react@>=18.0.0":
   "integrity" "sha512-x+VL6wbT4JRVPm7EGxXhZ8w8LTROaxPXOqhlGyVSrv0sB1jkyFGgXxJ8LVoPRLvPR6/CIZGFmfzqUa2NYeMr2A=="
   "resolved" "https://registry.npmjs.org/react/-/react-18.0.0.tgz"
   "version" "18.0.0"
@@ -9085,6 +9106,13 @@
   "integrity" "sha512-1r87x5fz9MXqswA2ERLo0EbOAU74DpIUO090gIasYTqlVoJeMcl+Z1Rg7WHz+qtPujhS/hGIt9kxZOYBV3faRQ=="
   "resolved" "https://registry.npmjs.org/scheduler/-/scheduler-0.21.0.tgz"
   "version" "0.21.0"
+  dependencies:
+    "loose-envify" "^1.1.0"
+
+"scheduler@^0.22.0":
+  "integrity" "sha512-6QAm1BgQI88NPYymgGQLCZgvep4FyePDWFpXVK+zNSUgHwlqpJy8VEh8Et0KxTACS4VWwMousBElAZOH9nkkoQ=="
+  "resolved" "https://registry.npmjs.org/scheduler/-/scheduler-0.22.0.tgz"
+  "version" "0.22.0"
   dependencies:
     "loose-envify" "^1.1.0"
 

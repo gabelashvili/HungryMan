@@ -8,7 +8,7 @@ import Button from '../../shared/Button';
 import './selected-cubes-bar.scss';
 
 const SelectedCubesBar = ({ cubePrice, selectedCubes }: { cubePrice:number, selectedCubes:number[]}) => {
-  const [canAddInCart, setCanAddInCart] = useState<boolean>(false);
+  const [canAddInCart, setCanAddInCart] = useState<boolean>(true);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -36,7 +36,7 @@ const SelectedCubesBar = ({ cubePrice, selectedCubes }: { cubePrice:number, sele
   useEffect(() => {
     if (selectedCubes.length > 0) {
       const res = checkIfSelectedCubesAreSquare(selectedCubes);
-      setCanAddInCart(res);
+      // setCanAddInCart(res);
     }
   }, [selectedCubes]);
   return (

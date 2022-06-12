@@ -19,7 +19,30 @@ export const CLEAR_CUBES_PURCHASE_HISTORY = 'cubes/clearCubesPurchaseHistory';
 export const SET_SOLD_CUBES_DETAILS = 'cubes/setSoldCubesDetails';
 
 const initialState: CubesInitialState = {
-  selectedCubesInfo: null,
+  selectedCubesInfo: {
+    cubesId: [
+      16733,
+      16734,
+      16735,
+      16736,
+      16737,
+      16738,
+      17092,
+      17443,
+      17444,
+      17445,
+      17446,
+      17797,
+      18150,
+      18151,
+      18504,
+      18858,
+      18859,
+      18860,
+      18861,
+      18862,
+    ],
+  },
   initialData: null,
   purchaseHistory: null,
   soldCubesDetails: null,

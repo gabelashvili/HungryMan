@@ -1,221 +1,141 @@
 import {
-  Dispatch,
-  MouseEvent, RefObject, SetStateAction, useEffect, useRef, useState,
+  useCallback, useEffect, useRef, useState,
 } from 'react';
 import {
-  CUBES_TOTAL_ROWS, INITIAL_CUBE_SIZE,
-} from '../../Routes/Cubes/Cubes';
-import { ZOOM_STEP } from '../../Routes/Cubes/CubesCart/CubesCart';
-import DrawText from './DrawObject/DrawText';
-import useObjectDrag from './hooks/useObjectDrag';
-import Images from './Images';
+  Layer, Rect, Stage, Text,
+} from 'react-konva';
+import { useSelector } from '../../hooks/useSelector';
+import { CUBES_TOTAL_ROWS } from '../../Routes/Cubes/Cubes';
 
-let color = '#1A3044';
+const DrawGridWithCubesId = () => {
+  const [stage, setStage] = useState({
+    scale: 1,
+    x: 0,
+    y: 0,
+  });
 
-const DrawGridWithCubesId = ({
-  setZoom,
-  setZoomActions,
-  images,
-  selectedObjectId,
-  setSelectedObjectId,
-  text,
-  selectedCubesId,
-}: PropsTypes) => {
-  const [formattedData, setFormattedData] = useState<FormattedDataType | null>(null);
-  const [showClipPath, setShowClipPath] = useState(true);
-  const svgRef = useRef<SVGSVGElement>(null);
-  const svgGRef = useRef<SVGGElement>(null);
-  const isZooming = useRef<boolean>(false);
-  const isDragging = useRef<boolean>(false);
-  const isSpaceClicked = useRef<boolean>(false);
-  const { getDragCurrentMousePos, setDragInitialParams } = useObjectDrag(svgRef);
+  const [canvasProps, setCanvasProps] = useState<{w:number, h:number, cubeSize: number} | null>(null);
+  const [showClipPath, setClipPath] = useState(true);
+  const [data, setData] = useState<ReturnType<typeof generateFormattedData> | null>(null);
+  const selectedCubesIds = useSelector((state) => state.cubesReducer.selectedCubesInfo?.cubesId);
+  const canvasWrapperRef = useRef<HTMLDivElement>(null);
 
-  const handleDragStart = (e:MouseEvent) => {
-    isDragging.current = true;
-    setDragInitialParams(e);
-  };
-
-  const handleDrag = (e:MouseEvent) => {
-    const cords = getDragCurrentMousePos(e);
-    if (isDragging.current && svgRef.current && cords && isSpaceClicked.current) {
-      const matrix = getComputedStyle(svgRef.current).transform.split('matrix')[1].slice(1, -1).split(',').map((x) => Number(x));
-      matrix[4] += cords.x;
-      matrix[5] += cords.y;
-      svgRef.current.setAttribute('transform', `matrix (${matrix.join(' ')})`);
+  const clipFunc = useCallback((ctx: any) => {
+    if (data && canvasProps && showClipPath) {
+      let x = 0;
+      let y = 0;
+      Object.keys(data.data).forEach((el) => {
+        data.data[el].forEach((item) => {
+          if (item.isSelected) {
+            ctx.rect(x, y, canvasProps.cubeSize, canvasProps.cubeSize);
+          }
+          x += canvasProps.cubeSize;
+        });
+        x = 0;
+        y = Number(el) * canvasProps.cubeSize;
+      });
+    } else {
+      ctx.rect(0, 0, 1000, 1000);
     }
-  };
+  }, [data, canvasProps, showClipPath]);
 
-  const handleSpaceDown = (e:KeyboardEvent) => {
-    if (e.key === ' ') {
-      // e.preventDefault();
-      e.stopPropagation();
-      isSpaceClicked.current = true;
-    }
-  };
-
-  const handleSpaceUp = (e:KeyboardEvent) => {
-    if (e.key === ' ') {
-      isSpaceClicked.current = false;
-    }
-  };
-
-  // generate data based on selected cubes id
-  useEffect(() => {
-    if (selectedCubesId.length > 0) {
-      const res = generateFormattedData(selectedCubesId);
-      setFormattedData(res);
-    }
-  }, [selectedCubesId]);
-
-  // set svg viewbox, width and height
-  useEffect(() => {
-    if (svgRef.current?.parentElement && formattedData) {
-      const svgProps = svgRef.current.parentElement.getBoundingClientRect();
-      const width = Math.floor(svgProps.width);
-      const height = Math.floor(svgProps.height);
-      svgRef.current.setAttribute('viewBox', `0 0 ${formattedData.columnLength * INITIAL_CUBE_SIZE + 15} ${formattedData.rowLength * INITIAL_CUBE_SIZE}`);
-      svgRef.current.setAttribute('width', (width).toString());
-      svgRef.current.setAttribute('height', (height).toString());
-    }
-  }, [formattedData]);
-
-  // set zoom function in parent state
-  useEffect(() => {
-    if (svgRef.current) {
-      setZoomActions({
-        in: () => zoom('in', svgRef, setZoom),
-        out: () => zoom('out', svgRef, setZoom),
+  const calculateCanvasProps = () => {
+    if (canvasWrapperRef.current && canvasWrapperRef.current?.parentElement && data) {
+      const props = canvasWrapperRef.current.parentElement.getBoundingClientRect();
+      const canvasMinSize = props.width < props.height ? props.width : props.height;
+      const dataMax = data.columnLength > data.rowLength ? data.columnLength : data.rowLength;
+      setCanvasProps({
+        w: props.width,
+        h: props.height,
+        cubeSize: canvasMinSize / dataMax,
       });
     }
-  }, [svgRef]);
+  };
 
-  // disable scroll when zooming
-  useEffect(() => {
-    document.addEventListener('wheel', (e) => preventScroll(e, isZooming.current), { passive: false });
-    return () => {
-      document.removeEventListener('wheel', preventScroll);
+  const handleZoom = (e: any) => {
+    e.evt.preventDefault();
+
+    const scaleBy = 1.02;
+    const stage = e.target.getStage();
+    const oldScale = stage.scaleX();
+    const mousePointTo = {
+      x: stage.getPointerPosition().x / oldScale - stage.x() / oldScale,
+      y: stage.getPointerPosition().y / oldScale - stage.y() / oldScale,
     };
-  }, []);
 
-  // handle space down and up
+    const newScale = e.evt.deltaY < 0 ? oldScale * scaleBy : oldScale / scaleBy;
+
+    setStage({
+      scale: newScale,
+      x: (stage.getPointerPosition().x / newScale - mousePointTo.x) * newScale,
+      y: (stage.getPointerPosition().y / newScale - mousePointTo.y) * newScale,
+    });
+  };
+
+  // set formatted data
   useEffect(() => {
-    document.addEventListener('keydown', handleSpaceDown);
-    document.addEventListener('keyup', handleSpaceUp);
-    return () => {
-      document.removeEventListener('keydown', handleSpaceDown);
-      document.removeEventListener('keyup', handleSpaceUp);
-    };
-  }, []);
+    if (selectedCubesIds) {
+      const res = generateFormattedData(selectedCubesIds);
+      setData(res);
+    }
+  }, [selectedCubesIds]);
 
-  // set total price
+  // set canvas initial width and height
+  useEffect(() => {
+    if (canvasWrapperRef.current && canvasWrapperRef.current?.parentElement && data) {
+      calculateCanvasProps();
+    }
+  }, [data]);
+
+  // handle window resize and set new props
+  useEffect(() => {
+    window.addEventListener('resize', calculateCanvasProps);
+    return () => window.removeEventListener('resize', calculateCanvasProps);
+  }, []);
 
   return (
-    <svg
-      style={{ width: '100%' }}
-      id="root-svg"
-      ref={svgRef}
-      onMouseMove={handleDrag}
-      onMouseDown={handleDragStart}
-      onMouseUp={() => {
-        isDragging.current = false;
-      }}
-      onMouseEnter={() => {
-        isZooming.current = true;
-        setShowClipPath(false);
-      }}
-      onMouseLeave={() => {
-        isZooming.current = false;
-        isDragging.current = false;
-        setShowClipPath(true);
-      }}
-      transform="matrix(1 0 0 1 0 0)"
-      preserveAspectRatio="xMidYMid meet"
-      onWheel={(e) => {
-        zoom(e.deltaY < 0 ? 'in' : 'out', svgRef, setZoom);
-      }}
-    >
-      {showClipPath && (
-      <g>
-        <clipPath
-          // display="none"
-          id="myClip"
-        >
-          {formattedData && Object.keys(formattedData.data)
+    <div ref={canvasWrapperRef}>
+      {canvasProps && (
+      <Stage
+        draggable
+        onWheel={handleZoom}
+        width={canvasProps.w}
+        height={canvasProps.h}
+        scaleX={stage.scale}
+        scaleY={stage.scale}
+        x={stage.x}
+        y={stage.y}
+        onMouseOver={() => setClipPath(false)}
+        onMouseLeave={() => setClipPath(true)}
+      >
+        <Layer>
+          {data && Object.keys(data.data)
             .map((el, y) => {
-              return formattedData.data[el]
+              return data.data[el]
                 .map((item, x) => {
-                  return item.isSelected && drawRect(
-                    x * INITIAL_CUBE_SIZE,
-                    y * INITIAL_CUBE_SIZE,
-                    INITIAL_CUBE_SIZE,
-                    INITIAL_CUBE_SIZE,
-                    item.cubeId,
-                    () => undefined,
-                    'transparent',
-                    formattedData.data[el][x].isSelected,
+                  return (
+                    <Rect
+                      key={item.cubeId}
+                      x={x * canvasProps.cubeSize}
+                      y={y * canvasProps.cubeSize}
+                      width={canvasProps.cubeSize}
+                      height={canvasProps.cubeSize}
+                      fill={item.isSelected ? 'red' : 'transparent'}
+                    />
                   );
                 });
             })}
-        </clipPath>
-      </g>
+        </Layer>
+        <Layer clipFunc={clipFunc}>
+          <Text fontSize={25} x={0} y={0} text="LASHA LIVES IN KUTAISI" draggable fill="white" />
+        </Layer>
+      </Stage>
       )}
-      <g
-        ref={svgGRef}
-      >
-        {formattedData && Object.keys(formattedData.data)
-          .map((el, y) => {
-            color = (y + 1) % 2 === 0 ? '#1A3044' : '#132636';
-            return formattedData.data[el]
-              .map((item, x) => {
-                color = color === '#132636' ? '#1A3044' : '#132636';
-                return drawRect(
-                  x * INITIAL_CUBE_SIZE,
-                  y * INITIAL_CUBE_SIZE,
-                  INITIAL_CUBE_SIZE,
-                  INITIAL_CUBE_SIZE,
-                  item.cubeId,
-                  () => undefined,
-                  color,
-                  formattedData.data[el][x].isSelected,
-                );
-              });
-          })}
-      </g>
-      <Images
-        images={images}
-        selectedObjectId={selectedObjectId}
-        setSelectedObjectId={setSelectedObjectId}
-      />
-      {text && <DrawText text={text} />}
-    </svg>
-
+    </div>
   );
 };
 
 export default DrawGridWithCubesId;
-
-const drawRect = (
-  x: number,
-  y: number,
-  w: number,
-  h: number,
-  id: number,
-  handleClick: (e: MouseEvent<SVGRectElement>) => void,
-  color: string,
-  isSelected: boolean,
-) => (
-  <rect
-    width={w}
-    height={h}
-    x={x}
-    y={y}
-    key={id}
-    style={{ fill: !isSelected ? 'transparent' : color }}
-    id={id.toString()}
-    onClick={(e) => handleClick(e)}
-    data-selectable={isSelected ? 'true' : 'false'}
-  />
-);
 
 const generateFormattedData = (cubesIds: number[]) => {
   const ids = cubesIds.sort((a, b) => a - b);
@@ -281,60 +201,4 @@ const generateFormattedData = (cubesIds: number[]) => {
     columnLength: maxColumnLength,
     rowLength: Object.keys(data).length,
   };
-};
-
-const zoom = (
-  zoomType: 'in' | 'out',
-  svgRef:RefObject<SVGSVGElement>,
-  setZoom: Dispatch<SetStateAction<number>>,
-) => {
-  if (svgRef.current) {
-    const matrix = getComputedStyle(svgRef.current).transform.split('matrix')[1].slice(1, -1).split(',').map((x) => Number(x));
-    if (zoomType === 'in') {
-      matrix[0] += ZOOM_STEP;
-      matrix[3] += ZOOM_STEP;
-    } else {
-      matrix[0] -= ZOOM_STEP;
-      matrix[3] -= ZOOM_STEP;
-    }
-    const zoomPercent = Math.round((matrix[0] * 100 + Number.EPSILON) * 100) / 100;
-    if (zoomPercent < 155 && zoomPercent > 45) {
-      svgRef.current.setAttribute('transform', `matrix (${matrix.join(' ')})`);
-      setZoom(Math.round((matrix[0] * 100 + Number.EPSILON) * 100) / 100);
-    }
-  }
-};
-
-interface FormattedDataType {
-  data: {
-    [key: string]: {
-        cubeId: number;
-        row: number;
-        column: number;
-        isSelected: boolean;
-    }[];
-};
-columnLength: number;
-rowLength: number;
-}
-
-interface PropsTypes {
-  setZoom: Dispatch<SetStateAction<number>>,
-  setZoomActions: Dispatch<SetStateAction<{
-    in: () => void,
-    out: () => void
-  } | null>>,
-  images: {id:string, file?:File, base64?:string, value?:string }[],
-  selectedObjectId: string,
-  setSelectedObjectId: (val:string) => void,
-  text: {val:string, fontSize: number},
-  selectedCubesId: number[]
-}
-
-const preventScroll = (e: WheelEvent, isZooming?: boolean) => {
-  if (isZooming) {
-    e.preventDefault();
-    e.stopPropagation();
-  }
-  return false;
 };
