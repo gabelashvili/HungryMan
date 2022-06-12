@@ -4,8 +4,8 @@ import Button from '../../shared/Button';
 // import Select from '../../shared/Select';
 import TextField from '../../shared/TextField';
 
-const Text = ({ handleTextAdd }: {handleTextAdd: (val: {val:string, fontSize:number}) => void}) => {
-  const [value, setValue] = useState<{val:string, fontSize:number}>({ val: '', fontSize: 8 });
+const Text = ({ handleTextAdd }: {handleTextAdd: (val: {val:string}) => void}) => {
+  const [value, setValue] = useState<{val:string}>({ val: '' });
   return (
     <div className="text-selector">
       <div className="form__group">
@@ -16,14 +16,6 @@ const Text = ({ handleTextAdd }: {handleTextAdd: (val: {val:string, fontSize:num
           handleChange={(val) => setValue({ ...value, val })}
           inputName="text"
         />
-        <TextField
-          classes="input--small"
-          label="მიუთითე ფონტის ზომა"
-          value={value.fontSize}
-          handleChange={(fontSize) => setValue({ ...value, fontSize: Number(fontSize) })}
-          inputName="number"
-        />
-        {/* <Select /> */}
       </div>
       <div className="form__group">
         <Button type="icon" handleClick={() => handleTextAdd(value)}><DoneIcon /></Button>

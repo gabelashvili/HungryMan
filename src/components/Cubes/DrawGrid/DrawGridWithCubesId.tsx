@@ -4,20 +4,21 @@ import {
   useCallback, useEffect, useRef, useState,
 } from 'react';
 import {
-  Layer, Rect, Stage, Text,
+  Layer, Rect, Stage,
 } from 'react-konva';
-import { useSelector } from '../../hooks/useSelector';
-import { CUBES_TOTAL_ROWS } from '../../Routes/Cubes/Cubes';
+import { useSelector } from '../../../hooks/useSelector';
+import { CUBES_TOTAL_ROWS } from '../../../Routes/Cubes/Cubes';
+import TextWrapper from './Text';
 
-const DrawGridWithCubesId = ({ scale, setScale }: PropsTypes) => {
+const DrawGridWithCubesId = ({ scale, setScale, text }: PropsTypes) => {
   const [stageCords, setStageCords] = useState({
     x: 0,
     y: 0,
   });
-
   const [canvasProps, setCanvasProps] = useState<{w:number, h:number, cubeSize: number} | null>(null);
   const [showClipPath, setClipPath] = useState(true);
   const [data, setData] = useState<ReturnType<typeof generateFormattedData> | null>(null);
+  const [selectedObjId, setSelectedObjId] = useState<null | number | string>(null);
   const selectedCubesIds = useSelector((state) => state.cubesReducer.selectedCubesInfo?.cubesId);
   const canvasWrapperRef = useRef<HTMLDivElement>(null);
 
@@ -127,7 +128,18 @@ const DrawGridWithCubesId = ({ scale, setScale }: PropsTypes) => {
             })}
         </Layer>
         <Layer clipFunc={clipFunc}>
-          <Text fontSize={25} x={0} y={0} text="LASHA LIVES IN KUTAISI" draggable fill="white" />
+          {text && (
+          <TextWrapper
+            fontSize={50}
+            id="grid-text"
+            fill="white"
+            text={text.val}
+            x={0}
+            y={0}
+            selectedObjId={selectedObjId}
+            setSelectedObjId={setSelectedObjId}
+          />
+          )}
         </Layer>
       </Stage>
       )}
@@ -205,5 +217,6 @@ const generateFormattedData = (cubesIds: number[]) => {
 
 interface PropsTypes {
   scale: number,
-  setScale: Dispatch<SetStateAction<number>>
+  setScale: Dispatch<SetStateAction<number>>,
+  text: {val: string}
 }

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Covering from '../../../components/Cubes/Covering/Covering';
 import CubesCartRightSide from '../../../components/Cubes/CubesCartRightSide';
 import CubesGift from '../../../components/Cubes/CubesGift';
-import DrawGridWithCubesId from '../../../components/Cubes/DrawGridWithCubesId';
+import DrawGridWithCubesId from '../../../components/Cubes/DrawGrid/DrawGridWithCubesId';
 import UploadImgBtn from '../../../components/Cubes/UploadImgBtn';
 import Zoom from '../../../components/Cubes/Zoom/Zoom';
 import Button from '../../../components/shared/Button';
@@ -17,7 +17,7 @@ const CubesCart = () => {
   const [scale, setScale] = useState<number>(0);
   const totalPrice = useSelector((state) => state.cubesReducer.selectedCubesInfo?.totalPrice) || 0;
   const selectedCubesId = useSelector((state) => state.cubesReducer.selectedCubesInfo?.cubesId);
-  const [text, setText] = useState<{val:string, fontSize: number}>({ val: '', fontSize: 10 });
+  const [text, setText] = useState<{val:string}>({ val: '' });
   const [selectedObjectId, setSelectedObjectId] = useState<string>('');
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const [giftOneProp, setGiftOneProp] = useState<{id:number, value:string} | null>(null);
@@ -77,7 +77,7 @@ const CubesCart = () => {
     }
   };
 
-  const handleTextAdd = (text:{val:string, fontSize: number}) => {
+  const handleTextAdd = (text:{val:string}) => {
     setText(text);
   };
 
@@ -130,7 +130,7 @@ const CubesCart = () => {
               display: selectedTab === 2 ? 'none' : 'flex',
             }}
             >
-              <DrawGridWithCubesId scale={scale} setScale={setScale} />
+              <DrawGridWithCubesId scale={scale} setScale={setScale} text={text} />
             </div>
           </div>
           {selectedTab < 2 && (
