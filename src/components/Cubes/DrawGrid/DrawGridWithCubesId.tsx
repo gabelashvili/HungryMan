@@ -28,6 +28,7 @@ const DrawGridWithCubesId = ({
   const [cubesColor, setCubesColor] = useState<{[key:string]: string}>({});
   const selectedCubesIds = useSelector((state) => state.cubesReducer.selectedCubesInfo?.cubesId);
   const canvasWrapperRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef(null);
 
   const clipFunc = useCallback((ctx: any) => {
     if (data && canvasProps && showClipPath) {
@@ -114,6 +115,7 @@ const DrawGridWithCubesId = ({
     <div ref={canvasWrapperRef}>
       {canvasProps && (
       <Stage
+        ref={stageRef}
         draggable
         onWheel={handleZoom}
         width={canvasProps.w}
