@@ -45,10 +45,12 @@ const DrawGridWithCubesId = ({ scale, setScale }: PropsTypes) => {
       const props = canvasWrapperRef.current.parentElement.getBoundingClientRect();
       const canvasMinSize = props.width < props.height ? props.width : props.height;
       const dataMax = data.columnLength > data.rowLength ? data.columnLength : data.rowLength;
+      const cubeSize = canvasMinSize / dataMax;
+      setStageCords({ ...stageCords, x: (props.width - (cubeSize * data.rowLength)) / 2 });
       setCanvasProps({
         w: props.width,
         h: props.height,
-        cubeSize: canvasMinSize / dataMax,
+        cubeSize,
       });
     }
   };
