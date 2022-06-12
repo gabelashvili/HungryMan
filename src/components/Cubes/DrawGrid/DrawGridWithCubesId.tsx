@@ -11,6 +11,8 @@ import { CUBES_TOTAL_ROWS } from '../../../Routes/Cubes/Cubes';
 import ImageWrapper from './Image';
 import TextWrapper from './Text';
 
+let color = '#1A3044';
+
 const DrawGridWithCubesId = ({
   scale, setScale, text, setSelectedObjectId, selectedObjectId, images, selectedColor,
 }: PropsTypes) => {
@@ -116,8 +118,10 @@ const DrawGridWithCubesId = ({
         <Layer>
           {data && Object.keys(data.data)
             .map((el, y) => {
+              color = color === '#132636' ? '#1A3044' : '#132636';
               return data.data[el]
                 .map((item, x) => {
+                  color = color === '#132636' ? '#1A3044' : '#132636';
                   return (
                     <Rect
                       key={item.cubeId}
@@ -125,7 +129,7 @@ const DrawGridWithCubesId = ({
                       y={y * canvasProps.cubeSize}
                       width={canvasProps.cubeSize}
                       height={canvasProps.cubeSize}
-                      fill={item.isSelected ? cubesColor[item.cubeId] || 'red' : 'transparent'}
+                      fill={item.isSelected ? cubesColor[item.cubeId] || color : 'transparent'}
                       onClick={() => setCubesColor({ ...cubesColor, [item.cubeId]: selectedColor })}
                     />
                   );
