@@ -263,8 +263,8 @@ const generateFormattedData = (cubesIds: number[]) => {
   keys.forEach((key) => {
     const firstCubeId = (data[key][0].row - 1) * CUBES_TOTAL_ROWS + minColumn;
     data[key] = new Array(maxColumnLength).fill(0).map((_, index) => {
-      const currentCubeId = firstCubeId + index;
-      const cube = data[key].find((x) => x.cubeId === currentCubeId);
+      const currentCubeId: number = firstCubeId + index;
+      const cube: any = data[key].find((x) => x.cubeId === currentCubeId);
       if (cube) {
         return cube;
       }
