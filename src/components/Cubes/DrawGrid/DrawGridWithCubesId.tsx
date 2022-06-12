@@ -10,7 +10,9 @@ import { useSelector } from '../../../hooks/useSelector';
 import { CUBES_TOTAL_ROWS } from '../../../Routes/Cubes/Cubes';
 import TextWrapper from './Text';
 
-const DrawGridWithCubesId = ({ scale, setScale, text }: PropsTypes) => {
+const DrawGridWithCubesId = ({
+  scale, setScale, text, setSelectedObjectId, selectedObjectId,
+}: PropsTypes) => {
   const [stageCords, setStageCords] = useState({
     x: 0,
     y: 0,
@@ -18,7 +20,6 @@ const DrawGridWithCubesId = ({ scale, setScale, text }: PropsTypes) => {
   const [canvasProps, setCanvasProps] = useState<{w:number, h:number, cubeSize: number} | null>(null);
   const [showClipPath, setClipPath] = useState(true);
   const [data, setData] = useState<ReturnType<typeof generateFormattedData> | null>(null);
-  const [selectedObjId, setSelectedObjId] = useState<null | number | string>(null);
   const selectedCubesIds = useSelector((state) => state.cubesReducer.selectedCubesInfo?.cubesId);
   const canvasWrapperRef = useRef<HTMLDivElement>(null);
 
@@ -36,7 +37,7 @@ const DrawGridWithCubesId = ({ scale, setScale, text }: PropsTypes) => {
         x = 0;
         y = Number(el) * canvasProps.cubeSize;
       });
-      setSelectedObjId(null);
+      setSelectedObjectId(null);
     } else {
       ctx.rect(0, 0, 5000, 5000);
     }
@@ -137,8 +138,8 @@ const DrawGridWithCubesId = ({ scale, setScale, text }: PropsTypes) => {
             text={text.val}
             x={0}
             y={0}
-            selectedObjId={selectedObjId}
-            setSelectedObjId={setSelectedObjId}
+            selectedObjId={selectedObjectId}
+            setSelectedObjId={setSelectedObjectId}
           />
           )}
         </Layer>
@@ -219,5 +220,7 @@ const generateFormattedData = (cubesIds: number[]) => {
 interface PropsTypes {
   scale: number,
   setScale: Dispatch<SetStateAction<number>>,
-  text: {val: string}
+  text: {val: string},
+  setSelectedObjectId: Dispatch<SetStateAction<string | null>>
+  selectedObjectId: string | null
 }

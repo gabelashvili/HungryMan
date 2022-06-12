@@ -54,7 +54,7 @@ interface PropsTypes {
   id: string,
   fontSize: number,
   text: string,
-  selectedObjId: null | string | number,
-  setSelectedObjId: Dispatch<SetStateAction<null | string | number>>,
+  selectedObjId: null | string,
+  setSelectedObjId: Dispatch<SetStateAction<null | string >>,
   fill: string
 }

@@ -18,7 +18,7 @@ const CubesCart = () => {
   const totalPrice = useSelector((state) => state.cubesReducer.selectedCubesInfo?.totalPrice) || 0;
   const selectedCubesId = useSelector((state) => state.cubesReducer.selectedCubesInfo?.cubesId);
   const [text, setText] = useState<{val:string}>({ val: '' });
-  const [selectedObjectId, setSelectedObjectId] = useState<string>('');
+  const [selectedObjectId, setSelectedObjectId] = useState<string | null>(null);
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const [giftOneProp, setGiftOneProp] = useState<{id:number, value:string} | null>(null);
   const [giftTwoProp, setGiftTwoProp] = useState<{id:number, value:string} | null>(null);
@@ -120,7 +120,13 @@ const CubesCart = () => {
               display: selectedTab === 2 ? 'none' : 'flex',
             }}
             >
-              <DrawGridWithCubesId scale={scale} setScale={setScale} text={text} />
+              <DrawGridWithCubesId
+                selectedObjectId={selectedObjectId}
+                setSelectedObjectId={setSelectedObjectId}
+                scale={scale}
+                setScale={setScale}
+                text={text}
+              />
             </div>
           </div>
           {selectedTab < 2 && (
