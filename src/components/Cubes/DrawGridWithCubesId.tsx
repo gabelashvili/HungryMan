@@ -1,4 +1,6 @@
 import {
+  Dispatch,
+  SetStateAction,
   useCallback, useEffect, useRef, useState,
 } from 'react';
 import {
@@ -7,9 +9,8 @@ import {
 import { useSelector } from '../../hooks/useSelector';
 import { CUBES_TOTAL_ROWS } from '../../Routes/Cubes/Cubes';
 
-const DrawGridWithCubesId = () => {
-  const [stage, setStage] = useState({
-    scale: 1,
+const DrawGridWithCubesId = ({ scale, setScale }: PropsTypes) => {
+  const [stageCords, setStageCords] = useState({
     x: 0,
     y: 0,
   });
@@ -54,7 +55,6 @@ const DrawGridWithCubesId = () => {
 
   const handleZoom = (e: any) => {
     e.evt.preventDefault();
-
     const scaleBy = 1.02;
     const stage = e.target.getStage();
     const oldScale = stage.scaleX();
@@ -62,14 +62,12 @@ const DrawGridWithCubesId = () => {
       x: stage.getPointerPosition().x / oldScale - stage.x() / oldScale,
       y: stage.getPointerPosition().y / oldScale - stage.y() / oldScale,
     };
-
     const newScale = e.evt.deltaY < 0 ? oldScale * scaleBy : oldScale / scaleBy;
-
-    setStage({
-      scale: newScale,
+    setStageCords({
       x: (stage.getPointerPosition().x / newScale - mousePointTo.x) * newScale,
       y: (stage.getPointerPosition().y / newScale - mousePointTo.y) * newScale,
     });
+    setScale(newScale);
   };
 
   // set formatted data
@@ -101,10 +99,10 @@ const DrawGridWithCubesId = () => {
         onWheel={handleZoom}
         width={canvasProps.w}
         height={canvasProps.h}
-        scaleX={stage.scale}
-        scaleY={stage.scale}
-        x={stage.x}
-        y={stage.y}
+        scaleX={scale || 1}
+        scaleY={scale || 1}
+        x={stageCords.x}
+        y={stageCords.y}
         onMouseOver={() => setClipPath(false)}
         onMouseLeave={() => setClipPath(true)}
       >
@@ -202,3 +200,8 @@ const generateFormattedData = (cubesIds: number[]) => {
     rowLength: Object.keys(data).length,
   };
 };
+
+interface PropsTypes {
+  scale: number,
+  setScale: Dispatch<SetStateAction<number>>
+}

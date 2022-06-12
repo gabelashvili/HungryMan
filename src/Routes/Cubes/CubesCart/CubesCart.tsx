@@ -14,20 +14,15 @@ import RemoveIcon from '../../../Icons/RemoveIcon';
 export const ZOOM_STEP = 0.05;
 const CubesCart = () => {
   const navigate = useNavigate();
+  const [scale, setScale] = useState<number>(0);
   const totalPrice = useSelector((state) => state.cubesReducer.selectedCubesInfo?.totalPrice) || 0;
   const selectedCubesId = useSelector((state) => state.cubesReducer.selectedCubesInfo?.cubesId);
   const [text, setText] = useState<{val:string, fontSize: number}>({ val: '', fontSize: 10 });
   const [selectedObjectId, setSelectedObjectId] = useState<string>('');
-  const [zoom, setZoom] = useState<number>(100);
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const [giftOneProp, setGiftOneProp] = useState<{id:number, value:string} | null>(null);
   const [giftTwoProp, setGiftTwoProp] = useState<{id:number, value:string} | null>(null);
   const [images, setImages] = useState<{id:string, file?:File, base64?: string, value?: string}[]>([]);
-  const [zoomActions, setZoomActions] = useState<{
-    in:() => void,
-    out: () => void
-      } | null>(null);
-
   const showGiftTabError = () => {
     if (totalPrice > 50 && totalPrice < 100 && !giftOneProp) {
       return true;
@@ -112,11 +107,8 @@ const CubesCart = () => {
               </Button>
               )}
               <Zoom
-                setZoomPercent={setZoom}
-                styles={{ position: 'static', marginLeft: 'auto' }}
-                zoomPercent={zoom}
-                zoomIn={zoomActions?.in}
-                zoomOut={zoomActions?.out}
+                scale={scale}
+                setScale={setScale}
               />
             </div>
             )}
@@ -138,15 +130,7 @@ const CubesCart = () => {
               display: selectedTab === 2 ? 'none' : 'flex',
             }}
             >
-              <DrawGridWithCubesId
-                setZoom={setZoom}
-                setZoomActions={setZoomActions}
-                images={images}
-                selectedObjectId={selectedObjectId}
-                setSelectedObjectId={(val) => handleSelectObj(val)}
-                text={text}
-                selectedCubesId={selectedCubesId || []}
-              />
+              <DrawGridWithCubesId scale={scale} setScale={setScale} />
             </div>
           </div>
           {selectedTab < 2 && (

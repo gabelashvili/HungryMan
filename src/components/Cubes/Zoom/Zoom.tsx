@@ -1,47 +1,35 @@
 import {
-  Dispatch, SetStateAction, useEffect, useRef,
+  Dispatch, SetStateAction, useRef,
 } from 'react';
-import { getCssMatrix } from '../../../helpers';
 import MinusIcon from '../../../Icons/MinusIcon';
 import PlusIcon from '../../../Icons/PlusIcon';
 import './zoom.scss';
 
 const Zoom = ({
-  zoomPercent,
-  zoomIn,
-  zoomOut,
-  styles,
-  setZoomPercent,
+  scale,
+  setScale,
 }: PropsTypes) => {
   const timer = useRef<any>();
-  timer.current = () => setTimeout(() => {
-    const el = document.getElementsByClassName('react-transform-component ')[0];
-    setZoomPercent(getCssMatrix(el)[0] * 100);
-  }, 300);
-
-  useEffect(() => {
-    return () => window.clearTimeout(timer.current);
-  }, []);
 
   return (
-    <div className="zoom" style={styles}>
+    <div className="zoom" style={{ position: 'static', marginLeft: 'auto' }}>
       <button
         className="zoom--button"
         onClick={() => {
-          zoomOut && zoomOut();
+          setScale(scale - 0.2);
           timer.current();
         }}
       >
         <MinusIcon />
       </button>
       <span className="zoom--value">
-        {Math.floor(zoomPercent)}
+        {Math.floor(scale * 100)}
         %
       </span>
       <button
         className="zoom--button"
         onClick={() => {
-          zoomIn && zoomIn();
+          setScale(scale + 0.2);
           timer.current();
         }}
       >
@@ -54,8 +42,6 @@ const Zoom = ({
 export default Zoom;
 
 interface PropsTypes {
-  setZoomPercent: Dispatch<SetStateAction<number>>,
-  zoomPercent:number,
-  zoomIn?: () => void,
-   zoomOut?: () => void, styles?: any
+ scale: number,
+ setScale: Dispatch<SetStateAction<number>>
 }
