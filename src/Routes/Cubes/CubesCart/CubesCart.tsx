@@ -22,7 +22,7 @@ const CubesCart = () => {
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const [giftOneProp, setGiftOneProp] = useState<{id:number, value:string} | null>(null);
   const [giftTwoProp, setGiftTwoProp] = useState<{id:number, value:string} | null>(null);
-  const [images, setImages] = useState<{id:string, file?:File, base64?: string, value?: string}[]>([]);
+  const [images, setImages] = useState<{id:string, file:File}[]>([]);
   const showGiftTabError = () => {
     if (totalPrice > 50 && totalPrice < 100 && !giftOneProp) {
       return true;
@@ -49,16 +49,16 @@ const CubesCart = () => {
     },
   ];
 
-  const handleImg = (file:File, base64:string) => {
+  const handleImg = (file:File) => {
     const newImgs = images.filter((el) => el.id !== 'image-1');
-    newImgs.push({ file, base64, id: 'image-1' });
+    newImgs.push({ file, id: 'image-1' });
     setImages(newImgs);
   };
 
-  const handleStickerAdd = (base64:string) => {
+  const handleStickerAdd = (file: File) => {
     const newImgs = [...images];
     const id = newImgs.length === 0 ? 1 : Number(images.slice(-1)[0].id.split('-')[1]) + 1;
-    newImgs.push({ base64, id: `sticker-${id}` });
+    newImgs.push({ file, id: `sticker-${id}` });
     setImages(newImgs);
   };
 
@@ -76,6 +76,7 @@ const CubesCart = () => {
       navigate('/cubes');
     }
   }, [selectedCubesId]);
+  console.log(images);
 
   return (
     <div className="cart">

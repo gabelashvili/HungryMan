@@ -8,15 +8,14 @@ import Sticker6 from '../../../assets/stickers/6.svg';
 import Sticker7 from '../../../assets/stickers/7.svg';
 import Sticker8 from '../../../assets/stickers/8.svg';
 import Sticker9 from '../../../assets/stickers/9.svg';
-import { fetchSvgData, getBase64Test } from '../../../helpers';
+import { fetchSvgData } from '../../../helpers';
 
 const stickers = [Sticker1, Sticker2, Sticker3, Sticker4, Sticker5, Sticker6, Sticker7, Sticker8, Sticker9];
 
-const Stickers = ({ handleStickerAdd }: { handleStickerAdd: (base64:string) => void}) => {
+const Stickers = ({ handleStickerAdd }: { handleStickerAdd: (file:File) => void}) => {
   const handleAdd = async (src:string) => {
     const file = await fetchSvgData(src);
-    const base64 = await getBase64Test(file);
-    handleStickerAdd(base64 as string);
+    handleStickerAdd(file);
   };
   return (
     <div className="sticker-selector">

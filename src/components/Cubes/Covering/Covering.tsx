@@ -75,6 +75,6 @@ const tabs = [
 const colorsList = ['#FF8385', '#0193E5', '#F78F1E', '#34A853', '#FFFFFF', '#1877F2', '#F7DCBF', '#D8A782', '#EA4335', '#1A3044'];
 
 interface PropsTypes {
-  handleStickerAdd: (base64:string) => void,
-  handleTextAdd: (val: {val:string, fontSize: number}) => void
+  handleStickerAdd: (file:File) => void,
+  handleTextAdd: (val: {val:string}) => void
 }
