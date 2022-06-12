@@ -36,8 +36,9 @@ const DrawGridWithCubesId = ({ scale, setScale, text }: PropsTypes) => {
         x = 0;
         y = Number(el) * canvasProps.cubeSize;
       });
+      setSelectedObjId(null);
     } else {
-      ctx.rect(0, 0, 1000, 1000);
+      ctx.rect(0, 0, 5000, 5000);
     }
   }, [data, canvasProps, showClipPath]);
 

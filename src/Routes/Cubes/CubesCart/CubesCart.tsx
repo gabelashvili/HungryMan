@@ -67,16 +67,6 @@ const CubesCart = () => {
     setImages(newImgs);
   };
 
-  const handleSelectObj = (val:string) => {
-    const el = images.find((el) => el.id === val);
-    if (el) {
-      let newArr = images.filter((el) => el.id !== val);
-      newArr = [...newArr, el];
-      setImages(newArr);
-      setSelectedObjectId(val);
-    }
-  };
-
   const handleTextAdd = (text:{val:string}) => {
     setText(text);
   };
