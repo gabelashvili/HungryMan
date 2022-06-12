@@ -5,7 +5,6 @@ import './tab.scss';
 const Tab = ({
   selectedTab, setSelectedTab, className, inline, tabs,
 }: PropsType) => {
-  console.log(tabs);
   return (
     <nav className={clsx('tab', className, inline && 'inline')}>
       <ul className="tab--list">

@@ -126,6 +126,7 @@ const CubesCart = () => {
                 scale={scale}
                 setScale={setScale}
                 text={text}
+                images={images}
               />
             </div>
           </div>

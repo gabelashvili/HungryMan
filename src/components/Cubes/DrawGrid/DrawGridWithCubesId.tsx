@@ -8,10 +8,11 @@ import {
 } from 'react-konva';
 import { useSelector } from '../../../hooks/useSelector';
 import { CUBES_TOTAL_ROWS } from '../../../Routes/Cubes/Cubes';
+import ImageWrapper from './Image';
 import TextWrapper from './Text';
 
 const DrawGridWithCubesId = ({
-  scale, setScale, text, setSelectedObjectId, selectedObjectId,
+  scale, setScale, text, setSelectedObjectId, selectedObjectId, images,
 }: PropsTypes) => {
   const [stageCords, setStageCords] = useState({
     x: 0,
@@ -142,6 +143,16 @@ const DrawGridWithCubesId = ({
             setSelectedObjId={setSelectedObjectId}
           />
           )}
+          {images.map((el) => (
+            <ImageWrapper
+              x={0}
+              y={0}
+              key={el.id}
+              file={el}
+              setSelectedObjId={setSelectedObjectId}
+              selectedObjId={selectedObjectId}
+            />
+          ))}
         </Layer>
       </Stage>
       )}
@@ -222,5 +233,6 @@ interface PropsTypes {
   setScale: Dispatch<SetStateAction<number>>,
   text: {val: string},
   setSelectedObjectId: Dispatch<SetStateAction<string | null>>
-  selectedObjectId: string | null
+  selectedObjectId: string | null,
+  images: {id:string, file?:File, base64?: string, value?: string}[]
 }
