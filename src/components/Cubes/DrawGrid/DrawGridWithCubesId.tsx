@@ -11,11 +11,10 @@ import { CUBES_TOTAL_ROWS } from '../../../Routes/Cubes/Cubes';
 import ImageWrapper from './Image';
 import TextWrapper from './Text';
 
-let color = '#1A3044';
-
 const DrawGridWithCubesId = ({
   scale, setScale, text, setSelectedObjectId, selectedObjectId, images, selectedColor,
 }: PropsTypes) => {
+  let color = '#1A3044';
   const [stageCords, setStageCords] = useState({
     x: 0,
     y: 0,
