@@ -63,7 +63,6 @@ const CartModal = ({ show, setShow }: PropsTypes) => {
         <div className="modal--footer">
           <div className="cart-modal--details">
             <span>ჯამური თანხა:</span>
-            {/* TODO: show price based on selected tab */}
             {selectedTab === 0 ? cubesTotalPrice
               : selectedProducts.reduce((acc, cur) => acc + cur.product.newPrice * cur.count, 0).toFixed(2)}
             ლ
