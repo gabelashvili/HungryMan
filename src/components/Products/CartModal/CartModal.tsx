@@ -57,7 +57,7 @@ const CartModal = ({ show, setShow }: PropsTypes) => {
           <div className="cart-tab">
             <Tab tabs={tabs} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
           </div>
-          {selectedTab === 0 ? <CartCoubsModal show={show} /> : <CartProducts data={selectedProducts} />}
+          {selectedTab === 0 ? <CartCoubsModal /> : <CartProducts data={selectedProducts} />}
         </div>
 
         <div className="modal--footer">

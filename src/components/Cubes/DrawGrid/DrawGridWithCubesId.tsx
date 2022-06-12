@@ -8,7 +8,7 @@ import {
 } from 'react-konva';
 import { useAppDispatch, useSelector } from '../../../hooks/useSelector';
 import { CUBES_TOTAL_ROWS } from '../../../Routes/Cubes/Cubes';
-import { setTotalPriceInStore } from '../../../store/ducks/cubesDuck';
+import { setBase64, setTotalPriceInStore } from '../../../store/ducks/cubesDuck';
 import ImageWrapper from './Image';
 import TextWrapper from './Text';
 
@@ -17,6 +17,7 @@ const DrawGridWithCubesId = ({
 }: PropsTypes) => {
   let color = '#1A3044';
   const dispatch = useAppDispatch();
+  const timerRef = useRef<any>();
   const squareInitialPrice = useSelector((state) => state.cubesReducer.initialData?.squarePrice) || 0;
   const [stageCords, setStageCords] = useState({
     x: 0,
@@ -28,7 +29,7 @@ const DrawGridWithCubesId = ({
   const [cubesColor, setCubesColor] = useState<{[key:string]: string}>({});
   const selectedCubesIds = useSelector((state) => state.cubesReducer.selectedCubesInfo?.cubesId);
   const canvasWrapperRef = useRef<HTMLDivElement>(null);
-  const stageRef = useRef(null);
+  const stageRef = useRef<any>(null);
 
   const clipFunc = useCallback((ctx: any) => {
     if (data && canvasProps && showClipPath) {
@@ -110,6 +111,15 @@ const DrawGridWithCubesId = ({
       dispatch(setTotalPriceInStore(squareInitialPrice * selectedCubesIds.length));
     }
   }, [data, selectedCubesIds]);
+
+  // set base 64 in store
+
+  useEffect(() => {
+    timerRef.current = setInterval(() => {
+      dispatch(setBase64(stageRef.current.toDataURL()));
+    }, 1000);
+    return () => clearInterval(timerRef.current);
+  }, []);
 
   return (
     <div ref={canvasWrapperRef}>

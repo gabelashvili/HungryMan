@@ -1,27 +1,13 @@
-import { useEffect, useRef } from 'react';
-import { generateFile, generatePath } from '../../../helpers';
+import { useRef } from 'react';
+import { generatePath } from '../../../helpers';
 import { useSelector } from '../../../hooks/useSelector';
 import RemoveIcon from '../../../Icons/RemoveIcon';
 import Button from '../../shared/Button';
 import EmptyCard from './EmptyCard';
 
-const CartCoubs = ({ show }:{show:boolean}) => {
+const CartCoubs = () => {
   const imgRef = useRef<HTMLImageElement>(null);
   const data = useSelector((state) => state.cubesReducer);
-  const updateFile = async () => {
-    const el = document.getElementById('root-svg');
-    if (el && imgRef.current) {
-      const file = await generateFile(el);
-      imgRef.current.setAttribute('src', URL.createObjectURL(file));
-    }
-  };
-
-  // temp solution to draw image in cart
-  useEffect(() => {
-    if (show) {
-      updateFile();
-    }
-  }, [show]);
 
   return (
     data.selectedCubesInfo?.cubesId && data.selectedCubesInfo.cubesId.length > 0 ? (
@@ -29,7 +15,7 @@ const CartCoubs = ({ show }:{show:boolean}) => {
         <div className="panel without-header coubs-quantity">
           <div className="panel--content">
             <div className="coubs-quantity--display">
-              <img ref={imgRef} alt="coubs selected" />
+              <img src={data.selectedCubesInfo?.base64} ref={imgRef} alt="coubs selected" />
             </div>
           </div>
           <div className="panel--footer coubs-quantity--details">
