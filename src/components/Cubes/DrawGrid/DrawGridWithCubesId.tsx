@@ -6,8 +6,9 @@ import {
 import {
   Layer, Rect, Stage,
 } from 'react-konva';
-import { useSelector } from '../../../hooks/useSelector';
+import { useAppDispatch, useSelector } from '../../../hooks/useSelector';
 import { CUBES_TOTAL_ROWS } from '../../../Routes/Cubes/Cubes';
+import { setTotalPriceInStore } from '../../../store/ducks/cubesDuck';
 import ImageWrapper from './Image';
 import TextWrapper from './Text';
 
@@ -15,6 +16,8 @@ const DrawGridWithCubesId = ({
   scale, setScale, text, setSelectedObjectId, selectedObjectId, images, selectedColor,
 }: PropsTypes) => {
   let color = '#1A3044';
+  const dispatch = useAppDispatch();
+  const squareInitialPrice = useSelector((state) => state.cubesReducer.initialData?.squarePrice) || 0;
   const [stageCords, setStageCords] = useState({
     x: 0,
     y: 0,
@@ -98,6 +101,14 @@ const DrawGridWithCubesId = ({
     window.addEventListener('resize', calculateCanvasProps);
     return () => window.removeEventListener('resize', calculateCanvasProps);
   }, []);
+
+  // set initial cubes price
+
+  useEffect(() => {
+    if (data && selectedCubesIds) {
+      dispatch(setTotalPriceInStore(squareInitialPrice * selectedCubesIds.length));
+    }
+  }, [data, selectedCubesIds]);
 
   return (
     <div ref={canvasWrapperRef}>
