@@ -4,6 +4,7 @@ import {
 } from 'react';
 import ClearIcon from '../../../Icons/ClearIcon';
 import SearchIcon from '../../../Icons/SearchIcon';
+import Button from '../../shared/Button';
 import './search-bar.scss';
 
 const SearchBar = ({ showSearchBar, setShowSearchBar }: {showSearchBar:boolean,
@@ -33,14 +34,14 @@ const SearchBar = ({ showSearchBar, setShowSearchBar }: {showSearchBar:boolean,
 
   return (
     <div className="search-bar" ref={ref}>
-      <button className="button button--icon-rounded" onClick={() => setShowSearchBar(true)}>
+      <Button type="icon" classes="is-rounded search-button" handleClick={() => setShowSearchBar(true)}>
         <SearchIcon />
-      </button>
+      </Button>
       <div className={clsx('search-bar--content', showSearchBar && 'is-active')}>
         <div className="form__group">
           <input
             placeholder="ჩაწერე მობილურის ნომერი"
-            className="input input--small"
+            className="input is-medium"
             type="text"
             id="search"
             value={searchValue}

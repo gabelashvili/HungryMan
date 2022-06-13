@@ -38,9 +38,7 @@
       }
     }
     &--link {
-      font-family: "Helvetica";
-      font-style: normal;
-      font-weight: 400;
+      font-family: "Helvetica-medium";
       font-size: 16px;
       line-height: 19px;
       color: #fff;
@@ -52,6 +50,11 @@
         color: rgb(203, 202, 202);
       }
     }
+  }
+
+  &-button {
+    width: 48px;
+    height: 48px;
   }
   .button + .button {
     margin-left: 16px;
@@ -89,4 +92,126 @@
   display: flex;
   position: relative;
   margin-left: 16px;
+}
+
+.burger-button {
+  display: none;
+  margin-left: 16px;
+}
+
+.navigation-modal {
+  display: none;
+  width: 320px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  font-family: "Helvetica-medium";
+  font-size: 13px;
+  line-height: 16px;
+  cursor: pointer;
+  color: #ffffff;
+  margin-bottom: 24px;
+  margin-top: 4px;
+  &--img {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    margin-right: 8px;
+    object-fit: cover;
+  }
+
+  &--arrow {
+    margin-left: 6px;
+    color: #233c52;
+    transform: rotate(0);
+    transition: transform 0.2s ease-in-out;
+  }
+  &.is-active {
+    .user-info--arrow {
+      transform: rotate(-180deg);
+    }
+  }
+}
+
+@media screen and(max-width: 1100px) {
+  .header-nav {
+    margin-right: 35px;
+    &--item {
+      & + & {
+        margin-left: 30px;
+      }
+    }
+  }
+}
+
+@media screen and(max-width: 960px) {
+  .header {
+    .relative {
+      display: none;
+    }
+    &-nav {
+      display: none;
+      margin: 0;
+      padding: 0;
+      &.responsive {
+        display: flex;
+        margin-left: -24px;
+        .header-nav--list {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 0;
+        }
+        .header-nav--item {
+          margin-left: 0;
+          margin-bottom: 30px;
+        }
+        .header-nav--link {
+          color: #768b9d;
+          padding-left: 22px;
+          border-left: 2px solid transparent;
+          font-size: 14px;
+          &.is-active {
+            color: #fff;
+            border-color: #ed2024;
+          }
+        }
+      }
+    }
+    &-button {
+      display: flex;
+    }
+  }
+  .navigation-modal {
+    display: flex;
+  }
+  app-search-bar {
+    margin-left: auto;
+  }
+  .burger-menu {
+    display: block;
+  }
+}
+
+@media screen and(max-width: 768px) {
+  .header {
+    &-button {
+      width: 36px;
+      height: 36px;
+    }
+    &-logo {
+      width: 55px;
+    }
+  }
+}
+
+@media screen and(max-width: 600px) {
+  .header {
+    height: 64px;
+    .wrapper {
+      padding: 0 24px;
+    }
+  }
 }

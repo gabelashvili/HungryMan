@@ -1,46 +1,73 @@
-  .search-bar {
-    display: flex;
-    align-items: center;
-    background-color: #162a3d;
-    overflow: hidden;
+:host {
+  margin-right: 16px;
+}
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: #162a3d;
+  overflow: hidden;
+  border-radius: 45px;
+  &--clear {
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    right: 16px;
+    cursor: pointer;
+  }
+  .input {
     border-radius: 45px;
-    margin-right: 16px;
-    &--clear {
-      width: 12px;
-      height: 12px;
-      position: absolute;
-      right: 16px;
-      cursor: pointer;
-    }
-    .input {
-      border-radius: 45px;
-      padding-top: 0;
-      padding-bottom: 0;
-      background-color: #162a3d;
-      width: 300px;
+    padding-top: 0;
+    padding-bottom: 0;
+    background-color: #162a3d;
+    width: 300px;
+    opacity: 0;
+    border-radius: 45px;
+    transition: opacity 0.4s ease-in;
+
+    &::placeholder {
       opacity: 0;
-      border-radius: 45px;
-      transition: opacity 0.4s ease-in;
-  
-      &::placeholder {
-        opacity: 0;
-        transition: opacity 0.2s ease-in;
-      }
+      transition: opacity 0.2s ease-in;
     }
-  
-    &--content {
-      max-width: 0;
-      overflow: hidden;
-      transition: max-width 0.4s ease-in-out;
-      &.is-active {
-        max-width: 300px;
-        .input {
+  }
+
+  &--content {
+    max-width: 0;
+    overflow: hidden;
+    transition: max-width 0.4s ease-in-out;
+    &.is-active {
+      max-width: 300px;
+      .input {
+        opacity: 1;
+        &::placeholder {
           opacity: 1;
-          &::placeholder {
-            opacity: 1;
-          }
         }
       }
     }
   }
-  
+}
+
+@media screen and(max-width: 768px) {
+  .search-button {
+    width: 36px;
+    height: 36px;
+  }
+  .search-bar {
+    height: 36px;
+    svg {
+      width: 14px;
+    }
+    .input {
+      padding-left: 0;
+      padding-right: 30px;
+      max-width: 100%;
+      &::placeholder {
+        color: transparent;
+      }
+    }
+    &--content {
+      &.is-active {
+        max-width: 150px;
+      }
+    }
+  }
+}

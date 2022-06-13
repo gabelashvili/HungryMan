@@ -47,7 +47,7 @@ const Header = () => {
             </ul>
           </nav>
           <SearchBar showSearchBar={showSearchBar} setShowSearchBar={setShowSearchBar} />
-          <Button type="none" classes="button--icon-rounded" handleClick={() => setShowCartModal(!showCartModal)} id="show-cart-btn">
+          <Button type="icon" classes="is-rounded header-button" handleClick={() => setShowCartModal(!showCartModal)} id="show-cart-btn">
             <BasketIcon />
             {/* TODO: add coubs data */}
             <span className="cart-count">
