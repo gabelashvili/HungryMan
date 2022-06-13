@@ -1,5 +1,6 @@
 import { useSelector } from '../../../hooks/useSelector';
 import { CUBES_TOTAL_COLUMNS, CUBES_TOTAL_ROWS } from '../../../Routes/Cubes/Cubes';
+import Button from '../../shared/Button';
 import './cubes-statistic.scss';
 
 const CubesStatistic = () => {
@@ -19,7 +20,7 @@ const CubesStatistic = () => {
           <span style={{ width: `${(soldCubes / (CUBES_TOTAL_ROWS * CUBES_TOTAL_COLUMNS)) * 100}%` }} />
         </div>
       </div>
-      <button className="button coub-stats--button">
+      <Button type="none" classes="coub-stats--button">
         <svg
           viewBox="0 0 20 20"
           fill="none"
@@ -30,7 +31,7 @@ const CubesStatistic = () => {
             fill="#071018"
           />
         </svg>
-      </button>
+      </Button>
     </div>
   );
 };

@@ -24,7 +24,7 @@ const Zoom = ({
   }, []);
 
   return (
-    <div className="zoom" style={{ position: 'static', marginLeft: 'auto' }}>
+    <div className="zoom" style={{ marginLeft: 'auto' }}>
       <button
         className="zoom--button"
         onClick={() => {
