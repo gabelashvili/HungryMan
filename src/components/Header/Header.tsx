@@ -50,7 +50,6 @@ const Header = () => {
           <SearchBar showSearchBar={showSearchBar} setShowSearchBar={setShowSearchBar} />
           <Button type="icon" classes="is-rounded header-button" handleClick={() => setShowCartModal(!showCartModal)} id="show-cart-btn">
             <BasketIcon />
-            {/* TODO: add coubs data */}
             {cartsTotalItem() > 0 && (
             <span className="cart-count">
               {cartsTotalItem()}
