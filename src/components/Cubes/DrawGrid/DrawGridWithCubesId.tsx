@@ -57,10 +57,10 @@ const DrawGridWithCubesId = ({
       const canvasMinSize = props.width < props.height ? props.width : props.height;
       const dataMax = data.columnLength > data.rowLength ? data.columnLength : data.rowLength;
       const cubeSize = canvasMinSize / dataMax;
-      setStageCords({ ...stageCords, x: (props.width - (cubeSize * data.rowLength)) / 2 });
+      // setStageCords({ ...stageCords, x: (props.width - (cubeSize * data.rowLength)) / 2 });
       setCanvasProps({
-        w: props.width,
-        h: props.height,
+        w: cubeSize * data.columnLength,
+        h: cubeSize * data.rowLength,
         cubeSize,
       });
     }
@@ -135,7 +135,11 @@ const DrawGridWithCubesId = ({
         x={stageCords.x}
         y={stageCords.y}
         onMouseOver={() => setClipPath(false)}
-        onMouseLeave={() => setClipPath(true)}
+        onMouseLeave={() => {
+          setClipPath(true);
+          setStageCords({ x: 0, y: 0 });
+          setScale(1);
+        }}
       >
         <Layer>
           {data && Object.keys(data.data)
