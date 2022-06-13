@@ -1,15 +1,22 @@
+import { useSelector } from '../../../hooks/useSelector';
+import { CUBES_TOTAL_COLUMNS, CUBES_TOTAL_ROWS } from '../../../Routes/Cubes/Cubes';
 import './cubes-statistic.scss';
 
 const CubesStatistic = () => {
+  const soldCubes = useSelector((state) => state.cubesReducer.soldCubesDetails?.soldCubes.length) || 0;
   return (
     <div className="coub-stats-wrapper">
       <div className="coub-stats">
-        <span className="coub-stats--number">45 </span>
+        <span className="coub-stats--number">
+          {soldCubes}
+        </span>
         /
-        <span className="coub-stats--number"> 44192</span>
+        <span className="coub-stats--number">
+          {CUBES_TOTAL_ROWS * CUBES_TOTAL_COLUMNS}
+        </span>
         <div className="coub-stats--gradient">
           {/* <!-- apply percentage value in width --> */}
-          <span style={{ width: '20%' }} />
+          <span style={{ width: `${(soldCubes / (CUBES_TOTAL_ROWS * CUBES_TOTAL_COLUMNS)) * 100}%` }} />
         </div>
       </div>
       <button className="button coub-stats--button">
