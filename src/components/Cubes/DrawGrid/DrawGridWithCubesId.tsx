@@ -57,10 +57,10 @@ const DrawGridWithCubesId = ({
       const canvasMinSize = props.width < props.height ? props.width : props.height;
       const dataMax = data.columnLength > data.rowLength ? data.columnLength : data.rowLength;
       const cubeSize = canvasMinSize / dataMax;
-      // setStageCords({ ...stageCords, x: (props.width - (cubeSize * data.rowLength)) / 2 });
+      setStageCords({ ...stageCords, x: (props.width - (cubeSize * data.rowLength)) / 2 });
       setCanvasProps({
-        w: cubeSize * data.columnLength,
-        h: cubeSize * data.rowLength,
+        w: props.width,
+        h: props.height,
         cubeSize,
       });
     }
@@ -81,6 +81,24 @@ const DrawGridWithCubesId = ({
       y: (stage.getPointerPosition().y / newScale - mousePointTo.y) * newScale,
     });
     setScale(newScale);
+  };
+
+  const handleMouseLeave = () => {
+    if (canvasWrapperRef.current && canvasWrapperRef.current?.parentElement && data) {
+      const props = canvasWrapperRef.current.parentElement.getBoundingClientRect();
+      const canvasMinSize = props.width < props.height ? props.width : props.height;
+      const dataMax = data.columnLength > data.rowLength ? data.columnLength : data.rowLength;
+      const cubeSize = canvasMinSize / dataMax;
+      setStageCords({ ...stageCords, x: (props.width - (cubeSize * data.rowLength)) / 2 });
+      setCanvasProps({
+        w: cubeSize * data.columnLength,
+        h: cubeSize * data.rowLength,
+        cubeSize,
+      });
+      setClipPath(true);
+      setScale(1);
+      setStageCords({ x: 0, y: 0 });
+    }
   };
 
   // set formatted data
@@ -134,12 +152,11 @@ const DrawGridWithCubesId = ({
         scaleY={scale || 1}
         x={stageCords.x}
         y={stageCords.y}
-        onMouseOver={() => setClipPath(false)}
-        onMouseLeave={() => {
-          setClipPath(true);
-          setStageCords({ x: 0, y: 0 });
-          setScale(1);
+        onMouseOver={() => {
+          setClipPath(false);
+          calculateCanvasProps();
         }}
+        onMouseLeave={handleMouseLeave}
       >
         <Layer>
           {data && Object.keys(data.data)
