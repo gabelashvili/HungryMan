@@ -22,6 +22,7 @@ const Wall = ({
   const isSelecting = useRef(false);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  console.log(soldCubesDetail);
 
   const getCubeId = (e:MouseEvent) => {
     if (canvasRef.current && panRef.current && panRef.current.instance.contentComponent && ctx) {
@@ -247,14 +248,17 @@ const redrawWall = (
     cubeSize * CUBES_TOTAL_COLUMNS,
   );
   // draw images
-  // for (let i = 0; i < images.length; i++) {
-  //   const x = (images[i].topLeftCube.row - 1) * cubeSize;
-  //   const y = (images[i].topLeftCube.column - 1) * cubeSize;
-  //   const w = (images[i].bottomRightCube.row - images[i].topLeftCube.row) * cubeSize;
-  //   const h = (images[i].bottomRightCube.column - images[i].topLeftCube.column) * cubeSize;
-  //   ctx.drawImage(images[i].htmlImg, x, y, w, h);
-  //   console.log(x, y);
-  // }
+  // TODO: fix quality
+  const { images } = soldCubesDetail;
+  for (let i = 0; i < images.length; i++) {
+    const { bottomRightCube, htmlImg, topLeftCube } = images[i];
+    const x = (topLeftCube.row - 1) * cubeSize;
+    const y = (topLeftCube.column - 1) * cubeSize;
+    const w = (bottomRightCube.row - topLeftCube.row + 1) * cubeSize;
+    const h = (bottomRightCube.column - topLeftCube.column + 1) * cubeSize;
+    ctx.drawImage(htmlImg, x, y, w, h);
+    // console.log(x, y);
+  }
   ctx.restore();
 };
 

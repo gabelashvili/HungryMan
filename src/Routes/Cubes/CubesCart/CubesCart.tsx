@@ -77,7 +77,6 @@ const CubesCart = () => {
       navigate('/cubes');
     }
   }, [selectedCubesId]);
-  console.log(images);
 
   return (
     <div className="cart">
