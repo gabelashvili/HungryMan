@@ -1,14 +1,13 @@
-.cart {
-  & nav {
-      height: 65px;
-      width: 100%;
-  }
+:host {
   .wrapper {
     align-items: flex-start;
   }
   .panel {
     background-color: #0c1925;
   }
+}
+
+.cart {
   width: 100%;
   &-form {
     max-width: 445px;
@@ -69,14 +68,17 @@
     &--text {
       width: 100%;
       margin-top: 14px;
-      font-family: "Helvetica Neue LT GEO";
-      font-style: normal;
-      font-weight: 400;
+      font-family: "Helvetica-medium";
       font-size: 12px;
       line-height: 20px;
       text-align: center;
       color: #55687a;
     }
+  }
+
+  app-tab {
+    height: 65px;
+    width: 100%;
   }
 
   &-slider {
@@ -92,9 +94,7 @@
     }
 
     &--title {
-      font-family: "Helvetica Neue LT GEO";
-      font-style: normal;
-      font-weight: 400;
+      font-family: "Helvetica-medium";
       font-size: 18px;
       line-height: 20px;
       text-align: center;
@@ -104,9 +104,7 @@
     }
 
     &--counter {
-      font-family: "Helvetica Neue LT GEO";
-      font-style: normal;
-      font-weight: 400;
+      font-family: "Helvetica-medium";
       font-size: 18px;
       line-height: 20px;
       text-align: center;
@@ -136,7 +134,7 @@
     &--header {
       display: flex;
       align-items: center;
-      margin-bottom: 24px;
+
       app-zoom {
         margin-left: auto;
         ::ng-deep {
@@ -192,9 +190,7 @@
 
 .address {
   &-info {
-    font-family: "Helvetica Neue LT GEO";
-    font-style: normal;
-    font-weight: 400;
+    font-family: "Helvetica-medium";
     color: #768b9d;
     margin-left: 5px;
   }
@@ -239,10 +235,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-
-  font-family: "Helvetica Neue LT GEO";
-  font-style: normal;
-  font-weight: 400;
+  font-family: "Helvetica-medium";
   color: #ffffff;
 
   &--title {
@@ -276,14 +269,19 @@
   flex-wrap: wrap;
   grid-gap: 16px;
   margin-bottom: 24px;
+  .button {
+    width: 46px;
+    height: 46px;
+  }
 }
 
 .text-selector {
   display: flex;
   grid-gap: 12px;
   margin-bottom: 24px;
-  .forrm__group {
+  .form__group {
     flex: 1;
+    margin-top: 0;
   }
 }
 
@@ -314,9 +312,7 @@
     }
 
     &--title {
-      font-family: "Helvetica Neue LT GEO";
-      font-style: normal;
-      font-weight: 400;
+      font-family: "Helvetica-medium";
       font-size: 16px;
       line-height: 19px;
       color: #ffffff;
@@ -329,9 +325,7 @@
     }
 
     &--description {
-      font-family: "Helvetica Neue LT GEO";
-      font-style: normal;
-      font-weight: 400;
+      font-family: "Helvetica-medium";
       font-size: 13px;
       line-height: 16px;
       color: #55687a;
@@ -365,9 +359,7 @@
   }
 
   &--label {
-    font-family: "Helvetica Neue LT GEO";
-    font-style: normal;
-    font-weight: 400;
+    font-family: "Helvetica-medium";
     font-size: 14px;
     line-height: 17px;
     color: #ffffff;
@@ -383,7 +375,7 @@
   }
 }
 
-@media screen and(max-width: 870px) {
+@media screen and(max-width: 960px) {
   :host {
     .wrapper {
       flex-direction: column;
@@ -394,6 +386,17 @@
     margin-top: 16px;
     max-width: unset;
     width: 100%;
+    min-width: unset;
+  }
+}
+@media screen and(max-width: 768px) {
+  .cart-slider {
+    &--title {
+      font-size: 16px;
+    }
+    &--counter {
+      font-size: 16px;
+    }
   }
 }
 
@@ -415,6 +418,108 @@
       width: 48px;
       height: 48px;
       margin-right: 12px;
+    }
+  }
+
+  .cart-content--header {
+    .button,
+    .color-selector--label {
+      display: none;
+    }
+  }
+
+  .cart-content {
+    min-height: 300px;
+  }
+
+  .cart-upload {
+    margin: 0;
+    width: 100%;
+    .button:not(.button--icon) {
+      width: 100%;
+    }
+  }
+
+  .cart-details--sum {
+    margin-bottom: 24px;
+  }
+
+  .cart-slider {
+    width: 100%;
+    &--list {
+      width: 100%;
+    }
+  }
+
+  .text-selector {
+    flex-direction: column;
+    width: 100%;
+    .button {
+      width: 100%;
+    }
+    .form__group {
+      margin-left: 0;
+      margin-bottom: 5px;
+    }
+  }
+
+  .cart-gifts {
+    flex-wrap: wrap;
+    .products-item {
+      max-width: unset;
+      width: 100%;
+      flex: unset;
+    }
+    & > .button {
+      display: none;
+    }
+  }
+
+  .products {
+    &-item {
+      padding: 16px;
+      &--image {
+        padding-bottom: 50%;
+      }
+    }
+  }
+
+  .product--list {
+    &.large {
+      .product--details {
+        flex-direction: unset;
+        justify-content: space-between;
+        align-items: center;
+        .button {
+          display: inline-flex;
+          background-color: transparent;
+        }
+        span {
+          display: none;
+        }
+        h4 {
+          margin-bottom: 0;
+          -webkit-line-clamp: unset;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+
+          display: block;
+        }
+      }
+      .product--options {
+        span {
+          font-size: 16px;
+          line-height: 19px;
+          color: #ffffff;
+        }
+        .cart-price {
+          display: flex;
+        }
+
+        & > .button {
+          display: none;
+        }
+      }
     }
   }
 }

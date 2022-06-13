@@ -9,8 +9,9 @@
   color: #fff;
   outline: none;
   font-size: 14px;
+  caret-color: #ed2024;
 
-  &--small {
+  &.is-medium {
     height: 48px;
   }
 
@@ -43,6 +44,14 @@
     }
   }
 
+  &:disabled {
+    color: #55687a;
+
+    &::placeholder {
+      color: #55687a;
+    }
+  }
+
   &.has-error {
     border-color: #ed2024;
     & + .input--label {
@@ -52,13 +61,11 @@
 
   &--label {
     position: absolute;
-    font-family: "Helvetica Neue LT GEO";
-    font-style: normal;
-    font-weight: 400;
+    font-family: "Helvetica-medium";
     font-size: 13px;
     color: #768b9d;
     left: 16px;
-    top: 20px;
+    top: 22px;
     line-height: 1;
     transition: top 0.15s ease-in-out, font-size 0.15s ease-in-out;
   }
@@ -253,5 +260,11 @@
 
   &.equal-padding {
     padding: 14px 16px;
+  }
+}
+
+@media screen and(max-width: 600px) {
+  .input--textarea {
+    height: 110px;
   }
 }

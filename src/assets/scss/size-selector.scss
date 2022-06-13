@@ -1,54 +1,57 @@
 .size-selector {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    grid-gap: 12px;
-    margin-bottom: 24px;
-  
-    &--label {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  grid-gap: 12px;
+  margin-bottom: 24px;
+
+  &--label {
+    cursor: pointer;
+    position: relative;
+    input {
+      opacity: 0;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
       cursor: pointer;
-      position: relative;
-      input {
-        opacity: 0;
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-        cursor: pointer;
-        &:disabled {
-          cursor: not-allowed;
-          & + .size-selector--box {
-            background-color: #233c52;
-            border: 1px solid #233c52;
-            cursor: not-allowed;
-          }
-        }
-        &:checked + .size-selector--box {
+      &:disabled {
+        cursor: not-allowed;
+        & + .size-selector--box {
           background-color: #233c52;
           border: 1px solid #233c52;
+          cursor: not-allowed;
         }
       }
-    }
-    &--box {
-      border: 1px solid #162a3d;
-      border-radius: 6px;
-      min-width: 62px;
-      height: 48px;
-      background-color: #112231;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: "Helvetica Neue LT GEO";
-      font-style: normal;
-      font-weight: 400;
-      font-size: 18px;
-      line-height: 22px;
-      text-align: center;
-      color: #ffffff;
+      &:checked + .size-selector--box {
+        background-color: #233c52;
+        border: 1px solid #233c52;
+      }
     }
   }
-  
+  &--box {
+    border: 1px solid #162a3d;
+    border-radius: 6px;
+    min-width: 62px;
+    height: 48px;
+    background-color: #112231;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Helvetica-medium";
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    color: #ffffff;
+  }
+}
+
+@media screen and(max-width: 768px) {
+  .size-selector--box {
+    height: 40px;
+  }
+}

@@ -15,9 +15,12 @@
   border-radius: 8px;
   white-space: nowrap;
   flex-shrink: 0;
+  font-family: "Helvetica-medium";
 
   &:disabled {
     cursor: not-allowed;
+    background-color: #112231;
+    color: #55687a;
   }
 
   &.is-medium {
@@ -33,7 +36,9 @@
   }
 
   &:hover {
-    background-color: #142638;
+    &:not(:disabled) {
+      background-color: #142638;
+    }
   }
 
   svg {
@@ -94,15 +99,25 @@
 
   &--primary {
     background-color: #ed2024;
-    &:hover {
-      background-color: #bc1b1e;
+    &:not(:disabled) {
+      &:hover {
+        background-color: #fc2d31;
+      }
+      &:active {
+        background-color: #e81519;
+      }
     }
   }
 
   &--secondary {
     background-color: #233c52;
-    &:hover {
-      background-color: #1f364a;
+    &:not(:disabled) {
+      &:hover {
+        background-color: #2a455c;
+      }
+      &:active {
+        background-color: #1f3950;
+      }
     }
   }
 
@@ -137,6 +152,9 @@
     &__text {
       z-index: 1;
       position: relative;
+      max-width: 75%;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     input {
@@ -161,9 +179,37 @@
 }
 
 @media screen and(max-width: 1366px) {
-  .button--icon {
+  .button--icon:not(.search-button) {
     width: 36px;
     height: 36px;
+  }
+}
+
+@media screen and(max-width: 768px) {
+  .button-pull-right {
+    margin-right: -6px;
+  }
+  .button {
+    &:not(.button--icon):not(.button--icon-right) {
+      &.is-large {
+        height: 56px;
+      }
+      svg {
+        width: 18px;
+      }
+    }
+
+    &--icon:not(.search-button) {
+      padding: 0;
+      &.is-xs {
+        height: 32px;
+        width: 32px;
+      }
+      svg {
+        width: 45%;
+        max-height: 65%;
+      }
+    }
   }
 }
 

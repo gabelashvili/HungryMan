@@ -91,9 +91,8 @@
   &--details {
     display: flex;
     flex-direction: column;
-    font-family: "Helvetica Neue LT GEO";
-    font-style: normal;
-    font-weight: 400;
+    font-family: "Helvetica-roman";
+
     h4 {
       line-height: 20px;
       font-size: 14px;
@@ -107,12 +106,15 @@
       line-height: 1;
     }
     span {
-      font-family: Helvetica Neue LT GEO;
+      font-family: "Helvetica-medium";
       font-size: 14px;
-      font-weight: 400;
       color: #ffffff;
       margin-top: 6px;
       line-height: 1;
+    }
+
+    .button {
+      display: none;
     }
   }
 
@@ -122,8 +124,13 @@
     margin-left: auto;
     padding-left: 20px;
 
-    & > * + * {
-      margin-left: 12px;
+    & > {
+      .cart-price {
+        display: none;
+      }
+      * + * {
+        margin-left: 12px;
+      }
     }
 
     .button {
@@ -132,9 +139,8 @@
   }
 
   &--price {
-    font-family: "Helvetica Neue LT GEO";
-    font-style: normal;
-    font-weight: 400;
+    font-family: "Helvetica-medium";
+
     font-size: 20px;
     line-height: 24px;
     color: #ffffff;
@@ -142,9 +148,8 @@
   }
 
   &--date {
-    font-family: "Helvetica Neue LT GEO";
-    font-style: normal;
-    font-weight: 400;
+    font-family: "Helvetica-medium";
+
     font-size: 12px;
     line-height: 16px;
     color: #55687a;
@@ -170,6 +175,51 @@
             font-size: 12px;
             margin-bottom: 8px;
           }
+        }
+      }
+    }
+  }
+}
+
+@media screen and(max-width: 768px) {
+  .product--image {
+    width: 48px !important;
+    height: 48px !important;
+    margin-right: 8px !important;
+  }
+
+  .product--details {
+    h4 {
+      font-size: 13px !important;
+    }
+    p {
+      font-size: 11px !important;
+    }
+  }
+}
+
+@media screen and(max-width: 600px) {
+  .product--list {
+    &.large {
+      .product--item {
+        padding: 16px 0;
+        position: relative;
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
+
+      .product--details {
+        width: calc(100% - 56px);
+      }
+
+      .product--options {
+        width: 100%;
+        padding-left: 55px;
+        justify-content: space-between;
+        padding-right: 8px;
+        .product--price {
+          margin-left: unset;
+          font-size: 16px;
         }
       }
     }
