@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useAppDispatch } from '../../../hooks/useSelector';
+import ClearIcon from '../../../Icons/ClearIcon';
 import { CUBES_TOTAL_ROWS } from '../../../Routes/Cubes/Cubes';
 import { setSelectedCubes, setTotalPriceInStore } from '../../../store/ducks/cubesDuck';
 import Button from '../../shared/Button';
@@ -9,6 +10,8 @@ import './selected-cubes-bar.scss';
 
 const SelectedCubesBar = ({ cubePrice, selectedCubes }: { cubePrice:number, selectedCubes:number[]}) => {
   const [canAddInCart, setCanAddInCart] = useState<boolean>(false);
+  const [showErrorBox, setShowErrorBox] = useState<boolean>(false);
+  const timer = useRef<any>();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -18,7 +21,7 @@ const SelectedCubesBar = ({ cubePrice, selectedCubes }: { cubePrice:number, sele
       dispatch(setTotalPriceInStore(selectedCubes.length * cubePrice));
       toast.success('კალათა განახლდა');
     } else {
-      toast.error('არჩეული კუბიკები უნდა ადგენდნენ მართკუთხედს');
+      setShowErrorBox(true);
     }
   };
 
@@ -28,7 +31,7 @@ const SelectedCubesBar = ({ cubePrice, selectedCubes }: { cubePrice:number, sele
       dispatch(setSelectedCubes(selectedCubes));
       dispatch(setTotalPriceInStore(selectedCubes.length * cubePrice));
     } else {
-      toast.error('არჩეული კუბიკები უნდა ადგენდნენ მართკუთხედს');
+      setShowErrorBox(true);
     }
   };
 
@@ -39,8 +42,27 @@ const SelectedCubesBar = ({ cubePrice, selectedCubes }: { cubePrice:number, sele
       setCanAddInCart(res);
     }
   }, [selectedCubes]);
+
+  useEffect(() => {
+    if (showErrorBox) {
+      timer.current = setTimeout(() => {
+        setShowErrorBox(false);
+      }, 2000);
+    }
+    return () => clearTimeout(timer.current);
+  }, [showErrorBox]);
+
   return (
     <div className="selected-coubs">
+      {showErrorBox && (
+      <div className="selected-coubs--error-box">
+        <h1>
+          ფიგურის ფორმა არასწორია
+          <Button handleClick={() => setShowErrorBox(false)} type="icon" classes="is-rounded"><ClearIcon /></Button>
+        </h1>
+        <p>უჯრების ყიდვა შეგიძლიათ მხოლოდ იმ შემთხვევაში თუ უჯრების ფორმა წარმოქმნის ოთკუთხედ ფიგურას, მადლობა.</p>
+      </div>
+      )}
       <div className="selected-coubs--count">{selectedCubes.length}</div>
       <div className="selected-coubs--title">არჩეული კუბები</div>
       <Button

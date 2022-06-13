@@ -8,7 +8,22 @@
   transform: translateX(-50%);
   bottom: 48px;
   padding: 16px;
-
+  &--error-box {
+    background: #374757;
+    position: absolute;
+    transform: translateY(-100%);
+    padding: 20px;
+    border-radius: 15px;
+    & h1 {
+      font-size: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    & p {
+      margin: 0;
+    }
+  }
   &--count {
     width: 48px;
     height: 48px;
