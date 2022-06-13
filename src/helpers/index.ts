@@ -57,5 +57,5 @@ export const getCssMatrix = (el:Element) => (getComputedStyle(el)
 export async function base64ToFile(dataUrl: string): Promise<File> {
   const res: Response = await fetch(dataUrl);
   const blob: Blob = await res.blob();
-  return new File([blob], 'result', { type: 'image/png' });
+  return new File([blob], 'result.png', { type: 'image/png' });
 }
