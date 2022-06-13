@@ -2,7 +2,6 @@ import './home.scss';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import Hat from '../../assets/images/hat.png';
 import { getProducts } from '../../store/ducks/productsDuck';
 import { useSelector } from '../../hooks/useSelector';
 import ProductItem from '../../components/Products/ProductItem';
@@ -18,9 +17,13 @@ const Home = () => {
     }));
   }, []);
   return (
-    <div className="landing">
+    <div style={{
+      overflowX: 'hidden',
+      display: 'block',
+    }}
+    >
       <div className="landing-intro">
-        <img src={Hat} alt="" className="landing-image" />
+        <img src={require('../../assets/images/l-home.png')} alt="" className="landing-image" />
         <div className="wrapper">
           <div className="landing-content">
             <h1>როგორ შევქმენით კედელი?</h1>
@@ -46,7 +49,9 @@ const Home = () => {
       <div className="landing-container">
         <div className="landing-info landing-wrapper">
           <div className="landing-info--image">
-            <img src={Hat} alt="" />
+            <img src={require('../../assets/images/hungyman image 1.png')} alt="" />
+            <img src={require('../../assets/images/f-coub.png')} alt="" className="f-coub" />
+            <img src={require('../../assets/images/s-coub.png')} alt="" className="s-coub" />
           </div>
 
           <div className="landing-info--content">
@@ -86,13 +91,29 @@ const Home = () => {
             <button className="button button--primary">შეიძინე უჯრები</button>
           </div>
           <div className="landing-info--image">
-            <img src={Hat} alt="" />
+            <img src={require('../../assets/images/hungyman image 2.png')} alt="" />
+
+            <div className="img-card typology">
+              <img src={require('../../assets/images/Vector.png')} alt="" />
+            </div>
+            <div className="img-card gost">
+              <img src={require('../../assets/images/13.png')} alt="" />
+            </div>
+            <div className="img-card fox">
+              <img src={require('../../assets/images/15.png')} alt="" />
+            </div>
           </div>
         </div>
 
         <div className="landing-info landing-wrapper">
           <div className="landing-info--image">
-            <img src={Hat} alt="" />
+            <img src={require('../../assets/images/hungyman image 3.png')} alt="" />
+            <div className="img-card notification">
+              <img src={require('../../assets/images/notification-bing.png')} alt="" />
+            </div>
+            <div className="img-card like">
+              <img src={require('../../assets/images/like-dislike.png')} alt="" />
+            </div>
           </div>
 
           <div className="landing-info--content">
@@ -106,33 +127,16 @@ const Home = () => {
         </div>
 
         <div className="landing-wrapper">
-          <div className="products-carousel--header is-centered" style={{ textAlign: 'center' }}>
-            <div className="products-carousel--heading">
-              <h4 className="products-carousel--title"> ჩვენი პროდუქცია </h4>
-              <p className="products-carousel--description">
-                ვებ-გვერდზე ასევე შესაძლებელია ჩვენი
-                ბრენდირებული და ორიგინალური დიზაინის ტანსაცმლის და სხვა აქსესუარების შეძენა
-              </p>
-            </div>
-          </div>
-          {/* <app-products-carousel
-        [description]="
-          'ვებ-გვერდზე ასევე შესაძლებელია ჩვენი ბრენდირებული და ორიგინალური დიზაინის ტანსაცმლის და სხვა აქსესუარების შეძენა'
-        "
-        class="landing-products-carousel"
-        [title]="'ჩვენი პროდუქცია'"
-        [centeredHeading]="true"
-        [hasArrows]="false"
-      ></app-products-carousel> */}
           <div style={{
             display: 'grid', gap: '15px', gridAutoFlow: 'column', marginBottom: '25px',
           }}
           >
             {products && products.items.map((el) => <ProductItem data={el} />)}
           </div>
-          <button className="button button--secondary" onClick={() => navigate('/products')}>ყველას ნახვა</button>
+          <button style={{ marginBottom: '50px' }} className="button button--secondary" onClick={() => navigate('/products')}>ყველას ნახვა</button>
         </div>
       </div>
+
     </div>
   );
 };
