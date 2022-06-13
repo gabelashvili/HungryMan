@@ -28,7 +28,7 @@ const CubesCart = () => {
     if (totalPrice > 50 && totalPrice < 100 && !giftOneProp) {
       return true;
     }
-    if (totalPrice > 100 && (!giftOneProp || !giftTwoProp)) {
+    if (totalPrice >= 100 && (!giftOneProp || !giftTwoProp)) {
       return true;
     }
     return false;

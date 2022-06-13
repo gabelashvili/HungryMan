@@ -9,10 +9,10 @@ const CubesGift = ({
   totalPrice, setGiftOneProp, setGiftTwoProp, giftOneProp, giftTwoProp,
 }: PropsTypes) => {
   const gifts = useSelector((state) => state.cubesReducer.initialData)?.gifts;
-  const giftsByPrice = gifts && totalPrice <= 100 ? [gifts[0]] : gifts;
+  const giftsByPrice = gifts && totalPrice < 100 ? [gifts[0]] : gifts;
   return (
     <div className="cart-gifts">
-      {totalPrice > 100 && (
+      {totalPrice >= 100 && (
       <Button type="icon" classes="button--primary is-large is-rounded">
         <PlusIcon styles={{ height: '21px' }} />
       </Button>
