@@ -80,9 +80,9 @@ const CubesCart = () => {
 
   return (
     <div className="cart">
-      <div className="wrapper">
+      <div className="wrapper" style={{ alignItems: 'start' }}>
         <div className="panel cart">
-          <div className="panel--header with-border">
+          <div className="panel--header with-border" style={{ padding: 0, height: ' 60px' }}>
             <Tab
               selectedTab={selectedTab}
               tabs={totalPrice < 50 ? tabs.slice(0, 2) : tabs}
@@ -100,6 +100,7 @@ const CubesCart = () => {
               <Zoom
                 scale={scale}
                 setScale={setScale}
+                styles={{ position: 'inherit' }}
               />
             </div>
             )}
