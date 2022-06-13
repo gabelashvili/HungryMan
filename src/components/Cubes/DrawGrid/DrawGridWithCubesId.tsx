@@ -144,7 +144,9 @@ const DrawGridWithCubesId = ({
         <Layer>
           {data && Object.keys(data.data)
             .map((el, y) => {
-              color = color === '#132636' ? '#1A3044' : '#132636';
+              if (data.columnLength % 2 === 0) {
+                color = color === '#132636' ? '#1A3044' : '#132636';
+              }
               return data.data[el]
                 .map((item, x) => {
                   color = color === '#132636' ? '#1A3044' : '#132636';
