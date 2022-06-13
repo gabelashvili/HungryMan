@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useEffect, useRef } from 'react';
+import { CSSProperties, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAppDispatch } from '../../../hooks/useSelector';
 import ArrowIcon from '../../../Icons/ArrowIcon';
@@ -12,9 +12,9 @@ import { logOut } from '../../../store/ducks/userDuck';
 import './user-menu.scss';
 
 const UserMenu = ({
-  handleClose, open, isRelative,
+  handleClose, open, isRelative, styles,
 }: {
-  handleClose?: () => void, open: boolean, isRelative?: boolean,
+  handleClose?: () => void, open: boolean, isRelative?: boolean, styles?:CSSProperties
 }) => {
   const { pathname } = useLocation();
   const dispatch = useAppDispatch();
@@ -49,7 +49,7 @@ const UserMenu = ({
 
   return (
     open ? (
-      <nav className={clsx('user-menu', isRelative && 'is-relative')} ref={ref}>
+      <nav className={clsx('user-menu', isRelative && 'is-relative')} ref={ref} style={styles}>
         <ul className="user-menu--list">
           {navItems.map(({ title, path, Icon }) => (
             <li className="user-menu--item" key={path}>

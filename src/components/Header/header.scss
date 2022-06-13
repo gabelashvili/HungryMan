@@ -101,7 +101,7 @@
 }
 
 .burger-button {
-  display: none;
+  display: none !important;
   margin-left: 16px;
 }
 
@@ -131,12 +131,12 @@
   &--arrow {
     margin-left: 6px;
     color: #233c52;
-    transform: rotate(0);
     transition: transform 0.2s ease-in-out;
+    transform: rotate(-90deg);
   }
   &.is-active {
     .user-info--arrow {
-      transform: rotate(-180deg);
+      transform: rotate(90deg);
     }
   }
 }
@@ -197,13 +197,14 @@
     margin-left: auto;
   }
   .burger-menu {
-    display: block;
+    display: block !important;
   }
 }
 
 @media screen and(max-width: 768px) {
   .header {
     &-button {
+      display: flex !important;
       width: 36px !important;
       height: 36px !important;
     }
