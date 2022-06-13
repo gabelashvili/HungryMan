@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../../assets/images/logo.png';
@@ -33,15 +32,17 @@ const Header = () => {
       <CartModal show={showCartModal} setShow={setShowCartModal} />
       <header className="header">
         <div className="wrapper">
-          <Link to="/" className="header-logo">
+          <a href="/" className="header-logo">
             <picture>
               <img src={Logo} alt="HungryMan" />
             </picture>
-          </Link>
+          </a>
           <nav className="header-nav">
-            <ul className={clsx('header-nav--list', showSearchBar && 'hidden')}>
+            <ul className="header-nav--list">
               <li className="header-nav--item">
-                <Link to="cubes" className="header-nav--link" style={{ marginRight: '15px' }}>კედელი</Link>
+                <Link to="cubes" className="header-nav--link">კედელი</Link>
+              </li>
+              <li className="header-nav--item">
                 <Link to="products" className="header-nav--link">პროდუქტები</Link>
               </li>
             </ul>
@@ -50,18 +51,20 @@ const Header = () => {
           <Button type="icon" classes="is-rounded header-button" handleClick={() => setShowCartModal(!showCartModal)} id="show-cart-btn">
             <BasketIcon />
             {/* TODO: add coubs data */}
+            {cartsTotalItem() > 0 && (
             <span className="cart-count">
               {cartsTotalItem()}
             </span>
+            )}
           </Button>
           {isUserAuthed ? (
             <div className="relative">
-              <button id="show-user-menu" className="button button--icon user--icon" onClick={() => setShowMenu(!showMenu)}>
+              <Button id="show-user-menu" type="icon" classes="user--icon" handleClick={() => setShowMenu(!showMenu)}>
                 <img
                   src={Logo}
                   alt="icon"
                 />
-              </button>
+              </Button>
               <UserMenu
                 handleClose={() => setShowMenu(false)}
                 open={showMenu}

@@ -52,9 +52,15 @@
     }
   }
 
+  & .relative > button {
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 50%;
+  }
+
   &-button {
-    width: 48px;
-    height: 48px;
+    width: 48px !important;
+    height: 48px !important;
   }
   .button + .button {
     margin-left: 16px;
@@ -187,7 +193,7 @@
   .navigation-modal {
     display: flex;
   }
-  app-search-bar {
+  .search-bar {
     margin-left: auto;
   }
   .burger-menu {
@@ -198,8 +204,8 @@
 @media screen and(max-width: 768px) {
   .header {
     &-button {
-      width: 36px;
-      height: 36px;
+      width: 36px !important;
+      height: 36px !important;
     }
     &-logo {
       width: 55px;

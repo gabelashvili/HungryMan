@@ -1,8 +1,8 @@
-:host {
-  margin-right: 16px;
-}
 .search-bar {
+  margin-right: 16px;
   display: flex;
+  width: 48px;
+  justify-content: center;
   align-items: center;
   background-color: #162a3d;
   overflow: hidden;
@@ -52,9 +52,10 @@
     height: 36px;
   }
   .search-bar {
-    height: 36px;
+    height: 36px !important;
+    width: 36px !important;
     svg {
-      width: 14px;
+      width: 14px !important;
     }
     .input {
       padding-left: 0;
