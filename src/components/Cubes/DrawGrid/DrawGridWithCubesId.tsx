@@ -49,12 +49,21 @@ const DrawGridWithCubesId = ({
     }
   }, [data, canvasProps, showClipPath]);
 
-  const calculateCanvasProps = () => {
+  const calculateCubeSize = () => {
     if (canvasWrapperRef.current && canvasWrapperRef.current?.parentElement && data) {
       const props = canvasWrapperRef.current.parentElement.getBoundingClientRect();
       const canvasMinSize = props.width < props.height ? props.width : props.height;
       const dataMax = data.columnLength > data.rowLength ? data.columnLength : data.rowLength;
       const cubeSize = canvasMinSize / dataMax;
+      return cubeSize;
+    }
+    return 1;
+  };
+
+  const calculateCanvasProps = () => {
+    if (canvasWrapperRef.current && canvasWrapperRef.current?.parentElement && data) {
+      const props = canvasWrapperRef.current.parentElement.getBoundingClientRect();
+      const cubeSize = calculateCubeSize();
       setStageCords({
         ...stageCords,
         x: (props.width - (cubeSize * data.columnLength)) / 2,
@@ -120,10 +129,15 @@ const DrawGridWithCubesId = ({
     timerRef.current = setInterval(() => {
       const x = stageRef.current.getX() || 0;
       const y = stageRef.current.getY() || 0;
-      dispatch(setBase64(stageRef.current.toDataURL({ x, y })));
+      const cubeSize = calculateCubeSize();
+      const length = data?.columnLength || 1;
+      const height = data?.rowLength || 1;
+      dispatch(setBase64(stageRef.current.toDataURL({
+        x, y, width: cubeSize * length, height: cubeSize * height,
+      })));
     }, 1000);
     return () => clearInterval(timerRef.current);
-  }, []);
+  }, [data]);
 
   return (
     <div ref={canvasWrapperRef}>
