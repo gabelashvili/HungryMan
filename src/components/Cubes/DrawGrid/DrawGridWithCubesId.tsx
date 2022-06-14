@@ -30,6 +30,7 @@ const DrawGridWithCubesId = ({
   const selectedCubesIds = useSelector((state) => state.cubesReducer.selectedCubesInfo?.cubesId);
   const canvasWrapperRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<any>(null);
+  const stageRefCopy = useRef<any>(null);
 
   const clipFunc = useCallback((ctx: any) => {
     if (data && canvasProps && showClipPath) {
@@ -127,13 +128,15 @@ const DrawGridWithCubesId = ({
 
   useEffect(() => {
     timerRef.current = setInterval(() => {
-      const x = stageRef.current.getX() || 0;
-      const y = stageRef.current.getY() || 0;
+      stageRefCopy.current = stageRef.current.clone();
+      const x = stageRefCopy.current.getX() || 0;
+      const y = stageRefCopy.current.getY() || 0;
       const cubeSize = calculateCubeSize();
       const length = data?.columnLength || 1;
       const height = data?.rowLength || 1;
-      dispatch(setBase64(stageRef.current.toDataURL({
-        x, y, width: cubeSize * length, height: cubeSize * height,
+      stageRefCopy.current.scale({ x: 1, y: 1 });
+      dispatch(setBase64(stageRefCopy.current.toDataURL({
+        x, y, width: cubeSize * length, height: cubeSize * height, scale: 1,
       })));
     }, 1000);
     return () => clearInterval(timerRef.current);
