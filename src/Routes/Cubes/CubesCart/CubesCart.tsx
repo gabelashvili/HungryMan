@@ -130,6 +130,7 @@ const CubesCart = () => {
                 text={text}
                 images={images}
                 selectedColor={selectedColor}
+                selectedTab={selectedTab}
               />
             </div>
           </div>

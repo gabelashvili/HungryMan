@@ -13,7 +13,7 @@ import ImageWrapper from './Image';
 import TextWrapper from './Text';
 
 const DrawGridWithCubesId = ({
-  scale, setScale, text, setSelectedObjectId, selectedObjectId, images, selectedColor,
+  scale, setScale, text, setSelectedObjectId, selectedObjectId, images, selectedColor, selectedTab,
 }: PropsTypes) => {
   let color = '#1A3044';
   const dispatch = useAppDispatch();
@@ -179,7 +179,8 @@ const DrawGridWithCubesId = ({
                       width={canvasProps.cubeSize}
                       height={canvasProps.cubeSize}
                       fill={item.isSelected ? cubesColor[item.cubeId] || color : 'transparent'}
-                      onClick={() => setCubesColor({ ...cubesColor, [item.cubeId]: selectedColor })}
+                      onClick={() => selectedTab === 1
+                         && setCubesColor({ ...cubesColor, [item.cubeId]: selectedColor })}
                     />
                   );
                 });
@@ -290,5 +291,6 @@ interface PropsTypes {
   setSelectedObjectId: Dispatch<SetStateAction<string | null>>
   selectedObjectId: string | null,
   images: {id:string, file?:File, base64?: string, value?: string}[],
-  selectedColor: string
+  selectedColor: string,
+  selectedTab: number
 }
