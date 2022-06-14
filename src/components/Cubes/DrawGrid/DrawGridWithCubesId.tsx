@@ -118,7 +118,9 @@ const DrawGridWithCubesId = ({
 
   useEffect(() => {
     timerRef.current = setInterval(() => {
-      dispatch(setBase64(stageRef.current.toDataURL()));
+      const x = stageRef.current.getX() || 0;
+      const y = stageRef.current.getY() || 0;
+      dispatch(setBase64(stageRef.current.toDataURL({ x, y })));
     }, 1000);
     return () => clearInterval(timerRef.current);
   }, []);
