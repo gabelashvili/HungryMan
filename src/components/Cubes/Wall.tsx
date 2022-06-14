@@ -97,7 +97,7 @@ const Wall = ({
   // set context
   useEffect(() => {
     if (canvasRef.current) {
-      const cubeSize = Math.round(window.innerWidth / CUBES_TOTAL_ROWS);
+      const cubeSize = 40;
       canvasRef.current.width = cubeSize * CUBES_TOTAL_ROWS;
       canvasRef.current.height = cubeSize * CUBES_TOTAL_COLUMNS;
       const context = canvasRef.current.getContext('2d');
