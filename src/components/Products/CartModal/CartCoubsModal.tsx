@@ -8,7 +8,6 @@ import EmptyCard from './EmptyCard';
 const CartCoubs = () => {
   const imgRef = useRef<HTMLImageElement>(null);
   const data = useSelector((state) => state.cubesReducer);
-
   return (
     data.selectedCubesInfo?.cubesId && data.selectedCubesInfo.cubesId.length > 0 ? (
       <>
