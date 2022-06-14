@@ -127,8 +127,8 @@ const DrawGridWithCubesId = ({
     <div ref={canvasWrapperRef}>
       {canvasProps && (
       <Stage
-        ref={stageRef}
         draggable
+        ref={stageRef}
         onWheel={handleZoom}
         width={canvasProps.w}
         height={canvasProps.h}
@@ -168,16 +168,16 @@ const DrawGridWithCubesId = ({
         </Layer>
         <Layer clipFunc={showClipPath ? clipFunc : undefined}>
           {text && (
-          <TextWrapper
-            fontSize={50}
-            id="grid-text"
-            fill="white"
-            text={text.val}
-            x={0}
-            y={0}
-            selectedObjId={selectedObjectId}
-            setSelectedObjId={setSelectedObjectId}
-          />
+            <TextWrapper
+              fontSize={50}
+              id="grid-text"
+              fill="white"
+              text={text.val}
+              x={0}
+              y={0}
+              selectedObjId={selectedObjectId}
+              setSelectedObjId={setSelectedObjectId}
+            />
           )}
           {images.map((el) => (
             <ImageWrapper
