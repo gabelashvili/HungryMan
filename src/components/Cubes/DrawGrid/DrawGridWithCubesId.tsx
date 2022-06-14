@@ -45,9 +45,7 @@ const DrawGridWithCubesId = ({
         x = 0;
         y = Number(el) * canvasProps.cubeSize;
       });
-      setSelectedObjectId(null);
-    } else {
-      ctx.rect(0, 0, 5000, 5000);
+      // setSelectedObjectId(null);
     }
   }, [data, canvasProps, showClipPath]);
 
@@ -57,7 +55,11 @@ const DrawGridWithCubesId = ({
       const canvasMinSize = props.width < props.height ? props.width : props.height;
       const dataMax = data.columnLength > data.rowLength ? data.columnLength : data.rowLength;
       const cubeSize = canvasMinSize / dataMax;
-      setStageCords({ ...stageCords, x: (props.width - (cubeSize * data.rowLength)) / 2 });
+      setStageCords({
+        ...stageCords,
+        x: (props.width - (cubeSize * data.columnLength)) / 2,
+        y: (props.height - (cubeSize * data.rowLength)) / 2,
+      });
       setCanvasProps({
         w: props.width,
         h: props.height,
@@ -81,24 +83,6 @@ const DrawGridWithCubesId = ({
       y: (stage.getPointerPosition().y / newScale - mousePointTo.y) * newScale,
     });
     setScale(newScale);
-  };
-
-  const handleMouseLeave = () => {
-    if (canvasWrapperRef.current && canvasWrapperRef.current?.parentElement && data) {
-      const props = canvasWrapperRef.current.parentElement.getBoundingClientRect();
-      const canvasMinSize = props.width < props.height ? props.width : props.height;
-      const dataMax = data.columnLength > data.rowLength ? data.columnLength : data.rowLength;
-      const cubeSize = canvasMinSize / dataMax;
-      setStageCords({ ...stageCords, x: (props.width - (cubeSize * data.rowLength)) / 2 });
-      setCanvasProps({
-        w: cubeSize * data.columnLength,
-        h: cubeSize * data.rowLength,
-        cubeSize,
-      });
-      setClipPath(true);
-      setScale(1);
-      setStageCords({ x: 0, y: 0 });
-    }
   };
 
   // set formatted data
@@ -154,9 +138,10 @@ const DrawGridWithCubesId = ({
         y={stageCords.y}
         onMouseOver={() => {
           setClipPath(false);
-          calculateCanvasProps();
         }}
-        onMouseLeave={handleMouseLeave}
+        onMouseLeave={() => {
+          setClipPath(true);
+        }}
       >
         <Layer>
           {data && Object.keys(data.data)
@@ -181,7 +166,7 @@ const DrawGridWithCubesId = ({
                 });
             })}
         </Layer>
-        <Layer clipFunc={clipFunc}>
+        <Layer clipFunc={showClipPath ? clipFunc : undefined}>
           {text && (
           <TextWrapper
             fontSize={50}
