@@ -11,10 +11,12 @@ import {
 import { useSelector } from '../../hooks/useSelector';
 import Logo from '../../assets/images/Vector2.png';
 import { SoldCubesDetail } from '../../types/cubes';
+import Loader from '../../Icons/Loader';
 
 const Wall = ({
   setMethods, setZoomPercent, selectedCubes, setSelectedCubes,
 }: PropsTypes) => {
+  const [loading, setLoading] = useState(true);
   const [isSpaceClicked, setSpaceClicked] = useState(false);
   const soldCubesDetail = useSelector((state) => state.cubesReducer.soldCubesDetails);
   const [img, setImg] = useState<any>(null);
@@ -22,7 +24,6 @@ const Wall = ({
   const isSelecting = useRef(false);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  console.log(soldCubesDetail);
 
   const getCubeId = (e:MouseEvent) => {
     if (canvasRef.current && panRef.current && panRef.current.instance.contentComponent && ctx) {
@@ -115,6 +116,7 @@ const Wall = ({
         selectedCubes,
         img,
         soldCubesDetail,
+        () => setLoading(false),
       );
     }
   }, [ctx, selectedCubes, img, soldCubesDetail]);
@@ -153,9 +155,15 @@ const Wall = ({
 
   return (
     <div style={{
-      width: '100%', display: 'flex', alignItems: 'center', marginBottom: '130px',
+      width: '100%', display: 'flex', alignItems: 'center', marginBottom: '130px', position: 'relative',
     }}
     >
+      {loading && (
+      <Loader styles={{
+        position: 'absolute', width: '80px', top: 0, left: '50%', transform: 'translateX(-50%)',
+      }}
+      />
+      )}
       <TransformWrapper
         panning={{
           activationKeys: [' '],
@@ -179,7 +187,7 @@ const Wall = ({
             onMouseDown={isSpaceClicked ? undefined : handleMouseDown}
             onMouseUp={isSpaceClicked ? undefined : handleMouseUp}
             onMouseMove={isSpaceClicked ? undefined : handleMouseMove}
-            style={{ width: '100%' }}
+            style={{ width: '100%', opacity: loading ? 0 : 1 }}
           />
         </TransformComponent>
       </TransformWrapper>
@@ -196,6 +204,7 @@ const drawRect = (
   w:number,
   h: number,
   color: string,
+
 ) => {
   ctx.beginPath();
   ctx.fillStyle = color;
@@ -219,6 +228,7 @@ const redrawWall = (
   selectedCubes: number[],
   logo: any,
   soldCubesDetail: SoldCubesDetail,
+  disableLoading: () => void,
 ) => {
   let color = CUBE_DARK_COLOR;
   for (let i = 0; i < CUBES_TOTAL_COLUMNS; i++) {
@@ -257,8 +267,8 @@ const redrawWall = (
     const w = (bottomRightCube.row - topLeftCube.row + 1) * cubeSize;
     const h = (bottomRightCube.column - topLeftCube.column + 1) * cubeSize;
     ctx.drawImage(htmlImg, x, y, w, h);
-    // console.log(x, y);
   }
+  disableLoading();
 };
 
 interface PropsTypes {

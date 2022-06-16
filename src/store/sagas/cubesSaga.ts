@@ -52,9 +52,7 @@ export function* getInitialData({ callbacks }:{ callbacks: CallBacks, type:strin
           },
         });
       };
-      console.log(generatePath(el.imageUrl));
       img.src = generatePath(el.imageUrl);
-      // img.src = 'https://variety.com/wp-content/uploads/2022/02/Screen-Shot-2022-05-09-at-10.04.13-AM.png?w=681&h=383&crop=1';
     });
     yield put(setInitialData(data));
     yield put(setSoldCubesDetail(formattedData));
