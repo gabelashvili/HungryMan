@@ -259,7 +259,6 @@ const redrawWall = (
     ctx.drawImage(htmlImg, x, y, w, h);
     // console.log(x, y);
   }
-  // ctx.restore();
 };
 
 interface PropsTypes {
