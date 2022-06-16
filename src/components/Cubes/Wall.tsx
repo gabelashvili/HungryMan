@@ -230,6 +230,8 @@ const redrawWall = (
   soldCubesDetail: SoldCubesDetail,
   disableLoading: () => void,
 ) => {
+  ctx.save();
+  ctx.clearRect(0, 0, 5000, 5000);
   let color = CUBE_DARK_COLOR;
   for (let i = 0; i < CUBES_TOTAL_COLUMNS; i++) {
     for (let j = 0; j < CUBES_TOTAL_ROWS; j++) {
@@ -268,6 +270,7 @@ const redrawWall = (
     const h = (bottomRightCube.column - topLeftCube.column + 1) * cubeSize;
     ctx.drawImage(htmlImg, x, y, w, h);
   }
+  ctx.restore();
   disableLoading();
 };
 
