@@ -36,26 +36,26 @@ export function* getInitialData({ callbacks }:{ callbacks: CallBacks, type:strin
       });
       formattedData.soldCubes.push(...soldCubes);
       const sorted = [...soldCubes].sort((a, b) => a - b);
-      const img = new Image();
-      img.onload = () => {
-        formattedData.images.push({
-          htmlImg: img,
-          topLeftCube: {
-            id: sorted[0],
-            row: sorted[0] % CUBES_TOTAL_ROWS,
-            column: Math.ceil(sorted[0] / CUBES_TOTAL_ROWS),
-          },
-          bottomRightCube: {
-            id: sorted[sorted.length - 1],
-            row: sorted[sorted.length - 1] % CUBES_TOTAL_ROWS,
-            column: Math.ceil(sorted[sorted.length - 1] / CUBES_TOTAL_ROWS),
-          },
-        });
-      };
-      img.src = generatePath(el.imageUrl);
+      // const img = new Image();
+      // img.onload = () => {
+      formattedData.images.push({
+        imgUrl: generatePath(el.imageUrl),
+        topLeftCube: {
+          id: sorted[0],
+          row: sorted[0] % CUBES_TOTAL_ROWS,
+          column: Math.ceil(sorted[0] / CUBES_TOTAL_ROWS),
+        },
+        bottomRightCube: {
+          id: sorted[sorted.length - 1],
+          row: sorted[sorted.length - 1] % CUBES_TOTAL_ROWS,
+          column: Math.ceil(sorted[sorted.length - 1] / CUBES_TOTAL_ROWS),
+        },
+      });
+      // };
+      // img.src = generatePath(el.imageUrl);
     });
     yield put(setInitialData(data));
-    yield put(setSoldCubesDetail(formattedData));
+    yield put(setSoldCubesDetail({ ...formattedData }));
     callbacks?.success && callbacks.success();
   } catch (error: any) {
     toast.error('მოხდა შეცდომა');

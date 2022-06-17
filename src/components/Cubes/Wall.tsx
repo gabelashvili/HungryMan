@@ -108,7 +108,7 @@ const Wall = ({
 
   // draw and redraw cubes
   useEffect(() => {
-    if (ctx && canvasRef.current && img && soldCubesDetail) {
+    if (ctx && canvasRef.current && img && soldCubesDetail && selectedCubes) {
       const cubeSize = Math.round(canvasRef.current.width / CUBES_TOTAL_ROWS);
       redrawWall(
         ctx,
@@ -263,14 +263,17 @@ const redrawWall = (
   // TODO: fix quality
   const { images } = soldCubesDetail;
   for (let i = 0; i < images.length; i++) {
-    const { bottomRightCube, htmlImg, topLeftCube } = images[i];
+    const { bottomRightCube, imgUrl, topLeftCube } = images[i];
     const x = (topLeftCube.row - 1) * cubeSize;
     const y = (topLeftCube.column - 1) * cubeSize;
     const w = (bottomRightCube.row - topLeftCube.row + 1) * cubeSize;
     const h = (bottomRightCube.column - topLeftCube.column + 1) * cubeSize;
-    ctx.drawImage(htmlImg, x, y, w, h);
+    const img = new Image();
+    img.onload = () => {
+      ctx.drawImage(img, x, y, w, h);
+    };
+    img.src = imgUrl;
   }
-  ctx.restore();
   disableLoading();
 };
 
