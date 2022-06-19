@@ -159,7 +159,7 @@ export interface CubesInitialData {
 }
 
 export interface SoldCubesDetail {
-  soldCubes: number[],
+  soldCubes: {purchaseId:number, cubeId: number, redirectLink: string}[],
   images: {
     imgUrl: string,
     topLeftCube: {

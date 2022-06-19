@@ -51,7 +51,8 @@ const Wall = ({
   };
 
   const isCubeSelectable = (cubeId:number) => {
-    if (soldCubesDetail?.soldCubes.includes(cubeId)) {
+    const isSold = soldCubesDetail?.soldCubes.find((el) => el.cubeId === cubeId);
+    if (isSold) {
       return false;
     }
     if (selectedCubes.length === 0) {
@@ -78,6 +79,10 @@ const Wall = ({
     if (isCubeSelectable(cubeId)) {
       setSelectedCubes([...selectedCubes, cubeId]);
       isSelecting.current = true;
+    }
+    const isSold = soldCubesDetail?.soldCubes.find((el) => el.cubeId === cubeId);
+    if (isSold && isSold.redirectLink) {
+      window.open(isSold.redirectLink, '_blank');
     }
   };
 
@@ -266,7 +271,7 @@ const redrawWall = (
         y,
         cubeSize,
         cubeSize,
-        generateColor(soldCubesDetail.soldCubes.includes(cubeId), isSelected, color),
+        generateColor(!!soldCubesDetail.soldCubes.find((el) => el.cubeId === cubeId), isSelected, color),
       );
       color = color === CUBE_DARK_COLOR ? CUBE_LIGHT_COLOR : CUBE_DARK_COLOR;
     }

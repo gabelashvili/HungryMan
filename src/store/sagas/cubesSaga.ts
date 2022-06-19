@@ -30,25 +30,29 @@ export function* getInitialData({ callbacks }:{ callbacks: CallBacks, type:strin
       images: [],
     };
     data.purchases.forEach((el) => {
-      const soldCubes: number[] = [];
+      const soldCubes: {purchaseId:number, cubeId: number, redirectLink:string}[] = [];
       el.purchaseDetails.forEach((cube) => {
-        soldCubes.push(cube.squareId);
+        soldCubes.push({
+          purchaseId: cube.purchaseId,
+          cubeId: cube.squareId,
+          redirectLink: el.redirectLink,
+        });
       });
       formattedData.soldCubes.push(...soldCubes);
-      const sorted = [...soldCubes].sort((a, b) => a - b);
+      const sorted = [...soldCubes].sort((a, b) => (a.cubeId) - b.cubeId);
       // const img = new Image();
       // img.onload = () => {
       formattedData.images.push({
         imgUrl: generatePath(el.imageUrl),
         topLeftCube: {
-          id: sorted[0],
-          row: sorted[0] % CUBES_TOTAL_ROWS,
-          column: Math.ceil(sorted[0] / CUBES_TOTAL_ROWS),
+          id: sorted[0].cubeId,
+          row: sorted[0].cubeId % CUBES_TOTAL_ROWS,
+          column: Math.ceil(sorted[0].cubeId / CUBES_TOTAL_ROWS),
         },
         bottomRightCube: {
-          id: sorted[sorted.length - 1],
-          row: sorted[sorted.length - 1] % CUBES_TOTAL_ROWS,
-          column: Math.ceil(sorted[sorted.length - 1] / CUBES_TOTAL_ROWS),
+          id: sorted[sorted.length - 1].cubeId,
+          row: sorted[sorted.length - 1].cubeId % CUBES_TOTAL_ROWS,
+          column: Math.ceil(sorted[sorted.length - 1].cubeId / CUBES_TOTAL_ROWS),
         },
       });
       // };
