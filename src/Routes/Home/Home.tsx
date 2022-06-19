@@ -133,7 +133,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="landing-wrapper">
+        <div className="products-wrapper landing-wrapper">
           <div>
             {products && products.items.map((el) => <ProductItem data={el} key={el.id} />)}
           </div>

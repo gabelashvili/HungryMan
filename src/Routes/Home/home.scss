@@ -55,12 +55,6 @@
     &:not(.landing-info) {
       flex-direction: column;
     }
-    & > div {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-      gap: 30px;
-      margin: 0 20px 50px 20px;
-    }
   }
 
   &-info {
@@ -311,6 +305,19 @@
   }
 }
 
+.products-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  & > div {
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin: 0 20px 50px 20px;
+  }
+}
+
 @media screen and(max-width: 1366px) {
   .landing {
     &-content {
@@ -370,6 +377,11 @@
       }
     }
   }
+  .products-wrapper {
+    & > div {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
 }
 
 @media screen and(max-width: 960px) {
@@ -402,6 +414,11 @@
 }
 
 @media screen and(max-width: 560px) {
+  .products-wrapper {
+    & > div {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
   .landing {
     &-content {
       justify-content: center;
