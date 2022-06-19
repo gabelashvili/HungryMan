@@ -11,6 +11,8 @@ const Home = () => {
   const navigate = useNavigate();
   const products = useSelector((state) => state.productsReducer.productsList);
   const totalSoldCubes = useSelector((state) => state.cubesReducer.soldCubesDetails?.soldCubes)?.length;
+  const purchaserUserCount = useSelector((state) => state.cubesReducer.initialData?.purchaserUserCount) || 0;
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getProducts({
@@ -75,7 +77,7 @@ const Home = () => {
               </div>
               <div className="landing-chart--item">
                 <div className="landing-chart--name">აქტიური კლიენტი</div>
-                <div className="landing-chart--value">2331</div>
+                <div className="landing-chart--value">{purchaserUserCount}</div>
               </div>
             </div>
           </div>
@@ -136,7 +138,7 @@ const Home = () => {
             display: 'grid', gap: '15px', gridAutoFlow: 'column', marginBottom: '25px',
           }}
           >
-            {products && products.items.map((el) => <ProductItem data={el} />)}
+            {products && products.items.map((el) => <ProductItem data={el} key={el.id} />)}
           </div>
           <button style={{ marginBottom: '50px' }} className="button button--secondary" onClick={() => navigate('/products')}>ყველას ნახვა</button>
         </div>
