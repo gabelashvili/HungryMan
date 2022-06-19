@@ -51,7 +51,6 @@ const CubesCartRightSide = ({
     } else if (selectedAddress && base64) {
       setLoading(true);
       const file = await base64ToFile(base64);
-      console.log(file);
       const gifts = [];
       if (giftOneProp) {
         gifts.push({

@@ -207,7 +207,6 @@ const CubesMain = ({
       handleCubeSelect(target);
     }
     if (type === 'new' && Number(userId) === authedUserId && !isSelecting.current) {
-      console.log('deselect');
       console.log(handleCubeDeselect(target));
     }
   };

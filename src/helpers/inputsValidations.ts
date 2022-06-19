@@ -3,7 +3,6 @@ const validateInput = (data: any, validations: any): {[key:string]: string} => {
   Object.keys(data).forEach((el) => {
     if (validations[el]) {
       if (el === 'repeatPassword') {
-        console.log(data.repeatPassword.length, 22);
         if (data.repeatPassword.length === 0 || data.password !== data.repeatPassword) {
           errors[el] = 'პაროლი არასწორია';
         }

@@ -4,7 +4,6 @@ import Modal from '../Modal';
 const UserDashboardModal = ({
   selectedTab, open, handleClose, data,
 }: PropsType) => {
-  console.log(data);
   return (
     <Modal open={open} handleClose={handleClose} modalTitle="ინფორმაცია პროდუქტზე">
       <ul className="product-info">

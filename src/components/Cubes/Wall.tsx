@@ -42,13 +42,12 @@ const Wall = ({
 
   const deselectCube = (e: MouseEvent) => {
     const cubeId = getCubeId(e);
-    const canDeselect = true;
-    const leftNeighbor = selectedCubes.includes(cubeId - 1) ? cubeId - 1 : -1;
-    const rightNeighbor = selectedCubes.includes(cubeId + 1) ? cubeId + 1 : -1;
-    const topNeighbor = selectedCubes.includes(cubeId - CUBES_TOTAL_ROWS) ? cubeId - CUBES_TOTAL_ROWS : -1;
-    const bottomNeighbor = selectedCubes.includes(cubeId + CUBES_TOTAL_ROWS) ? cubeId + CUBES_TOTAL_ROWS : -1;
+    // const canDeselect = true;
+    // const leftNeighbor = selectedCubes.includes(cubeId - 1) ? cubeId - 1 : -1;
+    // const rightNeighbor = selectedCubes.includes(cubeId + 1) ? cubeId + 1 : -1;
+    // const topNeighbor = selectedCubes.includes(cubeId - CUBES_TOTAL_ROWS) ? cubeId - CUBES_TOTAL_ROWS : -1;
+    // const bottomNeighbor = selectedCubes.includes(cubeId + CUBES_TOTAL_ROWS) ? cubeId + CUBES_TOTAL_ROWS : -1;
     setSelectedCubes(selectedCubes.filter((el) => el !== cubeId));
-    console.log(canDeselect, leftNeighbor, rightNeighbor, topNeighbor, bottomNeighbor);
   };
 
   const isCubeSelectable = (cubeId:number) => {
@@ -291,7 +290,6 @@ const redrawWall = (
     const w = (bottomRightCube.row - topLeftCube.row + 1) * cubeSize;
     const h = (bottomRightCube.column - topLeftCube.column + 1) * cubeSize;
     htmlImages[i] && ctx.drawImage(htmlImages[i], x, y, w, h);
-    console.log(htmlImages);
   }
   disableLoading();
 };
