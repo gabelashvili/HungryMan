@@ -29,7 +29,13 @@ const UserDashboardModal = ({
             {data?.purchaseGiftDetails?.length > 0 && (
             <li className="product-info--item">
               <span className="product-info--title">საჩუქრების რაოდენობა:</span>
-              <a style={{ color: 'white' }} href={data.redirectLink} className="product-info--calue">{data.purchaseGiftDetails.length}</a>
+              <p style={{ color: 'white' }} className="product-info--calue">{data.purchaseGiftDetails.length}</p>
+            </li>
+            )}
+            {data?.redirectLink && (
+            <li className="product-info--item">
+              <span className="product-info--title">Redirect Link:</span>
+              <a style={{ color: 'white' }} href={data.redirectLink} className="product-info--calue">დააჭირე აქ</a>
             </li>
             )}
           </>
