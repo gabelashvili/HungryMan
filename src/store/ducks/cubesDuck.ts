@@ -9,9 +9,6 @@ export const SET_INITIAL_DATA = 'cubes/setInitialData';
 export const CLEAR_INITIAL_DATA = 'cubes/clearInitialData';
 
 export const SET_SELECTED_CUBES_INFO = 'cubes/setSelectedCubesInfo';
-export const CLEAR_SELECTED_CUBES = 'cubes/clearSelectedCubes';
-export const SET_TOTAL_PRICE = 'cubes/setTotalPrice';
-export const SET_BASE64 = 'cubes/setBase64';
 export const BUY_CUBES = 'cubes/buyCubes';
 
 export const GET_CUBES_PURCHASE_HISTORY = 'cubes/getCubesPurchaseHistory';
@@ -77,10 +74,6 @@ export const cubesReducer = (state = initialState, action: AnyAction): CubesInit
 export const setSelectedCubesInfo = (payload: {key: 'cubesId' | 'enableComment' | 'enableRedirectLink' | 'totalPrice' | 'base64', value: number[] | boolean | number | string}) => ({
   type: SET_SELECTED_CUBES_INFO,
   payload,
-});
-
-export const clearSelectedCubes = () => ({
-  type: CLEAR_SELECTED_CUBES,
 });
 
 export const buyCubes = (payload: BuyCubesPayload, callbacks?: CallBacks) => ({
