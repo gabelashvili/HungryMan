@@ -55,6 +55,12 @@
     &:not(.landing-info) {
       flex-direction: column;
     }
+    & > div {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 30px;
+      margin: 0 20px 50px 20px;
+    }
   }
 
   &-info {

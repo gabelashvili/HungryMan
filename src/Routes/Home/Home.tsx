@@ -134,10 +134,7 @@ const Home = () => {
         </div>
 
         <div className="landing-wrapper">
-          <div style={{
-            display: 'grid', gap: '15px', gridAutoFlow: 'column', marginBottom: '25px',
-          }}
-          >
+          <div>
             {products && products.items.map((el) => <ProductItem data={el} key={el.id} />)}
           </div>
           <button style={{ marginBottom: '50px' }} className="button button--secondary" onClick={() => navigate('/products')}>ყველას ნახვა</button>
