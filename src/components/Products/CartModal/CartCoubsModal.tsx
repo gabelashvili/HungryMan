@@ -1,11 +1,13 @@
 import { useRef } from 'react';
 import { generatePath } from '../../../helpers';
-import { useSelector } from '../../../hooks/useSelector';
+import { useAppDispatch, useSelector } from '../../../hooks/useSelector';
 import RemoveIcon from '../../../Icons/RemoveIcon';
+import { clearSelectedCubes } from '../../../store/ducks/cubesDuck';
 import Button from '../../shared/Button';
 import EmptyCard from './EmptyCard';
 
 const CartCoubs = () => {
+  const dispatch = useAppDispatch();
   const imgRef = useRef<HTMLImageElement>(null);
   const data = useSelector((state) => state.cubesReducer);
   return (
@@ -34,7 +36,7 @@ const CartCoubs = () => {
                 </span>
               </div>
             </div>
-            <Button type="icon" classes="is-medium button--secondary">
+            <Button type="icon" classes="is-medium button--secondary" handleClick={() => dispatch(clearSelectedCubes())}>
               <RemoveIcon />
             </Button>
           </div>
