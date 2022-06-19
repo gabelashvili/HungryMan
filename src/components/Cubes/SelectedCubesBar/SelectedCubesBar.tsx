@@ -67,14 +67,13 @@ const SelectedCubesBar = ({ cubePrice, selectedCubes, setSelectedCubesInLocalSta
         type="secondary"
         handleClick={handleClear}
       >
-        გაგრძელება
+        გასუფთავება
       </Button>
       <Button
         disabled={selectedCubes.length === 0}
         handleClick={handleContinue}
       >
-        ყიდვა
-
+        გაგრძელება
       </Button>
     </div>
   );

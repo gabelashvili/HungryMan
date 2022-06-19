@@ -10,11 +10,13 @@ const TextWrapper = ({
   const trRef = useRef<any>();
 
   useEffect(() => {
-    if (selectedObjId === id && trRef.current) {
+    if (text && trRef.current) {
       trRef.current.nodes([shapeRef.current]);
       trRef.current.getLayer().batchDraw();
     }
-  }, [selectedObjId]);
+  }, [text]);
+
+  console.log(selectedObjId);
 
   return (
     <>
@@ -29,18 +31,18 @@ const TextWrapper = ({
         y={y}
         draggable
       />
-      {selectedObjId === id && (
-      <Transformer
-        enabledAnchors={['top-left', 'top-right', 'bottom-left', 'bottom-right']}
-        ref={trRef}
-        boundBoxFunc={(oldBox, newBox) => {
+      {(
+        <Transformer
+          enabledAnchors={['top-left', 'top-right', 'bottom-left', 'bottom-right']}
+          ref={trRef}
+          boundBoxFunc={(oldBox, newBox) => {
           // limit resize
-          if (newBox.width < 5 || newBox.height < 5) {
-            return oldBox;
-          }
-          return newBox;
-        }}
-      />
+            if (newBox.width < 5 || newBox.height < 5) {
+              return oldBox;
+            }
+            return newBox;
+          }}
+        />
       )}
     </>
   );

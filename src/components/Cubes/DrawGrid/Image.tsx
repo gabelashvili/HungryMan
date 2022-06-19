@@ -9,13 +9,13 @@ const ImageWrapper = ({
   const [img, setImg] = useState<HTMLImageElement| null>(null);
   const shapeRef = useRef<any>();
   const trRef = useRef<any>();
-
+  console.log(selectedObjId);
   useEffect(() => {
-    if (selectedObjId === file?.id && trRef.current) {
+    if (trRef.current && img) {
       trRef.current.nodes([shapeRef.current]);
       trRef.current.getLayer().batchDraw();
     }
-  }, [selectedObjId, file]);
+  }, [img]);
 
   useEffect(() => {
     if (file?.file) {
@@ -40,7 +40,7 @@ const ImageWrapper = ({
         height={200}
         draggable
       />
-      {selectedObjId === file.id && (
+      { (
         <Transformer
           enabledAnchors={['top-left', 'top-right', 'bottom-left', 'bottom-right']}
           ref={trRef}
