@@ -38,8 +38,20 @@ export function* reqUserLogin({ params, callbacks }:{ params: UserAuthParams, ca
 
 export function* signUp({ params, callbacks }:{ params: UserSignUpParams, callbacks: CallBacks, type:string }) {
   try {
-    yield axiosInstance.post('/Core/User/Register', params);
+    const { data }: {data: UserSignInResponse} = yield axiosInstance.post('/Core/User/Register', params);
     toast.success('რეგისტრაცია წარმატებით დასრულდა...');
+    yield put(setAuthedUser({
+      firstName: data.user.firstName,
+      lastName: data.user.lastName,
+      id: data.user.id,
+      email: data.user.email,
+      phone: data.user.phone,
+      address: data.user.address,
+      city: data.user.city,
+      companyName: data.user.companyName,
+      identificationCode: data.user.identificationCode,
+    }));
+    localStorage.setItem('token', data.token);
     callbacks?.success && callbacks.success();
   } catch (error: any) {
     toast.error(error.response.status === 409 ? error.response.data.Message : 'შეავსეთ ყველა სავალდებულო ველი.', { autoClose: 2000 });
