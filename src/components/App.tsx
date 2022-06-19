@@ -53,7 +53,7 @@ function App() {
       element: <Layout />,
       children: [
         {
-          path: 'home',
+          path: 'landing',
           element: <Home />,
         },
         {
@@ -145,7 +145,7 @@ function App() {
   const routes = useRoutes(defaultRoutes);
   useEffect(() => {
     if (pathname === '/') {
-      navigate('/home');
+      navigate('/cubes');
     }
   }, [pathname]);
   return (

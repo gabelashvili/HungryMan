@@ -5,16 +5,21 @@ import { useNavigate } from 'react-router-dom';
 import { getProducts } from '../../store/ducks/productsDuck';
 import { useSelector } from '../../hooks/useSelector';
 import ProductItem from '../../components/Products/ProductItem';
+import { getInitialData } from '../../store/ducks/cubesDuck';
 
 const Home = () => {
   const navigate = useNavigate();
   const products = useSelector((state) => state.productsReducer.productsList);
+  const totalSoldCubes = useSelector((state) => state.cubesReducer.soldCubesDetails?.soldCubes)?.length;
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getProducts({
       Page: 1,
       PageSize: 4,
     }));
+    if (!totalSoldCubes) {
+      dispatch(getInitialData());
+    }
   }, []);
   return (
     <div style={{
@@ -66,7 +71,7 @@ const Home = () => {
             <div className="landing-chart">
               <div className="landing-chart--item">
                 <div className="landing-chart--name">გაყიდული უჯრები</div>
-                <div className="landing-chart--value">2332</div>
+                <div className="landing-chart--value">{totalSoldCubes || 0}</div>
               </div>
               <div className="landing-chart--item">
                 <div className="landing-chart--name">აქტიური კლიენტი</div>

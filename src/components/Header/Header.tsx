@@ -66,6 +66,9 @@ const Header = () => {
               <li className="header-nav--item">
                 <Link to="products" className="header-nav--link">პროდუქტები</Link>
               </li>
+              <li className="header-nav--item">
+                <Link to="landing" className={clsx('header-nav--link', pathname.includes('landing') && 'is-active')}>ლენდინგი</Link>
+              </li>
             </ul>
           </nav>
           <SearchBar showSearchBar={showSearchBar} setShowSearchBar={setShowSearchBar} />
@@ -119,6 +122,9 @@ const Header = () => {
                   </li>
                   <li className="header-nav--item">
                     <Link to="products" className={clsx('header-nav--link', pathname.includes('products') && 'is-active')}>პროდუქტები</Link>
+                  </li>
+                  <li className="header-nav--item">
+                    <Link to="landing" className={clsx('header-nav--link', pathname.includes('landing') && 'is-active')}>ლენდინგი</Link>
                   </li>
                 </ul>
               </nav>
