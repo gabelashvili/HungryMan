@@ -4,7 +4,7 @@ import SelectedCubesBar from '../../components/Cubes/SelectedCubesBar/SelectedCu
 import Wall from '../../components/Cubes/Wall';
 import Zoom from '../../components/Cubes/Zoom/Zoom';
 import { useAppDispatch, useSelector } from '../../hooks/useSelector';
-import { getInitialData } from '../../store/ducks/cubesDuck';
+import { getInitialData, setSelectedCubesInfo } from '../../store/ducks/cubesDuck';
 
 export const CUBES_TOTAL_ROWS = 354;
 export const CUBES_TOTAL_COLUMNS = 113;
@@ -31,6 +31,13 @@ const Cubes = () => {
       dispatch(getInitialData());
     }
   }, [cubesInitialData]);
+
+  useEffect(() => {
+    dispatch(setSelectedCubesInfo({ key: 'base64', value: selectedCubes }));
+    if (selectedCubes.length === 0) {
+      dispatch(setSelectedCubesInfo({ key: 'totalPrice', value: 0 }));
+    }
+  }, [selectedCubes]);
 
   return (
     <div style={{

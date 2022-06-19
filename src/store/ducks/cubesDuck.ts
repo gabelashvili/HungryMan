@@ -71,7 +71,9 @@ export const cubesReducer = (state = initialState, action: AnyAction): CubesInit
   }
 };
 
-export const setSelectedCubesInfo = (payload: {key: 'cubesId' | 'enableComment' | 'enableRedirectLink' | 'totalPrice' | 'base64', value: number[] | boolean | number | string}) => ({
+export const setSelectedCubesInfo = (payload: {
+  key: 'cubesId' | 'enableComment' | 'enableRedirectLink' | 'totalPrice' | 'base64',
+  value: number[] | boolean | number | string}) => ({
   type: SET_SELECTED_CUBES_INFO,
   payload,
 });

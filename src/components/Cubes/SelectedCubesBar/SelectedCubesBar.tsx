@@ -6,7 +6,7 @@ import { useAppDispatch } from '../../../hooks/useSelector';
 import ClearIcon from '../../../Icons/ClearIcon';
 import { CUBES_TOTAL_ROWS } from '../../../Routes/Cubes/Cubes';
 import { toggleCartModal } from '../../../store/ducks/cartModalDuck';
-import { clearSelectedCubes, setSelectedCubesInfo } from '../../../store/ducks/cubesDuck';
+import { setSelectedCubesInfo } from '../../../store/ducks/cubesDuck';
 import Button from '../../shared/Button';
 import './selected-cubes-bar.scss';
 
@@ -17,7 +17,6 @@ const SelectedCubesBar = ({ cubePrice, selectedCubes, setSelectedCubesInLocalSta
   const dispatch = useAppDispatch();
 
   const handleClear = () => {
-    dispatch(clearSelectedCubes());
     setSelectedCubesInLocalState([]);
     toast.success('არჩეული უჯრები წაიშალა');
   };

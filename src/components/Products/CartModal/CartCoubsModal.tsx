@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { generatePath } from '../../../helpers';
 import { useAppDispatch, useSelector } from '../../../hooks/useSelector';
 import RemoveIcon from '../../../Icons/RemoveIcon';
-import { clearSelectedCubes } from '../../../store/ducks/cubesDuck';
+import { setSelectedCubesInfo } from '../../../store/ducks/cubesDuck';
 import Button from '../../shared/Button';
 import EmptyCard from './EmptyCard';
 
@@ -16,7 +16,7 @@ const CartCoubs = () => {
         <div className="panel without-header coubs-quantity">
           <div className="panel--content">
             <div className="coubs-quantity--display">
-              <img src={data.selectedCubesInfo?.base64} ref={imgRef} alt="coubs selected" />
+              <img src={data.selectedCubesInfo?.base64 || ''} ref={imgRef} alt="coubs selected" />
             </div>
           </div>
           <div className="panel--footer coubs-quantity--details">
@@ -36,7 +36,14 @@ const CartCoubs = () => {
                 </span>
               </div>
             </div>
-            <Button type="icon" classes="is-medium button--secondary" handleClick={() => dispatch(clearSelectedCubes())}>
+            <Button
+              type="icon"
+              classes="is-medium button--secondary"
+              handleClick={() => {
+                dispatch(setSelectedCubesInfo({ key: 'cubesId', value: [] }));
+                dispatch(setSelectedCubesInfo({ key: 'totalPrice', value: 0 }));
+              }}
+            >
               <RemoveIcon />
             </Button>
           </div>
