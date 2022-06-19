@@ -138,7 +138,7 @@ const DrawGridWithCubesId = ({
       dispatch(setBase64(stageRefCopy.current.toDataURL({
         x, y, width: cubeSize * length, height: cubeSize * height, scale: 1,
       })));
-    }, 1000);
+    }, 500);
     return () => clearInterval(timerRef.current);
   }, [data]);
 
