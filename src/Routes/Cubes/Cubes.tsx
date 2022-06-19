@@ -33,7 +33,8 @@ const Cubes = () => {
   }, [cubesInitialData]);
 
   useEffect(() => {
-    dispatch(setSelectedCubesInfo({ key: 'base64', value: selectedCubes }));
+    console.log(selectedCubes);
+    dispatch(setSelectedCubesInfo({ key: 'cubesId', value: selectedCubes }));
     if (selectedCubes.length === 0) {
       dispatch(setSelectedCubesInfo({ key: 'totalPrice', value: 0 }));
     }
