@@ -6,7 +6,7 @@ import { useAppDispatch } from '../../../hooks/useSelector';
 import ClearIcon from '../../../Icons/ClearIcon';
 import { CUBES_TOTAL_ROWS } from '../../../Routes/Cubes/Cubes';
 import { toggleCartModal } from '../../../store/ducks/cartModalDuck';
-import { clearSelectedCubes, setSelectedCubes, setTotalPriceInStore } from '../../../store/ducks/cubesDuck';
+import { clearSelectedCubes, setSelectedCubesInfo } from '../../../store/ducks/cubesDuck';
 import Button from '../../shared/Button';
 import './selected-cubes-bar.scss';
 
@@ -25,8 +25,8 @@ const SelectedCubesBar = ({ cubePrice, selectedCubes, setSelectedCubesInLocalSta
   const handleContinue = () => {
     if (canAddInCart) {
       dispatch(toggleCartModal());
-      dispatch(setSelectedCubes(selectedCubes));
-      dispatch(setTotalPriceInStore(selectedCubes.length * cubePrice));
+      dispatch(setSelectedCubesInfo({ key: 'cubesId', value: selectedCubes }));
+      dispatch(setSelectedCubesInfo({ key: 'totalPrice', value: selectedCubes.length * cubePrice }));
     } else {
       setShowErrorBox(true);
     }

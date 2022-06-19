@@ -8,7 +8,7 @@ import {
 } from 'react-konva';
 import { useAppDispatch, useSelector } from '../../../hooks/useSelector';
 import { CUBES_TOTAL_ROWS } from '../../../Routes/Cubes/Cubes';
-import { setBase64, setTotalPriceInStore } from '../../../store/ducks/cubesDuck';
+import { setSelectedCubesInfo } from '../../../store/ducks/cubesDuck';
 import ImageWrapper from './Image';
 import TextWrapper from './Text';
 
@@ -120,7 +120,7 @@ const DrawGridWithCubesId = ({
 
   useEffect(() => {
     if (data && selectedCubesIds) {
-      dispatch(setTotalPriceInStore(squareInitialPrice * selectedCubesIds.length));
+      dispatch(setSelectedCubesInfo({ key: 'totalPrice', value: squareInitialPrice * selectedCubesIds.length }));
     }
   }, [data, selectedCubesIds]);
 
@@ -135,9 +135,12 @@ const DrawGridWithCubesId = ({
       const length = data?.columnLength || 1;
       const height = data?.rowLength || 1;
       stageRefCopy.current.scale({ x: 1, y: 1 });
-      dispatch(setBase64(stageRefCopy.current.toDataURL({
-        x, y, width: cubeSize * length, height: cubeSize * height, scale: 1,
-      })));
+      dispatch(setSelectedCubesInfo({
+        key: 'base64',
+        value: stageRefCopy.current.toDataURL({
+          x, y, width: cubeSize * length, height: cubeSize * height, scale: 1,
+        }),
+      }));
     }, 500);
     return () => clearInterval(timerRef.current);
   }, [data]);

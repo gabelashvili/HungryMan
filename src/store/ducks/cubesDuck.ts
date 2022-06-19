@@ -8,7 +8,7 @@ export const GET_INITIAL_DATA = 'cubes/getInitialData';
 export const SET_INITIAL_DATA = 'cubes/setInitialData';
 export const CLEAR_INITIAL_DATA = 'cubes/clearInitialData';
 
-export const SET_SELECTED_CUBES = 'cubes/setSelectedCubes';
+export const SET_SELECTED_CUBES_INFO = 'cubes/setSelectedCubesInfo';
 export const CLEAR_SELECTED_CUBES = 'cubes/clearSelectedCubes';
 export const SET_TOTAL_PRICE = 'cubes/setTotalPrice';
 export const SET_BASE64 = 'cubes/setBase64';
@@ -23,6 +23,10 @@ export const SET_SOLD_CUBES_DETAILS = 'cubes/setSoldCubesDetails';
 const initialState: CubesInitialState = {
   selectedCubesInfo: {
     cubesId: [],
+    totalPrice: 0,
+    enableComment: false,
+    enableRedirectLink: false,
+    base64: null,
   },
   initialData: null,
   purchaseHistory: null,
@@ -32,35 +36,12 @@ const initialState: CubesInitialState = {
 export const cubesReducer = (state = initialState, action: AnyAction): CubesInitialState => {
   const { payload } = action;
   switch (action.type) {
-    case SET_SELECTED_CUBES:
+    case SET_SELECTED_CUBES_INFO:
       return {
         ...state,
         selectedCubesInfo: {
           ...state.selectedCubesInfo,
-          cubesId: [...payload as number[]],
-        },
-      };
-    case CLEAR_SELECTED_CUBES:
-      return {
-        ...state,
-        selectedCubesInfo: {
-          cubesId: [],
-        },
-      };
-    case SET_TOTAL_PRICE:
-      return {
-        ...state,
-        selectedCubesInfo: {
-          ...state.selectedCubesInfo,
-          totalPrice: payload as number,
-        },
-      };
-    case SET_BASE64:
-      return {
-        ...state,
-        selectedCubesInfo: {
-          ...state.selectedCubesInfo,
-          base64: payload as string,
+          [payload.key as string]: payload.value,
         },
       };
     case SET_INITIAL_DATA:
@@ -93,23 +74,13 @@ export const cubesReducer = (state = initialState, action: AnyAction): CubesInit
   }
 };
 
-export const setSelectedCubes = (payload: number[]) => ({
-  type: SET_SELECTED_CUBES,
+export const setSelectedCubesInfo = (payload: {key: 'cubesId' | 'enableComment' | 'enableRedirectLink' | 'totalPrice' | 'base64', value: number[] | boolean | number | string}) => ({
+  type: SET_SELECTED_CUBES_INFO,
   payload,
 });
 
 export const clearSelectedCubes = () => ({
   type: CLEAR_SELECTED_CUBES,
-});
-
-export const setTotalPriceInStore = (payload: number) => ({
-  type: SET_TOTAL_PRICE,
-  payload,
-});
-
-export const setBase64 = (payload: string) => ({
-  type: SET_BASE64,
-  payload,
 });
 
 export const buyCubes = (payload: BuyCubesPayload, callbacks?: CallBacks) => ({

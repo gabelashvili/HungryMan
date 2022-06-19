@@ -3,9 +3,12 @@ import { ItemDetail } from './products';
 import { MediaType } from './main';
 
 export interface SelectedCubesInfoType {
-    cubesId?: number[],
-    totalPrice?: number,
-    base64?: string
+    cubesId: number[],
+    totalPrice: number,
+    base64: string | null,
+    totalPrice: number,
+    enableComment: boolean,
+    enableRedirectLink: boolean,
 }
 
 export interface PurchaseInfo {
@@ -49,7 +52,7 @@ export interface PurchaseInfo {
 }
 
 export interface CubesInitialState {
-    selectedCubesInfo: SelectedCubesInfoType | null,
+    selectedCubesInfo: SelectedCubesInfoType,
     initialData: CubesInitialData | null,
     purchaseHistory: PurchaseInfo[] | null,
     soldCubesDetails: null | SoldCubesDetail

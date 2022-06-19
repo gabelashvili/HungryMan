@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { base64ToFile } from '../../helpers';
 import { useSelector } from '../../hooks/useSelector';
-import { buyCubes, setTotalPriceInStore } from '../../store/ducks/cubesDuck';
+import { buyCubes, setSelectedCubesInfo } from '../../store/ducks/cubesDuck';
 import { AddressType } from '../../types/user';
 import Addresses from '../Address/Addresses';
 import Button from '../shared/Button';
@@ -94,7 +94,7 @@ const CubesCartRightSide = ({
 
   useEffect(() => {
     const res = totalPrice();
-    dispatch(setTotalPriceInStore(Number(res)));
+    dispatch(setSelectedCubesInfo({ key: 'totalPrice', value: Number(res) }));
   }, [cubesParams, comment, link]);
 
   return (
