@@ -42,6 +42,8 @@ const ImageWrapper = ({
       />
       { (
         <Transformer
+          keepRatio
+          centeredScaling
           enabledAnchors={['top-left', 'top-right', 'bottom-left', 'bottom-right']}
           ref={trRef}
           boundBoxFunc={(oldBox, newBox) => {
