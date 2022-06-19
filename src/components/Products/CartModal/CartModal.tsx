@@ -1,10 +1,10 @@
+/* eslint-disable no-nested-ternary */
 import clsx from 'clsx';
 import {
-  Dispatch, SetStateAction, useEffect, useRef, useState,
+  useEffect, useRef, useState,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useOutsideClick from '../../../hooks/useOutsideClick';
-import { useSelector } from '../../../hooks/useSelector';
+import { useAppDispatch, useSelector } from '../../../hooks/useSelector';
 import ClearIcon from '../../../Icons/ClearIcon';
 import Button from '../../shared/Button';
 import Tab from '../../shared/Tab/Tab';
@@ -12,9 +12,12 @@ import './cart-modal.scss';
 import './gift-panel.scss';
 import CartCoubsModal from './CartCoubsModal';
 import CartProducts from './CartProducts';
+import { toggleCartModal } from '../../../store/ducks/cartModalDuck';
 
-const CartModal = ({ show, setShow }: PropsTypes) => {
+const CartModal = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const show = useSelector((state) => state.cartModalReducer);
   const selectedProducts = useSelector((state) => state.productsReducer.selectedProductsCart);
   const cubesTotalPrice = useSelector((state) => state.cubesReducer.selectedCubesInfo?.totalPrice) || 0;
   const isUserAuthed = useSelector((state) => state.userReducer.user);
@@ -33,12 +36,6 @@ const CartModal = ({ show, setShow }: PropsTypes) => {
     },
   ];
 
-  useOutsideClick({
-    ref: cartRef,
-    disabled: !show,
-    handleOutsideClick: () => setShow(false),
-  });
-
   useEffect(() => {
     document.body.style.overflow = show ? 'hidden' : '';
   }, [show]);
@@ -48,7 +45,7 @@ const CartModal = ({ show, setShow }: PropsTypes) => {
       <div ref={cartRef} className={clsx('modal modal--right', show && 'is-active')}>
         <div className="modal--header">
           <h3 className="modal--title">კალათა</h3>
-          <Button type="text" classes="button--icon button-pull-right is-rounded" handleClick={() => setShow(false)}>
+          <Button type="text" classes="button--icon button-pull-right is-rounded" handleClick={() => dispatch(toggleCartModal())}>
             <ClearIcon />
           </Button>
         </div>
@@ -74,10 +71,10 @@ const CartModal = ({ show, setShow }: PropsTypes) => {
                || (selectedTab === 0 && cubesTotalPrice === 0)))}
             handleClick={() => {
               navigate(isUserAuthed ? `/${selectedTab === 0 ? 'cubes' : 'products'}/cart` : '/auth');
-              setShow(false);
+              dispatch(toggleCartModal());
             }}
           >
-            {isUserAuthed ? 'ყიდვა' : 'ავტორიზაცია'}
+            {isUserAuthed ? selectedTab === 0 ? 'გაფორმება' : 'ყიდვა' : 'ავტორიზაცია'}
           </Button>
         </div>
       </div>
@@ -87,8 +84,3 @@ const CartModal = ({ show, setShow }: PropsTypes) => {
 };
 
 export default CartModal;
-
-interface PropsTypes {
-    show: boolean,
-    setShow: Dispatch<SetStateAction<boolean>>
-}

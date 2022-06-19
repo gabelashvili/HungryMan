@@ -2,10 +2,11 @@ import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Logo from '../../assets/images/logo.png';
-import { useSelector } from '../../hooks/useSelector';
+import { useAppDispatch, useSelector } from '../../hooks/useSelector';
 import ArrowIcon from '../../Icons/ArrowIcon';
 import BasketIcon from '../../Icons/BasketIcon';
 import ClearIcon from '../../Icons/ClearIcon';
+import { toggleCartModal } from '../../store/ducks/cartModalDuck';
 import Address from '../Address/Address';
 import CartModal from '../Products/CartModal/CartModal';
 import Button from '../shared/Button';
@@ -14,6 +15,7 @@ import SearchBar from './SearchBar/SearchBar';
 import UserMenu from './UserMenu/UserMenu';
 
 const Header = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const authedUser = useSelector((state) => state.userReducer.user);
@@ -22,7 +24,6 @@ const Header = () => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [showResponsiveMenu, setShowResponsiveMenu] = useState(false);
   const [showSearchBar, setShowSearchBar] = useState<boolean>(false);
-  const [showCartModal, setShowCartModal] = useState<boolean>(false);
   const [showUserMenu, setShowUserMenu] = useState<boolean>(false);
   const responsiveMenuRef = useRef<HTMLDivElement>(null);
   const cartsTotalItem = () => {
@@ -50,7 +51,7 @@ const Header = () => {
   return (
     <>
       <Address />
-      <CartModal show={showCartModal} setShow={setShowCartModal} />
+      <CartModal />
       <header className="header">
         <div className="wrapper">
           <a href="/" className="header-logo">
@@ -72,7 +73,7 @@ const Header = () => {
             </ul>
           </nav>
           <SearchBar showSearchBar={showSearchBar} setShowSearchBar={setShowSearchBar} />
-          <Button type="icon" classes="is-rounded header-button" handleClick={() => setShowCartModal(!showCartModal)} id="show-cart-btn">
+          <Button type="icon" classes="is-rounded header-button" handleClick={() => dispatch(toggleCartModal())} id="show-cart-btn">
             <BasketIcon />
             {cartsTotalItem() > 0 && (
             <span className="cart-count">

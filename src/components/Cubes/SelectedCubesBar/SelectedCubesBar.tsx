@@ -1,11 +1,11 @@
 import {
   Dispatch, SetStateAction, useEffect, useRef, useState,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useAppDispatch } from '../../../hooks/useSelector';
 import ClearIcon from '../../../Icons/ClearIcon';
 import { CUBES_TOTAL_ROWS } from '../../../Routes/Cubes/Cubes';
+import { toggleCartModal } from '../../../store/ducks/cartModalDuck';
 import { clearSelectedCubes, setSelectedCubes, setTotalPriceInStore } from '../../../store/ducks/cubesDuck';
 import Button from '../../shared/Button';
 import './selected-cubes-bar.scss';
@@ -15,7 +15,6 @@ const SelectedCubesBar = ({ cubePrice, selectedCubes, setSelectedCubesInLocalSta
   const [showErrorBox, setShowErrorBox] = useState<boolean>(false);
   const timer = useRef<any>();
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const handleClear = () => {
     dispatch(clearSelectedCubes());
@@ -23,9 +22,9 @@ const SelectedCubesBar = ({ cubePrice, selectedCubes, setSelectedCubesInLocalSta
     toast.success('არჩეული უჯრები წაიშალა');
   };
 
-  const handleBuy = () => {
+  const handleContinue = () => {
     if (canAddInCart) {
-      navigate('cart');
+      dispatch(toggleCartModal());
       dispatch(setSelectedCubes(selectedCubes));
       dispatch(setTotalPriceInStore(selectedCubes.length * cubePrice));
     } else {
@@ -68,11 +67,11 @@ const SelectedCubesBar = ({ cubePrice, selectedCubes, setSelectedCubesInLocalSta
         type="secondary"
         handleClick={handleClear}
       >
-        გასუფთავება
+        გაგრძელება
       </Button>
       <Button
         disabled={selectedCubes.length === 0}
-        handleClick={handleBuy}
+        handleClick={handleContinue}
       >
         ყიდვა
 

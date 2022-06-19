@@ -8,6 +8,7 @@ import {
   productsReducer,
   modalsReducer,
   cubesReducer,
+  cartModalReducer,
 } from './ducks';
 
 export const sagaMiddleware = createSagaMiddleware();
@@ -17,6 +18,7 @@ const appReducer = combineReducers({
   productsReducer,
   modalsReducer,
   cubesReducer,
+  cartModalReducer,
 });
 
 export default function configureStore() {
