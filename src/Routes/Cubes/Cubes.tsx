@@ -47,6 +47,7 @@ const Cubes = () => {
       <SelectedCubesBar
         cubePrice={cubesInitialData?.squarePrice || 0}
         selectedCubes={selectedCubes}
+        setSelectedCubesInLocalState={setSelectedCubes}
       />
       <Zoom
         setScale={setZoomPercent}

@@ -1,28 +1,26 @@
-import { useEffect, useRef, useState } from 'react';
+import {
+  Dispatch, SetStateAction, useEffect, useRef, useState,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useAppDispatch } from '../../../hooks/useSelector';
 import ClearIcon from '../../../Icons/ClearIcon';
 import { CUBES_TOTAL_ROWS } from '../../../Routes/Cubes/Cubes';
-import { setSelectedCubes, setTotalPriceInStore } from '../../../store/ducks/cubesDuck';
+import { clearSelectedCubes, setSelectedCubes, setTotalPriceInStore } from '../../../store/ducks/cubesDuck';
 import Button from '../../shared/Button';
 import './selected-cubes-bar.scss';
 
-const SelectedCubesBar = ({ cubePrice, selectedCubes }: { cubePrice:number, selectedCubes:number[]}) => {
+const SelectedCubesBar = ({ cubePrice, selectedCubes, setSelectedCubesInLocalState }: PropsTypes) => {
   const [canAddInCart, setCanAddInCart] = useState<boolean>(false);
   const [showErrorBox, setShowErrorBox] = useState<boolean>(false);
   const timer = useRef<any>();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleCartAdd = () => {
-    if (canAddInCart) {
-      dispatch(setSelectedCubes(selectedCubes));
-      dispatch(setTotalPriceInStore(selectedCubes.length * cubePrice));
-      toast.success('კალათა განახლდა');
-    } else {
-      setShowErrorBox(true);
-    }
+  const handleClear = () => {
+    dispatch(clearSelectedCubes());
+    setSelectedCubesInLocalState([]);
+    toast.success('არჩეული უჯრები წაიშალა');
   };
 
   const handleBuy = () => {
@@ -68,9 +66,9 @@ const SelectedCubesBar = ({ cubePrice, selectedCubes }: { cubePrice:number, sele
       <Button
         disabled={selectedCubes.length === 0}
         type="secondary"
-        handleClick={handleCartAdd}
+        handleClick={handleClear}
       >
-        კალათაში დამატება
+        გასუფთავება
       </Button>
       <Button
         disabled={selectedCubes.length === 0}
@@ -105,3 +103,9 @@ const checkIfSelectedCubesAreSquare = (data: number[]) => {
   }
   return isSquare;
 };
+
+interface PropsTypes {
+  cubePrice:number,
+   selectedCubes:number[],
+   setSelectedCubesInLocalState: Dispatch<SetStateAction<number[]>>
+}
