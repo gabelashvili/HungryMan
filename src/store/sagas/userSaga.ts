@@ -42,7 +42,7 @@ export function* signUp({ params, callbacks }:{ params: UserSignUpParams, callba
     toast.success('რეგისტრაცია წარმატებით დასრულდა...');
     callbacks?.success && callbacks.success();
   } catch (error: any) {
-    toast.error(error.response.status === 409 ? error.response.data.Message : 'შეავსეთ ყველა სავალდებულო ველი.');
+    toast.error(error.response.status === 409 ? error.response.data.Message : 'შეავსეთ ყველა სავალდებულო ველი.', { autoClose: 2000 });
     callbacks?.error && callbacks.error();
   }
 }
