@@ -50,16 +50,17 @@ const ProductItem = ({ data, disableSlider }: {data: ProductType, disableSlider?
         </div>
         )}
       </picture>
-
-      <h6 className="products-item--title">{data.name}</h6>
-      <p className="products-item--description">
-        {data.description}
-      </p>
-      <span className="products-item--price">
-        {data.newPrice}
-        {' '}
-        ლ
-      </span>
+      <div className="products-item--wrapper">
+        <h6 className="products-item--title">{data.name}</h6>
+        <p className="products-item--description">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Et tenetur consequatur excepturi, porro ad asperiores id vero, perferendis laborum consectetur quod accusantium facilis! Sit, debitis.
+        </p>
+        <span className="products-item--price">
+          {data.newPrice}
+          {' '}
+          ლ
+        </span>
+      </div>
     </div>
   );
 };

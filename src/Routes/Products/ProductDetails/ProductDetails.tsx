@@ -9,7 +9,7 @@ import PropsSelector from '../../../components/Products/PropsSelector';
 import Button from '../../../components/shared/Button';
 import { useSelector } from '../../../hooks/useSelector';
 import Loader from '../../../Icons/Loader';
-import { getProductDetails, reqAddProductInCart } from '../../../store/ducks/productsDuck';
+import { clearProductDetails, getProductDetails, reqAddProductInCart } from '../../../store/ducks/productsDuck';
 import { Sizes } from '../../../types/products';
 import './products-details.scss';
 
@@ -92,6 +92,13 @@ const ProductDetails = () => {
     // if props change and user selected number is less than current item inStockCount set quantity 1
     selectedQuantity > selectedItemInStock && setSelectedQuantity(1);
   }, [selectedSize]);
+
+  // reset state
+  useEffect(() => {
+    return () => {
+      dispatch(clearProductDetails());
+    };
+  }, []);
 
   return (
     <div className="wrapper">

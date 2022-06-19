@@ -72,69 +72,69 @@
     }
   }
   
-  .products-item {
-    border: 1px solid #162a3d;
-    border-radius: 12px;
-    background-color: transparent;
-    padding: 24px;
-    cursor: pointer;
-    max-width: 350px;
+  // .products-item {
+  //   border: 1px solid #162a3d;
+  //   border-radius: 12px;
+  //   background-color: transparent;
+  //   padding: 24px;
+  //   cursor: pointer;
+  //   max-width: 350px;
   
-    &:hover {
-      background-color: #162a3d;
-    }
+  //   &:hover {
+  //     background-color: #162a3d;
+  //   }
   
-    &--image {
-      position: relative;
-      padding-bottom: 78%;
-      display: flex;
-      justify-content: center;
-      img {
-        position: absolute;
-        max-width: 100%;
-        max-height: 100%;
-        height: auto;
-      }
-    }
+  //   &--image {
+  //     position: relative;
+  //     padding-bottom: 78%;
+  //     display: flex;
+  //     justify-content: center;
+  //     img {
+  //       position: absolute;
+  //       max-width: 100%;
+  //       max-height: 100%;
+  //       height: auto;
+  //     }
+  //   }
   
-    &--title {
-      font-family: "Helvetica Neue LT GEO";
-      font-style: normal;
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 19px;
-      color: #ffffff;
-      margin-bottom: 6px;
+  //   &--title {
+  //     font-family: "Helvetica Neue LT GEO";
+  //     font-style: normal;
+  //     font-weight: 400;
+  //     font-size: 16px;
+  //     line-height: 19px;
+  //     color: #ffffff;
+  //     margin-bottom: 6px;
   
-      overflow: hidden;
-      text-overflow: ellipsis;
-      width: 100%;
-      white-space: nowrap;
-    }
+  //     overflow: hidden;
+  //     text-overflow: ellipsis;
+  //     width: 100%;
+  //     white-space: nowrap;
+  //   }
   
-    &--description {
-      font-family: "Helvetica Neue LT GEO";
-      font-style: normal;
-      font-weight: 400;
-      font-size: 13px;
-      line-height: 16px;
-      color: #55687a;
-      margin-bottom: 12px;
+  //   &--description {
+  //     font-family: "Helvetica Neue LT GEO";
+  //     font-style: normal;
+  //     font-weight: 400;
+  //     font-size: 13px;
+  //     line-height: 16px;
+  //     color: #55687a;
+  //     margin-bottom: 12px;
   
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      -webkit-line-clamp: 2;
-    }
+  //     display: -webkit-box;
+  //     -webkit-box-orient: vertical;
+  //     overflow: hidden;
+  //     text-overflow: ellipsis;
+  //     -webkit-line-clamp: 2;
+  //   }
   
-    &--price {
-      font-family: "Helvetica Neue LT GEO";
-      font-style: normal;
-      font-weight: 700;
-      font-size: 18px;
-      line-height: 22px;
-      color: #ffffff;
-    }
-  }
+  //   &--price {
+  //     font-family: "Helvetica Neue LT GEO";
+  //     font-style: normal;
+  //     font-weight: 700;
+  //     font-size: 18px;
+  //     line-height: 22px;
+  //     color: #ffffff;
+  //   }
+  // }
   
