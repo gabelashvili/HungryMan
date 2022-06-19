@@ -17,7 +17,7 @@ const CubesCart = () => {
   const [scale, setScale] = useState<number>(1);
   const totalPrice = useSelector((state) => state.cubesReducer.selectedCubesInfo?.totalPrice) || 0;
   const selectedCubesId = useSelector((state) => state.cubesReducer.selectedCubesInfo?.cubesId);
-  const [text, setText] = useState<{val:string}>({ val: '' });
+  const [texts, setTexts] = useState<{val:string}[]>([]);
   const [selectedColor, setSelectedColor] = useState<string>(colorsList[0]);
   const [selectedObjectId, setSelectedObjectId] = useState<string | null>(null);
   const [selectedTab, setSelectedTab] = useState<number>(0);
@@ -69,7 +69,7 @@ const CubesCart = () => {
   };
 
   const handleTextAdd = (text:{val:string}) => {
-    setText(text);
+    setTexts([...texts, text]);
   };
 
   useEffect(() => {
@@ -127,7 +127,7 @@ const CubesCart = () => {
                 setSelectedObjectId={setSelectedObjectId}
                 scale={scale}
                 setScale={setScale}
-                text={text}
+                texts={texts}
                 images={images}
                 selectedColor={selectedColor}
                 selectedTab={selectedTab}

@@ -13,7 +13,7 @@ import ImageWrapper from './Image';
 import TextWrapper from './Text';
 
 const DrawGridWithCubesId = ({
-  scale, setScale, text, setSelectedObjectId, selectedObjectId, images, selectedColor, selectedTab,
+  scale, setScale, texts, setSelectedObjectId, selectedObjectId, images, selectedColor, selectedTab,
 }: PropsTypes) => {
   let color = '#1A3044';
   const dispatch = useAppDispatch();
@@ -190,9 +190,10 @@ const DrawGridWithCubesId = ({
             })}
         </Layer>
         <Layer clipFunc={showClipPath ? clipFunc : undefined}>
-          {text && (
+          {texts.map((text) => (
             <TextWrapper
               fontSize={50}
+              key={text.val}
               id="grid-text"
               fill="white"
               text={text.val}
@@ -201,7 +202,7 @@ const DrawGridWithCubesId = ({
               selectedObjId={selectedObjectId}
               setSelectedObjId={setSelectedObjectId}
             />
-          )}
+          ))}
           {images.map((el) => (
             <ImageWrapper
               x={0}
@@ -290,7 +291,7 @@ const generateFormattedData = (cubesIds: number[]) => {
 interface PropsTypes {
   scale: number,
   setScale: Dispatch<SetStateAction<number>>,
-  text: {val: string},
+  texts: {val: string}[],
   setSelectedObjectId: Dispatch<SetStateAction<string | null>>
   selectedObjectId: string | null,
   images: {id:string, file?:File, base64?: string, value?: string}[],

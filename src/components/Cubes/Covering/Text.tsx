@@ -18,7 +18,16 @@ const Text = ({ handleTextAdd }: {handleTextAdd: (val: {val:string}) => void}) =
         />
       </div>
       <div className="form__group">
-        <Button type="icon" handleClick={() => handleTextAdd(value)}><DoneIcon /></Button>
+        <Button
+          type="icon"
+          handleClick={() => {
+            handleTextAdd(value);
+            setValue({ val: '' });
+          }}
+        >
+          <DoneIcon />
+
+        </Button>
       </div>
     </div>
   );
