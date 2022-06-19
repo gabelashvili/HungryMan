@@ -16,6 +16,7 @@ import Loader from '../../Icons/Loader';
 const Wall = ({
   setMethods, setZoomPercent, selectedCubes, setSelectedCubes,
 }: PropsTypes) => {
+  const [htmlImages, setHtmlImages] = useState<HTMLImageElement[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [isSpaceClicked, setSpaceClicked] = useState(false);
   const soldCubesDetail = useSelector((state) => state.cubesReducer.soldCubesDetails);
@@ -95,6 +96,15 @@ const Wall = ({
     }
   };
 
+  // handle space press
+  const handleSpaceDown = (e:KeyboardEvent) => {
+    e.key === ' ' && setSpaceClicked(true);
+  };
+
+  const handleSpaceUp = (e:KeyboardEvent) => {
+    e.key === ' ' && setSpaceClicked(false);
+  };
+
   // set context
   useEffect(() => {
     if (canvasRef.current) {
@@ -106,9 +116,33 @@ const Wall = ({
     }
   }, []);
 
+  const generateHtmlImg = (src:string) => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = () => resolve(null);
+      img.src = (src);
+    });
+  };
+
+  const handleHtmlImgs = (images: {imgUrl:string}[]) => {
+    const promises: any = [];
+    images.forEach(async (img) => {
+      promises.push(generateHtmlImg(img.imgUrl));
+    });
+    Promise.all(promises).then((imgs:any) => setHtmlImages(imgs));
+  };
+
+  // generate html images
+  useEffect(() => {
+    if (soldCubesDetail) {
+      handleHtmlImgs(soldCubesDetail.images);
+    }
+  }, [soldCubesDetail]);
+
   // draw and redraw cubes
   useEffect(() => {
-    if (ctx && canvasRef.current && img && soldCubesDetail && selectedCubes) {
+    if (ctx && canvasRef.current && img && soldCubesDetail && selectedCubes && htmlImages) {
       const cubeSize = Math.round(canvasRef.current.width / CUBES_TOTAL_ROWS);
       redrawWall(
         ctx,
@@ -117,14 +151,10 @@ const Wall = ({
         img,
         soldCubesDetail,
         () => setLoading(false),
+        htmlImages,
       );
     }
-  }, [ctx, selectedCubes, img, soldCubesDetail]);
-
-  // save cubes id in store
-  // useEffect(() => {
-  //   dispatch(setSelectedCubes(cubes));
-  // }, [cubes]);
+  }, [ctx, selectedCubes, img, soldCubesDetail, htmlImages]);
 
   // get base64 from logo an save local state
   useEffect(() => {
@@ -134,15 +164,6 @@ const Wall = ({
     };
     img.src = Logo;
   }, []);
-
-  // handle space press
-  const handleSpaceDown = (e:KeyboardEvent) => {
-    e.key === ' ' && setSpaceClicked(true);
-  };
-
-  const handleSpaceUp = (e:KeyboardEvent) => {
-    e.key === ' ' && setSpaceClicked(false);
-  };
 
   useEffect(() => {
     window.addEventListener('keydown', handleSpaceDown);
@@ -229,6 +250,7 @@ const redrawWall = (
   logo: any,
   soldCubesDetail: SoldCubesDetail,
   disableLoading: () => void,
+  htmlImages: HTMLImageElement[],
 ) => {
   ctx.save();
   ctx.clearRect(0, 0, 5000, 5000);
@@ -263,16 +285,13 @@ const redrawWall = (
   // TODO: fix quality
   const { images } = soldCubesDetail;
   for (let i = 0; i < images.length; i++) {
-    const { bottomRightCube, imgUrl, topLeftCube } = images[i];
+    const { bottomRightCube, topLeftCube } = images[i];
     const x = (topLeftCube.row - 1) * cubeSize;
     const y = (topLeftCube.column - 1) * cubeSize;
     const w = (bottomRightCube.row - topLeftCube.row + 1) * cubeSize;
     const h = (bottomRightCube.column - topLeftCube.column + 1) * cubeSize;
-    const img = new Image();
-    img.onload = () => {
-      ctx.drawImage(img, x, y, w, h);
-    };
-    img.src = imgUrl;
+    htmlImages[i] && ctx.drawImage(htmlImages[i], x, y, w, h);
+    console.log(htmlImages);
   }
   disableLoading();
 };
