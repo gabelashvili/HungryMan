@@ -279,10 +279,12 @@
 
 .text-selector {
   display: flex;
+  justify-content: center;
   grid-gap: 12px;
   margin-bottom: 24px;
+  width: 100%;
   .form__group {
-    flex: 1;
+    // flex: 1;
     margin-top: 0;
   }
 }
