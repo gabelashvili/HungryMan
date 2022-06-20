@@ -1,7 +1,6 @@
 import { RefObject, useEffect } from 'react';
 
 const useOutsideClick = ({ ref, disabled, handleOutsideClick }: PropsTypes) => {
-  console.log(ref, disabled, handleOutsideClick);
   const handleClickOutside = (event: Event) => {
     if (ref.current && !ref.current.contains(event.target as HTMLDivElement)) {
       handleOutsideClick();

@@ -17,7 +17,7 @@ const CubesCart = () => {
   const [scale, setScale] = useState<number>(1);
   const totalPrice = useSelector((state) => state.cubesReducer.selectedCubesInfo?.totalPrice) || 0;
   const selectedCubesId = useSelector((state) => state.cubesReducer.selectedCubesInfo?.cubesId);
-  const [texts, setTexts] = useState<{val:string, fill: string}[]>([]);
+  const [texts, setTexts] = useState<{val:string, fill: string, id: string}[]>([]);
   const [selectedColor, setSelectedColor] = useState<string>(colorsList[0]);
   const [selectedObjectId, setSelectedObjectId] = useState<string | null>(null);
   const [selectedTab, setSelectedTab] = useState<number>(0);
@@ -64,12 +64,17 @@ const CubesCart = () => {
   };
 
   const handleRemove = () => {
-    const newImgs = images.filter((el) => el.id !== selectedObjectId);
-    setImages(newImgs);
+    if (selectedObjectId?.includes('text')) {
+      const newText = texts.filter((el) => el.id !== selectedObjectId);
+      setTexts(newText);
+    } else {
+      const newImgs = images.filter((el) => el.id !== selectedObjectId);
+      setImages(newImgs);
+    }
   };
 
   const handleTextAdd = (text:{val:string, fill:string}) => {
-    setTexts([...texts, text]);
+    setTexts([...texts, { ...text, id: `text-${texts.length + Math.random()}` }]);
   };
 
   useEffect(() => {
@@ -92,7 +97,7 @@ const CubesCart = () => {
           <div className="panel--content cart-content">
             {selectedTab < 2 && (
             <div className="cart-content--header">
-              {images.length > 0 && (
+              {(images.length > 0 || texts.length > 0) && (
               <Button type="primary" classes="button--icon is-medium" handleClick={handleRemove}>
                 <RemoveIcon />
               </Button>

@@ -194,11 +194,11 @@ const DrawGridWithCubesId = ({
             <TextWrapper
               fontSize={50}
               key={text.val}
-              id="grid-text"
               fill={text.fill}
               text={text.val}
               x={0}
               y={0}
+              id={text.id}
               selectedObjId={selectedObjectId}
               setSelectedObjId={setSelectedObjectId}
             />
@@ -291,7 +291,7 @@ const generateFormattedData = (cubesIds: number[]) => {
 interface PropsTypes {
   scale: number,
   setScale: Dispatch<SetStateAction<number>>,
-  texts: {val: string, fill: string}[],
+  texts: {val: string, fill: string, id:string}[],
   setSelectedObjectId: Dispatch<SetStateAction<string | null>>
   selectedObjectId: string | null,
   images: {id:string, file?:File, base64?: string, value?: string}[],
