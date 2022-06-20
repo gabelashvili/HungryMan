@@ -16,8 +16,6 @@ const TextWrapper = ({
     }
   }, [text]);
 
-  console.log(selectedObjId);
-
   return (
     <>
       <Text
@@ -33,6 +31,9 @@ const TextWrapper = ({
       />
       {(
         <Transformer
+          anchorFill={selectedObjId === id ? 'red' : 'white'}
+          anchorStroke={selectedObjId === id ? 'red' : 'white'}
+          borderStroke={selectedObjId === id ? 'red' : '#07979E'}
           enabledAnchors={['top-left', 'top-right', 'bottom-left', 'bottom-right']}
           ref={trRef}
           boundBoxFunc={(oldBox, newBox) => {

@@ -9,7 +9,7 @@ const ImageWrapper = ({
   const [img, setImg] = useState<HTMLImageElement| null>(null);
   const shapeRef = useRef<any>();
   const trRef = useRef<any>();
-  console.log(selectedObjId);
+
   useEffect(() => {
     if (trRef.current && img) {
       trRef.current.nodes([shapeRef.current]);
@@ -42,6 +42,9 @@ const ImageWrapper = ({
       />
       { (
         <Transformer
+          anchorFill={selectedObjId === file.id ? 'red' : 'white'}
+          anchorStroke={selectedObjId === file.id ? 'red' : 'white'}
+          borderStroke={selectedObjId === file.id ? 'red' : '#07979E'}
           keepRatio
           centeredScaling
           enabledAnchors={['top-left', 'top-right', 'bottom-left', 'bottom-right']}
