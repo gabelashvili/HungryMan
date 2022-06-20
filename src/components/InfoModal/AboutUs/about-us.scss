@@ -1,0 +1,28 @@
+.about-us  {
+    &  .is-active{
+        &  .panel--content {
+            height: auto;
+            overflow: hidden;
+            padding: 16px !important;
+        }
+        & .panel--header {
+            border-bottom: 1px solid #162a3d !important;
+            & >button>svg {
+                width: 10px;
+                transform: rotate(90deg);
+            }
+        }
+    }
+    &  .panel--content {
+        height: 0;
+        overflow: hidden;
+        padding: 0 !important;
+    }
+    & .panel--header {
+        border-bottom: 0 !important;
+        & >button>svg {
+            width: 10px;
+            transform: rotate(-90deg);
+        }
+    }
+}

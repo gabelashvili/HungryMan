@@ -3,7 +3,7 @@ import React, { Dispatch, SetStateAction, useRef } from 'react';
 import useOutsideClick from '../../hooks/useOutsideClick';
 import ClearIcon from '../../Icons/ClearIcon';
 import Button from '../shared/Button';
-import AboutUs from './AboutUs';
+import AboutUs from './AboutUs/AboutUs';
 import HowToUse from './HowTouse/HowToUse';
 import SoldCubesCountBar from './SoldCubesCountBar/SoldCubesCountBar';
 
