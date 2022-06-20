@@ -1,0 +1,30 @@
+.how-to-use {
+    display: flex;
+    flex-direction: column;
+    &--item {
+      display: flex;
+      align-items: center;
+      padding: 15px 0;
+      border-top: 1px solid #162a3d;
+    }
+    &--title {
+      font-family: "Helvetica-medium";
+      font-size: 12px;
+      line-height: 15px;
+      color: #55687a;
+      margin-right: auto;
+    }
+  
+    &--source {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #233c52;
+      color: #fff;
+      border-radius: 4px;
+      padding: 6px 10px;
+      font-weight: 400;
+      min-width: 28px;
+    }
+  }
+  

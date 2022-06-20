@@ -1,0 +1,46 @@
+.sold-coubs {
+    display: flex;
+    align-items: center;
+  
+    &--number {
+      font-family: "Helvetica-bold";
+      font-size: 16px;
+      line-height: 15px;
+      color: #ffffff;
+      &.full {
+        opacity: 0.5;
+      }
+    }
+  
+    &--gradient {
+      width: 100%;
+      height: 22px;
+      background-color: #162a3d;
+      border-radius: 22px;
+      overflow: hidden;
+      display: flex;
+      justify-content: flex-start;
+      span {
+        width: 0;
+        height: 100%;
+        transition: width 0.2s ease-in-out;
+        background: linear-gradient(270deg, #ed2024 0%, #ff8385 100%);
+      }
+    }
+  }
+  
+  @media screen and(max-width: 768px) {
+    .panel--header {
+      flex-direction: column-reverse;
+      align-items: flex-start;
+      max-height: unset;
+    }
+    .sold-coubs {
+      margin-bottom: 6px;
+    }
+    .sold-coubs--gradient {
+      margin-top: 4px;
+      height: 14px;
+    }
+  }
+  
