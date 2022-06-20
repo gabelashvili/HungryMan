@@ -82,6 +82,7 @@
   }
 
   &-slider {
+    width: 100%;
     display: flex;
     flex-direction: column;
     margin-inline: auto;
@@ -115,6 +116,7 @@
 
     &--list {
       align-self: center;
+      width: 100%;
     }
 
     &--item {
