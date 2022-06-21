@@ -2,10 +2,12 @@ import { toast } from 'react-toastify';
 import { put } from 'redux-saga/effects';
 import { CallBacks } from '../../types/main.d';
 import {
-  BuyCubesPayload, CubesInitialData, PurchaseInfo, SoldCubesDetail,
+  BuyCubesPayload, CubesInitialData, PurchaseDetail, PurchaseInfo, SoldCubesDetail,
 } from '../../types/cubes';
 import axiosInstance from '../../helpers/axiosInstance';
-import { setCubesPurchaseHistory, setInitialData, setSoldCubesDetail } from '../ducks/cubesDuck';
+import {
+  setCubesPurchaseHistory, setInitialData, setPurchasesByPhoneNumber, setSoldCubesDetail,
+} from '../ducks/cubesDuck';
 import { CUBES_TOTAL_ROWS } from '../../Routes/Cubes/Cubes';
 import { generatePath } from '../../helpers';
 
@@ -58,8 +60,23 @@ export function* getInitialData({ callbacks }:{ callbacks: CallBacks, type:strin
       // };
       // img.src = generatePath(el.imageUrl);
     });
+
+    const purchasesByPhoneNumber = data.purchases.reduce((acc: {[key:string]: PurchaseDetail[][]}, cur) => {
+      if (acc[cur.user.phone]) {
+        return {
+          ...acc,
+          [cur.user.phone]: [...acc[cur.user.phone], cur.purchaseDetails],
+        };
+      }
+      return {
+        ...acc,
+        [cur.user.phone]: [cur.purchaseDetails],
+      };
+    }, {});
+
     yield put(setInitialData(data));
     yield put(setSoldCubesDetail({ ...formattedData }));
+    yield put(setPurchasesByPhoneNumber({ ...purchasesByPhoneNumber }));
     callbacks?.success && callbacks.success();
   } catch (error: any) {
     toast.error('მოხდა შეცდომა');

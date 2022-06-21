@@ -11,6 +11,12 @@ export interface SelectedCubesInfoType {
     enableRedirectLink: boolean,
 }
 
+export interface PurchaseDetail {
+    id: number,
+    purchaseId: number,
+    squareId: number
+}
+
 export interface PurchaseInfo {
         id: number,
         user: UserType,
@@ -28,11 +34,7 @@ export interface PurchaseInfo {
         redirectLinkPrice:number,
         status: number,
         giftSendStatus: number,
-        purchaseDetails: {
-            id: number,
-            purchaseId: number,
-            squareId: number
-        }[]
+        purchaseDetails: PurchaseDetail[],
         purchaseGiftDetails: [
           {
             id: number,
@@ -55,7 +57,8 @@ export interface CubesInitialState {
     selectedCubesInfo: SelectedCubesInfoType,
     initialData: CubesInitialData | null,
     purchaseHistory: PurchaseInfo[] | null,
-    soldCubesDetails: null | SoldCubesDetail
+    soldCubesDetails: null | SoldCubesDetail,
+    purchasesByPhoneNumber: {[key:string]: PurchaseDetail[][]} | null
 }
 
 export interface BuyCubesPayload {
