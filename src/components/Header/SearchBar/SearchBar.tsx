@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import {
   Dispatch, SetStateAction, useEffect, useRef, useState,
 } from 'react';
+import { useSelector } from '../../../hooks/useSelector';
 import ClearIcon from '../../../Icons/ClearIcon';
 import SearchIcon from '../../../Icons/SearchIcon';
 import Button from '../../shared/Button';
@@ -11,6 +12,8 @@ const SearchBar = ({ showSearchBar, setShowSearchBar }: {showSearchBar:boolean,
      setShowSearchBar: Dispatch<SetStateAction<boolean>>}) => {
   const ref = useRef<HTMLDivElement>(null);
   const [searchValue, setSearchValue] = useState<string>('');
+  const x = useSelector((state) => state.cubesReducer.purchasesByPhoneNumber);
+  console.log(x && x['574006004'][0]);
 
   const handleClickOutside = (event: Event) => {
     const target = event.target as HTMLDivElement;

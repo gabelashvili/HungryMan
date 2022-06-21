@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 import { put } from 'redux-saga/effects';
 import { CallBacks } from '../../types/main.d';
 import {
-  BuyCubesPayload, CubesInitialData, PurchaseDetail, PurchaseInfo, SoldCubesDetail,
+  BuyCubesPayload, CubesInitialData, PurchaseInfo, PurchasesByPhoneNumberType, SoldCubesDetail,
 } from '../../types/cubes';
 import axiosInstance from '../../helpers/axiosInstance';
 import {
@@ -61,19 +61,36 @@ export function* getInitialData({ callbacks }:{ callbacks: CallBacks, type:strin
       // img.src = generatePath(el.imageUrl);
     });
 
-    const purchasesByPhoneNumber = data.purchases.reduce((acc: {[key:string]: PurchaseDetail[][]}, cur) => {
+    const purchasesByPhoneNumber = data.purchases.reduce((acc: {[key:string]: PurchasesByPhoneNumberType[]}, cur) => {
+      let minRow = 0;
+      let maxRow = 0;
+      let minCol = 0;
+      let maxCol = 0;
+      const data = [...cur.purchaseDetails].sort((a, b) => a.squareId - b.squareId);
+      const lastElIndex = data.length - 1;
+      minRow = data[0].squareId % CUBES_TOTAL_ROWS;
+      maxRow = data[lastElIndex].squareId % CUBES_TOTAL_ROWS;
+      minCol = Math.ceil(data[0].squareId / CUBES_TOTAL_ROWS);
+      maxCol = Math.ceil(data[lastElIndex].squareId / CUBES_TOTAL_ROWS);
       if (acc[cur.user.phone]) {
         return {
           ...acc,
-          [cur.user.phone]: [...acc[cur.user.phone], cur.purchaseDetails],
+          [cur.user.phone]: [...acc[cur.user.phone], {
+            rowLength: maxRow - minRow + 1,
+            colLength: maxCol - minCol + 1,
+            minSquareId: data[0].squareId,
+          }],
         };
       }
       return {
         ...acc,
-        [cur.user.phone]: [cur.purchaseDetails],
+        [cur.user.phone]: [{
+          rowLength: maxRow - minRow + 1,
+          colLength: maxCol - minCol + 1,
+          minSquareId: data[0].squareId,
+        }],
       };
     }, {});
-
     yield put(setInitialData(data));
     yield put(setSoldCubesDetail({ ...formattedData }));
     yield put(setPurchasesByPhoneNumber({ ...purchasesByPhoneNumber }));

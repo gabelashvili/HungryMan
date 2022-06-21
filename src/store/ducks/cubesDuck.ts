@@ -1,6 +1,7 @@
 import { AnyAction } from 'redux';
 import {
-  BuyCubesPayload, CubesInitialData, CubesInitialState, PurchaseDetail, PurchaseInfo, SoldCubesDetail,
+  BuyCubesPayload, CubesInitialData, CubesInitialState,
+  PurchaseInfo, PurchasesByPhoneNumberType, SoldCubesDetail,
 } from '../../types/cubes';
 import { CallBacks } from '../../types/main';
 
@@ -72,7 +73,7 @@ export const cubesReducer = (state = initialState, action: AnyAction): CubesInit
     case SET_PURCHASES_BY_PHONE_NUMBER:
       return {
         ...state,
-        purchasesByPhoneNumber: payload as {[key:string]: PurchaseDetail[][]},
+        purchasesByPhoneNumber: payload as {[key:string]: PurchasesByPhoneNumberType[]},
       };
     default:
       return state;
@@ -123,7 +124,7 @@ export const setSoldCubesDetail = (payload: SoldCubesDetail) => ({
   payload,
 });
 
-export const setPurchasesByPhoneNumber = (payload: {[key:string]: PurchaseDetail[][]}) => ({
+export const setPurchasesByPhoneNumber = (payload: {[key:string]: PurchasesByPhoneNumberType[]}) => ({
   type: SET_PURCHASES_BY_PHONE_NUMBER,
   payload,
 });

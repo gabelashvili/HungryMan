@@ -17,6 +17,11 @@ export interface PurchaseDetail {
     squareId: number
 }
 
+export interface PurchasesByPhoneNumberType {
+  rowLength: number,
+  colLength: number,
+   minSquareId: number
+}
 export interface PurchaseInfo {
         id: number,
         user: UserType,
@@ -58,7 +63,7 @@ export interface CubesInitialState {
     initialData: CubesInitialData | null,
     purchaseHistory: PurchaseInfo[] | null,
     soldCubesDetails: null | SoldCubesDetail,
-    purchasesByPhoneNumber: {[key:string]: PurchaseDetail[][]} | null
+    purchasesByPhoneNumber: {[key:string]: PurchasesByPhoneNumberType[]} | null
 }
 
 export interface BuyCubesPayload {
