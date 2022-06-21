@@ -1,4 +1,4 @@
-import { CUBES_TOTAL_COLUMNS } from '../../../Routes/Cubes/Cubes';
+import { CUBES_TOTAL_COLUMNS, CUBES_TOTAL_ROWS } from '../../../Routes/Cubes/Cubes';
 import './sold-coubs-count-bar.component.scss';
 
 const SoldCubesCountBar = ({ soldCubesCnt, soldCubesPercent }: {soldCubesCnt: number, soldCubesPercent: number}) => {
@@ -12,7 +12,7 @@ const SoldCubesCountBar = ({ soldCubesCnt, soldCubesPercent }: {soldCubesCnt: nu
             {soldCubesCnt}
             /
           </span>
-          <span className="sold-coubs--number full">{CUBES_TOTAL_COLUMNS * CUBES_TOTAL_COLUMNS}</span>
+          <span className="sold-coubs--number full">{CUBES_TOTAL_COLUMNS * CUBES_TOTAL_ROWS}</span>
         </div>
       </div>
 
