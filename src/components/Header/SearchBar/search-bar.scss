@@ -1,8 +1,6 @@
 .search-bar {
   margin-right: 16px;
   display: flex;
-  width: 48px;
-  justify-content: center;
   align-items: center;
   background-color: #162a3d;
   overflow: hidden;
@@ -52,10 +50,9 @@
     height: 36px;
   }
   .search-bar {
-    height: 36px !important;
-    width: 36px !important;
+    height: 36px;
     svg {
-      width: 14px !important;
+      width: 14px;
     }
     .input {
       padding-left: 0;
