@@ -178,6 +178,8 @@ const Wall = ({
     };
   }, []);
 
+  // zoom to specific coordinate when search appear
+
   return (
     <div style={{
       width: '100%', display: 'flex', alignItems: 'center', marginBottom: '130px', position: 'relative',
@@ -198,10 +200,13 @@ const Wall = ({
           disabled: true,
         }}
         ref={panRef}
-        onInit={(x) => setMethods({
-          handleZoomIn: x.zoomIn,
-          handleZoomOut: x.zoomOut,
-        })}
+        onInit={(x) => {
+          setMethods({
+            handleZoomIn: x.zoomIn,
+            handleZoomOut: x.zoomOut,
+          });
+          x.setTransform(20, 20, 10);
+        }}
         onZoomStop={(props) => {
           setZoomPercent(props.state.scale * 100);
         }}
