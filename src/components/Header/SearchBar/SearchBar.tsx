@@ -2,18 +2,20 @@ import clsx from 'clsx';
 import {
   Dispatch, SetStateAction, useEffect, useRef, useState,
 } from 'react';
-import { useSelector } from '../../../hooks/useSelector';
+import { toast } from 'react-toastify';
+import { useAppDispatch, useSelector } from '../../../hooks/useSelector';
 import ClearIcon from '../../../Icons/ClearIcon';
 import SearchIcon from '../../../Icons/SearchIcon';
+import { setSearchValue } from '../../../store/ducks/cubesDuck';
 import Button from '../../shared/Button';
 import './search-bar.scss';
 
 const SearchBar = ({ showSearchBar, setShowSearchBar }: {showSearchBar:boolean,
      setShowSearchBar: Dispatch<SetStateAction<boolean>>}) => {
+  const dispatch = useAppDispatch();
   const ref = useRef<HTMLDivElement>(null);
-  const [searchValue, setSearchValue] = useState<string>('');
-  const x = useSelector((state) => state.cubesReducer.purchasesByPhoneNumber);
-  console.log(x && x['574006004'][0]);
+  const [value, setValue] = useState<string>('');
+  const { purchasesByPhoneNumber } = useSelector((state) => state.cubesReducer);
 
   const handleClickOutside = (event: Event) => {
     const target = event.target as HTMLDivElement;
@@ -37,7 +39,21 @@ const SearchBar = ({ showSearchBar, setShowSearchBar }: {showSearchBar:boolean,
 
   return (
     <div className="search-bar" ref={ref}>
-      <Button type="icon" classes="is-rounded search-button" handleClick={() => setShowSearchBar(true)}>
+      <Button
+        type="icon"
+        classes="is-rounded search-button"
+        handleClick={() => {
+          if (showSearchBar) {
+            if (purchasesByPhoneNumber && value in purchasesByPhoneNumber) {
+              dispatch(setSearchValue(value));
+            } else {
+              toast.error('ნომერი არ მოიძებნა');
+            }
+          } else {
+            setShowSearchBar(true);
+          }
+        }}
+      >
         <SearchIcon />
       </Button>
       <div className={clsx('search-bar--content', showSearchBar && 'is-active')}>
@@ -47,14 +63,14 @@ const SearchBar = ({ showSearchBar, setShowSearchBar }: {showSearchBar:boolean,
             className="input is-medium"
             type="text"
             id="search"
-            value={searchValue}
-            onChange={({ target }) => setSearchValue(target.value)}
+            value={value}
+            onChange={({ target }) => setValue(target.value)}
           />
           <ClearIcon
             className="search-bar--clear"
             handleClick={() => {
               setShowSearchBar(false);
-              setSearchValue('');
+              setValue('');
             }}
           />
         </div>

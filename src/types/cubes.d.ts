@@ -20,7 +20,9 @@ export interface PurchaseDetail {
 export interface PurchasesByPhoneNumberType {
   rowLength: number,
   colLength: number,
-   minSquareId: number
+   minSquareId: number,
+   minRow:number,
+   minCol:number
 }
 export interface PurchaseInfo {
         id: number,
@@ -63,7 +65,8 @@ export interface CubesInitialState {
     initialData: CubesInitialData | null,
     purchaseHistory: PurchaseInfo[] | null,
     soldCubesDetails: null | SoldCubesDetail,
-    purchasesByPhoneNumber: {[key:string]: PurchasesByPhoneNumberType[]} | null
+    purchasesByPhoneNumber: {[key:string]: PurchasesByPhoneNumberType[]} | null,
+    searchVal: string
 }
 
 export interface BuyCubesPayload {

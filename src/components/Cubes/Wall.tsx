@@ -8,14 +8,16 @@ import { TransformWrapper, TransformComponent, ReactZoomPanPinchRef } from '@kok
 import {
   CUBES_TOTAL_COLUMNS, CUBES_TOTAL_ROWS, CUBE_DARK_COLOR, CUBE_LIGHT_COLOR,
 } from '../../Routes/Cubes/Cubes';
-import { useSelector } from '../../hooks/useSelector';
+import { useAppDispatch, useSelector } from '../../hooks/useSelector';
 import Logo from '../../assets/images/Vector2.png';
 import { SoldCubesDetail } from '../../types/cubes';
 import Loader from '../../Icons/Loader';
+import { setSearchValue } from '../../store/ducks/cubesDuck';
 
 const Wall = ({
   setMethods, setZoomPercent, selectedCubes, setSelectedCubes,
 }: PropsTypes) => {
+  const dispatch = useAppDispatch();
   const [htmlImages, setHtmlImages] = useState<HTMLImageElement[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [isSpaceClicked, setSpaceClicked] = useState(false);
@@ -25,6 +27,7 @@ const Wall = ({
   const isSelecting = useRef(false);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { purchasesByPhoneNumber, searchVal } = useSelector((state) => state.cubesReducer);
 
   const getCubeId = (e:MouseEvent) => {
     if (canvasRef.current && panRef.current && panRef.current.instance.contentComponent && ctx) {
@@ -180,6 +183,22 @@ const Wall = ({
 
   // zoom to specific coordinate when search appear
 
+  useEffect(() => {
+    if (searchVal && purchasesByPhoneNumber && canvasRef.current && panRef.current) {
+      const zoomTo = purchasesByPhoneNumber[searchVal][0];
+      const canvasProps = canvasRef.current.getBoundingClientRect();
+      const cubeSize = canvasProps.width / CUBES_TOTAL_ROWS;
+      const w = zoomTo.rowLength * cubeSize;
+      const h = zoomTo.colLength * cubeSize;
+      const x = ((zoomTo.minRow - 1) * cubeSize + w) / 2;
+      const y = ((zoomTo.minCol - 1) * cubeSize + h) / 2;
+      console.log(w, h, x, y);
+      panRef.current.setTransform(x, y, 8);
+      console.log(panRef.current.state.scale);
+      dispatch(setSearchValue(''));
+    }
+  }, [searchVal, purchasesByPhoneNumber]);
+
   return (
     <div style={{
       width: '100%', display: 'flex', alignItems: 'center', marginBottom: '130px', position: 'relative',
@@ -205,7 +224,7 @@ const Wall = ({
             handleZoomIn: x.zoomIn,
             handleZoomOut: x.zoomOut,
           });
-          x.setTransform(20, 20, 10);
+          // x.setTransform(20, 20, 10);
         }}
         onZoomStop={(props) => {
           setZoomPercent(props.state.scale * 100);

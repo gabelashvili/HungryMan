@@ -20,6 +20,8 @@ export const SET_SOLD_CUBES_DETAILS = 'cubes/setSoldCubesDetails';
 
 export const SET_PURCHASES_BY_PHONE_NUMBER = 'cubes/setPurchasesByPhoneNumber';
 
+export const SET_PURCHASES_BY_PHONE_NUMBER_SEARCH_VALUE = 'cubes/setPurchasesByPhoneNumberSearchValue';
+
 const initialState: CubesInitialState = {
   selectedCubesInfo: {
     cubesId: [],
@@ -32,6 +34,7 @@ const initialState: CubesInitialState = {
   purchaseHistory: null,
   soldCubesDetails: null,
   purchasesByPhoneNumber: null,
+  searchVal: '',
 };
 
 export const cubesReducer = (state = initialState, action: AnyAction): CubesInitialState => {
@@ -74,6 +77,11 @@ export const cubesReducer = (state = initialState, action: AnyAction): CubesInit
       return {
         ...state,
         purchasesByPhoneNumber: payload as {[key:string]: PurchasesByPhoneNumberType[]},
+      };
+    case SET_PURCHASES_BY_PHONE_NUMBER_SEARCH_VALUE:
+      return {
+        ...state,
+        searchVal: payload as string,
       };
     default:
       return state;
@@ -126,5 +134,10 @@ export const setSoldCubesDetail = (payload: SoldCubesDetail) => ({
 
 export const setPurchasesByPhoneNumber = (payload: {[key:string]: PurchasesByPhoneNumberType[]}) => ({
   type: SET_PURCHASES_BY_PHONE_NUMBER,
+  payload,
+});
+
+export const setSearchValue = (payload: string) => ({
+  type: SET_PURCHASES_BY_PHONE_NUMBER_SEARCH_VALUE,
   payload,
 });

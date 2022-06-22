@@ -79,6 +79,8 @@ export function* getInitialData({ callbacks }:{ callbacks: CallBacks, type:strin
             rowLength: maxRow - minRow + 1,
             colLength: maxCol - minCol + 1,
             minSquareId: data[0].squareId,
+            minRow,
+            minCol,
           }],
         };
       }
@@ -88,6 +90,8 @@ export function* getInitialData({ callbacks }:{ callbacks: CallBacks, type:strin
           rowLength: maxRow - minRow + 1,
           colLength: maxCol - minCol + 1,
           minSquareId: data[0].squareId,
+          minRow,
+          minCol,
         }],
       };
     }, {});
