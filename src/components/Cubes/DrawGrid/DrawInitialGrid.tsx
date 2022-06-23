@@ -40,7 +40,7 @@ const DrawInitialGrid = () => {
       });
       setCanvasProps({
         w: props.width,
-        h: props.height,
+        h: cubeSize * data.columnLength,
         cubeSize,
       });
     }

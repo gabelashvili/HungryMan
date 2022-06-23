@@ -11,7 +11,6 @@ const CartCoubs = () => {
   const dispatch = useAppDispatch();
   const imgRef = useRef<HTMLImageElement>(null);
   const data = useSelector((state) => state.cubesReducer);
-  console.log(data.selectedCubesInfo);
   return (
     data.selectedCubesInfo?.cubesId && data.selectedCubesInfo.cubesId.length > 0 ? (
       <>
