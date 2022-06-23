@@ -188,21 +188,39 @@ const Wall = ({
       const zoomTo = purchasesByPhoneNumber[searchVal][0];
       const canvasProps = canvasRef.current.getBoundingClientRect();
       const cubeSize = canvasProps.width / CUBES_TOTAL_ROWS;
-      const w = zoomTo.rowLength * cubeSize;
-      const h = zoomTo.colLength * cubeSize;
-      const x = ((zoomTo.minRow - 1) * cubeSize + w) / 2;
-      const y = ((zoomTo.minCol - 1) * cubeSize + h) / 2;
+      const w = zoomTo.rowLength * cubeSize * 8;
+      const h = zoomTo.colLength * cubeSize * 8;
+      const { bounds } = panRef.current.instance;
+      const x = -(((zoomTo.minRow - 1) * cubeSize + w) / 2);
+      const y = -(((zoomTo.minCol - 1) * cubeSize + h) / 2);
       console.log(w, h, x, y);
-      panRef.current.setTransform(x, y, 8);
-      console.log(panRef.current.state.scale);
+      // if (x > 0) {
+      //   x = 0;
+      // }
+      // if (bounds && x < bounds.minPositionX) {
+      //   x = bounds.minPositionX;
+      // }
+
+      // if (y > 0) {
+      //   y = 0;
+      // }
+      // if (bounds && y < bounds.minPositionY) {
+      //   y = bounds.minPositionY;
+      // }
+      console.log(x, y);
+      panRef.current.resetTransform(0);
+      panRef.current.setTransform(x, y, 8, 0);
+
       dispatch(setSearchValue(''));
     }
   }, [searchVal, purchasesByPhoneNumber]);
 
   return (
-    <div style={{
-      width: '100%', display: 'flex', alignItems: 'center', marginBottom: '130px', position: 'relative',
-    }}
+    <div
+      id="canvas"
+      style={{
+        width: '100%', display: 'flex', alignItems: 'center', marginBottom: '130px', position: 'relative',
+      }}
     >
       {loading && (
       <Loader styles={{

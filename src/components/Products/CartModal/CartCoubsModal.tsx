@@ -3,6 +3,7 @@ import { generatePath } from '../../../helpers';
 import { useAppDispatch, useSelector } from '../../../hooks/useSelector';
 import RemoveIcon from '../../../Icons/RemoveIcon';
 import { setSelectedCubesInfo } from '../../../store/ducks/cubesDuck';
+import DrawInitialGrid from '../../Cubes/DrawGrid/DrawInitialGrid';
 import Button from '../../shared/Button';
 import EmptyCard from './EmptyCard';
 
@@ -14,9 +15,9 @@ const CartCoubs = () => {
     data.selectedCubesInfo?.cubesId && data.selectedCubesInfo.cubesId.length > 0 ? (
       <>
         <div className="panel without-header coubs-quantity">
-          <div className="panel--content">
+          <div className="panel--content" style={{ minHeight: 250 }}>
             <div className="coubs-quantity--display">
-              <img src={data.selectedCubesInfo?.base64 || ''} ref={imgRef} alt="coubs selected" />
+              {data.selectedCubesInfo?.base64 ? <img src={data.selectedCubesInfo?.base64 || ''} ref={imgRef} alt="coubs selected" /> : <DrawInitialGrid />}
             </div>
           </div>
           <div className="panel--footer coubs-quantity--details">
