@@ -185,32 +185,15 @@ const Wall = ({
 
   useEffect(() => {
     if (searchVal && purchasesByPhoneNumber && canvasRef.current && panRef.current) {
+      panRef.current.resetTransform(0);
       const zoomTo = purchasesByPhoneNumber[searchVal][0];
       const canvasProps = canvasRef.current.getBoundingClientRect();
       const cubeSize = canvasProps.width / CUBES_TOTAL_ROWS;
-      const w = zoomTo.rowLength * cubeSize * 8;
-      const h = zoomTo.colLength * cubeSize * 8;
-      const { bounds } = panRef.current.instance;
-      const x = -(((zoomTo.minRow - 1) * cubeSize + w) / 2);
-      const y = -(((zoomTo.minCol - 1) * cubeSize + h) / 2);
-      console.log(w, h, x, y);
-      // if (x > 0) {
-      //   x = 0;
-      // }
-      // if (bounds && x < bounds.minPositionX) {
-      //   x = bounds.minPositionX;
-      // }
-
-      // if (y > 0) {
-      //   y = 0;
-      // }
-      // if (bounds && y < bounds.minPositionY) {
-      //   y = bounds.minPositionY;
-      // }
-      console.log(x, y);
-      panRef.current.resetTransform(0);
-      panRef.current.setTransform(x, y, 8, 0);
-
+      const w = zoomTo.rowLength * cubeSize;
+      const h = zoomTo.colLength * cubeSize;
+      const x = (((zoomTo.minRow - 1) * cubeSize + w));
+      const y = (((zoomTo.minCol - 1) * cubeSize + h));
+      panRef.current.setTransform(-x * 7, -y * 7, 8, 0);
       dispatch(setSearchValue(''));
     }
   }, [searchVal, purchasesByPhoneNumber]);
@@ -251,6 +234,12 @@ const Wall = ({
         <TransformComponent contentStyle={{ width: '100%' }} wrapperStyle={{ width: '100%' }}>
           <canvas
             ref={canvasRef}
+            onClick={(e) => {
+              if (canvasRef.current) {
+                const props = canvasRef.current.getBoundingClientRect();
+                console.log(e.clientX - props.left, e.clientY - props.top);
+              }
+            }}
             onMouseDown={isSpaceClicked ? undefined : handleMouseDown}
             onMouseUp={isSpaceClicked ? undefined : handleMouseUp}
             onMouseMove={isSpaceClicked ? undefined : handleMouseMove}
