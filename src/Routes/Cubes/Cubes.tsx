@@ -33,10 +33,12 @@ const Cubes = () => {
   }, [cubesInitialData]);
 
   useEffect(() => {
-    dispatch(setSelectedCubesInfo({ key: 'cubesId', value: selectedCubes }));
-    if (selectedCubes.length === 0) {
-      dispatch(setSelectedCubesInfo({ key: 'totalPrice', value: 0 }));
+    if (selectedCubes.length !== 0) {
+      dispatch(setSelectedCubesInfo({ key: 'cubesId', value: selectedCubes }));
     }
+    // if (selectedCubes.length === 0) {
+    //   dispatch(setSelectedCubesInfo({ key: 'totalPrice', value: 0 }));
+    // }
   }, [selectedCubes]);
 
   return (
