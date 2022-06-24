@@ -33,7 +33,7 @@ const UploadImgBtn = ({ uploadedFile, setUploadedFile }: PropsTypes) => {
           id="upload"
           type="file"
           onChange={handleFileUpload}
-          accept="image/jpg, image/jpeg, image/tif, image/svg"
+          accept="image/jpg, image/jpeg, image/tif, image/svg, image/png"
         />
         <span className="button--upload__text">
           {uploadedFile ? uploadedFile.name : 'ფოტოს არჩევა'}
