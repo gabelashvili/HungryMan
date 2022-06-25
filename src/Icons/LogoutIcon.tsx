@@ -3,12 +3,10 @@ import { CSSProperties } from 'react';
 const LogoutIcon = ({ className, style }: {className?: string, style?: CSSProperties}) => {
   return (
     <svg
-      width="20"
-      height="20"
-      viewBox="0 0 20 20"
       fill="none"
-      className={className}
       style={style}
+      viewBox="0 0 20 20"
+      className={className}
     >
       <path
         d="M14 1.66667H11.8333C9.16667 1.66667 7.5 3.33334 7.5 6.00001V9.37501H12.7083C13.05 9.37501 13.3333 9.65834 13.3333 10C13.3333 10.3417 13.05 10.625 12.7083 10.625H7.5V14C7.5 16.6667 9.16667 18.3333 11.8333 18.3333H13.9917C16.6583 18.3333 18.325 16.6667 18.325 14V6.00001C18.3333 3.33334 16.6667 1.66667 14 1.66667Z"

@@ -5,17 +5,12 @@ const ClearIcon = ({ style, className, handleClick }:
   return (
     <svg
       fill="none"
-      viewBox="0 0 14 14"
-      width="12px"
-      height="12px"
-      className={className}
       style={style}
+      viewBox="0 0 24 24"
+      className={className}
       onClick={handleClick}
     >
-      <path
-        fill="currentColor"
-        d="m7 5.586 4.95-4.95 1.414 1.414L8.414 7l4.95 4.95-1.414 1.414L7 8.414l-4.95 4.95L.636 11.95 5.586 7 .636 2.05 2.05.636 7 5.586Z"
-      />
+      <path d="M11.9997 10.586L16.9497 5.63599L18.3637 7.04999L13.4137 12L18.3637 16.95L16.9497 18.364L11.9997 13.414L7.04974 18.364L5.63574 16.95L10.5857 12L5.63574 7.04999L7.04974 5.63599L11.9997 10.586Z" fill="currentColor" />
     </svg>
   );
 };

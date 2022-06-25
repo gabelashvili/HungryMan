@@ -5,6 +5,12 @@
     margin-top: 8px;
     right: 0;
     z-index: 1;
+    .user-menu--link {
+      &::before {
+        background-color: #1a3044 !important;
+        width: calc(100% - 48px) !important;
+      }
+    }
   }
   &--list {
     display: flex;
@@ -16,10 +22,23 @@
     border-radius: 18px;
     overflow: hidden;
   }
+  &--item:not(:last-of-type) {
+    .user-menu--link {
+      &::before {
+        content: "";
+        background-color: #112231;
+        width: 100%;
+        height: 1px;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+      }
+    }
+  }
   &--link {
     display: flex;
     align-items: center;
-    padding: 15px 17px 15px 48px;
+    padding: 14px 16px 13px 16px;
     white-space: nowrap;
     cursor: pointer;
     position: relative;
@@ -27,9 +46,10 @@
     font-size: 14px;
     font-weight: 400;
     transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+
     &:hover,
     &.is-active {
-      background-color: #112231;
+      background-color: #162a3d;
       color: #fff;
     }
 
@@ -41,14 +61,13 @@
     }
   }
   &--icon {
-    position: absolute;
-    left: 24px;
-    transform: translateX(-50%);
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-right: 12px;
     svg {
       flex-shrink: 0;
+      width: 20px;
     }
   }
 
@@ -80,6 +99,11 @@
         }
       }
 
+      &:hover,
+      &.is-active {
+        background-color: #112231;
+      }
+
       &.log-out {
         .user-menu--icon {
           background-color: rgba(237, 32, 36, 0.17);
@@ -95,6 +119,36 @@
       height: 36px;
       border-radius: 8px;
       background-color: #112231;
+    }
+  }
+}
+
+@media screen and(max-width: 960px) {
+  .user-menu {
+    position: unset !important;
+    margin-top: 0 !important;
+    &--list {
+      background-color: unset;
+      padding: 0;
+    }
+    &--link {
+      font-size: 13px;
+      padding-inline: 0;
+      &:hover {
+        background-color: transparent;
+        color: #768b9d;
+      }
+      &.is-active {
+        background-color: transparent;
+        &:hover:not(.log-out) {
+          color: #fff;
+        }
+      }
+      &.log-out {
+        &:hover {
+          color: #ed2024;
+        }
+      }
     }
   }
 }

@@ -3,9 +3,11 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Logo from '../../assets/images/logo.png';
 import { useAppDispatch, useSelector } from '../../hooks/useSelector';
-import ArrowIcon from '../../Icons/ArrowIcon';
+import TriangleArrowIcon from '../../Icons/arrow-triangle';
 import BasketIcon from '../../Icons/BasketIcon';
+import BurgerIcon from '../../Icons/burger';
 import ClearIcon from '../../Icons/ClearIcon';
+import UserIcon from '../../Icons/user';
 import { toggleCartModal } from '../../store/ducks/cartModalDuck';
 import Address from '../Address/Address';
 import CartModal from '../Products/CartModal/CartModal';
@@ -53,13 +55,13 @@ const Header = () => {
       <Address />
       <CartModal />
       <header className="header">
-        <div className="wrapper">
+        <div className={clsx('wrapper', showSearchBar && 'is-search-visible')}>
           <a href="/" className="header-logo">
             <picture>
               <img src={Logo} alt="HungryMan" />
             </picture>
           </a>
-          <nav className="header-nav">
+          <nav className={clsx('header-nav', showSearchBar && 'is-hidden')}>
             <ul className="header-nav--list">
               <li className="header-nav--item">
                 <Link to="cubes" className="header-nav--link">კედელი</Link>
@@ -83,25 +85,37 @@ const Header = () => {
           </Button>
           {authedUser?.id ? (
             <div className="relative">
-              <Button id="show-user-menu" type="icon" classes="user--icon" handleClick={() => setShowMenu(!showMenu)}>
+              <Button
+                type="icon"
+                id="show-user-menu"
+                classes="user--icon"
+                handleClick={() => setShowMenu(!showMenu)}
+              >
                 <img
                   src={Logo}
                   alt="icon"
                 />
+
+                <TriangleArrowIcon
+                  className={showMenu ? 'is-opened' : ''}
+                />
               </Button>
+
               <UserMenu
                 handleClose={() => setShowMenu(false)}
                 open={showMenu}
               />
             </div>
-          ) : <Button handleClick={() => navigate('/auth')} type="secondary">ავტორიზაცია</Button>}
+          ) : (
+            <Button handleClick={() => navigate('/auth')} type="icon-left">
+              <UserIcon />
+              <span>
+                შესვლა
+              </span>
+            </Button>
+          )}
           <Button type="icon" classes="header-button burger-button" handleClick={toggleResponsiveMenu}>
-            <svg fill="none" viewBox="0 0 22 16">
-              <path
-                fill="currentColor"
-                d="M0 0h22v2H0V0Zm0 7h22v2H0V7Zm0 7h22v2H0v-2Z"
-              />
-            </svg>
+            <BurgerIcon />
           </Button>
           {/* responsive menu */}
           <div className={clsx('modal modal--right navigation-modal', showResponsiveMenu && 'is-active')} ref={responsiveMenuRef}>
@@ -109,7 +123,7 @@ const Header = () => {
               <h3 className="modal--title">მენიუ</h3>
               <Button
                 type="icon"
-                classes=" is-rounded button-pull-right"
+                classes="button--text is-rounded button-pull-right"
                 handleClick={toggleResponsiveMenu}
               >
                 <ClearIcon />
@@ -136,7 +150,7 @@ const Header = () => {
                   alt="icon"
                 />
                 {authedUser?.firstName || ''}
-                <ArrowIcon className="user-info--arrow" />
+                <TriangleArrowIcon className="user-info--arrow" />
               </div>
               {showUserMenu && <UserMenu open styles={{ position: 'initial' }} />}
             </div>

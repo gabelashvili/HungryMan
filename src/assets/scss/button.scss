@@ -42,7 +42,7 @@
   }
 
   svg {
-    width: 20px;
+    width: 24px;
     flex-shrink: 0;
   }
 
@@ -179,7 +179,7 @@
 }
 
 @media screen and(max-width: 1366px) {
-  .button--icon:not(.search-button) {
+  .button--icon:not(.search-button):not(.header-button):not(#show-user-menu) {
     width: 36px;
     height: 36px;
   }
@@ -194,9 +194,10 @@
       &.is-large {
         height: 56px;
       }
-      svg {
-        width: 18px;
-      }
+    }
+    
+    svg {
+      width: 20px;
     }
 
     &--icon:not(.search-button) {
@@ -205,10 +206,14 @@
         height: 32px;
         width: 32px;
       }
-      svg {
-        width: 45%;
-        max-height: 65%;
-      }
+    }
+  }
+}
+
+@media screen and(max-width: 600px) {
+  .button {
+    svg {
+      width: 16px;
     }
   }
 }
