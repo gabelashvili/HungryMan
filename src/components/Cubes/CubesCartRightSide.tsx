@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
+import { saveAs } from 'file-saver';
 import { base64ToFile } from '../../helpers';
 import { useSelector } from '../../hooks/useSelector';
 import { buyCubes, setSelectedCubesInfo } from '../../store/ducks/cubesDuck';
@@ -51,6 +52,7 @@ const CubesCartRightSide = ({
     } else if (selectedAddress && base64) {
       setLoading(true);
       const file = await base64ToFile(base64);
+      saveAs(file, 'image');
       const gifts = [];
       if (giftOneProp) {
         gifts.push({

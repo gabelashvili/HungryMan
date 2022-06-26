@@ -2,7 +2,7 @@ import {
   ChangeEvent,
 } from 'react';
 import { toast } from 'react-toastify';
-import { getBase64Test } from '../../helpers';
+import { getBase64 } from '../../helpers';
 import ReloadIcon from '../../Icons/ReloadIcon';
 import Button from '../shared/Button';
 
@@ -10,7 +10,7 @@ const UploadImgBtn = ({ uploadedFile, setUploadedFile }: PropsTypes) => {
   const handleFileUpload = async (e:ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const file = e.target.files[0];
-      const base64 = await getBase64Test(file) as string;
+      const base64 = await getBase64(file) as string;
       const image = new Image();
       image.src = base64;
       const imageWidth = image.width;
