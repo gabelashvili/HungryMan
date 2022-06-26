@@ -36,8 +36,8 @@ const ImageWrapper = ({
         ref={shapeRef}
         x={x}
         y={y}
-        width={200}
-        height={200}
+        scaleX={0.5}
+        scaleY={0.5}
         draggable
       />
       { (
