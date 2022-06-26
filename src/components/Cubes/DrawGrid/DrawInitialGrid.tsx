@@ -21,7 +21,7 @@ const DrawInitialGrid = () => {
   const calculateCubeSize = () => {
     if (canvasWrapperRef.current && canvasWrapperRef.current?.parentElement && data) {
       const props = canvasWrapperRef.current.parentElement.getBoundingClientRect();
-      const canvasMinSize = props.width < props.height ? props.width : props.height;
+      const canvasMinSize = props.height;
       const dataMax = data.columnLength > data.rowLength ? data.columnLength : data.rowLength;
       const cubeSize = canvasMinSize / dataMax;
       return cubeSize;
@@ -35,8 +35,8 @@ const DrawInitialGrid = () => {
       const cubeSize = calculateCubeSize();
       setStageCords({
         ...stageCords,
-        x: (props.width - (cubeSize * data.columnLength)) / 2,
-        y: (props.height - (cubeSize * data.rowLength)) / 2,
+        x: (props.width - (cubeSize * data.rowLength)) / 2,
+        y: (props.height - (cubeSize * data.columnLength)) / 2,
       });
       setCanvasProps({
         w: props.width,
@@ -81,7 +81,7 @@ const DrawInitialGrid = () => {
           <Layer>
             {data && Object.keys(data.data)
               .map((el, y) => {
-                if (data.columnLength % 2 === 0) {
+                if (data.rowLength % 2 === 0) {
                   color = color === '#132636' ? '#1A3044' : '#132636';
                 }
                 return data.data[el]
@@ -113,7 +113,7 @@ const generateFormattedData = (cubesIds: number[]) => {
   let minRow = Math.ceil(ids[0] / CUBES_TOTAL_ROWS);
   let rowDiff = minRow - 1;
   let minColumn = ids[0] % CUBES_TOTAL_ROWS;
-  let maxColumnLength = 0;
+  let maxRowLength = 0;
   const data: {[key: string]: {
       cubeId: number,
       row: number,
@@ -146,14 +146,14 @@ const generateFormattedData = (cubesIds: number[]) => {
         isSelected: true,
       }];
     }
-    if (data[row - rowDiff].length > maxColumnLength) {
-      maxColumnLength = data[row - rowDiff].length;
+    if (data[row - rowDiff].length > maxRowLength) {
+      maxRowLength = data[row - rowDiff].length;
     }
   });
   const keys = Object.keys(data);
   keys.forEach((key) => {
     const firstCubeId = (data[key][0].row - 1) * CUBES_TOTAL_ROWS + minColumn;
-    data[key] = new Array(maxColumnLength).fill(0).map((_, index) => {
+    data[key] = new Array(maxRowLength).fill(0).map((_, index) => {
       const currentCubeId: number = firstCubeId + index;
       const cube: any = data[key].find((x) => x.cubeId === currentCubeId);
       if (cube) {
@@ -169,7 +169,7 @@ const generateFormattedData = (cubesIds: number[]) => {
   });
   return {
     data,
-    columnLength: maxColumnLength,
-    rowLength: Object.keys(data).length,
+    rowLength: maxRowLength,
+    columnLength: Object.keys(data).length,
   };
 };

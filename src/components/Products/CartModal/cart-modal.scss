@@ -75,8 +75,8 @@
       padding: 20px;
       height: 100px;
       img {
-        max-width: 100%;
-        height: auto;
+        object-fit: contain;
+         height: 100%;
       }
     }
     &--details {

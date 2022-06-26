@@ -53,11 +53,13 @@ const Cubes = () => {
         setSelectedCubes={setSelectedCubes}
       />
       <CubesStatistic />
+      {selectedCubes.length > 0 && (
       <SelectedCubesBar
         cubePrice={cubesInitialData?.squarePrice || 0}
         selectedCubes={selectedCubes}
         setSelectedCubesInLocalState={setSelectedCubes}
       />
+      )}
       <Zoom
         setScale={setZoomPercent}
         scale={zoomPercent / 100}
