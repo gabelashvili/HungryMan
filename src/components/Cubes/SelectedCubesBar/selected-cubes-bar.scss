@@ -3,10 +3,11 @@
   align-items: center;
   background: #162a3d;
   border-radius: 12px;
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 48px;
+  // position: fixed;
+  // left: 50%;
+  // transform: translateX(-50%);
+  // bottom: 48px;
+  width: fit-content;
   padding: 16px;
   &--error-box {
     background: #374757;

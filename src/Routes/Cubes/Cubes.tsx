@@ -43,7 +43,7 @@ const Cubes = () => {
 
   return (
     <div style={{
-      display: 'flex', justifyContent: 'center', height: '100%', flexDirection: 'column-reverse',
+      display: 'flex', justifyContent: 'center', height: '100%', flexDirection: 'column',
     }}
     >
       <Wall
@@ -52,20 +52,23 @@ const Cubes = () => {
         selectedCubes={selectedCubes}
         setSelectedCubes={setSelectedCubes}
       />
-      <CubesStatistic />
-      {selectedCubes.length > 0 && (
-      <SelectedCubesBar
-        cubePrice={cubesInitialData?.squarePrice || 0}
-        selectedCubes={selectedCubes}
-        setSelectedCubesInLocalState={setSelectedCubes}
-      />
-      )}
-      <Zoom
-        setScale={setZoomPercent}
-        scale={zoomPercent / 100}
-        zoomIn={methods?.handleZoomIn}
-        zoomOut={methods?.handleZoomOut}
-      />
+      <div style={{
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px', padding: '0 30px',
+      }}
+      >
+        <CubesStatistic />
+        <SelectedCubesBar
+          cubePrice={cubesInitialData?.squarePrice || 0}
+          selectedCubes={selectedCubes}
+          setSelectedCubesInLocalState={setSelectedCubes}
+        />
+        <Zoom
+          setScale={setZoomPercent}
+          scale={zoomPercent / 100}
+          zoomIn={methods?.handleZoomIn}
+          zoomOut={methods?.handleZoomOut}
+        />
+      </div>
     </div>
   );
 };

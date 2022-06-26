@@ -49,7 +49,7 @@ const SelectedCubesBar = ({ cubePrice, selectedCubes, setSelectedCubesInLocalSta
   }, [showErrorBox]);
 
   return (
-    <div className="selected-coubs">
+    <div className="selected-coubs" style={{ opacity: selectedCubes.length === 0 ? 0 : 1 }}>
       {showErrorBox && (
       <div className="selected-coubs--error-box">
         <h1>
