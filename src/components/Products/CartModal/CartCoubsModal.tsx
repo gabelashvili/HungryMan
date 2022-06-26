@@ -15,7 +15,7 @@ const CartCoubs = () => {
     data.selectedCubesInfo?.cubesId && data.selectedCubesInfo.cubesId.length > 0 ? (
       <>
         <div className="panel without-header coubs-quantity">
-          <div className="panel--content" style={{ minHeight: 250 }}>
+          <div className="panel--content">
             <div className="coubs-quantity--display">
               {data.selectedCubesInfo?.base64 ? <img src={data.selectedCubesInfo?.base64 || ''} ref={imgRef} alt="coubs selected" /> : <DrawInitialGrid />}
             </div>
