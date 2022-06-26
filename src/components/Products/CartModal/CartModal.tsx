@@ -38,6 +38,9 @@ const CartModal = () => {
 
   useEffect(() => {
     document.body.style.overflow = show ? 'hidden' : '';
+    if (!show) {
+      setSelectedTab(0);
+    }
   }, [show]);
 
   return (
