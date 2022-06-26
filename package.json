@@ -18,6 +18,7 @@
     "eslint-plugin-sort-imports-es6-autofix": "^0.6.0",
     "file-saver": "^2.0.5",
     "g": "^2.0.1",
+    "konva": "^8.3.10",
     "lodash": "^4.17.21",
     "moment": "^2.29.3",
     "node-sass": "^7.0.1",

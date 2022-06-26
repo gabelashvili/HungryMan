@@ -2,12 +2,30 @@
   width: 100%;
   display: flex;
   align-items: center;
-  max-width: 1700px;
+  max-width: 1920px;
   margin: 0 auto;
-  padding: 0 30px;
+  padding: 0 110px;
 }
 
 @media screen and(max-width: 375px) {
+  .wrapper {
+    padding: 0 24px;
+  }
+}
+
+@media screen and(max-width: 1366px) {
+  .wrapper {
+    padding: 0 56px;
+  }
+}
+
+@media screen and(max-width: 768px) {
+  .wrapper {
+    padding: 0 36px;
+  }
+}
+
+@media screen and(max-width: 600px) {
   .wrapper {
     padding: 0 24px;
   }

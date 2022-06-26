@@ -6,16 +6,14 @@
   overflow: hidden;
   border-radius: 45px;
   &--clear {
-    width: 12px;
-    height: 12px;
-    position: absolute;
-    right: 16px;
+    margin-right: 16px;
     cursor: pointer;
+    color: #768b9d;
+    width: 24px;
   }
   .input {
     border-radius: 45px;
-    padding-top: 0;
-    padding-bottom: 0;
+    padding: 0;
     background-color: #162a3d;
     width: 300px;
     opacity: 0;
@@ -25,6 +23,7 @@
     &::placeholder {
       opacity: 0;
       transition: opacity 0.2s ease-in;
+      color: #55687a;
     }
   }
 
@@ -44,28 +43,52 @@
   }
 }
 
+.search-button--right {
+  display: none !important;
+  height: 32px !important;
+  width: 46px;
+  margin-right: 24px;
+}
+
 @media screen and(max-width: 768px) {
   .search-button {
-    width: 36px;
-    height: 36px;
+    width: 36px !important;
+    height: 36px !important;
+    &--right {
+      display: flex !important;
+    }
   }
   .search-bar {
     height: 36px;
-    svg {
-      width: 14px;
+    margin-right: 8px;
+    &.is-active {
+      width: 100%;
+      margin-right: 0;
+      background-color: transparent;
+      .button:not(.button--primary) {
+        background-color: transparent !important;
+      }
+      .input {
+        padding-right: 10px;
+      }
     }
+
     .input {
-      padding-left: 0;
-      padding-right: 30px;
-      max-width: 100%;
+      width: 100%;
+      background-color: transparent;
+      border: none;
       &::placeholder {
-        color: transparent;
+        font-size: 12px;
       }
     }
     &--content {
       &.is-active {
-        max-width: 150px;
+        max-width: unset;
+        width: 100%;
       }
+    }
+    &--clear {
+      margin-right: 0px;
     }
   }
 }

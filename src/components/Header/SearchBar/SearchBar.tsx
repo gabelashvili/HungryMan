@@ -59,7 +59,7 @@ const SearchBar = ({ showSearchBar, setShowSearchBar }: {showSearchBar:boolean,
   }, [showSearchBar]);
 
   return (
-    <div className="search-bar" ref={ref}>
+    <div ref={ref} className={clsx('search-bar', showSearchBar && 'is-active')}>
       <Button
         type="icon"
         classes="is-rounded search-button"
@@ -80,6 +80,24 @@ const SearchBar = ({ showSearchBar, setShowSearchBar }: {showSearchBar:boolean,
             value={value}
             onChange={({ target }) => setValue(target.value)}
           />
+          <Button
+            classes="is-rounded search-button--right"
+            handleClick={() => {
+              if (showSearchBar) {
+                if (purchasesByPhoneNumber && value in purchasesByPhoneNumber) {
+                  dispatch(setSearchValue(value));
+                } else {
+                  toast.error('ნომერი არ მოიძებნა');
+                }
+              } else {
+                setShowSearchBar(true);
+              }
+            }}
+          >
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M16.172 11H4V13H16.172L10.808 18.364L12.222 19.778L20 12L12.222 4.22205L10.808 5.63605L16.172 11Z" fill="currentColor" />
+            </svg>
+          </Button>
           <ClearIcon
             className="search-bar--clear"
             handleClick={() => {
