@@ -202,16 +202,25 @@ const Wall = ({
     <div
       id="canvas"
       style={{
-        width: '100%', display: 'flex', alignItems: 'center', marginBottom: '130px', position: 'relative',
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        position: 'relative',
+        height: '100%',
       }}
     >
       {loading && (
       <Loader styles={{
-        position: 'absolute', width: '80px', top: 0, left: '50%', transform: 'translateX(-50%)',
+        position: 'absolute',
+        width: '80px',
+        top: 0,
+        left: '50%',
+        transform: 'translateX(-50%)',
       }}
       />
       )}
       <TransformWrapper
+        centerOnInit
         panning={{
           activationKeys: [' '],
         }}
@@ -231,7 +240,7 @@ const Wall = ({
           setZoomPercent(props.state.scale * 100);
         }}
       >
-        <TransformComponent contentStyle={{ width: '100%' }} wrapperStyle={{ width: '100%' }}>
+        <TransformComponent contentStyle={{ width: '100%' }} wrapperStyle={{ width: '100%', height: '100%' }}>
           <canvas
             ref={canvasRef}
             onMouseDown={isSpaceClicked ? undefined : handleMouseDown}

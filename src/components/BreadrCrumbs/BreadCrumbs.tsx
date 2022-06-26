@@ -8,9 +8,6 @@ const BreadCrumbs = () => {
     if (pathname.includes('products')) {
       return 'პროდუქტები';
     }
-    if (pathname.includes('cubes')) {
-      return 'კედელი';
-    }
     if (pathname.includes('user-dashboard')) {
       return 'მომხმარებლის გვერდი';
     }
