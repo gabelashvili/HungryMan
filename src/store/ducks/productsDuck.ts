@@ -3,7 +3,12 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { CallBacks } from '../../types/main';
 import {
-  GetProductsRequest, GetProductsResponse, ProductsInitialState, ProductType, ReqPurchaseProductCartItems, SelectedProductType,
+  GetProductsRequest,
+  GetProductsResponse,
+  ProductsInitialState,
+  ProductType,
+  ReqPurchaseProductCartItems,
+  SelectedProductType,
 } from '../../types/products';
 
 export const GET_PRODUCTS = 'products/getProducts';
