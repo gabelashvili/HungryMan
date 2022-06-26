@@ -6,6 +6,7 @@ import MinusIcon from '../../../Icons/MinusIcon';
 import PlusIcon from '../../../Icons/PlusIcon';
 import { getCssMatrix } from '../../../helpers';
 import './zoom.scss';
+import { useSelector } from '../../../hooks/useSelector';
 
 const Zoom = ({
   scale,
@@ -15,6 +16,7 @@ const Zoom = ({
   styles,
 }: PropsTypes) => {
   const timer = useRef<any>();
+  const searchVal = useSelector((state) => state.cubesReducer.searchVal);
 
   timer.current = () => setTimeout(() => {
     const el = document.getElementsByClassName('react-transform-component ')[0];
@@ -24,6 +26,12 @@ const Zoom = ({
   useEffect(() => {
     return () => window.clearTimeout(timer.current);
   }, []);
+
+  useEffect(() => {
+    if (searchVal) {
+      setScale(800);
+    }
+  }, [searchVal]);
 
   return (
     <div className="zoom" style={{ ...styles }}>
