@@ -14,7 +14,7 @@ const ProductsOrderHistoryList = ({ data, handleItemInfoClick }: PropsType) => {
             <img src={generatePath(el.item.medias[0].url || '')} alt="item" />
           </picture>
           <div className="product--details">
-            <div className="product--date">{moment(el.itemPurchase.createdAt).format('DD MMM. YYYY, hh:mm')}</div>
+            <div className="product--date">{moment.utc(el.itemPurchase.createdAt).local().format('DD MMM. YYYY, hh:mm')}</div>
             <h4>{el.item.name}</h4>
             <p>
               {`ზომა: ${el.itemDetail.size}`}
