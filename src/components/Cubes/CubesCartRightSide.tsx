@@ -29,6 +29,7 @@ const CubesCartRightSide = ({
     enabled: false,
     value: '',
   });
+  console.log(link);
   const [selectedAddress, setSelectedAddress] = useState<number | null>(null);
 
   const totalPrice = () => {
@@ -70,8 +71,8 @@ const CubesCartRightSide = ({
         data: {
           comment: comment.value,
           hasComment: comment.enabled,
-          RedirectLink: comment.value,
-          hasRedirectLink: comment.enabled,
+          RedirectLink: link.value,
+          hasRedirectLink: link.enabled,
           UserAddressId: selectedAddress,
           PurchaseDetails: selectedCubes,
           FullAmount: Number(totalPrice()),
