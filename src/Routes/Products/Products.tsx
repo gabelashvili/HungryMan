@@ -71,6 +71,7 @@ const Products = () => {
           <div className="products--sort" onClick={handlePriceFilter}>
             <SortIcon className={clsx('products--sort-icon')} />
             ფასის
+            {' '}
             {filters.OrderType === 'Asc' ? 'ზრდადობით' : 'კლებადობით'}
             <ArrowIcon className={clsx('products--sort-arrow', filters.OrderType === 'Asc' && 'asc')} />
           </div>
