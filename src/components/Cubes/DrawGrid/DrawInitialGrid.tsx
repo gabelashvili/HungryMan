@@ -36,7 +36,7 @@ const DrawInitialGrid = () => {
       setStageCords({
         ...stageCords,
         x: (props.width - (cubeSize * data.rowLength)) / 2,
-        y: (props.height - (cubeSize * data.columnLength)) / 2,
+        y: 0,
       });
       setCanvasProps({
         w: props.width,
