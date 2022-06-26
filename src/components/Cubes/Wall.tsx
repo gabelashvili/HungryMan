@@ -234,12 +234,6 @@ const Wall = ({
         <TransformComponent contentStyle={{ width: '100%' }} wrapperStyle={{ width: '100%' }}>
           <canvas
             ref={canvasRef}
-            onClick={(e) => {
-              if (canvasRef.current) {
-                const props = canvasRef.current.getBoundingClientRect();
-                console.log(e.clientX - props.left, e.clientY - props.top);
-              }
-            }}
             onMouseDown={isSpaceClicked ? undefined : handleMouseDown}
             onMouseUp={isSpaceClicked ? undefined : handleMouseUp}
             onMouseMove={isSpaceClicked ? undefined : handleMouseMove}

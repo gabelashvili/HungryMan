@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import {
-  Dispatch, SetStateAction, useEffect, useRef, useState,
+  Dispatch, KeyboardEvent, SetStateAction, useEffect, useRef, useState,
 } from 'react';
 import { toast } from 'react-toastify';
 import { useAppDispatch, useSelector } from '../../../hooks/useSelector';
@@ -13,6 +13,7 @@ import './search-bar.scss';
 const SearchBar = ({ showSearchBar, setShowSearchBar }: {showSearchBar:boolean,
      setShowSearchBar: Dispatch<SetStateAction<boolean>>}) => {
   const dispatch = useAppDispatch();
+  const [isFocused, setFocused] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
   const [value, setValue] = useState<string>('');
   const { purchasesByPhoneNumber } = useSelector((state) => state.cubesReducer);
@@ -21,6 +22,26 @@ const SearchBar = ({ showSearchBar, setShowSearchBar }: {showSearchBar:boolean,
     const target = event.target as HTMLDivElement;
     if (ref.current && !ref.current.contains(target)) {
       setShowSearchBar(false);
+    }
+  };
+
+  const handleSearch = () => {
+    if (showSearchBar && value.length > 0) {
+      if (purchasesByPhoneNumber && value in purchasesByPhoneNumber) {
+        dispatch(setSearchValue(value));
+      } else {
+        toast.error('ნომერი არ მოიძებნა');
+      }
+    } else {
+      setShowSearchBar(true);
+    }
+  };
+
+  const handleKeyDown = (e:KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      if (isFocused) {
+        handleSearch();
+      }
     }
   };
 
@@ -42,23 +63,16 @@ const SearchBar = ({ showSearchBar, setShowSearchBar }: {showSearchBar:boolean,
       <Button
         type="icon"
         classes="is-rounded search-button"
-        handleClick={() => {
-          if (showSearchBar) {
-            if (purchasesByPhoneNumber && value in purchasesByPhoneNumber) {
-              dispatch(setSearchValue(value));
-            } else {
-              toast.error('ნომერი არ მოიძებნა');
-            }
-          } else {
-            setShowSearchBar(true);
-          }
-        }}
+        handleClick={handleSearch}
       >
         <SearchIcon />
       </Button>
       <div className={clsx('search-bar--content', showSearchBar && 'is-active')}>
         <div className="form__group">
           <input
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+            onKeyDown={handleKeyDown}
             placeholder="ჩაწერე მობილურის ნომერი"
             className="input is-medium"
             type="text"
