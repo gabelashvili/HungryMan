@@ -84,7 +84,7 @@ const CubesCart = () => {
   }, [selectedCubesId]);
 
   return (
-    <div className="cart">
+    <div className="cart" style={{ marginTop: '50px' }}>
       <div className="wrapper" style={{ alignItems: 'start' }}>
         <div className="panel cart">
           <div className="panel--header with-border" style={{ padding: 0, height: ' 60px' }}>
