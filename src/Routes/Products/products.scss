@@ -75,7 +75,7 @@
     font-size: 13px;
     cursor: pointer;
     position: relative;
-    font-family: "Helvetica Neue LT GEO";
+    font-family: "Helvetica-medium";
     font-style: normal;
     font-weight: 400;
     color: #768b9d;
@@ -130,7 +130,7 @@
       transition: opacity 0.1s ease-in;
       .button {
         background-color: #233c52;
-        &:hover{
+        &:hover {
           opacity: 0.9;
         }
       }
@@ -167,14 +167,13 @@
     }
 
     &--title {
-      font-family: "Helvetica Neue LT GEO";
+      font-family: "Helvetica-medium";
       font-style: normal;
       font-weight: 400;
       font-size: 16px;
       line-height: 19px;
       color: #ffffff;
       margin-bottom: 6px;
-
       overflow: hidden;
       text-overflow: ellipsis;
       width: 100%;
@@ -182,7 +181,7 @@
     }
 
     &--description {
-      font-family: "Helvetica Neue LT GEO";
+      font-family: "Helvetica-medium";
       font-style: normal;
       font-weight: 400;
       font-size: 13px;
@@ -198,7 +197,7 @@
     }
 
     &--price {
-      font-family: "Helvetica Neue LT GEO";
+      font-family: "Helvetica-bold";
       font-style: normal;
       font-weight: 700;
       font-size: 18px;
@@ -249,7 +248,7 @@
     &-item {
       padding: 16px;
       &--image > img {
-        height: 200px
+        height: 200px;
       }
     }
   }

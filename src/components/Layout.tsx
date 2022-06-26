@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import BreadCrumbs from './BreadrCrumbs/BreadCrumbs';
+import Footer from './Footer/Footer';
 import Header from './Header/Header';
 
 const Layout = () => {
@@ -8,6 +9,7 @@ const Layout = () => {
       <Header />
       <BreadCrumbs />
       <Outlet />
+      <Footer />
     </div>
   );
 };
