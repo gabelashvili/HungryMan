@@ -18,7 +18,7 @@ const SoldCubesCountBar = ({ soldCubesCnt, soldCubesPercent }: {soldCubesCnt: nu
 
       <div className="panel--content">
         <div className="sold-coubs--gradient">
-          <span style={{ width: `${soldCubesPercent}%'` }} />
+          <span style={{ width: `${Math.ceil(soldCubesPercent) !== 0 && Math.ceil(soldCubesPercent) < 3 ? 3 : soldCubesPercent}%` }} />
         </div>
       </div>
     </div>

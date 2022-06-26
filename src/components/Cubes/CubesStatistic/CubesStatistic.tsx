@@ -10,6 +10,7 @@ const CubesStatistic = () => {
   const [showInfoModal, setShowInfoModal] = useState(false);
   const soldCubes = useSelector((state) => state.cubesReducer.soldCubesDetails?.soldCubes.length) || 0;
   const soldCubesPercent = soldCubes / (CUBES_TOTAL_ROWS * CUBES_TOTAL_COLUMNS * 100);
+  console.log(Math.ceil(soldCubesPercent));
   return (
     <>
       <InfoModal
@@ -29,7 +30,7 @@ const CubesStatistic = () => {
           </span>
           <div className="coub-stats--gradient">
             {/* <!-- apply percentage value in width --> */}
-            <span style={{ width: `${soldCubesPercent}%` }} />
+            <span style={{ width: `${Math.ceil(soldCubesPercent) !== 0 && Math.ceil(soldCubesPercent) < 5 ? 5 : soldCubesPercent}%` }} />
           </div>
         </div>
         <Button type="none" classes="coub-stats--button" handleClick={() => setShowInfoModal(true)}>
