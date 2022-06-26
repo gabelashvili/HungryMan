@@ -28,7 +28,7 @@ export function* reqUserLogin({ params, callbacks }:{ params: UserAuthParams, ca
       companyName: data.user.companyName,
       identificationCode: data.user.identificationCode,
     }));
-    toast.success('Successfully logged in...');
+    // toast.success('Successfully logged in...');
     localStorage.setItem('token', data.token);
   } catch (error: any) {
     toast.error('შეყვანილი მონაცემები არასწორია...');
