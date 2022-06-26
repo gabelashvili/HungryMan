@@ -29,7 +29,7 @@ const CubesOrderHistoryList = ({ handleItemInfoClick }: { handleItemInfoClick: (
                 </svg>
               </picture>
               <div className="product--details">
-                <div className="product--date">{moment(el.createdAt).format('DD MMM. YYYY, hh:mm')}</div>
+                <div className="product--date">{moment.utc(el.createdAt).local().format('DD MMM. YYYY, hh:mm')}</div>
               </div>
               <div className="product--options">
                 <span className="product--price">
