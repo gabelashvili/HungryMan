@@ -58,7 +58,7 @@ const ProductItem = ({ data, disableSlider }: {data: ProductType, disableSlider?
         <span className="products-item--price">
           {data.newPrice}
           {' '}
-          ლ
+          ₾
         </span>
       </div>
     </div>

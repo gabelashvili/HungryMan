@@ -36,7 +36,7 @@ const CubesOrderHistoryList = ({ handleItemInfoClick }: { handleItemInfoClick: (
               <span className="product--price">
                 {' '}
                 {el.fullAmount}
-                ლ
+                ₾
                 {' '}
               </span>
               <Button type="icon" handleClick={() => handleItemInfoClick(el.id)}>

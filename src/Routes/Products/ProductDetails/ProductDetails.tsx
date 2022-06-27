@@ -151,7 +151,7 @@ const ProductDetails = () => {
                       <span className="product-details--sum-label">ჯამური თანხა:</span>
                       <span className="product-details--sum-value">
                         {(selectedQuantity * productDetails.newPrice).toFixed(2)}
-                        ლ
+                        ₾
                       </span>
                     </div>
 

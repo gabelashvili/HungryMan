@@ -151,14 +151,14 @@ const CubesCartRightSide = ({
             <span className="cart-details--name">პროდუქტის ღირებულება</span>
             <span className="cart-details--value">
               {totalPrice()}
-              ლ
+              ₾
             </span>
           </div>
           <div className="cart-details--sum">
             <span className="cart-details--sum__name">ჯამი</span>
             <span className="cart-details--sum__value">
               {totalPrice()}
-              ლ
+              ₾
             </span>
           </div>
           <Button handleClick={handleBuy} loading={loading}>შეკვეთის გაფორმება</Button>

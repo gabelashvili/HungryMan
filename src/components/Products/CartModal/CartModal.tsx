@@ -65,7 +65,7 @@ const CartModal = () => {
             <span>ჯამური თანხა:</span>
             {selectedTab === 0 ? cubesTotalPrice
               : selectedProducts.reduce((acc, cur) => acc + cur.product.newPrice * cur.count, 0).toFixed(2)}
-            ლ
+            ₾
           </div>
           <Button
             type={!isUserAuthed ? 'secondary' : ''}

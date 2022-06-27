@@ -35,7 +35,7 @@ const CartProducts = ({ data }: {data: SelectedProductType[]}) => {
               <p>{el.product.description}</p>
               <span>
                 {el.product.newPrice}
-                ლ
+                ₾
               </span>
             </div>
             <div className="product--options">

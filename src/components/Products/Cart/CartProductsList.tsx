@@ -34,7 +34,7 @@ const CartProductsList = ({ data }: {data: SelectedProductType[]}) => {
                 </p>
                 <span>
                   {el.product.newPrice}
-                  ლ
+                  ₾
                 </span>
               </div>
 
