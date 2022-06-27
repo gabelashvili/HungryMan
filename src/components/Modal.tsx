@@ -1,14 +1,15 @@
+import clsx from 'clsx';
 import { ReactElement } from 'react';
 import ClearIcon from '../Icons/ClearIcon';
 import Button from './shared/Button';
 
 const Modal = ({
-  children, open, handleClose, modalTitle,
+  children, open, handleClose, modalTitle, type,
 }: PropsType) => {
   return (
     open ? (
       <div>
-        <div className="modal modal--small">
+        <div className={clsx('modal', `modal--${type || 'small'}`)}>
           <div className="modal--header">
             <h3 className="modal--title">{modalTitle}</h3>
             <Button type="text" classes="button--icon is-rounded button-pull-right" handleClick={handleClose}>
@@ -31,5 +32,6 @@ interface PropsType {
     children: ReactElement,
     open?: boolean,
     handleClose : () => void,
-    modalTitle: string
+    modalTitle: string,
+    type?: string
 }

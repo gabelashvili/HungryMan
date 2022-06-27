@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -8,10 +9,12 @@ import TextField from '../../components/shared/TextField';
 import validateInput from '../../helpers/inputsValidations';
 import { signUp } from '../../store/ducks/userDuck';
 import { CompanySignUpParams, UserSignUpParams } from '../../types/user';
+import Rules from './Rules';
 
 const SignUp = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [openRules, setOpenRules] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<null | {[key:string]: string}>(null);
   const [selectedType, setSelectedType] = useState<1 | 2>(1);
@@ -87,6 +90,7 @@ const SignUp = () => {
 
   return (
     <>
+      <Rules open={openRules} toggle={() => setOpenRules(!openRules)} />
       <div className="popup--heading">
         <h2>რეგისტრაცია</h2>
         <p>
@@ -210,6 +214,7 @@ const SignUp = () => {
         <Checkbox
           error={!!errors?.term}
           checked={acceptTerm}
+          handleClick={() => setOpenRules(true)}
           handleChange={(val) => {
             setAcceptTerm(val);
           }}

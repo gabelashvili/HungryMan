@@ -72,6 +72,9 @@
   &--small {
     width: 470px;
   }
+  &--medium {
+    width: 800px;
+  }
 }
 
 .overlay {
@@ -112,18 +115,11 @@
       padding: 20px 16px;
       bottom: 0;
     }
+      &--medium {
+        min-height: calc(100% - 133px);
+      }
 
     &--small {
-      transform: unset;
-      bottom: -100%;
-      left: 0;
-      top: unset;
-      right: 0;
-      width: 100%;
-      max-width: unset;
-      transition: bottom 0.2s ease-in-out;
-      min-height: calc(100% - 163px);
-
       &.is-active {
         bottom: 0;
       }
