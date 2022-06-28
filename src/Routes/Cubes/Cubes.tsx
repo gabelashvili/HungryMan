@@ -46,28 +46,36 @@ const Cubes = () => {
       display: 'flex', justifyContent: 'center', height: '100%', flexDirection: 'column',
     }}
     >
-      <Wall
-        setMethods={setMethods}
-        setZoomPercent={setZoomPercent}
-        selectedCubes={selectedCubes}
-        setSelectedCubes={setSelectedCubes}
-      />
-      <div style={{
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px', padding: '0 30px',
-      }}
-      >
-        <CubesStatistic />
-        <SelectedCubesBar
-          cubePrice={cubesInitialData?.squarePrice || 0}
+      <div style={{ position: 'relative', height: '100%' }}>
+        <Wall
+          setMethods={setMethods}
+          setZoomPercent={setZoomPercent}
           selectedCubes={selectedCubes}
-          setSelectedCubesInLocalState={setSelectedCubes}
+          setSelectedCubes={setSelectedCubes}
         />
-        <Zoom
-          setScale={setZoomPercent}
-          scale={zoomPercent / 100}
-          zoomIn={methods?.handleZoomIn}
-          zoomOut={methods?.handleZoomOut}
-        />
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '0 30px',
+          position: 'absolute',
+          bottom: 0,
+          width: '100%',
+        }}
+        >
+          <CubesStatistic />
+          <SelectedCubesBar
+            cubePrice={cubesInitialData?.squarePrice || 0}
+            selectedCubes={selectedCubes}
+            setSelectedCubesInLocalState={setSelectedCubes}
+          />
+          <Zoom
+            setScale={setZoomPercent}
+            scale={zoomPercent / 100}
+            zoomIn={methods?.handleZoomIn}
+            zoomOut={methods?.handleZoomOut}
+          />
+        </div>
       </div>
     </div>
   );
