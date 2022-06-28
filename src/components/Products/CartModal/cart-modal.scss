@@ -1,9 +1,8 @@
-:host {
-  .modal--header {
+.cart-modal{
+  &--header {
     background-color: #162a3d;
   }
-
-  .modal--footer {
+  &--footer {
     & > * {
       flex: 1;
     }
@@ -65,8 +64,6 @@
       margin-right: 15px;
     }
   }
-
-
   &--details {
     justify-content: space-between;
   }

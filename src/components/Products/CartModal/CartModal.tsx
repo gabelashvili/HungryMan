@@ -46,7 +46,7 @@ const CartModal = () => {
   return (
     <>
       <div ref={cartRef} className={clsx('modal modal--right', show && 'is-active')}>
-        <div className="modal--header">
+        <div className="modal--header cart-modal--header">
           <h3 className="modal--title">კალათა</h3>
           <Button type="text" classes="button--icon button-pull-right is-rounded" handleClick={() => dispatch(toggleCartModal())}>
             <ClearIcon />
@@ -60,7 +60,7 @@ const CartModal = () => {
           {selectedTab === 0 ? <CartCoubsModal /> : <CartProducts data={selectedProducts} />}
         </div>
 
-        <div className="modal--footer">
+        <div className="modal--footer cart-modal--footer">
           <div className="cart-modal--details">
             <span>ჯამური თანხა:</span>
             {selectedTab === 0 ? cubesTotalPrice
