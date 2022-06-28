@@ -66,19 +66,7 @@
     }
   }
 
-  .coubs-quantity {
-    &--display {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      height: 100px;
-      img {
-        object-fit: contain;
-        height: 100%;
-      }
-    }
-  }
+
   &--details {
     justify-content: space-between;
   }
@@ -97,5 +85,23 @@
     div + div {
       margin-top: 8px;
     }
+  }
+}
+
+.coubs-quantity {
+  &--display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    height: 100px;
+    img {
+      object-fit: contain;
+      height: 100%;
+    }
+  }
+  &--details {
+    display: flex;
+    justify-content: space-between;
   }
 }
