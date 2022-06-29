@@ -76,3 +76,29 @@
     }
   }
 }
+
+@media screen and(max-width: 768px) {
+  .selected-coubs {
+    padding: 8px 12px;
+    &--count {
+      font-size: 14px;
+      width: 30px;
+      height: 30px;
+    }
+    // &--title {
+    //   font-size: 14px;
+    //   margin-right: 20px;
+    // }
+    // .responsive {
+    //   display: flex;
+    // }
+    // .button--secondary:not(.responsive) {
+    //   display: none;
+    // }
+    .button {
+      height: 35px;
+      min-width: 40px;
+      font-size: 13px;
+    }
+  }
+}
