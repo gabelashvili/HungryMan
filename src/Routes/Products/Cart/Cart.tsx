@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import Addresses from '../../../components/Address/Addresses';
 import CartProductsList from '../../../components/Products/Cart/CartProductsList';
 import PaymentMethod from '../../../components/shared/PaymentMethod';
@@ -17,6 +18,9 @@ const Cart = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const handlePurchaseItems = () => {
+    if (!selectedAddress) {
+      toast.error('დაამატეთ მისამართი');
+    }
     setLoading(true);
     const products = items.reduce(
       (acc: FormattedItemsDetails[], cur): FormattedItemsDetails[] => [...acc, ...new Array(cur.count as number)

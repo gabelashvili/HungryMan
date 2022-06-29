@@ -50,6 +50,10 @@ const CubesCartRightSide = ({
   };
 
   const handleBuy = async () => {
+    if (!selectedAddress) {
+      toast.error('დაამატეთ მისამართი');
+      return;
+    }
     if (((totalPrice()) > 50 && (totalPrice()) < 100 && !giftOneProp)
      || ((totalPrice()) >= 100 && (!giftOneProp || !giftTwoProp))) {
       toast.error('აირჩიეთ საჩუქრის პარამეტრები');
