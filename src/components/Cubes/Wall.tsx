@@ -198,6 +198,12 @@ const Wall = ({
     }
   }, [searchVal, purchasesByPhoneNumber]);
 
+  useEffect(() => {
+    const el = document.getElementsByTagName('footer');
+    if (el[0]) {
+      el[0].style.marginTop = '0';
+    }
+  }, []);
   return (
     <div
       id="canvas"
