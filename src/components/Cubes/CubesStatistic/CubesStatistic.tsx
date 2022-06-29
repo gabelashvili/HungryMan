@@ -10,7 +10,6 @@ const CubesStatistic = () => {
   const [showInfoModal, setShowInfoModal] = useState(false);
   const soldCubes = useSelector((state) => state.cubesReducer.soldCubesDetails?.soldCubes.length) || 0;
   const soldCubesPercent = soldCubes / (CUBES_TOTAL_ROWS * CUBES_TOTAL_COLUMNS * 100);
-  console.log(Math.ceil(soldCubesPercent));
   return (
     <>
       <InfoModal
