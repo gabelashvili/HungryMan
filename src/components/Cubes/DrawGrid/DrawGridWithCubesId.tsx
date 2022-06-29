@@ -126,24 +126,40 @@ const DrawGridWithCubesId = ({
 
   // set base 64 in store
 
+  const generateImgRes = () => {
+    stageRefCopy.current = stageRef.current.clone();
+    const x = stageRefCopy.current.getX();
+    const y = stageRefCopy.current.getY();
+    const cubeSize = calculateCubeSize();
+    const length = data?.columnLength;
+    const height = data?.rowLength;
+    stageRefCopy.current.scale({ x: 1, y: 1 });
+    if (typeof x === 'number' && typeof y === 'number' && stageRef.current && typeof length === 'number' && typeof height === 'number') {
+      return stageRefCopy.current.toDataURL({
+        x, y, width: cubeSize * length, height: cubeSize * height, scale: 1,
+      });
+    }
+    return undefined;
+  };
+
   useEffect(() => {
-    timerRef.current = setInterval(() => {
-      stageRefCopy.current = stageRef.current.clone();
-      const x = stageRefCopy.current.getX() || 0;
-      const y = stageRefCopy.current.getY() || 0;
-      const cubeSize = calculateCubeSize();
-      const length = data?.columnLength || 1;
-      const height = data?.rowLength || 1;
-      stageRefCopy.current.scale({ x: 1, y: 1 });
-      dispatch(setSelectedCubesInfo({
-        key: 'base64',
-        value: stageRefCopy.current.toDataURL({
-          x, y, width: cubeSize * length, height: cubeSize * height, scale: 1,
-        }),
-      }));
-    }, 500);
-    return () => clearInterval(timerRef.current);
-  }, [data]);
+    if (selectedTab !== 2) {
+      timerRef.current = setInterval(() => {
+        const res = generateImgRes();
+        if (res) {
+          dispatch(setSelectedCubesInfo({
+            key: 'base64',
+            value: res,
+          }));
+        }
+      }, 500);
+    } else {
+      clearInterval(timerRef.current);
+    }
+    return () => {
+      clearInterval(timerRef.current);
+    };
+  }, [data, selectedTab]);
 
   return (
     <div ref={canvasWrapperRef}>
