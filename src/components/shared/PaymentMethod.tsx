@@ -8,7 +8,6 @@ const PaymentMethod = ({ mustGenerateInvoice, setMustGenerateInvoice }: {
   mustGenerateInvoice?:boolean, setMustGenerateInvoice?: Dispatch<SetStateAction<boolean>>
 }) => {
   const user = useSelector((state) => state.userReducer.user);
-  console.log(mustGenerateInvoice);
   return (
     <>
       <h4 className="panel--title">აირჩიე გადახდის მეთოდი</h4>

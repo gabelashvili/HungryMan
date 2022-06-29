@@ -32,7 +32,6 @@ const CubesCartRightSide = ({
     enabled: false,
     value: '',
   });
-  console.log(link);
   const [selectedAddress, setSelectedAddress] = useState<number | null>(null);
 
   const totalPrice = () => {
