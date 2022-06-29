@@ -1,6 +1,6 @@
 import { AnyAction } from 'redux';
 import {
-  BuyCubesPayload, CubesInitialData, CubesInitialState,
+  BuyCubesPayload, BuyCubesResponse, CubesInitialData, CubesInitialState,
   PurchaseInfo, PurchasesByPhoneNumberType, SoldCubesDetail,
 } from '../../types/cubes';
 import { CallBacks } from '../../types/main';
@@ -11,6 +11,7 @@ export const CLEAR_INITIAL_DATA = 'cubes/clearInitialData';
 
 export const SET_SELECTED_CUBES_INFO = 'cubes/setSelectedCubesInfo';
 export const BUY_CUBES = 'cubes/buyCubes';
+export const SET_PURCHASE_DETAIL = 'cubes/setPurchaseDetail';
 
 export const GET_CUBES_PURCHASE_HISTORY = 'cubes/getCubesPurchaseHistory';
 export const SET_CUBES_PURCHASE_HISTORY = 'cubes/setCubesPurchaseHistory';
@@ -35,6 +36,7 @@ const initialState: CubesInitialState = {
   soldCubesDetails: null,
   purchasesByPhoneNumber: null,
   searchVal: '',
+  purchaseDetail: null,
 };
 
 export const cubesReducer = (state = initialState, action: AnyAction): CubesInitialState => {
@@ -83,6 +85,11 @@ export const cubesReducer = (state = initialState, action: AnyAction): CubesInit
         ...state,
         searchVal: payload as string,
       };
+    case SET_PURCHASE_DETAIL:
+      return {
+        ...state,
+        purchaseDetail: payload as BuyCubesResponse,
+      };
     default:
       return state;
   }
@@ -97,6 +104,12 @@ export const setSelectedCubesInfo = (payload: {
 
 export const buyCubes = (payload: BuyCubesPayload, callbacks?: CallBacks) => ({
   type: BUY_CUBES,
+  payload,
+  callbacks,
+});
+
+export const setPurchaseDetail = (payload: BuyCubesResponse, callbacks?: CallBacks) => ({
+  type: SET_PURCHASE_DETAIL,
   payload,
   callbacks,
 });

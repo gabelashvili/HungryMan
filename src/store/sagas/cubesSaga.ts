@@ -6,7 +6,7 @@ import {
 } from '../../types/cubes';
 import axiosInstance from '../../helpers/axiosInstance';
 import {
-  setCubesPurchaseHistory, setInitialData, setPurchasesByPhoneNumber, setSoldCubesDetail,
+  setCubesPurchaseHistory, setInitialData, setPurchaseDetail, setPurchasesByPhoneNumber, setSoldCubesDetail,
 } from '../ducks/cubesDuck';
 import { CUBES_TOTAL_ROWS } from '../../Routes/Cubes/Cubes';
 import { generatePath } from '../../helpers';
@@ -17,6 +17,7 @@ export function* buyCubes({ payload, callbacks }:{ payload: BuyCubesPayload, cal
     formData.append('file', payload.file);
     formData.append('request', JSON.stringify(payload.data));
     const { data }: {data: any} = yield axiosInstance.post('/Wall/Purchase/Purchase', formData);
+    yield put(setPurchaseDetail(data));
     callbacks?.success && callbacks.success(data.redirectLink);
   } catch (error: any) {
     toast.error('მოხდა შეცდომა');

@@ -5,7 +5,7 @@ import Visa from '../../assets/images/visa.png';
 import { useSelector } from '../../hooks/useSelector';
 
 const PaymentMethod = ({ mustGenerateInvoice, setMustGenerateInvoice }: {
-  mustGenerateInvoice:boolean, setMustGenerateInvoice: Dispatch<SetStateAction<boolean>>
+  mustGenerateInvoice?:boolean, setMustGenerateInvoice?: Dispatch<SetStateAction<boolean>>
 }) => {
   const user = useSelector((state) => state.userReducer.user);
   console.log(mustGenerateInvoice);
@@ -13,7 +13,7 @@ const PaymentMethod = ({ mustGenerateInvoice, setMustGenerateInvoice }: {
     <>
       <h4 className="panel--title">აირჩიე გადახდის მეთოდი</h4>
       <div className="radio-list">
-        <div className="form__group" onClick={() => setMustGenerateInvoice(false)}>
+        <div className="form__group" onClick={() => setMustGenerateInvoice && setMustGenerateInvoice(false)}>
           <label className="input--radio radio-selector" htmlFor="payment-2">
             <input type="radio" id="payment-2" name="payment" checked={!mustGenerateInvoice} />
             <div className="payment-image--list">
@@ -30,8 +30,8 @@ const PaymentMethod = ({ mustGenerateInvoice, setMustGenerateInvoice }: {
             </span>
           </label>
         </div>
-        {user?.identificationCode && (
-        <div className="form__group" onClick={() => setMustGenerateInvoice(true)}>
+        {user?.identificationCode && setMustGenerateInvoice && (
+        <div className="form__group" onClick={() => setMustGenerateInvoice && setMustGenerateInvoice(true)}>
           <label className="input--radio radio-selector" htmlFor="invoice">
             <input type="radio" id="invoice" name="payment" checked={mustGenerateInvoice} />
             <span className="radio-title">ინვოისით გადახდა</span>

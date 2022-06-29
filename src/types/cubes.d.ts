@@ -66,7 +66,8 @@ export interface CubesInitialState {
     purchaseHistory: PurchaseInfo[] | null,
     soldCubesDetails: null | SoldCubesDetail,
     purchasesByPhoneNumber: {[key:string]: PurchasesByPhoneNumberType[]} | null,
-    searchVal: string
+    searchVal: string,
+    purchaseDetail: null | BuyCubesResponse
 }
 
 export interface BuyCubesPayload {
@@ -81,9 +82,19 @@ export interface BuyCubesPayload {
         RedirectLink : string,
         PurchaseDetails: number[],
         UserAddressId:number,
-        FullAmount: number
+        FullAmount: number,
+        MustGenerateInvoice: boolean
     },
-    file: File
+    file: File,
+}
+
+export interface BuyCubesResponse {
+  amount: number
+  currency: string,
+  expirationMinutes: number,
+  redirectLink: string,
+  invoiceUrl: string | null,
+  mustPayWithInvoice: boolean
 }
 
 export interface Square {

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { saveAs } from 'file-saver';
+import { useNavigate } from 'react-router-dom';
 import { base64ToFile } from '../../helpers';
 import { useSelector } from '../../hooks/useSelector';
 import { buyCubes, setSelectedCubesInfo } from '../../store/ducks/cubesDuck';
@@ -16,8 +17,10 @@ import TextField from '../shared/TextField';
 const CubesCartRightSide = ({
   selectedCubes, giftOneProp, giftTwoProp,
 }: PropsTypes) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState<boolean>(false);
+  const [mustGenerateInvoice, setMustGenerateInvoice] = useState<boolean>(false);
   const base64 = useSelector((state) => state.cubesReducer.selectedCubesInfo?.base64);
   const cubesParams = useSelector((state) => state.cubesReducer.initialData);
   const addresses = useSelector((state) => state.userReducer.addresses);
@@ -77,11 +80,16 @@ const CubesCartRightSide = ({
           PurchaseDetails: selectedCubes,
           FullAmount: Number(totalPrice()),
           PurchaseGiftDetails: gifts,
+          MustGenerateInvoice: mustGenerateInvoice,
         },
         file,
       }, {
         success: (url: string) => {
-          window.location.href = url;
+          if (!mustGenerateInvoice) {
+            window.location.href = url;
+          } else {
+            navigate('/invoice');
+          }
           // setLoading(false);
         },
         error: () => setLoading(false),
@@ -141,7 +149,10 @@ const CubesCartRightSide = ({
           />
         </div>
         <div className="cart-switcher" style={{ marginTop: '24px' }}>
-          <PaymentMethod />
+          <PaymentMethod
+            mustGenerateInvoice={mustGenerateInvoice}
+            setMustGenerateInvoice={setMustGenerateInvoice}
+          />
         </div>
       </div>
       <div className="panel--footer">
