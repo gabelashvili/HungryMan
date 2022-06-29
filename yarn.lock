@@ -5897,6 +5897,11 @@
   "resolved" "https://registry.npmjs.org/is-lambda/-/is-lambda-1.0.1.tgz"
   "version" "1.0.1"
 
+"is-mobile@^3.1.1":
+  "integrity" "sha512-RRoXXR2HNFxNkUnxtaBdGBXtFlUMFa06S0NUKf/LCF+MuGLu13gi9iBCkoEmc6+rpXuwi5Mso5V8Zf7mNynMBQ=="
+  "resolved" "https://registry.npmjs.org/is-mobile/-/is-mobile-3.1.1.tgz"
+  "version" "3.1.1"
+
 "is-module@^1.0.0":
   "integrity" "sha1-Mlj7afeMFNW4FdZkM2tM/7ZEFZE="
   "resolved" "https://registry.npmjs.org/is-module/-/is-module-1.0.0.tgz"
@@ -6678,10 +6683,10 @@
   "resolved" "https://registry.npmjs.org/klona/-/klona-2.0.5.tgz"
   "version" "2.0.5"
 
-"konva@^8.0.1 || ^7.2.5":
-  "integrity" "sha512-vZ7f4Y1LMMOkvfFCGoHt0CoanKdpv81gZC4Q4pnIBO6vHEBx+1KBdH6NR5ORd+HOkGwkRXTVPbFokrYkBSWo1g=="
-  "resolved" "https://registry.npmjs.org/konva/-/konva-8.3.9.tgz"
-  "version" "8.3.9"
+"konva@^8.0.1 || ^7.2.5", "konva@^8.3.10":
+  "integrity" "sha512-5zOynjWBG9wWgpA634SDH+764eyoISpmHLTOCfQ3GFN8OBVd83Genk6H0R4D3hXV0kEGIFAv7RDcSVDtQpPOMw=="
+  "resolved" "https://registry.npmjs.org/konva/-/konva-8.3.10.tgz"
+  "version" "8.3.10"
 
 "language-subtag-registry@~0.3.2":
   "integrity" "sha512-L0IqwlIXjilBVVYKFT37X9Ih11Um5NEl9cbJIuU/SwP/zEEAbBPOnEeeuxVMf45ydWQRDQN3Nqc96OgbH1K+Pg=="

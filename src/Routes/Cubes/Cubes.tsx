@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
+import isMobile from 'is-mobile';
 import CubesStatistic from '../../components/Cubes/CubesStatistic/CubesStatistic';
 import SelectedCubesBar from '../../components/Cubes/SelectedCubesBar/SelectedCubesBar';
 import Wall from '../../components/Cubes/Wall';
 import Zoom from '../../components/Cubes/Zoom/Zoom';
 import { useAppDispatch, useSelector } from '../../hooks/useSelector';
 import { getInitialData, setSelectedCubesInfo } from '../../store/ducks/cubesDuck';
+import OrientationIcon from '../../Icons/OrientationIcon';
 
 export const CUBES_TOTAL_ROWS = 354;
 export const CUBES_TOTAL_COLUMNS = 113;
@@ -18,7 +20,23 @@ const Cubes = () => {
   const cubesInitialData = useSelector((state) => state.cubesReducer.initialData);
   const [zoomPercent, setZoomPercent] = useState<number>(100);
   const [methods, setMethods] = useState<CubesMainMethods | null>(null);
+  const [showOrientationErr, setShowOrientationErr] = useState<boolean>(false);
   const cubesMainMethods = useRef<CubesMainMethods>();
+
+  const showErr = () => {
+    if (isMobile() && window.screen.orientation.type.includes('portrait') && window.screen.width <= 768) {
+      return true;
+    }
+    return false;
+  };
+
+  const handleOrientationChange = () => {
+    if (showOrientationErr && window.screen.orientation.type.includes('landscape')) {
+      setShowOrientationErr(false);
+    } else if (showErr()) {
+      setShowOrientationErr(showErr());
+    }
+  };
 
   useEffect(() => {
     if (cubesMainMethods.current) {
@@ -36,47 +54,61 @@ const Cubes = () => {
     if (selectedCubes.length !== 0) {
       dispatch(setSelectedCubesInfo({ key: 'cubesId', value: selectedCubes }));
     }
-    // if (selectedCubes.length === 0) {
-    //   dispatch(setSelectedCubesInfo({ key: 'totalPrice', value: 0 }));
-    // }
   }, [selectedCubes]);
+
+  useEffect(() => {
+    if (showErr()) {
+      setShowOrientationErr(showErr());
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('orientationchange', handleOrientationChange);
+  }, [showOrientationErr]);
 
   return (
     <div style={{
       display: 'flex', justifyContent: 'center', height: '100%', flexDirection: 'column',
     }}
     >
-      <div style={{ position: 'relative', height: '100%' }}>
-        <Wall
-          setMethods={setMethods}
-          setZoomPercent={setZoomPercent}
-          selectedCubes={selectedCubes}
-          setSelectedCubes={setSelectedCubes}
-        />
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: '0 30px',
-          position: 'absolute',
-          bottom: 0,
-          width: '100%',
-        }}
-        >
-          <CubesStatistic />
-          <SelectedCubesBar
-            cubePrice={cubesInitialData?.squarePrice || 0}
-            selectedCubes={selectedCubes}
-            setSelectedCubesInLocalState={setSelectedCubes}
-          />
-          <Zoom
-            setScale={setZoomPercent}
-            scale={zoomPercent / 100}
-            zoomIn={methods?.handleZoomIn}
-            zoomOut={methods?.handleZoomOut}
-          />
+      {showOrientationErr ? (
+        <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+          <OrientationIcon />
+          მოატრიალეთ ტელეფონი
         </div>
-      </div>
+      ) : (
+        <div style={{ position: 'relative', height: '100%' }}>
+          <Wall
+            setMethods={setMethods}
+            setZoomPercent={setZoomPercent}
+            selectedCubes={selectedCubes}
+            setSelectedCubes={setSelectedCubes}
+          />
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: '0 30px',
+            position: 'absolute',
+            bottom: 0,
+            width: '100%',
+          }}
+          >
+            <CubesStatistic />
+            <SelectedCubesBar
+              cubePrice={cubesInitialData?.squarePrice || 0}
+              selectedCubes={selectedCubes}
+              setSelectedCubesInLocalState={setSelectedCubes}
+            />
+            <Zoom
+              setScale={setZoomPercent}
+              scale={zoomPercent / 100}
+              zoomIn={methods?.handleZoomIn}
+              zoomOut={methods?.handleZoomOut}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
