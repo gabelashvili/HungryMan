@@ -64,6 +64,9 @@ const Cubes = () => {
 
   useEffect(() => {
     window.addEventListener('orientationchange', handleOrientationChange);
+    return () => {
+      window.removeEventListener('orientationchange', handleOrientationChange);
+    };
   }, [showOrientationErr]);
 
   return (
