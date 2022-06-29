@@ -203,6 +203,11 @@ const Wall = ({
     if (el[0]) {
       el[0].style.marginTop = '0';
     }
+    return () => {
+      if (el[0]) {
+        el[0].style.marginTop = '50px';
+      }
+    };
   }, []);
   return (
     <div

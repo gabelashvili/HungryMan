@@ -30,6 +30,7 @@ import Layout from './Layout';
 import RequireAuth from './shared/RequireAuth';
 import './styles.scss';
 import CubesCart from '../Routes/Cubes/CubesCart/CubesCart';
+import Invoice from '../Routes/Invoice/Invoice';
 
 function App() {
   const { pathname } = useLocation();
@@ -55,6 +56,10 @@ function App() {
         {
           path: 'landing',
           element: <Home />,
+        },
+        {
+          path: 'invoice',
+          element: <RequireAuth><Invoice /></RequireAuth>,
         },
         {
           path: 'auth',
