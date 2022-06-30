@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import DoneIcon from '../../../Icons/DoneIcon';
 import Button from '../../shared/Button';
-// import Select from '../../shared/Select';
 import TextField from '../../shared/TextField';
+import SelectFonts from './SelectFonts';
 
 const Text = ({ handleTextAdd }: {handleTextAdd: (val: {val:string, fill: string}) => void}) => {
   const [value, setValue] = useState<{val:string, fill: string}>({ val: '', fill: '' });
@@ -17,6 +17,10 @@ const Text = ({ handleTextAdd }: {handleTextAdd: (val: {val:string, fill: string
           inputName="text"
         />
       </div>
+      <div className="form__group">
+        <SelectFonts />
+      </div>
+
       <label htmlFor="xColor-text" className="color-selector--label x-color">
         <input type="color" id="xColor-text" onChange={(e) => setValue({ ...value, fill: e.target.value })} />
         <span className="x-color--icon">
@@ -29,18 +33,15 @@ const Text = ({ handleTextAdd }: {handleTextAdd: (val: {val:string, fill: string
         </span>
         <span className="color-selector--box is-large" />
       </label>
-      <div className="form__group">
-        <Button
-          type="icon"
-          handleClick={() => {
-            handleTextAdd(value);
-            setValue({ ...value, val: '' });
-          }}
-        >
-          <DoneIcon />
-
-        </Button>
-      </div>
+      <Button
+        type="icon"
+        handleClick={() => {
+          handleTextAdd(value);
+          setValue({ ...value, val: '' });
+        }}
+      >
+        <DoneIcon />
+      </Button>
     </div>
   );
 };

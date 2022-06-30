@@ -1,24 +1,27 @@
-import ReactSelect, { StylesConfig } from 'react-select';
+import ReactSelect, { StylesConfig, components, OptionProps } from 'react-select';
 
 const options = [
-  { value: 'chocolate', label: 'Chocolateqwdqwdqwdqqwdqwdd' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
+  { value: 'JosefinSans-light', label: 'Josefin Sans' },
 ];
+const CustomOption = (props: OptionProps) => {
+  const { data }: {data: any} = props;
+  return <components.Option {...props} innerProps={{ style: { fontFamily: data.value } }} />;
+};
 
-const Select = () => {
+const SelectFonts = () => {
   return (
     <ReactSelect
       className="select"
       classNamePrefix="select"
       styles={SelectStyles}
       options={options}
+      components={{ Option: CustomOption }}
       menuIsOpen
     />
   );
 };
 
-export default Select;
+export default SelectFonts;
 
 const SelectStyles: StylesConfig = {
 //   menu: (styles) => ({ ...styles, width: '100%' }),

@@ -1,0 +1,9 @@
+.select {
+    &__option:active {
+        background-color: #050b10 !important;
+    }
+    &__control {
+        border: 1px solid #162a3d !important;
+        border-radius: 7px !important;
+    }
+}
