@@ -104,3 +104,18 @@
     justify-content: center;
   }
 }
+
+.author {
+  background-color: #112231;
+  color: #55687A;
+  border: 1px solid #34424F;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 400;
+  cursor: pointer;
+  font-family: "Helvetica-medium";
+  display: flex;
+  & img {
+    margin-left: 10px
+  }
+}
