@@ -2,6 +2,12 @@ import ReactSelect, { StylesConfig, components, OptionProps } from 'react-select
 
 const options = [
   { value: 'JosefinSans-light', label: 'Josefin Sans' },
+  { value: 'Teko', label: 'Teko' },
+  { value: 'Caveat', label: 'Caveat' },
+  { value: 'Changa', label: 'Changa' },
+  { value: 'IndieFlower', label: 'IndieFlower' },
+  { value: 'Lobster', label: 'Lobster' },
+  { value: 'PTSansNarrow', label: 'PTSansNarrow' },
 ];
 const CustomOption = (props: OptionProps) => {
   const { data }: {data: any} = props;
