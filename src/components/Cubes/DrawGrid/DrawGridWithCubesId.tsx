@@ -217,6 +217,7 @@ const DrawGridWithCubesId = ({
               id={text.id}
               selectedObjId={selectedObjectId}
               setSelectedObjId={setSelectedObjectId}
+              fontFamily={text.fontFamily}
             />
           ))}
           {images.map((el) => (
@@ -307,7 +308,7 @@ const generateFormattedData = (cubesIds: number[]) => {
 interface PropsTypes {
   scale: number,
   setScale: Dispatch<SetStateAction<number>>,
-  texts: {val: string, fill: string, id:string}[],
+  texts: {val: string, fill: string, id:string, fontFamily: string}[],
   setSelectedObjectId: Dispatch<SetStateAction<string | null>>
   selectedObjectId: string | null,
   images: {id:string, file?:File, base64?: string, value?: string}[],

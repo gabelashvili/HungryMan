@@ -4,7 +4,7 @@ import {
 import { Text, Transformer } from 'react-konva';
 
 const TextWrapper = ({
-  x, y, text, id, fontSize, selectedObjId, setSelectedObjId, fill,
+  x, y, text, id, fontSize, selectedObjId, setSelectedObjId, fill, fontFamily,
 }: PropsTypes) => {
   const shapeRef = useRef<any>();
   const trRef = useRef<any>();
@@ -28,6 +28,7 @@ const TextWrapper = ({
         x={x}
         y={y}
         draggable
+        fontFamily={fontFamily}
       />
       {(
         <Transformer
@@ -59,5 +60,6 @@ interface PropsTypes {
   text: string,
   selectedObjId: null | string,
   setSelectedObjId: Dispatch<SetStateAction<null | string >>,
-  fill: string
+  fill: string,
+  fontFamily: string
 }

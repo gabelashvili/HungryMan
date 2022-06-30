@@ -76,7 +76,7 @@ const tabs = [
 
 interface PropsTypes {
   handleStickerAdd: (file:File) => void,
-  handleTextAdd: (val: {val:string, fill: string}) => void,
+  handleTextAdd: (val: {val:string, fill: string, fontFamily: string}) => void,
   colorsList: string[]
   setSelectedColor: Dispatch<SetStateAction<string>>
   selectedColor: string

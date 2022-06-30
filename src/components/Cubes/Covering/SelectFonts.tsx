@@ -17,7 +17,7 @@ const CustomOption = (props: OptionProps) => {
   return <components.Option {...props} innerProps={{ style: { fontFamily: data.value }, ...props.innerProps }} />;
 };
 
-const SelectFonts = () => {
+const SelectFonts = ({ handleFontChange }: {handleFontChange: (fontFamily: string) => void}) => {
   const [value, setValue] = useState<{value:string, label:string}>(options[0]);
   return (
     <ReactSelect
@@ -27,7 +27,10 @@ const SelectFonts = () => {
       styles={SelectStyles}
       closeMenuOnSelect
       value={value}
-      onChange={(e:any) => setValue(e)}
+      onChange={(e:any) => {
+        setValue(e);
+        handleFontChange(e.value);
+      }}
       options={options}
       components={{ Option: CustomOption }}
     />

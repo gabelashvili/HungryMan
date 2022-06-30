@@ -4,8 +4,11 @@ import Button from '../../shared/Button';
 import TextField from '../../shared/TextField';
 import SelectFonts from './SelectFonts';
 
-const Text = ({ handleTextAdd }: {handleTextAdd: (val: {val:string, fill: string}) => void}) => {
-  const [value, setValue] = useState<{val:string, fill: string}>({ val: '', fill: '' });
+const Text = ({ handleTextAdd }: {handleTextAdd: (val: {val:string, fill: string, fontFamily: string}) => void}) => {
+  const [value, setValue] = useState<{val:string, fill: string, fontFamily:string}>({ val: '', fill: '', fontFamily: 'Arial' });
+  const handleFontChange = (fontFamily: string) => {
+    setValue({ ...value, fontFamily });
+  };
   return (
     <div className="text-selector">
       <div className="form__group">
@@ -18,7 +21,7 @@ const Text = ({ handleTextAdd }: {handleTextAdd: (val: {val:string, fill: string
         />
       </div>
       <div className="form__group">
-        <SelectFonts />
+        <SelectFonts handleFontChange={handleFontChange} />
       </div>
 
       <label htmlFor="xColor-text" className="color-selector--label x-color">
