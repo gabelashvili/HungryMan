@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 import ArrowIcon2 from '../../../Icons/ArrowIcon2';
+import { TextType } from '../../../Routes/Cubes/CubesCart/CubesCart';
 import Button from '../../shared/Button';
 import Colors from './Colors';
 import Stickers from './Stickers';
@@ -76,7 +77,7 @@ const tabs = [
 
 interface PropsTypes {
   handleStickerAdd: (file:File) => void,
-  handleTextAdd: (val: {val:string, fill: string, fontFamily: string}) => void,
+  handleTextAdd: (val: TextType) => void,
   colorsList: string[]
   setSelectedColor: Dispatch<SetStateAction<string>>
   selectedColor: string

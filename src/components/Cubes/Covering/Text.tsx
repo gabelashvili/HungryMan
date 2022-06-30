@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import DoneIcon from '../../../Icons/DoneIcon';
+import { TextType } from '../../../Routes/Cubes/CubesCart/CubesCart';
 import Button from '../../shared/Button';
 import TextField from '../../shared/TextField';
 import SelectFonts from './SelectFonts';
 
-const Text = ({ handleTextAdd }: {handleTextAdd: (val: {val:string, fill: string, fontFamily: string}) => void}) => {
-  const [value, setValue] = useState<{val:string, fill: string, fontFamily:string}>({ val: '', fill: '', fontFamily: 'Arial' });
+const Text = ({ handleTextAdd }: {handleTextAdd: (val: TextType) => void}) => {
+  const [value, setValue] = useState<TextType>({
+    val: '', fill: '', fontFamily: 'Arial', fontStyle: 'normal',
+  });
   const handleFontChange = (fontFamily: string) => {
     setValue({ ...value, fontFamily });
   };

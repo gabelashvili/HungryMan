@@ -8,6 +8,7 @@ import {
 } from 'react-konva';
 import { useAppDispatch, useSelector } from '../../../hooks/useSelector';
 import { CUBES_TOTAL_ROWS } from '../../../Routes/Cubes/Cubes';
+import { TextType } from '../../../Routes/Cubes/CubesCart/CubesCart';
 import { setSelectedCubesInfo } from '../../../store/ducks/cubesDuck';
 import ImageWrapper from './Image';
 import TextWrapper from './Text';
@@ -218,6 +219,7 @@ const DrawGridWithCubesId = ({
               selectedObjId={selectedObjectId}
               setSelectedObjId={setSelectedObjectId}
               fontFamily={text.fontFamily}
+              fontStyle={text.fontStyle}
             />
           ))}
           {images.map((el) => (
@@ -305,10 +307,14 @@ const generateFormattedData = (cubesIds: number[]) => {
   };
 };
 
+interface TextProps extends TextType {
+  id: string
+}
+
 interface PropsTypes {
   scale: number,
   setScale: Dispatch<SetStateAction<number>>,
-  texts: {val: string, fill: string, id:string, fontFamily: string}[],
+  texts: TextProps[],
   setSelectedObjectId: Dispatch<SetStateAction<string | null>>
   selectedObjectId: string | null,
   images: {id:string, file?:File, base64?: string, value?: string}[],

@@ -17,7 +17,7 @@ const CubesCart = () => {
   const [scale, setScale] = useState<number>(1);
   const totalPrice = useSelector((state) => state.cubesReducer.selectedCubesInfo?.totalPrice) || 0;
   const selectedCubesId = useSelector((state) => state.cubesReducer.selectedCubesInfo?.cubesId);
-  const [texts, setTexts] = useState<{val:string, fill: string, id: string, fontFamily: string}[]>([]);
+  const [texts, setTexts] = useState<TextProps[]>([]);
   const [selectedColor, setSelectedColor] = useState<string>(colorsList[0]);
   const [selectedObjectId, setSelectedObjectId] = useState<string | null>(null);
   const [selectedTab, setSelectedTab] = useState<number>(0);
@@ -73,7 +73,7 @@ const CubesCart = () => {
     }
   };
 
-  const handleTextAdd = (text:{val:string, fill:string, fontFamily: string}) => {
+  const handleTextAdd = (text: TextType) => {
     setTexts([...texts, { ...text, id: `text-${texts.length + Math.random()}` }]);
   };
 
@@ -174,3 +174,14 @@ const CubesCart = () => {
 export default CubesCart;
 
 const colorsList = ['#FF8385', '#0193E5', '#F78F1E', '#34A853', '#FFFFFF', '#1877F2', '#F7DCBF', '#D8A782', '#EA4335', '#1A3044'];
+
+export interface TextType {
+  val:string,
+  fill: string,
+  fontFamily: string,
+  fontStyle: string
+}
+
+interface TextProps extends TextType {
+  id: string
+}
