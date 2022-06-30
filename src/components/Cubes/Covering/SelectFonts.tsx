@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import ReactSelect, { StylesConfig, components, OptionProps } from 'react-select';
 
 const options = [
+  { value: 'Arial', label: 'Default' },
   { value: 'JosefinSans-light', label: 'Josefin Sans' },
   { value: 'Teko', label: 'Teko' },
   { value: 'Caveat', label: 'Caveat' },
@@ -11,18 +13,23 @@ const options = [
 ];
 const CustomOption = (props: OptionProps) => {
   const { data }: {data: any} = props;
-  return <components.Option {...props} innerProps={{ style: { fontFamily: data.value } }} />;
+  // eslint-disable-next-line react/destructuring-assignment
+  return <components.Option {...props} innerProps={{ style: { fontFamily: data.value }, ...props.innerProps }} />;
 };
 
 const SelectFonts = () => {
+  const [value, setValue] = useState<{value:string, label:string}>(options[0]);
   return (
     <ReactSelect
+      placeholder="Select font"
       className="select"
       classNamePrefix="select"
       styles={SelectStyles}
+      closeMenuOnSelect
+      value={value}
+      onChange={(e:any) => setValue(e)}
       options={options}
       components={{ Option: CustomOption }}
-      menuIsOpen
     />
   );
 };
