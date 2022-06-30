@@ -4,6 +4,7 @@ import { TextType } from '../../../Routes/Cubes/CubesCart/CubesCart';
 import Button from '../../shared/Button';
 import TextField from '../../shared/TextField';
 import SelectFonts from './SelectFonts';
+import SelectFontStyle from './SelectFontStyle';
 
 const Text = ({ handleTextAdd }: {handleTextAdd: (val: TextType) => void}) => {
   const [value, setValue] = useState<TextType>({
@@ -11,6 +12,9 @@ const Text = ({ handleTextAdd }: {handleTextAdd: (val: TextType) => void}) => {
   });
   const handleFontChange = (fontFamily: string) => {
     setValue({ ...value, fontFamily });
+  };
+  const handleFontStyleChange = (fontStyle: string) => {
+    setValue({ ...value, fontStyle });
   };
   return (
     <div className="text-selector">
@@ -26,7 +30,9 @@ const Text = ({ handleTextAdd }: {handleTextAdd: (val: TextType) => void}) => {
       <div className="form__group">
         <SelectFonts handleFontChange={handleFontChange} />
       </div>
-
+      <div className="form__group">
+        <SelectFontStyle handleFontStyleChange={handleFontStyleChange} />
+      </div>
       <label htmlFor="xColor-text" className="color-selector--label x-color">
         <input type="color" id="xColor-text" onChange={(e) => setValue({ ...value, fill: e.target.value })} />
         <span className="x-color--icon">
