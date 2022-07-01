@@ -1,15 +1,17 @@
-import { useState } from 'react';
-import { useAppDispatch } from '../../hooks/useSelector';
+import { Dispatch, SetStateAction, useState } from 'react';
+import { useAppDispatch, useSelector } from '../../hooks/useSelector';
+import { toggleModal } from '../../store/ducks/modalsDuck';
 import { clearUserAddresses, removeUserAddress } from '../../store/ducks/userDuck';
 import { AddressType } from '../../types/user';
 import Button from '../shared/Button';
 
 const AddressLabel = ({
-  data, checked, handleClick, name, disableSelect, removable,
+  data, name, disableSelect, removable, setSelectedAddress,
 }: PropsTypes) => {
   const dispatch = useAppDispatch();
+  const addresses = useSelector((state) => state.userReducer.addresses);
   const [loading, setLoading] = useState<boolean>(false);
-
+  const selectedAddress = useSelector((state) => state.modalsReducer.myAddressList.payload) as AddressType | null;
   const handleRemove = () => {
     setLoading(true);
     dispatch(removeUserAddress(data.id, {
@@ -21,13 +23,34 @@ const AddressLabel = ({
     }));
   };
 
+  const handleChange = (data:any) => {
+    setSelectedAddress && setSelectedAddress(data.id);
+    dispatch(toggleModal({ key: 'myAddressList', payload: data, open: true }));
+  };
+
+  const isChecked = (data: AddressType) => {
+    if (selectedAddress) {
+      return selectedAddress.id === data.id;
+    }
+    if (!selectedAddress && addresses && addresses.length > 0) {
+      return addresses[0].id === data.id;
+    }
+    return false;
+  };
+
   return (
     <div className="form__group">
       <label
         className="input--radio radio-selector"
         htmlFor={name}
       >
-        <input type="radio" id={name} name="address" checked={checked} onChange={() => handleClick && !disableSelect && handleClick(data)} />
+        <input
+          type="radio"
+          id={name}
+          name={name}
+          checked={isChecked(data)}
+          onChange={() => handleChange(data)}
+        />
         <div className="address-info">
           <h5 className="address--name">{data.city}</h5>
           <p className="address--description">
@@ -58,9 +81,8 @@ export default AddressLabel;
 
 interface PropsTypes {
   data: AddressType,
-  checked?: boolean,
-  handleClick?: (data: any)=> void,
   name: string,
   disableSelect?: boolean,
-  removable?: boolean
+  removable?: boolean,
+  setSelectedAddress?: Dispatch<SetStateAction<number | null>>
 }

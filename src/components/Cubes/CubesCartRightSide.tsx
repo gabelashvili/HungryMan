@@ -6,19 +6,20 @@ import { useNavigate } from 'react-router-dom';
 import { base64ToFile } from '../../helpers';
 import { useSelector } from '../../hooks/useSelector';
 import { buyCubes, setSelectedCubesInfo } from '../../store/ducks/cubesDuck';
-import { AddressType } from '../../types/user';
 import Addresses from '../Address/Addresses';
 import Button from '../shared/Button';
 import PaymentMethod from '../shared/PaymentMethod';
 import SwitchBox from '../shared/SwitchBox';
 import TextArea from '../shared/TextArea';
 import TextField from '../shared/TextField';
+import { AddressType } from '../../types/user';
 
 const CubesCartRightSide = ({
   selectedCubes, giftOneProp, giftTwoProp,
 }: PropsTypes) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const selectedAddress = useSelector((state) => state.modalsReducer.myAddressList.payload) as AddressType | null;
   const [loading, setLoading] = useState<boolean>(false);
   const [mustGenerateInvoice, setMustGenerateInvoice] = useState<boolean>(false);
   const base64 = useSelector((state) => state.cubesReducer.selectedCubesInfo?.base64);
@@ -32,7 +33,6 @@ const CubesCartRightSide = ({
     enabled: false,
     value: '',
   });
-  const [selectedAddress, setSelectedAddress] = useState<number | null>(null);
 
   const totalPrice = () => {
     let price = 0;
@@ -49,14 +49,14 @@ const CubesCartRightSide = ({
   };
 
   const handleBuy = async () => {
-    if (!selectedAddress) {
+    if (addresses?.length === 0) {
       toast.error('დაამატეთ მისამართი');
       return;
     }
     if (((totalPrice()) > 50 && (totalPrice()) < 100 && !giftOneProp)
      || ((totalPrice()) >= 100 && (!giftOneProp || !giftTwoProp))) {
       toast.error('აირჩიეთ საჩუქრის პარამეტრები');
-    } else if (selectedAddress && base64) {
+    } else if (addresses && addresses?.length > 0 && base64) {
       setLoading(true);
       const file = await base64ToFile(base64);
       saveAs(file, 'image');
@@ -79,7 +79,7 @@ const CubesCartRightSide = ({
           hasComment: comment.enabled,
           RedirectLink: link.value,
           hasRedirectLink: link.enabled,
-          UserAddressId: selectedAddress,
+          UserAddressId: selectedAddress?.id || addresses[0].id,
           PurchaseDetails: selectedCubes,
           FullAmount: Number(totalPrice()),
           PurchaseGiftDetails: gifts,
@@ -99,12 +99,6 @@ const CubesCartRightSide = ({
       }));
     }
   };
-
-  useEffect(() => {
-    if (addresses && addresses?.length > 0 && !selectedAddress) {
-      setSelectedAddress(addresses[0].id);
-    }
-  }, [addresses, selectedAddress]);
 
   useEffect(() => {
     const res = totalPrice();
@@ -146,10 +140,7 @@ const CubesCartRightSide = ({
           <TextField inputName="link" value={link.value} handleChange={(val) => setLink({ ...link, value: val })} />
         </div>
         <div className="cart-switcher" style={{ marginTop: '24px' }}>
-          <Addresses
-            selectedAddress={selectedAddress}
-            setSelectedAddress={(data: AddressType) => setSelectedAddress(data.id)}
-          />
+          <Addresses />
         </div>
         <div className="cart-switcher" style={{ marginTop: '24px' }}>
           <PaymentMethod

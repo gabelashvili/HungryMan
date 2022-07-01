@@ -4,31 +4,29 @@ import PlusIcon from '../../Icons/PlusIcon';
 import { toggleModal } from '../../store/ducks/modalsDuck';
 import AddressLabel from './AddressLabel';
 import Button from '../shared/Button';
+import { AddressType } from '../../types/user';
 
-const Addresses = ({ selectedAddress, setSelectedAddress }:
-  {selectedAddress: number | null, setSelectedAddress: (data: any) => void}) => {
+const Addresses = () => {
   const dispatch = useAppDispatch();
   const addresses = useSelector((state) => state.userReducer.addresses);
+  const selectedAddress = useSelector((state) => state.modalsReducer.myAddressList.payload) as AddressType | null;
   return (
     <>
       <h4 className="panel--title">აირჩიე მისამართი</h4>
 
       {addresses ? (
         <div className="radio-list">
-          {addresses.map((el, i) => (
-            <AddressLabel
-              key={el.id}
-              data={el}
-              checked={selectedAddress === el.id}
-              handleClick={(data) => setSelectedAddress(data)}
-              name={el.name + i}
-            />
-          ))}
+
+          <AddressLabel
+            data={selectedAddress || addresses[0]}
+            name={selectedAddress?.name || addresses[0]?.name}
+            disableSelect
+          />
         </div>
       ) : <Loader styles={{ margin: 'auto', width: 50 }} />}
-      <Button handleClick={() => dispatch(toggleModal('addAddress'))} type="secondary" classes="button--icon-left ">
+      <Button handleClick={() => dispatch(toggleModal({ key: 'myAddressList', open: true }))} type="secondary" classes="button--icon-left ">
         <PlusIcon />
-        მისამართის დამატება
+        მისამართები
       </Button>
     </>
   );

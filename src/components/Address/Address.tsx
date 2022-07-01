@@ -12,8 +12,8 @@ const Address = () => {
   const addresses = useSelector((state) => state.userReducer.addresses);
 
   useEffect(() => {
-    if (addAddress && myAddressList) {
-      dispatch(toggleModal('myAddressList'));
+    if (addAddress.open && myAddressList.open) {
+      dispatch(toggleModal({ key: 'myAddressList', open: false }));
     }
   }, [addAddress, myAddressList]);
 
@@ -25,8 +25,8 @@ const Address = () => {
 
   return (
     <>
-      {addAddress && <AddAddress />}
-      {myAddressList && <MyAddresses />}
+      {addAddress.open && <AddAddress />}
+      {myAddressList.open && <MyAddresses />}
     </>
   );
 };

@@ -61,7 +61,7 @@ const UserMenu = ({
             </li>
           ))}
           <li className="user-menu--item">
-            <a className="user-menu--link " onClick={() => dispatch(toggleModal('myAddressList'))}>
+            <a className="user-menu--link " onClick={() => dispatch(toggleModal({ key: 'myAddressList', open: true }))}>
               <div className="user-menu--icon">
                 <PersonalInfoIcon />
               </div>

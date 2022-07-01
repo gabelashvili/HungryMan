@@ -26,7 +26,7 @@ const MyAddresses = () => {
         <div className="modal--header">
           <h3 className="modal--title">ჩემი მისამართები</h3>
           <Button
-            handleClick={() => dispatch(toggleModal('myAddressList'))}
+            handleClick={() => dispatch(toggleModal({ key: 'myAddressList', open: false }))}
             type="text"
             classes="button--icon is-rounded button-pull-right"
           >
@@ -38,13 +38,13 @@ const MyAddresses = () => {
           {addresses ? (
             <>
               <div className="radio-list">
-                {addresses.map((el) => <AddressLabel data={el} key={el.id} name={el.name} disableSelect removable />)}
+                {addresses.map((el, i) => <AddressLabel data={el} key={el.id} name={el.name + el.id + i} removable />)}
               </div>
               <Button
                 type="secondary"
                 classes=" button--icon-left button--secondary"
                 handleClick={() => {
-                  dispatch(toggleModal('addAddress'));
+                  dispatch(toggleModal({ key: 'addAddress', open: true }));
                 }}
               >
                 <PlusIcon />

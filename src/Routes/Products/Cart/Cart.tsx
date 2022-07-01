@@ -7,7 +7,6 @@ import Button from '../../../components/shared/Button';
 import { useAppDispatch, useSelector } from '../../../hooks/useSelector';
 import { purchaseProductCartItem } from '../../../store/ducks/productsDuck';
 import { FormattedItemsDetails } from '../../../types/products';
-import { AddressType } from '../../../types/user';
 
 const Cart = () => {
   const dispatch = useAppDispatch();
@@ -53,10 +52,7 @@ const Cart = () => {
         <CartProductsList data={items} />
         <div className="panel without-header cart-form">
           <div className="panel--content">
-            <Addresses
-              selectedAddress={selectedAddress}
-              setSelectedAddress={(data: AddressType) => setSelectedAddress(data.id)}
-            />
+            <Addresses />
             <PaymentMethod />
           </div>
           <div className="panel--footer">

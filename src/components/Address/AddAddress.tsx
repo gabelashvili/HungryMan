@@ -21,7 +21,7 @@ const AddAddress = () => {
       success: () => {
         setLoading(false);
         dispatch(clearUserAddresses());
-        dispatch(toggleModal('addAddress'));
+        dispatch(toggleModal({ key: 'addAddress', open: false }));
       },
       error: () => setLoading(false),
     }));
@@ -32,7 +32,7 @@ const AddAddress = () => {
         <div className="modal--header">
           <h3 className="modal--title">ახალი მისამართი</h3>
           <Button
-            handleClick={() => dispatch(toggleModal('addAddress'))}
+            handleClick={() => dispatch(toggleModal({ key: 'addAddress', open: false }))}
             classes="button--icon is-rounded button-pull-right"
             type="text"
           >
