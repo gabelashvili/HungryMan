@@ -28,7 +28,7 @@ instance.interceptors.response.use((response: AxiosRequestConfig) => {
 }, (error) => {
   if (error.response.status === 401) {
     localStorage.removeItem('token');
-    toast.error('You have logged out...');
+    toast.error('გაიარეთ ავტორიზაცია...');
     storeRegistry?.getStore().dispatch(clearAuthedUser());
   }
   return Promise.reject(error);
