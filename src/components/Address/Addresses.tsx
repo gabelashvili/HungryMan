@@ -24,7 +24,11 @@ const Addresses = () => {
           />
         </div>
       ) : <Loader styles={{ margin: 'auto', width: 50 }} />}
-      <Button handleClick={() => dispatch(toggleModal({ key: 'myAddressList', open: true }))} type="secondary" classes="button--icon-left ">
+      <Button
+        handleClick={() => dispatch(toggleModal({ key: 'myAddressList', open: true }))}
+        type="secondary"
+        classes="button--icon-left "
+      >
         <PlusIcon />
         მისამართები
       </Button>
