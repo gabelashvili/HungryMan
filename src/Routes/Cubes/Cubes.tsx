@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import isMobile from 'is-mobile';
-import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import CubesStatistic from '../../components/Cubes/CubesStatistic/CubesStatistic';
 import SelectedCubesBar from '../../components/Cubes/SelectedCubesBar/SelectedCubesBar';
 import Wall from '../../components/Cubes/Wall';
@@ -25,14 +24,16 @@ const Cubes = () => {
   const cubesMainMethods = useRef<CubesMainMethods>();
 
   const showErr = () => {
-    if (isMobile() && ScreenOrientation.type.includes('portrait') && window.screen.width <= 768) {
+    console.log('aqaa');
+    if (isMobile() && !window.matchMedia('(orientation: portrait)').matches && window.screen.width <= 768) {
       return true;
     }
     return false;
   };
 
   const handleOrientationChange = () => {
-    if (showOrientationErr && ScreenOrientation.type.includes('landscape')) {
+    console.log(showOrientationErr && window.matchMedia('(orientation: landscape)').matches);
+    if (showOrientationErr && !window.matchMedia('(orientation: landscape)').matches) {
       setShowOrientationErr(false);
     } else if (showErr()) {
       setShowOrientationErr(showErr());
@@ -58,8 +59,8 @@ const Cubes = () => {
   }, [selectedCubes]);
 
   useEffect(() => {
-    if (showErr()) {
-      setShowOrientationErr(showErr());
+    if (window.matchMedia('(orientation: landscape)')) {
+      setShowOrientationErr(true);
     }
   }, []);
 
