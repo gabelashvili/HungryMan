@@ -8,8 +8,13 @@ const Layout = () => {
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header />
       <BreadCrumbs />
-      <Outlet />
-      <Footer />
+      <div style={{
+        height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+      }}
+      >
+        <Outlet />
+        <Footer />
+      </div>
     </div>
   );
 };

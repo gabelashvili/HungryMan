@@ -23,6 +23,7 @@ const Home = () => {
       dispatch(getInitialData());
     }
   }, []);
+
   return (
     <div style={{
       overflowX: 'hidden',
