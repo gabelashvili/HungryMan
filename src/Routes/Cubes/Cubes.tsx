@@ -24,7 +24,6 @@ const Cubes = () => {
   const cubesMainMethods = useRef<CubesMainMethods>();
 
   const showErr = () => {
-    console.log('aqaa');
     if (isMobile() && !window.matchMedia('(orientation: portrait)').matches && window.screen.width <= 768) {
       return true;
     }
@@ -32,7 +31,6 @@ const Cubes = () => {
   };
 
   const handleOrientationChange = () => {
-    console.log(showOrientationErr && window.matchMedia('(orientation: landscape)').matches);
     if (showOrientationErr && !window.matchMedia('(orientation: landscape)').matches) {
       setShowOrientationErr(false);
     } else if (showErr()) {
