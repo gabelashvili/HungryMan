@@ -24,6 +24,17 @@ const Home = () => {
     }
   }, []);
 
+  useEffect(() => {
+    const el = document.getElementById('root-wrapper');
+    if (el) {
+      el.style.height = 'auto';
+    }
+    return () => {
+      if (el) {
+        el.style.height = '100vh';
+      }
+    };
+  }, []);
   return (
     <div style={{
       overflowX: 'hidden',

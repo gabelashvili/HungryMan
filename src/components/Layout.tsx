@@ -5,7 +5,7 @@ import Header from './Header/Header';
 
 const Layout = () => {
   return (
-    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div id="root-wrapper" style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header />
       <BreadCrumbs />
       <div style={{
