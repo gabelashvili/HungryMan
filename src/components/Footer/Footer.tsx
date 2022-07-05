@@ -22,10 +22,10 @@ const Footer = () => {
                   <a className="footer-nav--link" href="/">მთავარი</a>
                 </li>
                 <li className="footer-nav--item">
-                  <Link to="about-us" className="footer-nav--link">ჩვენს შესახებ</Link>
+                  <Link to="/landing" className="footer-nav--link">ჩვენს შესახებ</Link>
                 </li>
                 <li className="footer-nav--item">
-                  <Link to="about-project" className="footer-nav--link">პროექტის შესახებ</Link>
+                  <Link to="/landing" className="footer-nav--link">პროექტის შესახებ</Link>
                 </li>
                 <li className="footer-nav--item">
                   <Link to="products" className="footer-nav--link">პროდუქცია</Link>
@@ -34,7 +34,7 @@ const Footer = () => {
                   <Link to="contact" className="footer-nav--link">კონტაქტი</Link>
                 </li>
                 <li className="footer-nav--item">
-                  <Link to="help" className="footer-nav--link">როგორ ვიყიდო?</Link>
+                  <Link to="/landing" className="footer-nav--link">როგორ ვიყიდო?</Link>
                 </li>
               </ul>
             </nav>
