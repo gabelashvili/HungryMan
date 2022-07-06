@@ -57,8 +57,8 @@ const Cubes = () => {
   }, [selectedCubes]);
 
   useEffect(() => {
-    if (window.matchMedia('(orientation: landscape)')) {
-      setShowOrientationErr(true);
+    if (window.matchMedia('(orientation: portrait)').matches) {
+      setShowOrientationErr(isMobile());
     }
   }, []);
 
