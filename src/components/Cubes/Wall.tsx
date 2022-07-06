@@ -5,6 +5,7 @@ import {
   useEffect, useRef, useState,
 } from 'react';
 import { TransformWrapper, TransformComponent, ReactZoomPanPinchRef } from '@kokarn/react-zoom-pan-pinch';
+import isMobile from 'is-mobile';
 import {
   CUBES_TOTAL_COLUMNS, CUBES_TOTAL_ROWS, CUBE_DARK_COLOR, CUBE_LIGHT_COLOR,
 } from '../../Routes/Cubes/Cubes';
@@ -115,7 +116,7 @@ const Wall = ({
   // set context
   useEffect(() => {
     if (canvasRef.current) {
-      const cubeSize = 40;
+      const cubeSize = isMobile() ? 20 : 40;
       canvasRef.current.width = cubeSize * CUBES_TOTAL_ROWS;
       canvasRef.current.height = cubeSize * CUBES_TOTAL_COLUMNS;
       const context = canvasRef.current.getContext('2d');
@@ -220,7 +221,7 @@ const Wall = ({
       />
       )}
       <TransformWrapper
-        centerOnInit={false}
+        centerOnInit
         panning={{
           activationKeys: [' '],
         }}
