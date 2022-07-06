@@ -220,7 +220,7 @@ const Wall = ({
       />
       )}
       <TransformWrapper
-        centerOnInit
+        centerOnInit={false}
         panning={{
           activationKeys: [' '],
         }}
